@@ -1,0 +1,804 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Prijava ispita" id="0">
+    <mxGraphModel dx="1873" dy="1022" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Student" vertex="1">
+          <mxGeometry height="480" width="240" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="100" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="2" style="rounded=1;whiteSpace=wrap;html=1;" value="Prijavljuje se na sistem" vertex="1">
+          <mxGeometry height="40" width="120" x="55" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="2" style="rounded=1;whiteSpace=wrap;html=1;" value="Otvara &#39;Prijava ispita&#39;" vertex="1">
+          <mxGeometry height="40" width="120" x="55" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="2" style="rounded=1;whiteSpace=wrap;html=1;" value="Bira predmet i rok" vertex="1">
+          <mxGeometry height="40" width="120" x="55" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="2" style="rounded=1;whiteSpace=wrap;html=1;" value="Potvrđuje prijavu" vertex="1">
+          <mxGeometry height="40" width="120" x="55" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="480" width="320" x="280" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sys1" parent="3" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje dostupne ispite" vertex="1">
+          <mxGeometry height="40" width="120" x="100" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="decision" parent="3" style="rhombus;whiteSpace=wrap;html=1;" value="Rok važi?" vertex="1">
+          <mxGeometry height="80" width="80" x="120" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="sys2" parent="3" style="rounded=1;whiteSpace=wrap;html=1;" value="Evidentira prijavu" vertex="1">
+          <mxGeometry height="40" width="110" x="20" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="sys3" parent="3" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje potvrdu" vertex="1">
+          <mxGeometry height="40" width="110" x="20" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="sys4" parent="3" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje grešku" vertex="1">
+          <mxGeometry height="40" width="110" x="180" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="stop" parent="3" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="145" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="start" target="s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="s1" target="s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="s2" target="sys1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="sys1" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="s3" target="s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="s4" target="decision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="decision" target="sys2" value="Da">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="340" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="decision" target="sys4" value="Ne">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="sys2" target="sys3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="sys3" target="stop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="sys4" target="stop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-32" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="3. Kreiranje i ocjenjivanje zadaća" vertex="1">
+          <mxGeometry height="30" width="300" x="40" y="1640" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-33" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Profesor" vertex="1">
+          <mxGeometry height="850" width="260" x="40" y="1680" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-34" parent="I6naiKGwUQekyfnAlmS5-33" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-35" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Prijavljuje se" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-36" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Odabire predmet" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-37" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Kreira zadaću" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-38" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Unosi podatke" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-39" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Potvrđuje" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-40" parent="I6naiKGwUQekyfnAlmS5-33" style="shape=note;whiteSpace=wrap;html=1;size=15;fillColor=#fff2cc;strokeColor=#d6b656;" value="Nakon isteka roka" vertex="1">
+          <mxGeometry height="50" width="100" x="150" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-41" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Otvara pristigle" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-42" parent="I6naiKGwUQekyfnAlmS5-33" style="rounded=1;whiteSpace=wrap;html=1;" value="Unosi ocjenu" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-43" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="850" width="300" x="300" y="1680" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-44" parent="I6naiKGwUQekyfnAlmS5-43" style="rounded=1;whiteSpace=wrap;html=1;" value="Validacija" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-45" parent="I6naiKGwUQekyfnAlmS5-43" style="rhombus;whiteSpace=wrap;html=1;" value="Validno?" vertex="1">
+          <mxGeometry height="80" width="80" x="110" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-46" parent="I6naiKGwUQekyfnAlmS5-43" style="rounded=1;whiteSpace=wrap;html=1;" value="Pohranjuje" vertex="1">
+          <mxGeometry height="40" width="110" x="30" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-47" parent="I6naiKGwUQekyfnAlmS5-43" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje studentima" vertex="1">
+          <mxGeometry height="40" width="110" x="30" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-48" parent="I6naiKGwUQekyfnAlmS5-43" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje grešku" vertex="1">
+          <mxGeometry height="40" width="110" x="160" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-49" parent="I6naiKGwUQekyfnAlmS5-43" style="rounded=1;whiteSpace=wrap;html=1;" value="Ažurira i šalje notifikaciju" vertex="1">
+          <mxGeometry height="40" width="130" x="30" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-50" parent="I6naiKGwUQekyfnAlmS5-43" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="135" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-51" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-34" target="I6naiKGwUQekyfnAlmS5-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-52" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-35" target="I6naiKGwUQekyfnAlmS5-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-53" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-36" target="I6naiKGwUQekyfnAlmS5-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-54" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-37" target="I6naiKGwUQekyfnAlmS5-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-55" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-38" target="I6naiKGwUQekyfnAlmS5-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-56" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-39" target="I6naiKGwUQekyfnAlmS5-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-57" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-44" target="I6naiKGwUQekyfnAlmS5-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-58" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-45" target="I6naiKGwUQekyfnAlmS5-46" value="Da">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-59" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-45" target="I6naiKGwUQekyfnAlmS5-48" value="Ne">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-60" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-46" target="I6naiKGwUQekyfnAlmS5-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-61" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-47" target="I6naiKGwUQekyfnAlmS5-41">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="2260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-62" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-41" target="I6naiKGwUQekyfnAlmS5-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-63" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-42" target="I6naiKGwUQekyfnAlmS5-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-64" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-49" target="I6naiKGwUQekyfnAlmS5-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-65" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-48" target="I6naiKGwUQekyfnAlmS5-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-66" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="4.&amp;nbsp;Evidencija prisustva i unos rezultata ispita " vertex="1">
+          <mxGeometry height="30" width="377" x="40" y="2640" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-67" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Profesor" vertex="1">
+          <mxGeometry height="700" width="260" x="40" y="2680" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-68" parent="I6naiKGwUQekyfnAlmS5-67" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-69" parent="I6naiKGwUQekyfnAlmS5-67" style="rounded=1;whiteSpace=wrap;html=1;" value="Prijavljuje se" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-70" parent="I6naiKGwUQekyfnAlmS5-67" style="rounded=1;whiteSpace=wrap;html=1;" value="Odabire predmet i ispit" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-71" parent="I6naiKGwUQekyfnAlmS5-67" style="rounded=1;whiteSpace=wrap;html=1;" value="Unosi bodove" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-72" parent="I6naiKGwUQekyfnAlmS5-67" style="rounded=1;whiteSpace=wrap;html=1;" value="Označava odsutnog" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-73" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="700" width="300" x="300" y="2680" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-74" parent="I6naiKGwUQekyfnAlmS5-73" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje listu prijavljenih" vertex="1">
+          <mxGeometry height="40" width="130" x="90" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-75" parent="I6naiKGwUQekyfnAlmS5-73" style="rhombus;whiteSpace=wrap;html=1;" value="Prisutan?" vertex="1">
+          <mxGeometry height="80" width="80" x="115" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-76" parent="I6naiKGwUQekyfnAlmS5-73" style="rounded=1;whiteSpace=wrap;html=1;" value="Validacija bodova" vertex="1">
+          <mxGeometry height="40" width="130" x="90" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-77" parent="I6naiKGwUQekyfnAlmS5-73" style="rounded=1;whiteSpace=wrap;html=1;" value="Ažurira bodove" vertex="1">
+          <mxGeometry height="40" width="130" x="90" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-78" parent="I6naiKGwUQekyfnAlmS5-73" style="rounded=1;whiteSpace=wrap;html=1;" value="Šalje notifikaciju" vertex="1">
+          <mxGeometry height="40" width="130" x="90" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-79" parent="I6naiKGwUQekyfnAlmS5-73" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="140" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-80" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-68" target="I6naiKGwUQekyfnAlmS5-69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-81" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-69" target="I6naiKGwUQekyfnAlmS5-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-82" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-70" target="I6naiKGwUQekyfnAlmS5-74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-83" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-74" target="I6naiKGwUQekyfnAlmS5-75">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-84" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-75" target="I6naiKGwUQekyfnAlmS5-71" value="Da">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-85" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-75" target="I6naiKGwUQekyfnAlmS5-72" value="Ne">
+          <mxGeometry relative="1" x="-0.3705" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-86" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-71" target="I6naiKGwUQekyfnAlmS5-76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-87" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-76" target="I6naiKGwUQekyfnAlmS5-77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-88" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-77" target="I6naiKGwUQekyfnAlmS5-78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-89" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-72" target="I6naiKGwUQekyfnAlmS5-78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-90" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-78" target="I6naiKGwUQekyfnAlmS5-79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-120" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="6. Unos/izmjena podataka (Admin)" vertex="1">
+          <mxGeometry height="30" width="300" x="40" y="4440" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-121" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Administrator" vertex="1">
+          <mxGeometry height="900" width="337" x="40" y="4480" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-122" parent="I6naiKGwUQekyfnAlmS5-121" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="135" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-123" parent="I6naiKGwUQekyfnAlmS5-121" style="rounded=1;whiteSpace=wrap;html=1;" value="Prijavljuje se" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-124" parent="I6naiKGwUQekyfnAlmS5-121" style="rounded=1;whiteSpace=wrap;html=1;" value="Pristupa admin panelu" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-125" parent="I6naiKGwUQekyfnAlmS5-121" style="rhombus;whiteSpace=wrap;html=1;" value="Akcija?" vertex="1">
+          <mxGeometry height="80" width="80" x="110" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-126" parent="I6naiKGwUQekyfnAlmS5-121" style="rounded=1;whiteSpace=wrap;html=1;" value="Unosi podatke" vertex="1">
+          <mxGeometry height="40" width="100" x="8.5" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-127" parent="I6naiKGwUQekyfnAlmS5-121" style="rounded=1;whiteSpace=wrap;html=1;" value="Mijenja podatke" vertex="1">
+          <mxGeometry height="40" width="100" x="118.5" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-128" parent="I6naiKGwUQekyfnAlmS5-121" style="rounded=1;whiteSpace=wrap;html=1;" value="Briše/Deaktivira" vertex="1">
+          <mxGeometry height="40" width="100" x="228.5" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-129" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="900" width="330" x="377" y="4480" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-135" parent="I6naiKGwUQekyfnAlmS5-129" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="155" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-130" parent="I6naiKGwUQekyfnAlmS5-129" style="rounded=1;whiteSpace=wrap;html=1;" value="Provjera email-a" vertex="1">
+          <mxGeometry height="40" width="110" x="27" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-131" parent="I6naiKGwUQekyfnAlmS5-129" style="rhombus;whiteSpace=wrap;html=1;" value="Email postoji?" vertex="1">
+          <mxGeometry height="80" width="80" x="42" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-132" parent="I6naiKGwUQekyfnAlmS5-129" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje grešku" vertex="1">
+          <mxGeometry height="40" width="100" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-133" parent="I6naiKGwUQekyfnAlmS5-129" style="rounded=1;whiteSpace=wrap;html=1;" value="Pohranjuje nalog" vertex="1">
+          <mxGeometry height="40" width="100" x="110" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-134" parent="I6naiKGwUQekyfnAlmS5-129" style="rounded=1;whiteSpace=wrap;html=1;" value="Pohranjuje promjene" vertex="1">
+          <mxGeometry height="40" width="120" x="200" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-143" edge="1" parent="I6naiKGwUQekyfnAlmS5-129" source="I6naiKGwUQekyfnAlmS5-130" target="I6naiKGwUQekyfnAlmS5-131">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-144" edge="1" parent="I6naiKGwUQekyfnAlmS5-129" source="I6naiKGwUQekyfnAlmS5-131" target="I6naiKGwUQekyfnAlmS5-132" value="Da">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-145" edge="1" parent="I6naiKGwUQekyfnAlmS5-129" source="I6naiKGwUQekyfnAlmS5-131" target="I6naiKGwUQekyfnAlmS5-133" value="Ne">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-150" edge="1" parent="I6naiKGwUQekyfnAlmS5-129" source="I6naiKGwUQekyfnAlmS5-134" style="entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" target="I6naiKGwUQekyfnAlmS5-135">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="261.644304233041" y="510" as="sourcePoint" />
+            <mxPoint x="192.347098077002" y="820.3534578811041" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-136" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-122" target="I6naiKGwUQekyfnAlmS5-123">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-137" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-123" target="I6naiKGwUQekyfnAlmS5-124">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-138" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-124" target="I6naiKGwUQekyfnAlmS5-125">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-139" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-125" target="I6naiKGwUQekyfnAlmS5-126" value="Kreiraj">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-140" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-125" target="I6naiKGwUQekyfnAlmS5-127" value="Uredi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-141" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-125" target="I6naiKGwUQekyfnAlmS5-128" value="Briši">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-146" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-127" style="exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="I6naiKGwUQekyfnAlmS5-134">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="507" y="4950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-147" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-128" style="exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="I6naiKGwUQekyfnAlmS5-134">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-148" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-132" target="I6naiKGwUQekyfnAlmS5-135">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-149" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-133" target="I6naiKGwUQekyfnAlmS5-135">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-243" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="1.Prijava ispita" vertex="1">
+          <mxGeometry height="30" width="300" x="50" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-245" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="5. Slanje notifikacija" vertex="1">
+          <mxGeometry height="30" width="243" x="60" y="3490" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-246" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Studentska služba ili Administrator" vertex="1">
+          <mxGeometry height="800" width="300" x="40" y="3540" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-247" parent="I6naiKGwUQekyfnAlmS5-246" style="rounded=1;whiteSpace=wrap;html=1;" value="Pristupa panelu za slanje" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-248" parent="I6naiKGwUQekyfnAlmS5-246" style="rounded=1;whiteSpace=wrap;html=1;" value="Odabira primaoca(e)" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-249" parent="I6naiKGwUQekyfnAlmS5-246" style="rounded=1;whiteSpace=wrap;html=1;" value="Unosi sadržaj" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-250" parent="I6naiKGwUQekyfnAlmS5-246" style="rounded=1;whiteSpace=wrap;html=1;" value="Potvrđuje slanje" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-251" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="802" width="443" x="340" y="3540" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-252" parent="I6naiKGwUQekyfnAlmS5-251" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="55" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-253" parent="I6naiKGwUQekyfnAlmS5-251" style="rhombus;whiteSpace=wrap;html=1;" value="Okidač događaja" vertex="1">
+          <mxGeometry height="80" width="120" x="10" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-258" parent="I6naiKGwUQekyfnAlmS5-251" style="rhombus;whiteSpace=wrap;html=1;" value="Status naloga?" vertex="1">
+          <mxGeometry height="80" width="100" x="65" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-570" edge="1" parent="I6naiKGwUQekyfnAlmS5-251" source="I6naiKGwUQekyfnAlmS5-263" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="232" y="738" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-263" parent="I6naiKGwUQekyfnAlmS5-251" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="217" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-254" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Detektuje okidački događaj" vertex="1">
+          <mxGeometry height="40" width="130" x="217" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-255" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Generiše notifikaciju" vertex="1">
+          <mxGeometry height="40" width="130" x="217" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-256" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Pohranjuje u bazu" vertex="1">
+          <mxGeometry height="40" width="130" x="217" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-257" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje korisniku" vertex="1">
+          <mxGeometry height="40" width="130" x="217" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-267" edge="1" parent="I6naiKGwUQekyfnAlmS5-251" source="I6naiKGwUQekyfnAlmS5-254" target="I6naiKGwUQekyfnAlmS5-255">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-268" edge="1" parent="I6naiKGwUQekyfnAlmS5-251" source="I6naiKGwUQekyfnAlmS5-255" target="I6naiKGwUQekyfnAlmS5-256">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-269" edge="1" parent="I6naiKGwUQekyfnAlmS5-251" source="I6naiKGwUQekyfnAlmS5-256" target="I6naiKGwUQekyfnAlmS5-257">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-259" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Isporučuje notifikaciju" vertex="1">
+          <mxGeometry height="40" width="100" x="10" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-260" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje je primaocu" vertex="1">
+          <mxGeometry height="40" width="100" x="10" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-277" edge="1" parent="I6naiKGwUQekyfnAlmS5-251" source="I6naiKGwUQekyfnAlmS5-259" target="I6naiKGwUQekyfnAlmS5-260">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-261" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Bilježi neisporučenu" vertex="1">
+          <mxGeometry height="40" width="100" x="130" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-262" parent="I6naiKGwUQekyfnAlmS5-251" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje info o aktivaciji" vertex="1">
+          <mxGeometry height="40" width="100" x="130" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-278" edge="1" parent="I6naiKGwUQekyfnAlmS5-251" source="I6naiKGwUQekyfnAlmS5-261" target="I6naiKGwUQekyfnAlmS5-262">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-264" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-252" target="I6naiKGwUQekyfnAlmS5-253">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-265" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-253" target="I6naiKGwUQekyfnAlmS5-254" value="Automatski">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-266" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-253" target="I6naiKGwUQekyfnAlmS5-247" value="Ručno">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-270" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-257" style="exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="575" y="4280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-271" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-247" target="I6naiKGwUQekyfnAlmS5-248">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-272" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-248" target="I6naiKGwUQekyfnAlmS5-249">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-273" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-249" target="I6naiKGwUQekyfnAlmS5-250">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-274" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-250" target="I6naiKGwUQekyfnAlmS5-258">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-275" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-258" target="I6naiKGwUQekyfnAlmS5-259" value="Aktivan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-276" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-258" target="I6naiKGwUQekyfnAlmS5-261" value="Neaktivan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-279" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-260" target="I6naiKGwUQekyfnAlmS5-263">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-280" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-262" target="I6naiKGwUQekyfnAlmS5-263">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-281" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="7. Generisanje i slanje izvještaja i potvrda na e-mail" vertex="1">
+          <mxGeometry height="30" width="450" x="43" y="5480" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-282" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Studentska_sluzba" vertex="1">
+          <mxGeometry height="900" width="220" x="43" y="5520" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-283" parent="I6naiKGwUQekyfnAlmS5-282" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="95" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-284" parent="I6naiKGwUQekyfnAlmS5-282" style="rounded=1;whiteSpace=wrap;html=1;" value="Prijavljuje se na sistem" vertex="1">
+          <mxGeometry height="40" width="120" x="50" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-285" parent="I6naiKGwUQekyfnAlmS5-282" style="rounded=1;whiteSpace=wrap;html=1;" value="Pretražuje i odabira studenta" vertex="1">
+          <mxGeometry height="40" width="120" x="50" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-286" parent="I6naiKGwUQekyfnAlmS5-282" style="rounded=1;whiteSpace=wrap;html=1;" value="Bira tip dokumenta" vertex="1">
+          <mxGeometry height="40" width="120" x="50" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-287" parent="I6naiKGwUQekyfnAlmS5-282" style="rounded=1;whiteSpace=wrap;html=1;" value="Potvrđuje generisanje" vertex="1">
+          <mxGeometry height="40" width="120" x="50" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-288" parent="I6naiKGwUQekyfnAlmS5-282" style="rounded=1;whiteSpace=wrap;html=1;" value="Preuzima PDF ručno" vertex="1">
+          <mxGeometry height="40" width="120" x="50" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-289" parent="I6naiKGwUQekyfnAlmS5-282" style="rounded=1;whiteSpace=wrap;html=1;" value="Može preuzeti dokument ručno" vertex="1">
+          <mxGeometry height="40" width="120" x="37" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-299" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Mail_sistem" vertex="1">
+          <mxGeometry height="900" width="183" x="600" y="5520" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-300" parent="I6naiKGwUQekyfnAlmS5-299" style="rounded=1;whiteSpace=wrap;html=1;" value="E-mail se isporučuje" vertex="1">
+          <mxGeometry height="40" width="120" x="31.5" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-301" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-283" target="I6naiKGwUQekyfnAlmS5-284">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-302" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-284" target="I6naiKGwUQekyfnAlmS5-285">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-303" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-285" target="I6naiKGwUQekyfnAlmS5-286">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-304" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-286" target="I6naiKGwUQekyfnAlmS5-287">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-305" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-287" target="I6naiKGwUQekyfnAlmS5-291">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-307" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-292" target="I6naiKGwUQekyfnAlmS5-288">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-308" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-288" style="exitX=0.35;exitY=1.031;exitDx=0;exitDy=0;exitPerimeter=0;" target="I6naiKGwUQekyfnAlmS5-298">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-312" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-295" target="I6naiKGwUQekyfnAlmS5-289">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-313" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-289" target="I6naiKGwUQekyfnAlmS5-298">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-386" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="8.&amp;nbsp; Računanje statističkih podataka" vertex="1">
+          <mxGeometry height="30" width="350" x="40" y="6520" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-387" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Profesor ili Studentska služba" vertex="1">
+          <mxGeometry height="850" width="300" x="40" y="6570" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-388" parent="I6naiKGwUQekyfnAlmS5-387" style="rounded=1;whiteSpace=wrap;html=1;" value="Prijavljuje se na sistem" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-389" parent="I6naiKGwUQekyfnAlmS5-387" style="rounded=1;whiteSpace=wrap;html=1;" value="Odabira period ili predmet" vertex="1">
+          <mxGeometry height="40" width="120" x="90" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-390" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="850" width="440" x="340" y="6570" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-391" parent="I6naiKGwUQekyfnAlmS5-390" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="65" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-392" parent="I6naiKGwUQekyfnAlmS5-390" style="rhombus;whiteSpace=wrap;html=1;" value="Okidač?" vertex="1">
+          <mxGeometry height="80" width="100" x="30" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-399" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Provjerava podatke" vertex="1">
+          <mxGeometry height="40" width="110" x="30" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-400" parent="I6naiKGwUQekyfnAlmS5-390" style="rhombus;whiteSpace=wrap;html=1;" value="Dovoljno podataka?" vertex="1">
+          <mxGeometry height="80" width="110" x="30" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-401" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje obavijest" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-402" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje statistiku/izvještaj" vertex="1">
+          <mxGeometry height="40" width="120" x="150" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-403" parent="I6naiKGwUQekyfnAlmS5-390" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="195" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-393" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Detektuje promjenu ocjene" vertex="1">
+          <mxGeometry height="40" width="130" x="270" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-394" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Pokreće algoritam" vertex="1">
+          <mxGeometry height="40" width="130" x="270" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-395" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Računa težinski prosjek" vertex="1">
+          <mxGeometry height="40" width="130" x="270" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-396" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Računa prolaznost" vertex="1">
+          <mxGeometry height="40" width="130" x="270" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-397" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Računa prosjek profesora" vertex="1">
+          <mxGeometry height="40" width="130" x="270" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-398" parent="I6naiKGwUQekyfnAlmS5-390" style="rounded=1;whiteSpace=wrap;html=1;" value="Pohranjuje podatke u bazu" vertex="1">
+          <mxGeometry height="40" width="130" x="270" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-405" edge="1" parent="I6naiKGwUQekyfnAlmS5-390" source="I6naiKGwUQekyfnAlmS5-392" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="I6naiKGwUQekyfnAlmS5-393" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="140" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-407" edge="1" parent="I6naiKGwUQekyfnAlmS5-390" source="I6naiKGwUQekyfnAlmS5-393" target="I6naiKGwUQekyfnAlmS5-394">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-408" edge="1" parent="I6naiKGwUQekyfnAlmS5-390" source="I6naiKGwUQekyfnAlmS5-394" target="I6naiKGwUQekyfnAlmS5-395">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-409" edge="1" parent="I6naiKGwUQekyfnAlmS5-390" source="I6naiKGwUQekyfnAlmS5-395" target="I6naiKGwUQekyfnAlmS5-396">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-410" edge="1" parent="I6naiKGwUQekyfnAlmS5-390" source="I6naiKGwUQekyfnAlmS5-396" target="I6naiKGwUQekyfnAlmS5-397">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-411" edge="1" parent="I6naiKGwUQekyfnAlmS5-390" source="I6naiKGwUQekyfnAlmS5-397" target="I6naiKGwUQekyfnAlmS5-398">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-420" parent="I6naiKGwUQekyfnAlmS5-390" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;font-size: 11px; text-wrap-mode: nowrap; background-color: rgb(255, 255, 255);&quot;&gt;Automatski&lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="140" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-404" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-391" target="I6naiKGwUQekyfnAlmS5-392">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-406" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-392" target="I6naiKGwUQekyfnAlmS5-388" value="Ručno">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-412" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-398" target="I6naiKGwUQekyfnAlmS5-403">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-413" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-388" target="I6naiKGwUQekyfnAlmS5-389">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-414" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-389" target="I6naiKGwUQekyfnAlmS5-399">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-415" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-399" target="I6naiKGwUQekyfnAlmS5-400">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-416" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-400" target="I6naiKGwUQekyfnAlmS5-401" value="Nema">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-417" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-400" target="I6naiKGwUQekyfnAlmS5-402" value="Ima">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-418" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-401" target="I6naiKGwUQekyfnAlmS5-403">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-419" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-402" target="I6naiKGwUQekyfnAlmS5-403">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-539" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="2. Slanje zadaća i pregled statusa/bodovanja zadaće" vertex="1">
+          <mxGeometry height="30" width="450" x="40" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-540" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Student" vertex="1">
+          <mxGeometry height="850" width="260" x="40" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-541" parent="I6naiKGwUQekyfnAlmS5-540" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="115" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-542" parent="I6naiKGwUQekyfnAlmS5-540" style="rounded=1;whiteSpace=wrap;html=1;" value="Pristupa platformi" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-543" parent="I6naiKGwUQekyfnAlmS5-540" style="rounded=1;whiteSpace=wrap;html=1;" value="Otvara sekciju &#39;Slanje zadaće&#39;" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-544" parent="I6naiKGwUQekyfnAlmS5-540" style="rounded=1;whiteSpace=wrap;html=1;" value="Bira zadaću iz liste" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-545" parent="I6naiKGwUQekyfnAlmS5-540" style="rounded=1;whiteSpace=wrap;html=1;" value="Uploaduje fajl ili tekst" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-546" parent="I6naiKGwUQekyfnAlmS5-540" style="rounded=1;whiteSpace=wrap;html=1;" value="Potvrđuje slanje" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-547" parent="I6naiKGwUQekyfnAlmS5-540" style="rounded=1;whiteSpace=wrap;html=1;" value="Pregleda bodove" vertex="1">
+          <mxGeometry height="40" width="120" x="70" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-548" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="850" width="300" x="300" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-549" parent="I6naiKGwUQekyfnAlmS5-548" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje listu trenutnih zadaća i rokova" vertex="1">
+          <mxGeometry height="40" width="130" x="85" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-550" parent="I6naiKGwUQekyfnAlmS5-548" style="rhombus;whiteSpace=wrap;html=1;" value="Rok važi?" vertex="1">
+          <mxGeometry height="80" width="80" x="110" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-551" parent="I6naiKGwUQekyfnAlmS5-548" style="rounded=1;whiteSpace=wrap;html=1;" value="Čuva zadaću u bazi" vertex="1">
+          <mxGeometry height="40" width="110" x="20" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-552" parent="I6naiKGwUQekyfnAlmS5-548" style="rounded=1;whiteSpace=wrap;html=1;" value="Obavještava o uspješnom slanju" vertex="1">
+          <mxGeometry height="40" width="110" x="20" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-553" parent="I6naiKGwUQekyfnAlmS5-548" style="rounded=1;whiteSpace=wrap;html=1;" value="Odbija slanje i navodi razlog" vertex="1">
+          <mxGeometry height="40" width="110" x="170" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-554" parent="I6naiKGwUQekyfnAlmS5-548" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje bodove i status nakon ocjenjivanja" vertex="1">
+          <mxGeometry height="40" width="130" x="49" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-555" parent="I6naiKGwUQekyfnAlmS5-548" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="170" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-569" edge="1" parent="I6naiKGwUQekyfnAlmS5-548" style="entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="I6naiKGwUQekyfnAlmS5-555">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="233.61951545101329" y="590" as="sourcePoint" />
+            <mxPoint x="169.99719196538314" y="780.7577268739687" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-556" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-541" target="I6naiKGwUQekyfnAlmS5-542">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-557" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-542" target="I6naiKGwUQekyfnAlmS5-543">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-558" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-543" target="I6naiKGwUQekyfnAlmS5-549">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-559" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-549" target="I6naiKGwUQekyfnAlmS5-544">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-560" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-544" target="I6naiKGwUQekyfnAlmS5-545">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-561" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-545" target="I6naiKGwUQekyfnAlmS5-546">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-562" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-546" target="I6naiKGwUQekyfnAlmS5-550">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-563" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-550" target="I6naiKGwUQekyfnAlmS5-551" value="Da">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-564" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-550" target="I6naiKGwUQekyfnAlmS5-553" value="Ne">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-565" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-551" target="I6naiKGwUQekyfnAlmS5-552">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-566" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-552" target="I6naiKGwUQekyfnAlmS5-554" value="Nakon bodovanja">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-567" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-554" target="I6naiKGwUQekyfnAlmS5-547">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-568" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-547" target="I6naiKGwUQekyfnAlmS5-555">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-290" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Sistem" vertex="1">
+          <mxGeometry height="900" width="337" x="263" y="5520" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-293" parent="I6naiKGwUQekyfnAlmS5-290" style="rounded=1;whiteSpace=wrap;html=1;" value="Kreira PDF sa pečatom" vertex="1">
+          <mxGeometry height="40" width="120" x="60" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-294" parent="I6naiKGwUQekyfnAlmS5-290" style="rhombus;whiteSpace=wrap;html=1;" value="Uspješno?" vertex="1">
+          <mxGeometry height="80" width="80" x="80" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-295" parent="I6naiKGwUQekyfnAlmS5-290" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje grešku i bilježi zahtjev" vertex="1">
+          <mxGeometry height="40" width="110" x="207" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-296" parent="I6naiKGwUQekyfnAlmS5-290" style="rounded=1;whiteSpace=wrap;html=1;" value="Šalje PDF na e-mail" vertex="1">
+          <mxGeometry height="40" width="110" x="7" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-297" parent="I6naiKGwUQekyfnAlmS5-290" style="rounded=1;whiteSpace=wrap;html=1;" value="Evidentira zahtjev i prikazuje potvrdu" vertex="1">
+          <mxGeometry height="50" width="120" x="80" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-298" parent="I6naiKGwUQekyfnAlmS5-290" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="125" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-291" parent="I6naiKGwUQekyfnAlmS5-290" style="rhombus;whiteSpace=wrap;html=1;" value="Provjera e-maila" vertex="1">
+          <mxGeometry height="80" width="100" x="35" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-292" parent="I6naiKGwUQekyfnAlmS5-290" style="rounded=1;whiteSpace=wrap;html=1;" value="Prikazuje obavijest i nudi ručno preuzimanje" vertex="1">
+          <mxGeometry height="50" width="120" x="207" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-306" edge="1" parent="I6naiKGwUQekyfnAlmS5-290" source="I6naiKGwUQekyfnAlmS5-291" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="I6naiKGwUQekyfnAlmS5-292" value="Ne postoji">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-309" edge="1" parent="I6naiKGwUQekyfnAlmS5-290" source="I6naiKGwUQekyfnAlmS5-291" target="I6naiKGwUQekyfnAlmS5-293" value="Postoji">
+          <mxGeometry relative="1" x="-0.3432" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="97" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-310" edge="1" parent="I6naiKGwUQekyfnAlmS5-290" source="I6naiKGwUQekyfnAlmS5-293" target="I6naiKGwUQekyfnAlmS5-294">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-311" edge="1" parent="I6naiKGwUQekyfnAlmS5-290" source="I6naiKGwUQekyfnAlmS5-294" target="I6naiKGwUQekyfnAlmS5-295" value="Greška">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-314" edge="1" parent="I6naiKGwUQekyfnAlmS5-290" source="I6naiKGwUQekyfnAlmS5-294" target="I6naiKGwUQekyfnAlmS5-296" value="Da">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-317" edge="1" parent="I6naiKGwUQekyfnAlmS5-290" source="I6naiKGwUQekyfnAlmS5-297" target="I6naiKGwUQekyfnAlmS5-298">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-315" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-296" target="I6naiKGwUQekyfnAlmS5-300">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-316" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-300" target="I6naiKGwUQekyfnAlmS5-297">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="I6naiKGwUQekyfnAlmS5-142" edge="1" parent="1" source="I6naiKGwUQekyfnAlmS5-126" style="entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="I6naiKGwUQekyfnAlmS5-130">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="97" y="4840.004140127388" as="sourcePoint" />
+            <mxPoint x="357" y="4880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
