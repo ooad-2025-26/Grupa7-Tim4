@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "Models\\Class.cs",
               "ToolTip": "C:\\Users\\nedzi\\dotnet\\Zamger\\Models\\Class.cs",
               "RelativeToolTip": "Models\\Class.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAA7wAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-04T22:09:36.677Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "Data\\Migrations\\20260504214846_PrvaMigracija.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T21:48:46.86Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-04T21:48:46.86Z"
             },
             {
               "$type": "Document",
@@ -64,8 +63,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-04T21:46:20.096Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-04T21:46:20.096Z"
             },
             {
               "$type": "Document",

@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\nedzi\\dotnet\\Zamger\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nedzi\\dotnet\\Zamger\\Data\\Migrations\\20260504214846_PrvaMigracija.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Data\\Migrations\\20260504214846_PrvaMigracija.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\models\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:models\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\data\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:data\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\data\\migrations\\20260504214846_prvamigracija.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:data\\migrations\\20260504214846_prvamigracija.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|c:\\users\\nedzi\\dotnet\\zamger\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C078F7B2-E3C8-43F8-BEA7-0CFC31BFD04E}|Zamger.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Class.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\Zamger\\Models\\Class.cs",
+              "RelativeDocumentMoniker": "Models\\Class.cs",
+              "ToolTip": "C:\\Users\\nedzi\\dotnet\\Zamger\\Models\\Class.cs",
+              "RelativeToolTip": "Models\\Class.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAA7wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T22:09:36.677Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -47,7 +56,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\Zamger\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -60,7 +69,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\Zamger\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
@@ -68,38 +77,7 @@
               "RelativeToolTip": "Data\\ApplicationDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T21:43:27.89Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Class.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\Zamger\\Models\\Class.cs",
-              "RelativeDocumentMoniker": "Models\\Class.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\Zamger\\Models\\Class.cs",
-              "RelativeToolTip": "Models\\Class.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAQwAoAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T21:42:45.611Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Class.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\Zamger\\Data\\Class.cs",
-              "RelativeDocumentMoniker": "Data\\Class.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\Zamger\\Data\\Class.cs",
-              "RelativeToolTip": "Data\\Class.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-04T21:42:21.882Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "WhenOpened": "2026-05-04T21:43:27.89Z"
             }
           ]
         }
