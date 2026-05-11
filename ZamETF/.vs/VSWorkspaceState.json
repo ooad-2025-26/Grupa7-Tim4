@@ -6,6 +6,6 @@
     "\\ZamETF\\Data",
     "\\ZamETF\\Views"
   ],
-  "SelectedNode": "\\ZamETF\\Views\\StudentskaSluzba",
+  "SelectedNode": "\\ZamETF\\Controllers\\AccountController.cs",
   "PreviewInSolutionExplorer": false
 }
