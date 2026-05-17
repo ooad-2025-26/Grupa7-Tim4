@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
@@ -12,10 +8,12 @@ namespace ZamETF.Controllers
 {
     public class AdministratorController : Controller
     {
+        private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AdministratorController(ApplicationDbContext context)
+        public AdministratorController(UserManager<Korisnik> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -28,18 +26,9 @@ namespace ZamETF.Controllers
         // GET: Administrator/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var administrator = await _context.Administratori
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (administrator == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var administrator = await _context.Administratori.FirstOrDefaultAsync(m => m.Id == id);
+            if (administrator == null) return NotFound();
             return View(administrator);
         }
 
@@ -50,17 +39,18 @@ namespace ZamETF.Controllers
         }
 
         // POST: Administrator/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ime,Prezime,Username,Email,Lozinka,Uloga")] Administrator administrator)
+        public async Task<IActionResult> Create([Bind("Ime,Prezime,Username,Email,Uloga")] Administrator administrator, string Lozinka)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(administrator);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                administrator.Uloga = Uloga.Administrator;
+                var result = await _userManager.CreateAsync(administrator, Lozinka);
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
             }
             return View(administrator);
         }
@@ -68,49 +58,27 @@ namespace ZamETF.Controllers
         // GET: Administrator/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var administrator = await _context.Administratori.FindAsync(id);
-            if (administrator == null)
-            {
-                return NotFound();
-            }
+            if (administrator == null) return NotFound();
             return View(administrator);
         }
 
         // POST: Administrator/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ime,Prezime,Username,Email,Lozinka,Uloga")] Administrator administrator)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ime,Prezime,UserName,Email,Uloga")] Administrator administrator)
         {
-            if (id != administrator.Id)
-            {
-                return NotFound();
-            }
-
+            if (id != administrator.Id) return NotFound();
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(administrator);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AdministratorExists(administrator.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var postojeci = await _context.Administratori.FindAsync(id);
+                if (postojeci == null) return NotFound();
+                postojeci.Ime = administrator.Ime;
+                postojeci.Prezime = administrator.Prezime;
+                postojeci.UserName = administrator.UserName;
+                postojeci.Email = administrator.Email;
+                await _userManager.UpdateAsync(postojeci);
                 return RedirectToAction(nameof(Index));
             }
             return View(administrator);
@@ -119,18 +87,9 @@ namespace ZamETF.Controllers
         // GET: Administrator/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var administrator = await _context.Administratori
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (administrator == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var administrator = await _context.Administratori.FirstOrDefaultAsync(m => m.Id == id);
+            if (administrator == null) return NotFound();
             return View(administrator);
         }
 
@@ -141,17 +100,8 @@ namespace ZamETF.Controllers
         {
             var administrator = await _context.Administratori.FindAsync(id);
             if (administrator != null)
-            {
-                _context.Administratori.Remove(administrator);
-            }
-
-            await _context.SaveChangesAsync();
+                await _userManager.DeleteAsync(administrator);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool AdministratorExists(int id)
-        {
-            return _context.Administratori.Any(e => e.Id == id);
         }
     }
 }

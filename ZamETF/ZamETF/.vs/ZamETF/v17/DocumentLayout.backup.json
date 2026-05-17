@@ -1,106 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\nedzi\\dotnet\\ZamETF\\",
+  "WorkspaceRootPath": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\upisnapredmet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\upisnapredmet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\views\\administrator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\administrator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\prisustvo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\prisustvo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\bodovanje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\bodovanje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\ocjena.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\ocjena.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\adminzahtjev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\adminzahtjev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\zahtjevzadokument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\zahtjevzadokument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\predajazadace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\predajazadace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\zadaca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\zadaca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\prijavaispit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\prijavaispit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\ispit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\ispit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\predmet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\predmet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\studentskasluzba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\studentskasluzba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\administrator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\administrator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\korisnik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\korisnik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\enumi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\enumi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Migrations\\20260517112950_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260517112950_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\migrations\\20260506093525_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:migrations\\20260506093525_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\administratorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\administratorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506091928_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260506091928_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\studentskasluzbacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\studentskasluzbacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506091652_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260506091652_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\models\\korisnik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\korisnik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\dotnet\\zametf\\zametf.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:zametf.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\profesorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\profesorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -110,326 +54,154 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UpisNaPredmet.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\UpisNaPredmet.cs",
-              "RelativeDocumentMoniker": "Models\\UpisNaPredmet.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\UpisNaPredmet.cs",
-              "RelativeToolTip": "Models\\UpisNaPredmet.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:44:29.699Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Administrator\\Index.cshtml",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
+              "RelativeToolTip": "Views\\Administrator\\Index.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADkAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-17T11:57:45.328Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Prisustvo.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Prisustvo.cs",
-              "RelativeDocumentMoniker": "Models\\Prisustvo.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Prisustvo.cs",
-              "RelativeToolTip": "Models\\Prisustvo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:44:08.95Z",
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAL0AAAAAAAAAAAAAAL0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-17T11:41:04.337Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Bodovanje.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Bodovanje.cs",
-              "RelativeDocumentMoniker": "Models\\Bodovanje.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Bodovanje.cs",
-              "RelativeToolTip": "Models\\Bodovanje.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAwwC4AAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:43:54.992Z",
+              "WhenOpened": "2026-05-17T11:39:48.841Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Ocjena.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Ocjena.cs",
-              "RelativeDocumentMoniker": "Models\\Ocjena.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Ocjena.cs",
-              "RelativeToolTip": "Models\\Ocjena.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Title": "20260517112950_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Migrations\\20260517112950_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260517112950_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Migrations\\20260517112950_InitialCreate.cs",
+              "RelativeToolTip": "Migrations\\20260517112950_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:43:40.191Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AdminZahtjev.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\AdminZahtjev.cs",
-              "RelativeDocumentMoniker": "Models\\AdminZahtjev.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\AdminZahtjev.cs",
-              "RelativeToolTip": "Models\\AdminZahtjev.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAxwA8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:43:24.79Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ZahtjevZaDokument.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\ZahtjevZaDokument.cs",
-              "RelativeDocumentMoniker": "Models\\ZahtjevZaDokument.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\ZahtjevZaDokument.cs",
-              "RelativeToolTip": "Models\\ZahtjevZaDokument.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:43:06.928Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "PredajaZadace.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\PredajaZadace.cs",
-              "RelativeDocumentMoniker": "Models\\PredajaZadace.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\PredajaZadace.cs",
-              "RelativeToolTip": "Models\\PredajaZadace.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:42:45.051Z",
+              "WhenOpened": "2026-05-17T11:29:50.377Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "Zadaca.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Zadaca.cs",
-              "RelativeDocumentMoniker": "Models\\Zadaca.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Zadaca.cs",
-              "RelativeToolTip": "Models\\Zadaca.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Title": "Korisnik.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Korisnik.cs",
+              "RelativeDocumentMoniker": "Models\\Korisnik.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Korisnik.cs",
+              "RelativeToolTip": "Models\\Korisnik.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAApwBUAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:06:20.601Z",
+              "WhenOpened": "2026-05-17T11:26:58.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "StudentskaSluzbaController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentskaSluzbaController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StudentskaSluzbaController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentskaSluzbaController.cs",
+              "RelativeToolTip": "Controllers\\StudentskaSluzbaController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAtwCsAAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-17T11:25:33.9Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "PrijavaIspit.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\PrijavaIspit.cs",
-              "RelativeDocumentMoniker": "Models\\PrijavaIspit.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\PrijavaIspit.cs",
-              "RelativeToolTip": "Models\\PrijavaIspit.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Title": "StudentController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StudentController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
+              "RelativeToolTip": "Controllers\\StudentController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:06:00.029Z",
+              "WhenOpened": "2026-05-17T11:25:32.936Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "Ispit.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Ispit.cs",
-              "RelativeDocumentMoniker": "Models\\Ispit.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Ispit.cs",
-              "RelativeToolTip": "Models\\Ispit.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:05:39.139Z",
+              "WhenOpened": "2026-05-17T11:25:31.717Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "Predmet.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Predmet.cs",
-              "RelativeDocumentMoniker": "Models\\Predmet.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Predmet.cs",
-              "RelativeToolTip": "Models\\Predmet.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAzwBYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:05:02.313Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "StudentskaSluzba.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\StudentskaSluzba.cs",
-              "RelativeDocumentMoniker": "Models\\StudentskaSluzba.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\StudentskaSluzba.cs",
-              "RelativeToolTip": "Models\\StudentskaSluzba.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:04:38.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Administrator.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Administrator.cs",
-              "RelativeDocumentMoniker": "Models\\Administrator.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Administrator.cs",
-              "RelativeToolTip": "Models\\Administrator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:04:07.585Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Profesor.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Profesor.cs",
-              "RelativeDocumentMoniker": "Models\\Profesor.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Profesor.cs",
-              "RelativeToolTip": "Models\\Profesor.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAA7wCAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:03:44.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Student.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Student.cs",
-              "RelativeDocumentMoniker": "Models\\Student.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Student.cs",
-              "RelativeToolTip": "Models\\Student.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:02:58.645Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Korisnik.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Korisnik.cs",
-              "RelativeDocumentMoniker": "Models\\Korisnik.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Korisnik.cs",
-              "RelativeToolTip": "Models\\Korisnik.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA0wBYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:02:36.266Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Enumi.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Enumi.cs",
-              "RelativeDocumentMoniker": "Models\\Enumi.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Enumi.cs",
-              "RelativeToolTip": "Models\\Enumi.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAkwAIAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T19:00:59.867Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T09:15:55.722Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "20260506091928_InitialCreate.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506091928_InitialCreate.cs",
-              "RelativeDocumentMoniker": "Migrations\\20260506091928_InitialCreate.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506091928_InitialCreate.cs",
-              "RelativeToolTip": "Migrations\\20260506091928_InitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T09:19:28.422Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Models.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Models.cs",
-              "RelativeDocumentMoniker": "Models\\Models.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Models\\Models.cs",
-              "RelativeToolTip": "Models\\Models.cs",
+              "Title": "ProfesorController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\ProfesorController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProfesorController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\ProfesorController.cs",
+              "RelativeToolTip": "Controllers\\ProfesorController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T09:05:28.714Z",
+              "WhenOpened": "2026-05-17T11:25:30.685Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "20260506091652_InitialCreate.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506091652_InitialCreate.cs",
-              "RelativeDocumentMoniker": "Migrations\\20260506091652_InitialCreate.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506091652_InitialCreate.cs",
-              "RelativeToolTip": "Migrations\\20260506091652_InitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "AdministratorController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AdministratorController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdministratorController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AdministratorController.cs",
+              "RelativeToolTip": "Controllers\\AdministratorController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAtwCsAAABaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T09:16:52.569Z"
+              "WhenOpened": "2026-05-17T11:25:29.65Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "20260506093525_InitialCreate.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506093525_InitialCreate.cs",
-              "RelativeDocumentMoniker": "Migrations\\20260506093525_InitialCreate.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Migrations\\20260506093525_InitialCreate.cs",
-              "RelativeToolTip": "Migrations\\20260506093525_InitialCreate.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAxwBUAAABUAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAtwC0AAABaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T09:35:25.273Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAACJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-06T09:07:39.537Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAYwA4AAAB2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T09:04:40.123Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "ZamETF.csproj",
-              "DocumentMoniker": "C:\\Users\\nedzi\\dotnet\\ZamETF\\ZamETF.csproj",
-              "RelativeDocumentMoniker": "ZamETF.csproj",
-              "ToolTip": "C:\\Users\\nedzi\\dotnet\\ZamETF\\ZamETF.csproj",
-              "RelativeToolTip": "ZamETF.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-06T09:03:39.099Z"
+              "WhenOpened": "2026-05-17T11:25:28.097Z",
+              "EditorCaption": ""
             }
           ]
         }

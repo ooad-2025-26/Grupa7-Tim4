@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
@@ -12,10 +8,12 @@ namespace ZamETF.Controllers
 {
     public class ProfesorController : Controller
     {
+        private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public ProfesorController(ApplicationDbContext context)
+        public ProfesorController(UserManager<Korisnik> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -28,18 +26,9 @@ namespace ZamETF.Controllers
         // GET: Profesor/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var profesor = await _context.Profesori
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (profesor == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var profesor = await _context.Profesori.FirstOrDefaultAsync(m => m.Id == id);
+            if (profesor == null) return NotFound();
             return View(profesor);
         }
 
@@ -50,17 +39,18 @@ namespace ZamETF.Controllers
         }
 
         // POST: Profesor/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Titula,Id,Ime,Prezime,Username,Email,Lozinka,Uloga")] Profesor profesor)
+        public async Task<IActionResult> Create([Bind("Titula,Ime,Prezime,UserName,Email,Uloga")] Profesor profesor, string Lozinka)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(profesor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                profesor.Uloga = Uloga.Profesor;
+                var result = await _userManager.CreateAsync(profesor, Lozinka);
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
             }
             return View(profesor);
         }
@@ -68,49 +58,28 @@ namespace ZamETF.Controllers
         // GET: Profesor/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var profesor = await _context.Profesori.FindAsync(id);
-            if (profesor == null)
-            {
-                return NotFound();
-            }
+            if (profesor == null) return NotFound();
             return View(profesor);
         }
 
         // POST: Profesor/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Titula,Id,Ime,Prezime,Username,Email,Lozinka,Uloga")] Profesor profesor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titula,Ime,Prezime,UserName,Email,Uloga")] Profesor profesor)
         {
-            if (id != profesor.Id)
-            {
-                return NotFound();
-            }
-
+            if (id != profesor.Id) return NotFound();
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(profesor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProfesorExists(profesor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var postojeci = await _context.Profesori.FindAsync(id);
+                if (postojeci == null) return NotFound();
+                postojeci.Ime = profesor.Ime;
+                postojeci.Prezime = profesor.Prezime;
+                postojeci.UserName = profesor.UserName;
+                postojeci.Email = profesor.Email;
+                postojeci.Titula = profesor.Titula;
+                await _userManager.UpdateAsync(postojeci);
                 return RedirectToAction(nameof(Index));
             }
             return View(profesor);
@@ -119,18 +88,9 @@ namespace ZamETF.Controllers
         // GET: Profesor/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var profesor = await _context.Profesori
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (profesor == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var profesor = await _context.Profesori.FirstOrDefaultAsync(m => m.Id == id);
+            if (profesor == null) return NotFound();
             return View(profesor);
         }
 
@@ -141,17 +101,8 @@ namespace ZamETF.Controllers
         {
             var profesor = await _context.Profesori.FindAsync(id);
             if (profesor != null)
-            {
-                _context.Profesori.Remove(profesor);
-            }
-
-            await _context.SaveChangesAsync();
+                await _userManager.DeleteAsync(profesor);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProfesorExists(int id)
-        {
-            return _context.Profesori.Any(e => e.Id == id);
         }
     }
 }

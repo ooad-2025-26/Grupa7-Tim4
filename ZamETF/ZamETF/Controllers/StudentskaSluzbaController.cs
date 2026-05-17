@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
@@ -12,10 +8,12 @@ namespace ZamETF.Controllers
 {
     public class StudentskaSluzbaController : Controller
     {
+        private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public StudentskaSluzbaController(ApplicationDbContext context)
+        public StudentskaSluzbaController(UserManager<Korisnik> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -28,18 +26,9 @@ namespace ZamETF.Controllers
         // GET: StudentskaSluzba/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var studentskaSluzba = await _context.StudentskeSluzbe
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (studentskaSluzba == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync(m => m.Id == id);
+            if (studentskaSluzba == null) return NotFound();
             return View(studentskaSluzba);
         }
 
@@ -50,17 +39,18 @@ namespace ZamETF.Controllers
         }
 
         // POST: StudentskaSluzba/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ime,Prezime,Username,Email,Lozinka,Uloga")] StudentskaSluzba studentskaSluzba)
+        public async Task<IActionResult> Create([Bind("Ime,Prezime,Username,Email,Uloga")] StudentskaSluzba studentskaSluzba, string Lozinka)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(studentskaSluzba);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                studentskaSluzba.Uloga = Uloga.StudentskaSluzba;
+                var result = await _userManager.CreateAsync(studentskaSluzba, Lozinka);
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
             }
             return View(studentskaSluzba);
         }
@@ -68,49 +58,27 @@ namespace ZamETF.Controllers
         // GET: StudentskaSluzba/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var studentskaSluzba = await _context.StudentskeSluzbe.FindAsync(id);
-            if (studentskaSluzba == null)
-            {
-                return NotFound();
-            }
+            if (studentskaSluzba == null) return NotFound();
             return View(studentskaSluzba);
         }
 
         // POST: StudentskaSluzba/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ime,Prezime,Username,Email,Lozinka,Uloga")] StudentskaSluzba studentskaSluzba)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ime,Prezime,UserName,Email,Uloga")] StudentskaSluzba studentskaSluzba)
         {
-            if (id != studentskaSluzba.Id)
-            {
-                return NotFound();
-            }
-
+            if (id != studentskaSluzba.Id) return NotFound();
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(studentskaSluzba);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentskaSluzbaExists(studentskaSluzba.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var postojeci = await _context.StudentskeSluzbe.FindAsync(id);
+                if (postojeci == null) return NotFound();
+                postojeci.Ime = studentskaSluzba.Ime;
+                postojeci.Prezime = studentskaSluzba.Prezime;
+                postojeci.UserName = studentskaSluzba.UserName;
+                postojeci.Email = studentskaSluzba.Email;
+                await _userManager.UpdateAsync(postojeci);
                 return RedirectToAction(nameof(Index));
             }
             return View(studentskaSluzba);
@@ -119,18 +87,9 @@ namespace ZamETF.Controllers
         // GET: StudentskaSluzba/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var studentskaSluzba = await _context.StudentskeSluzbe
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (studentskaSluzba == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync(m => m.Id == id);
+            if (studentskaSluzba == null) return NotFound();
             return View(studentskaSluzba);
         }
 
@@ -141,17 +100,8 @@ namespace ZamETF.Controllers
         {
             var studentskaSluzba = await _context.StudentskeSluzbe.FindAsync(id);
             if (studentskaSluzba != null)
-            {
-                _context.StudentskeSluzbe.Remove(studentskaSluzba);
-            }
-
-            await _context.SaveChangesAsync();
+                await _userManager.DeleteAsync(studentskaSluzba);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool StudentskaSluzbaExists(int id)
-        {
-            return _context.StudentskeSluzbe.Any(e => e.Id == id);
         }
     }
 }

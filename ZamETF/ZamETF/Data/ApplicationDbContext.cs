@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ZamETF.Models;
 
 namespace ZamETF.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<Korisnik, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -12,12 +14,14 @@ namespace ZamETF.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=sql6033.site4now.net;Database=db_ac8f1e_zametfdb;User Id=db_ac8f1e_zametfdb_admin;Password=Munchmallow3!;");
+                optionsBuilder.UseSqlServer("Data Source=SQL6033.site4now.net;Initial Catalog=db_ac9277_zametf;User Id=db_ac9277_zametf_admin;Password=Munchmallow3!;Encrypt=True;TrustServerCertificate=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Korisnik>()
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<Student>("Student")
@@ -111,7 +115,6 @@ namespace ZamETF.Data
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
-        public DbSet<Korisnik> Korisnici { get; set; }
         public DbSet<Student> Studenti { get; set; }
         public DbSet<Profesor> Profesori { get; set; }
         public DbSet<Administrator> Administratori { get; set; }
