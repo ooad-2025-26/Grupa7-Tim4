@@ -1,11 +1,21 @@
-﻿namespace ZamETF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZamETF.Models
 {
     public class Zadaca
     {
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string NazivID { get; set; }
+
         public Predmet Predmet { get; set; }
+
+        [StringLength(2000)]
         public string Opis { get; set; }
+
+        [Required]
         public DateTime Rok { get; set; }
 
         public string GetNazivID() => NazivID;

@@ -650,3 +650,5 @@ C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.csproj.Up2Date
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.genruntimeconfig.cache
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ref\ZamETF.dll
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

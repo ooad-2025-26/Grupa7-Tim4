@@ -1,10 +1,17 @@
-﻿namespace ZamETF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZamETF.Models
 {
     public class Ispit
     {
         public int Id { get; set; }
+        [Required]
         public Predmet Predmet { get; set; }
+
+        [Required]
         public DateTime Datum { get; set; }
+
+        [Required]
         public DateTime RokZaPrijavu { get; set; }
 
         public DateTime GetDatum() => Datum;

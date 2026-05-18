@@ -1,11 +1,18 @@
-﻿namespace ZamETF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZamETF.Models
 {
     public class PrijavaIspit
     {
         public int Id { get; set; }
+        [Required]
         public Student Student { get; set; }
+
+        [Required]
         public Ispit Ispit { get; set; }
+
         public DateTime DatumPrijave { get; set; } = DateTime.Now;
+
         public StatusPrijaveIspit Status { get; set; } = StatusPrijaveIspit.PrijavljenIspit;
 
         public StatusPrijaveIspit GetStatus() => Status;

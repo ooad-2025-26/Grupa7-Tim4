@@ -1,8 +1,12 @@
-﻿namespace ZamETF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZamETF.Models
 {
     public class Profesor : Korisnik
     {
+        [StringLength(50)]
         public string Titula { get; set; }
+
         public ICollection<Predmet> Predmeti { get; set; } = new List<Predmet>();
 
         public void DodajPredmet(Predmet predmet) => Predmeti.Add(predmet);

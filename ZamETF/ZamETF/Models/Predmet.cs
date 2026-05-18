@@ -1,10 +1,19 @@
-﻿namespace ZamETF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZamETF.Models
 {
     public class Predmet
     {
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(200)]
         public string Naziv { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string SifraPredmeta { get; set; }
+
         public Profesor Profesor { get; set; }
 
         public string GetSifraPredmeta() => SifraPredmeta;

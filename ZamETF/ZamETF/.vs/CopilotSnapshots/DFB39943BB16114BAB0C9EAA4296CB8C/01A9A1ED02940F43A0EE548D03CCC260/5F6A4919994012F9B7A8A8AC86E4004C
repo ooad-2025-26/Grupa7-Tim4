@@ -1,0 +1,16 @@
+﻿namespace ZamETF.Models
+{
+    public class PrijavaIspit
+    {
+        public int Id { get; set; }
+        public Student Student { get; set; }
+        public Ispit Ispit { get; set; }
+        public DateTime DatumPrijave { get; set; } = DateTime.Now;
+        public StatusPrijaveIspit Status { get; set; } = StatusPrijaveIspit.PrijavljenIspit;
+
+        public StatusPrijaveIspit GetStatus() => Status;
+        public void SetStatus(StatusPrijaveIspit status) => Status = status;
+        public void PotvrdiPrijavu() => Status = StatusPrijaveIspit.PrijavljenIspit;
+        public void OtkaziPrijavu() => Status = StatusPrijaveIspit.Odjavljen;
+    }
+}

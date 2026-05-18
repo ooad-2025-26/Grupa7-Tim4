@@ -1,11 +1,17 @@
-﻿namespace ZamETF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZamETF.Models
 {
     public class Student : Korisnik
     {
         public Student() { }
         public Student(int indeks) { Indeks = indeks.ToString(); }
 
+        [Required]
+        [StringLength(20)]
         public string Indeks { get; set; }
+
+        [Range(1, 5)]
         public int GodinaStudija { get; set; }
 
         public string GetIndeks() => Indeks;
