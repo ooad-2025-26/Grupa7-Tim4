@@ -4,6 +4,7 @@
     "\\ZamETF",
     "\\ZamETF\\Controllers",
     "\\ZamETF\\Data",
+    "\\ZamETF\\Models",
     "\\ZamETF\\Views"
   ],
   "SelectedNode": "\\ZamETF\\ZamETF.sln",

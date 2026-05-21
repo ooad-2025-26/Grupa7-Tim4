@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
@@ -121,10 +121,16 @@ namespace ZamETF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string email, string lozinka)
         {
+            // Pokušaj naći po emailu
             var korisnik = await _userManager.FindByEmailAsync(email);
+
+            // Ako nije po emailu, pokušaj po usernameu
+            if (korisnik == null)
+                korisnik = await _userManager.FindByNameAsync(email);
+
             if (korisnik == null)
             {
-                ModelState.AddModelError("", "Pogre�an email ili lozinka.");
+                ModelState.AddModelError("", "Pogrešan email/username ili lozinka.");
                 return View();
             }
 
@@ -141,7 +147,7 @@ namespace ZamETF.Controllers
                 };
             }
 
-            ModelState.AddModelError("", "Pogre�an email ili lozinka.");
+            ModelState.AddModelError("", "Pogrešan email/username ili lozinka.");
             return View();
         }
 

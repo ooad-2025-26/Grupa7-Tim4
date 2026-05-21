@@ -1,8 +1,12 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
+using ZamETF.Services;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 
 namespace ZamETF.Controllers
 {
@@ -10,98 +14,341 @@ namespace ZamETF.Controllers
     {
         private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly EmailService _emailService;
 
-        public StudentskaSluzbaController(UserManager<Korisnik> userManager, ApplicationDbContext context)
+        public StudentskaSluzbaController(
+            UserManager<Korisnik> userManager,
+            ApplicationDbContext context,
+            EmailService emailService)
         {
             _userManager = userManager;
             _context = context;
+            _emailService = emailService;
         }
 
-        // GET: StudentskaSluzba
+        // GET: StudentskaSluzba/Index
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StudentskeSluzbe.ToListAsync());
-        }
+            var korisnik = await _userManager.GetUserAsync(User);
 
-        // GET: StudentskaSluzba/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null) return NotFound();
-            var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync(m => m.Id == id);
-            if (studentskaSluzba == null) return NotFound();
-            return View(studentskaSluzba);
-        }
+            var zahtjevi = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .Where(z => !z.Status)
+                .OrderByDescending(z => z.Datum)
+                .ToListAsync();
 
-        // GET: StudentskaSluzba/Create
-        public IActionResult Create()
-        {
+            ViewBag.Zahtjevi = zahtjevi;
             return View();
         }
 
-        // POST: StudentskaSluzba/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ime,Prezime,Username,Email,Uloga")] StudentskaSluzba studentskaSluzba, string Lozinka)
+        // GET: StudentskaSluzba/GeneriranjeIzvjestaja/5
+        public async Task<IActionResult> GeneriranjeIzvjestaja(int zahtjevId)
         {
-            if (ModelState.IsValid)
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+
+            if (zahtjev == null) return NotFound();
+
+            ViewBag.Zahtjev = zahtjev;
+            return View();
+        }
+
+        // POST: StudentskaSluzba/GenerirajPdf
+        [HttpPost]
+        public async Task<IActionResult> GenerirajPdf(int zahtjevId, string tipIzvjestaja)
+        {
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+
+            if (zahtjev == null) return NotFound();
+
+            var student = zahtjev.Student;
+
+            var ocjene = await _context.Ocjene
+                .Include(o => o.Predmet)
+                .Where(o => o.Student.Id == student.Id)
+                .ToListAsync();
+
+            byte[] pdf;
+            string fileName;
+
+            switch (tipIzvjestaja)
             {
-                studentskaSluzba.Uloga = Uloga.StudentskaSluzba;
-                var result = await _userManager.CreateAsync(studentskaSluzba, Lozinka);
-                if (result.Succeeded)
-                    return RedirectToAction(nameof(Index));
-                foreach (var error in result.Errors)
-                    ModelState.AddModelError("", error.Description);
+                case "PrepisOcjena":
+                    pdf = GenerirajPrepisOcjena(student, ocjene);
+                    fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
+                    break;
+                case "OcjenePoGodinama":
+                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
+                    fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
+                    break;
+                case "StatusnaPotvrda":
+                    pdf = GenerirajStatusnuPotvrdu(student);
+                    fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
+                    break;
+                default:
+                    return BadRequest();
             }
-            return View(studentskaSluzba);
+
+            return File(pdf, "application/pdf", fileName);
         }
 
-        // GET: StudentskaSluzba/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // POST: StudentskaSluzba/PošaljiNaMail
+        [HttpPost]
+        public async Task<IActionResult> PošaljiNaMail(int zahtjevId, string tipIzvjestaja)
         {
-            if (id == null) return NotFound();
-            var studentskaSluzba = await _context.StudentskeSluzbe.FindAsync(id);
-            if (studentskaSluzba == null) return NotFound();
-            return View(studentskaSluzba);
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+
+            if (zahtjev == null) return NotFound();
+
+            var student = zahtjev.Student;
+
+            var ocjene = await _context.Ocjene
+                .Include(o => o.Predmet)
+                .Where(o => o.Student.Id == student.Id)
+                .ToListAsync();
+
+            byte[] pdf;
+            string fileName;
+
+            switch (tipIzvjestaja)
+            {
+                case "PrepisOcjena":
+                    pdf = GenerirajPrepisOcjena(student, ocjene);
+                    fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
+                    break;
+                case "OcjenePoGodinama":
+                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
+                    fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
+                    break;
+                case "StatusnaPotvrda":
+                    pdf = GenerirajStatusnuPotvrdu(student);
+                    fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
+                    break;
+                default:
+                    return BadRequest();
+            }
+
+            try
+            {
+                await _emailService.PošaljiEmail(
+                    student.Email,
+                    $"{student.Ime} {student.Prezime}",
+                    $"ZamETF – {tipIzvjestaja}",
+                    pdf,
+                    fileName);
+
+                // Označi zahtjev kao obrađen
+                zahtjev.Status = true;
+                await _context.SaveChangesAsync();
+
+                // Pošalji obavijest studentu
+                var korisnik = await _userManager.GetUserAsync(User);
+                var obavijest = new Obavijest
+                {
+                    Naslov = $"Vaš dokument je spreman!",
+                    Poruka = $"Studentska služba: vaš {tipIzvjestaja} je poslan na email {student.Email}.",
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = student.Id,
+                    ZahtjevId = zahtjev.Id,
+                    DatumSlanja = DateTime.Now
+                };
+                _context.Obavijesti.Add(obavijest);
+                await _context.SaveChangesAsync();
+
+                TempData["Uspjeh"] = $"Dokument poslan na {student.Email}!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Greska"] = $"Greška pri slanju emaila: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: StudentskaSluzba/Edit/5
+        // POST: StudentskaSluzba/ProslijediAdminu
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ime,Prezime,UserName,Email,Uloga")] StudentskaSluzba studentskaSluzba)
+        public async Task<IActionResult> ProslijediAdminu(int zahtjevId)
         {
-            if (id != studentskaSluzba.Id) return NotFound();
-            if (ModelState.IsValid)
+            var korisnik = await _userManager.GetUserAsync(User);
+
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+
+            if (zahtjev == null) return NotFound();
+
+            var admin = await _context.Administratori.FirstOrDefaultAsync();
+            if (admin == null)
             {
-                var postojeci = await _context.StudentskeSluzbe.FindAsync(id);
-                if (postojeci == null) return NotFound();
-                postojeci.Ime = studentskaSluzba.Ime;
-                postojeci.Prezime = studentskaSluzba.Prezime;
-                postojeci.UserName = studentskaSluzba.UserName;
-                postojeci.Email = studentskaSluzba.Email;
-                await _userManager.UpdateAsync(postojeci);
+                TempData["Greska"] = "Administrator nije pronađen.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(studentskaSluzba);
-        }
 
-        // GET: StudentskaSluzba/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null) return NotFound();
-            var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync(m => m.Id == id);
-            if (studentskaSluzba == null) return NotFound();
-            return View(studentskaSluzba);
-        }
+            var obavijest = new Obavijest
+            {
+                Naslov = $"Zahtjev: {zahtjev.TipDokumenta} za studenta {zahtjev.Student.Ime} {zahtjev.Student.Prezime}",
+                Poruka = $"Studentska služba prosljeđuje zahtjev za {zahtjev.TipDokumenta} za studenta {zahtjev.Student.Ime} {zahtjev.Student.Prezime} (indeks: {zahtjev.Student.Indeks}).",
+                PošiljalacId = korisnik.Id,
+                PrimalacId = admin.Id,
+                ZahtjevId = zahtjev.Id,
+                DatumSlanja = DateTime.Now
+            };
 
-        // POST: StudentskaSluzba/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var studentskaSluzba = await _context.StudentskeSluzbe.FindAsync(id);
-            if (studentskaSluzba != null)
-                await _userManager.DeleteAsync(studentskaSluzba);
+            _context.Obavijesti.Add(obavijest);
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Zahtjev je proslijeđen administratoru!";
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: StudentskaSluzba/SviZahtjevi
+        public async Task<IActionResult> SviZahtjevi()
+        {
+            var zahtjevi = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .OrderByDescending(z => z.Datum)
+                .ToListAsync();
+            return View(zahtjevi);
+        }
+
+        // ==================== PDF GENERATORI ====================
+
+        private byte[] GenerirajPrepisOcjena(Student student, List<Ocjena> ocjene)
+        {
+            using var ms = new MemoryStream();
+            var writer = new PdfWriter(ms);
+            var pdf = new PdfDocument(writer);
+            var doc = new Document(pdf);
+
+            doc.Add(new Paragraph("UNIVERZITET U SARAJEVU")
+                .SetFontSize(14).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph("ELEKTROTEHNIČKI FAKULTET")
+                .SetFontSize(12).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph("PREPIS OCJENA")
+                .SetFontSize(16).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph(" "));
+
+            doc.Add(new Paragraph($"Ime i prezime: {student.Ime} {student.Prezime}").SetFontSize(11));
+            doc.Add(new Paragraph($"Broj indeksa: {student.Indeks}").SetFontSize(11));
+            doc.Add(new Paragraph($"Datum: {DateTime.Now:dd.MM.yyyy}").SetFontSize(11));
+            doc.Add(new Paragraph(" "));
+
+            if (ocjene.Any())
+            {
+                var tabela = new Table(3).UseAllAvailableWidth();
+                tabela.AddHeaderCell("Predmet");
+                tabela.AddHeaderCell("Ocjena");
+                tabela.AddHeaderCell("Status");
+
+                foreach (var o in ocjene)
+                {
+                    tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                    tabela.AddCell(o.Vrijednost.ToString());
+                    tabela.AddCell(o.Vrijednost >= 6 ? "Položen" : "Nije položen");
+                }
+                doc.Add(tabela);
+
+                doc.Add(new Paragraph(" "));
+                doc.Add(new Paragraph($"Prosječna ocjena: {ocjene.Average(o => o.Vrijednost):F2}")
+                    .SetFontSize(11).SetBold());
+            }
+            else
+            {
+                doc.Add(new Paragraph("Nema unesenih ocjena.").SetFontSize(11));
+            }
+
+            doc.Close();
+            return ms.ToArray();
+        }
+
+        private byte[] GenerirajOcjenePoGodinama(Student student, List<Ocjena> ocjene)
+        {
+            using var ms = new MemoryStream();
+            var writer = new PdfWriter(ms);
+            var pdf = new PdfDocument(writer);
+            var doc = new Document(pdf);
+
+            doc.Add(new Paragraph("PREPIS OCJENA PO GODINAMA")
+                .SetFontSize(16).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph(" "));
+            doc.Add(new Paragraph($"Student: {student.Ime} {student.Prezime} | Indeks: {student.Indeks}")
+                .SetFontSize(11));
+            doc.Add(new Paragraph(" "));
+
+            // Grupiši po godini studija
+            for (int godina = 1; godina <= student.GodinaStudija; godina++)
+            {
+                doc.Add(new Paragraph($"{godina}. godina studija")
+                    .SetFontSize(13).SetBold());
+
+                var ocjeneZaGodinu = ocjene
+                    .Skip((godina - 1) * 6)
+                    .Take(6)
+                    .ToList();
+
+                if (ocjeneZaGodinu.Any())
+                {
+                    var tabela = new Table(2).UseAllAvailableWidth();
+                    tabela.AddHeaderCell("Predmet");
+                    tabela.AddHeaderCell("Ocjena");
+                    foreach (var o in ocjeneZaGodinu)
+                    {
+                        tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                        tabela.AddCell(o.Vrijednost.ToString());
+                    }
+                    doc.Add(tabela);
+                }
+                else
+                {
+                    doc.Add(new Paragraph("Nema ocjena za ovu godinu.").SetFontSize(10));
+                }
+                doc.Add(new Paragraph(" "));
+            }
+
+            doc.Close();
+            return ms.ToArray();
+        }
+
+        private byte[] GenerirajStatusnuPotvrdu(Student student)
+        {
+            using var ms = new MemoryStream();
+            var writer = new PdfWriter(ms);
+            var pdf = new PdfDocument(writer);
+            var doc = new Document(pdf);
+
+            doc.Add(new Paragraph("UNIVERZITET U SARAJEVU")
+                .SetFontSize(14).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph("ELEKTROTEHNIČKI FAKULTET")
+                .SetFontSize(12).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph(" "));
+            doc.Add(new Paragraph("POTVRDA O STATUSU STUDENTA")
+                .SetFontSize(16).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            doc.Add(new Paragraph(" "));
+
+            doc.Add(new Paragraph($"Potvrđuje se da je {student.Ime} {student.Prezime}, " +
+                $"broj indeksa {student.Indeks}, student/ica " +
+                $"Elektrotehničkog fakulteta Univerziteta u Sarajevu, " +
+                $"{student.GodinaStudija}. godina studija.")
+                .SetFontSize(12));
+
+            doc.Add(new Paragraph(" "));
+            doc.Add(new Paragraph($"Datum izdavanja: {DateTime.Now:dd.MM.yyyy}")
+                .SetFontSize(11));
+            doc.Add(new Paragraph(" "));
+            doc.Add(new Paragraph(" "));
+            doc.Add(new Paragraph("_______________________")
+                .SetFontSize(11));
+            doc.Add(new Paragraph("Studentska služba ETF")
+                .SetFontSize(11));
+
+            doc.Close();
+            return ms.ToArray();
         }
     }
 }

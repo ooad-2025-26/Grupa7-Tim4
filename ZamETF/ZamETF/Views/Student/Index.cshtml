@@ -1,77 +1,311 @@
-@model IEnumerable<ZamETF.Models.Student>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Početna";
+    Layout = null;
+    var obavijesti = ViewBag.Obavijesti as List<ZamETF.Models.Obavijest>;
+    var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
+    var aktuelno = ViewBag.Aktuelno as List<ZamETF.Models.Obavijest>;
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZamETF – Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Indeks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GodinaStudija)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prezime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lozinka)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Uloga)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Indeks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GodinaStudija)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prezime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lozinka)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uloga)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-top {
+            background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-top img {
+            height: 35px;
+        }
+
+        .navbar-brand-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+            .navbar-brand-text:hover {
+                color: #a0c8f0;
+            }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background: white;
+            color: #1a1a6e;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-odjava {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            .btn-odjava:hover {
+                background: rgba(255,255,255,0.1);
+                color: white;
+            }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            width: 220px;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-section-title {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-predmet {
+            color: #1a1a6e;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 5px 0;
+            display: block;
+        }
+
+            .sidebar-predmet:hover {
+                font-weight: 600;
+                color: #0a0a2e;
+            }
+
+        .sidebar-divider {
+            border-top: 1px solid rgba(26,26,110,0.2);
+            margin: 12px 0;
+        }
+
+        .sidebar-link {
+            color: #1a1a6e;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 5px 0;
+            display: block;
+        }
+
+            .sidebar-link:hover {
+                font-weight: 600;
+                color: #0a0a2e;
+            }
+
+            .sidebar-link.active {
+                font-weight: 700;
+                text-decoration: underline;
+            }
+
+        /* CONTENT */
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+        }
+
+        .card-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 15px;
+                font-size: 1rem;
+            }
+
+        .obavijest-item {
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(26,26,110,0.1);
+        }
+
+            .obavijest-item:last-child {
+                border-bottom: none;
+            }
+
+        .aktuelno-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(26,26,110,0.1);
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            gap: 10px;
+        }
+
+            .aktuelno-item:last-child {
+                border-bottom: none;
+            }
+
+        .btn-pogledaj {
+            color: #1a1a6e;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+            .btn-pogledaj:hover {
+                text-decoration: underline;
+            }
+
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar-top">
+        <div class="navbar-left">
+            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
+            <a asp-controller="Student" asp-action="Index" class="navbar-brand-text">Početna</a>
+        </div>
+        <div class="navbar-right">
+            <span class="user-badge">Student: @User.Identity.Name</span>
+            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-odjava">Odjava</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-section-title">Predmeti</div>
+            <div class="sidebar-section-title" style="font-weight:400; margin-bottom:8px;">Trenutni semestar</div>
+
+            @if (predmeti != null && predmeti.Any())
+            {
+                foreach (var p in predmeti)
+                {
+                    <a href="#" class="sidebar-predmet">@p.Naziv</a>
+                }
+            }
+            else
+            {
+                <span class="empty-text">Nema predmeta.</span>
+            }
+
+            <div class="sidebar-divider"></div>
+
+            <a asp-controller="Student" asp-action="Index"
+               class="sidebar-link active">Prikaži arhivirane predmete</a>
+            <a asp-controller="Student" asp-action="SlanjeZadaca"
+               class="sidebar-link">Slanje zadaća</a>
+            <a asp-controller="Student" asp-action="PrijavaIspita"
+               class="sidebar-link">Prijava ispita</a>
+            <a asp-controller="Student" asp-action="ZahtjevZaDokument"
+               class="sidebar-link">Zahtjev za dokumente</a>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content-wrapper">
+
+            <!-- OBAVIJESTI -->
+            <div class="card-panel">
+                <h5>Obavijesti</h5>
+                @if (obavijesti != null && obavijesti.Any())
+                {
+                    foreach (var o in obavijesti)
+                    {
+                        <div class="obavijest-item">
+                            @o.Poruka
+                        </div>
+                    }
+                }
+                else
+                {
+                    <span class="empty-text">Nema novih obavijesti.</span>
+                }
+            </div>
+
+            <!-- AKTUELNO -->
+            <div class="card-panel">
+                <h5>Aktuelno!</h5>
+                @if (aktuelno != null && aktuelno.Any())
+                {
+                    foreach (var a in aktuelno)
+                    {
+                        <div class="aktuelno-item">
+                            <span>@a.Naslov</span>
+                            <a href="#" class="btn-pogledaj">Pogledaj!</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <span class="empty-text">Nema aktuelnih obavijesti.</span>
+                }
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

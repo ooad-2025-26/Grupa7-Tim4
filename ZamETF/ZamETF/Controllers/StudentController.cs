@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
@@ -20,9 +20,65 @@ namespace ZamETF.Controllers
         // GET: Student
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Studenti.ToListAsync());
-        }
+            var korisnik = await _userManager.GetUserAsync(User);
+            if (korisnik == null) return RedirectToAction("Login", "Account");
 
+            var student = await _context.Studenti
+                .Include(s => s.PrijaveIspita)
+                .Include(s => s.PredajeZadace)
+                .FirstOrDefaultAsync(s => s.Id == korisnik.Id);
+
+            // Predmeti studenta
+            var predmeti = await _context.UpisaNaPredmet
+                .Include(u => u.Predmet)
+                .Where(u => u.StudentId == korisnik.Id)
+                .Select(u => u.Predmet)
+                .ToListAsync();
+
+            // Obavijesti za studenta
+            var obavijesti = await _context.Obavijesti
+                .Where(o => o.PrimalacId == korisnik.Id)
+                .OrderByDescending(o => o.DatumSlanja)
+                .ToListAsync();
+
+            // Aktuelno – ispiti dostupni za prijavu i zadace otvorene
+            var aktuelnoIspiti = await _context.Ispiti
+                .Include(i => i.Predmet)
+                .Where(i => i.RokZaPrijavu >= DateTime.Now)
+                .ToListAsync();
+
+            var aktuelnoZadace = await _context.Zadace
+                .Include(z => z.Predmet)
+                .Where(z => z.Rok >= DateTime.Now)
+                .ToListAsync();
+
+            // Pretvori u listu obavijesti za prikaz
+            var aktuelno = new List<Obavijest>();
+
+            foreach (var ispit in aktuelnoIspiti)
+            {
+                aktuelno.Add(new Obavijest
+                {
+                    Naslov = $"Dostupne prijave za ispit – {ispit.Predmet?.Naziv}",
+                    Poruka = $"Rok za prijavu: {ispit.RokZaPrijavu:dd.MM.yyyy}"
+                });
+            }
+
+            foreach (var zadaca in aktuelnoZadace)
+            {
+                aktuelno.Add(new Obavijest
+                {
+                    Naslov = $"{zadaca.Predmet?.Naziv} – Otvoren rok za zadaću",
+                    Poruka = $"Rok: {zadaca.Rok:dd.MM.yyyy}"
+                });
+            }
+
+            ViewBag.Predmeti = predmeti;
+            ViewBag.Obavijesti = obavijesti;
+            ViewBag.Aktuelno = aktuelno;
+
+            return View();
+        }
         // GET: Student/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -104,6 +160,57 @@ namespace ZamETF.Controllers
             if (student != null)
                 await _userManager.DeleteAsync(student);
             return RedirectToAction(nameof(Index));
+        }
+        // GET: Student/ZahtjevZaDokument
+        public async Task<IActionResult> ZahtjevZaDokument()
+        {
+            return View();
+        }
+
+        // POST: Student/PošaljiZahtjev
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PošaljiZahtjev(string tipDokumenta, string napomena)
+        {
+            // Pronađi trenutno ulogovanog studenta
+            var korisnik = await _userManager.GetUserAsync(User);
+            var student = await _context.Studenti.FindAsync(korisnik.Id);
+            if (student == null) return NotFound();
+
+            // Pronađi studentsku službu
+            var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync();
+            if (studentskaSluzba == null)
+            {
+                TempData["Greska"] = "Studentska služba nije pronađena.";
+                return RedirectToAction(nameof(ZahtjevZaDokument));
+            }
+
+            // Kreiraj zahtjev
+            var zahtjev = new ZahtjevZaDokument
+            {
+                Student = student,
+                TipDokumenta = tipDokumenta,
+                Datum = DateTime.Now,
+                Status = false
+            };
+            _context.ZahtjeviDokumenata.Add(zahtjev);
+            await _context.SaveChangesAsync();
+
+            // Pošalji obavijest studentskoj službi
+            var obavijest = new Obavijest
+            {
+                Naslov = $"Zahtjev za dokument: {tipDokumenta}",
+                Poruka = $"Student {student.Ime} {student.Prezime} je poslao zahtjev za {tipDokumenta}. {napomena}",
+                PošiljalacId = student.Id,
+                PrimalacId = studentskaSluzba.Id,
+                ZahtjevId = zahtjev.Id,
+                DatumSlanja = DateTime.Now
+            };
+            _context.Obavijesti.Add(obavijest);
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Zahtjev je uspješno poslan studentskoj službi!";
+            return RedirectToAction(nameof(ZahtjevZaDokument));
         }
     }
 }

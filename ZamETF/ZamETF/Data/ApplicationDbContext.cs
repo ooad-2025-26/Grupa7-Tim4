@@ -113,6 +113,22 @@ namespace ZamETF.Data
                 .HasOne(u => u.Predmet)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Obavijest>()
+    .HasOne(o => o.Posiljалac)
+    .WithMany()
+    .HasForeignKey(o => o.PošiljalacId)
+    .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Obavijest>()
+                .HasOne(o => o.Primalac)
+                .WithMany()
+                .HasForeignKey(o => o.PrimalacId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Obavijest>()
+                .HasOne(o => o.Zahtjev)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Student> Studenti { get; set; }
@@ -130,5 +146,6 @@ namespace ZamETF.Data
         public DbSet<Bodovanje> Bodovanja { get; set; }
         public DbSet<Prisustvo> Prisustva { get; set; }
         public DbSet<UpisNaPredmet> UpisaNaPredmet { get; set; }
+        public DbSet<Obavijest> Obavijesti { get; set; }
     }
 }

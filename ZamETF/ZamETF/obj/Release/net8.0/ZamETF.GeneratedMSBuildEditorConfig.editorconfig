@@ -48,6 +48,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,6 +74,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/KorisniciView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxLb3Jpc25pY2lWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Statistika.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxTdGF0aXN0aWthLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/UnosIzmjena.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxVbm9zSXptamVuYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Home/Index.cshtml]
@@ -148,8 +160,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/GenerisanjeDokumentaView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxHZW5lcmlzYW5qZURva3VtZW50YVZpZXcuY3NodG1s
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/GemeriranjeIzvjestaja.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxHZW1lcmlyYW5qZUl6dmplc3RhamEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Index.cshtml]
@@ -194,6 +206,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/StudentDashboardView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdHVkZW50RGFzaGJvYXJkVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/ZahtjevZaDokument.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxaYWh0amV2WmFEb2t1bWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/_ViewImports.cshtml]

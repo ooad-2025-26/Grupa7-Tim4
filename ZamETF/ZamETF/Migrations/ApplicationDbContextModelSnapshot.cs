@@ -168,7 +168,8 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Komentar")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<bool>("Obradjen")
                         .HasColumnType("bit");
@@ -267,7 +268,8 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Ime")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -294,7 +296,8 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Prezime")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -324,6 +327,48 @@ namespace ZamETF.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Korisnik");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("ZamETF.Models.Obavijest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DatumSlanja")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Naslov")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Poruka")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PošiljalacId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrimalacId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Procitana")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ZahtjevId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PošiljalacId");
+
+                    b.HasIndex("PrimalacId");
+
+                    b.HasIndex("ZahtjevId");
+
+                    b.ToTable("Obavijesti");
                 });
 
             modelBuilder.Entity("ZamETF.Models.Ocjena", b =>
@@ -368,11 +413,13 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Fajl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(260)
+                        .HasColumnType("nvarchar(260)");
 
                     b.Property<string>("Komentar")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -402,14 +449,16 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Naziv")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("ProfesorId")
                         .HasColumnType("int");
 
                     b.Property<string>("SifraPredmeta")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -512,11 +561,13 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("NazivID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Opis")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<int>("PredmetId")
                         .HasColumnType("int");
@@ -553,7 +604,8 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("TipDokumenta")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
@@ -577,7 +629,8 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Titula")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasDiscriminator().HasValue("Profesor");
                 });
@@ -591,7 +644,8 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Indeks")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int?>("PredmetId")
                         .HasColumnType("int");
@@ -706,6 +760,32 @@ namespace ZamETF.Migrations
                         .IsRequired();
 
                     b.Navigation("Predmet");
+                });
+
+            modelBuilder.Entity("ZamETF.Models.Obavijest", b =>
+                {
+                    b.HasOne("ZamETF.Models.Korisnik", "Posiljалac")
+                        .WithMany()
+                        .HasForeignKey("PošiljalacId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ZamETF.Models.Korisnik", "Primalac")
+                        .WithMany()
+                        .HasForeignKey("PrimalacId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ZamETF.Models.ZahtjevZaDokument", "Zahtjev")
+                        .WithMany()
+                        .HasForeignKey("ZahtjevId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Posiljалac");
+
+                    b.Navigation("Primalac");
+
+                    b.Navigation("Zahtjev");
                 });
 
             modelBuilder.Entity("ZamETF.Models.Ocjena", b =>

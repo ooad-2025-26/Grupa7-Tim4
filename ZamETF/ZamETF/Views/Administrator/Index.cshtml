@@ -199,16 +199,29 @@
         </div>
 
         <!-- CONTENT – Zahtjevi -->
+        <!-- CONTENT – Zahtjevi od studentske službe -->
         <div class="content-area">
             <h5>Zahtjevi</h5>
 
-            @if (ViewBag.Zahtjevi != null && ((List<ZamETF.Models.AdminZahtjev>)ViewBag.Zahtjevi).Count > 0)
+            @if (TempData["Uspjeh"] != null)
             {
-                foreach (var zahtjev in (List<ZamETF.Models.AdminZahtjev>)ViewBag.Zahtjevi)
+                <div class="alert alert-success">@TempData["Uspjeh"]</div>
+            }
+
+            @{
+                var obavijesti = ViewBag.Obavijesti as List<ZamETF.Models.Obavijest>;
+            }
+
+            @if (obavijesti != null && obavijesti.Any())
+            {
+                foreach (var o in obavijesti)
                 {
                     <div class="zahtjev-item">
-                        <span>Zahtjev: @zahtjev.Komentar</span>
-                        <a href="/Administrator/ObradiZahtjev/@zahtjev.Id" class="btn-pogledaj">Pogledaj</a>
+                        <span>@o.Naslov</span>
+                        <a asp-controller="Administrator"
+                           asp-action="Statistika"
+                           asp-route-zahtjevId="@o.ZahtjevId"
+                           class="btn-pogledaj">Pogledaj</a>
                     </div>
                 }
             }

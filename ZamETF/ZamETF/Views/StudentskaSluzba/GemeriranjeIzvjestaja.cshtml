@@ -1,0 +1,398 @@
+﻿@{
+    ViewData["Title"] = "Generisanje izvještaja";
+    Layout = null;
+    var zahtjev = ViewBag.Zahtjev as ZamETF.Models.ZahtjevZaDokument;
+    var student = zahtjev?.Student;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZamETF – Generisanje izvještaja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-top {
+            background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-top img {
+            height: 35px;
+        }
+
+        .navbar-brand-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background: white;
+            color: #1a1a6e;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-odjava {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            .btn-odjava:hover {
+                background: rgba(255,255,255,0.1);
+                color: white;
+            }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            width: 220px;
+            min-width: 220px;
+        }
+
+            .sidebar h6 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+
+            .sidebar a {
+                display: block;
+                color: #1a1a6e;
+                text-decoration: none;
+                padding: 8px 0;
+                font-size: 0.9rem;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
+                font-weight: 600;
+            }
+
+                .sidebar a:hover {
+                    color: #0a0a2e;
+                }
+
+                .sidebar a:last-child {
+                    border-bottom: none;
+                }
+
+                .sidebar a.active {
+                    text-decoration: underline;
+                }
+
+        .content-area {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .left-side {
+            flex: 1;
+        }
+
+        .right-side {
+            width: 280px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        h5 {
+            color: #1a1a6e;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .primalac-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .primalac-label {
+            color: #1a1a6e;
+            font-weight: 600;
+            text-decoration: underline;
+            min-width: 80px;
+            font-size: 0.9rem;
+        }
+
+        .primalac-input {
+            flex: 1;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            background: white;
+            color: #1a1a6e;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .zahtjev-text {
+            color: #1a1a6e;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .generiši-label {
+            color: #1a1a6e;
+            font-weight: 600;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-tip {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+            transition: background 0.3s;
+        }
+
+            .btn-tip:hover {
+                background: #0a3f5a;
+            }
+
+            .btn-tip.active-tip {
+                background: #0a3f5a;
+                border: 2px solid #0a0a2e;
+            }
+
+        .pdf-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+        }
+
+        .pdf-filename {
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-preuzmi {
+            background: #0a0a2e;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .btn-preuzmi:hover {
+                background: #1a1a6e;
+                color: white;
+            }
+
+        .btn-posalji-mail {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            align-self: flex-end;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+            .btn-posalji-mail:hover {
+                background: #0a3f5a;
+            }
+
+        .pdf-placeholder {
+            color: #aaa;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar-top">
+        <div class="navbar-left">
+            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
+            <a asp-controller="StudentskaSluzba" asp-action="Index" class="navbar-brand-text">Početna</a>
+        </div>
+        <div class="navbar-right">
+            <span class="user-badge">Studentska služba - @User.Identity.Name</span>
+            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-odjava">Odjava</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h6>Studentska služba panel</h6>
+            <a asp-controller="StudentskaSluzba" asp-action="Index">Početna</a>
+            <a asp-controller="StudentskaSluzba" asp-action="SviZahtjevi">Svi zahtjevi</a>
+            <a asp-controller="StudentskaSluzba" asp-action="Index" class="active">Generisanje izvještaja</a>
+            <a asp-controller="StudentskaSluzba" asp-action="Notifikacije">Slanje notifikacija</a>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content-area">
+            <div class="left-side">
+                <h5>Generisanje izvještaja</h5>
+
+                @if (TempData["Uspjeh"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Uspjeh"]</div>
+                }
+                @if (TempData["Greska"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["Greska"]</div>
+                }
+
+                <!-- Primalac -->
+                <div class="primalac-row">
+                    <span class="primalac-label">Primalac:</span>
+                    <input type="text" class="primalac-input"
+                           value="@(student?.Email ?? "N/A")" readonly />
+                </div>
+
+                <!-- Zahtjev info -->
+                <p class="zahtjev-text">
+                    Zahtjev: @zahtjev?.TipDokumenta za studenta
+                    @student?.Ime @student?.Prezime
+                    (indeks: @student?.Indeks)
+                </p>
+                <p class="generiši-label">Generiši:</p>
+
+                <!-- Dugmad za tip -->
+                <form method="post" asp-action="GenerirajPdf"
+                      asp-controller="StudentskaSluzba"
+                      target="_blank" id="formGeneriraj">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="zahtjevId" value="@zahtjev?.Id" />
+                    <input type="hidden" name="tipIzvjestaja" id="tipIzvjestaja" value="PrepisOcjena" />
+
+                    <button type="submit" class="btn-tip"
+                            onclick="postaviTip('PrepisOcjena', this)">
+                        Prepis ocjena
+                    </button>
+                    <button type="submit" class="btn-tip"
+                            onclick="postaviTip('OcjenePoGodinama', this)">
+                        Prepis ocjena po godinama
+                    </button>
+                    <button type="submit" class="btn-tip"
+                            onclick="postaviTip('StatusnaPotvrda', this)">
+                        Statusna potvrda
+                    </button>
+                </form>
+
+                <!-- Pošalji na mail -->
+                <form method="post" asp-action="PošaljiNaMail"
+                      asp-controller="StudentskaSluzba"
+                      style="display:flex; justify-content:flex-end; margin-top:15px;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="zahtjevId" value="@zahtjev?.Id" />
+                    <input type="hidden" name="tipIzvjestaja" id="tipMaila" value="PrepisOcjena" />
+                    <button type="submit" class="btn-posalji-mail">Pošalji pdf</button>
+                </form>
+            </div>
+
+            <!-- DESNA STRANA -->
+            <div class="right-side">
+                <div class="pdf-icon">📄</div>
+                <p class="pdf-filename" id="pdfNaziv">
+                    @(student != null ? $"{student.Ime}{student.Prezime}PrepisOcjena.pdf" : "dokument.pdf")
+                </p>
+                <p class="pdf-placeholder">Klikni dugme za generisanje</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function postaviTip(tip, btn) {
+            document.getElementById('tipIzvjestaja').value = tip;
+            document.getElementById('tipMaila').value = tip;
+
+            var student = '@(student?.Ime ?? "")' + '@(student?.Prezime ?? "")';
+            var nazivi = {
+                'PrepisOcjena': student + 'PrepisOcjena.pdf',
+                'OcjenePoGodinama': student + 'OcjenePoGodinama.pdf',
+                'StatusnaPotvrda': student + 'StatusnaPotvrda.pdf'
+            };
+            document.getElementById('pdfNaziv').textContent = nazivi[tip];
+        }
+    </script>
+</body>
+</html>
