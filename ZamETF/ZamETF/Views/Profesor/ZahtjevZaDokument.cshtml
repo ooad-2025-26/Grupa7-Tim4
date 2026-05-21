@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "Zahtjev za dokument";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+    var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
+}
+
+<style>
+    .form-panel {
+        max-width: 620px;
+        margin: 0 auto;
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 30px 36px;
+        color: #0f1535;
+    }
+
+        .form-panel h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 22px;
+            color: #0f1535;
+        }
+
+    .info-box {
+        background: rgba(59,130,246,0.1);
+        border: 1px solid rgba(59,130,246,0.25);
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 0.84rem;
+        color: #1e3a8a;
+        margin-bottom: 22px;
+        line-height: 1.55;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: #1e3a8a;
+        margin-bottom: 5px;
+    }
+
+    .form-control, .form-select {
+        background: rgba(255,255,255,0.6);
+        border: 1.5px solid rgba(30,58,138,0.25);
+        border-radius: 9px;
+        font-size: 0.9rem;
+        color: #0f1535;
+        padding: 9px 13px;
+    }
+
+        .form-control:focus, .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255,255,255,0.8);
+            box-shadow: none;
+        }
+
+    .btn-posalji {
+        width: 100%;
+        padding: 11px;
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 6px;
+    }
+
+        .btn-posalji:hover {
+            opacity: 0.88;
+        }
+</style>
+
+<div class="form-panel">
+    <h5>📄 Zahtjev za dokument</h5>
+
+    <div class="info-box">
+        <strong>Tok zahtjeva:</strong> Vaš zahtjev ide do <strong>studentske službe</strong>, koja ga
+        prosljeđuje <strong>administratoru</strong> radi generisanja statističkih podataka. Administrator
+        vraća podatke studentskoj službi koja kreira i dostavlja vam traženi dokument putem obavijesti.
+    </div>
+
+    <form method="post" asp-controller="Profesor" asp-action="PosaljiZahtjevZaDokument">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Tip dokumenta</label>
+            <select name="tipDokumenta" class="form-select" required>
+                <option value="">-- Odaberite tip --</option>
+                <option value="Izvještaj o predmetu">Izvještaj o predmetu</option>
+                <option value="Izvještaj o svim predmetima">Izvještaj o svim predmetima</option>
+                <option value="Prolaznost studenata">Prolaznost studenata</option>
+                <option value="Statistika ocjena">Statistika ocjena</option>
+                <option value="Evidencija prisustva">Evidencija prisustva</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Predmet
+                <span style="font-weight:400; color:rgba(15,21,53,0.5); font-size:0.82rem;">
+                    (ostavite prazno za sve predmete)
+                </span>
+            </label>
+            <select name="predmetId" class="form-select">
+                <option value="">-- Svi predmeti --</option>
+                @if (predmeti != null)
+                {
+                    foreach (var p in predmeti)
+                    {
+                        <option value="@p.Id">@p.Naziv (@p.SifraPredmeta)</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Napomena</label>
+            <textarea name="napomena" class="form-control" rows="3"
+                      placeholder="npr. Izvještaj za akademsku 2024/25, samo redovni studenti..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-posalji">Pošalji zahtjev →</button>
+    </form>
+</div>

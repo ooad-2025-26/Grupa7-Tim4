@@ -104,8 +104,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiPredmeta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGV0YWxqaVByZWRtZXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/EvidencijaPrisustva.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRXZpZGVuY2lqYVByaXN1c3R2YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Index.cshtml]
@@ -116,16 +124,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcS3JlaXJhbmplSXNwaXRhVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/KreiranjeZadaceView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcS3JlaXJhbmplWmFkYWNlVmlldy5jc2h0bWw=
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/KreiranjeZadace.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcS3JlaXJhbmplWmFkYWNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/OcjenjivanjeView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcT2NqZW5qaXZhbmplVmlldy5jc2h0bWw=
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/OcjenjivanjeZadace.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcT2NqZW5qaXZhbmplWmFkYWNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ProfesorDashboardView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcUHJvZmVzb3JEYXNoYm9hcmRWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/SlanjeNotifikacija.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcU2xhbmplTm90aWZpa2FjaWphLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/StatistikeView.cshtml]
@@ -134,6 +146,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/UnosBodovaView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcVW5vc0JvZG92YVZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ZahtjevZaDokument.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcWmFodGpldlphRG9rdW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/_LayoutProfesor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcX0xheW91dFByb2Zlc29yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/Error.cshtml]

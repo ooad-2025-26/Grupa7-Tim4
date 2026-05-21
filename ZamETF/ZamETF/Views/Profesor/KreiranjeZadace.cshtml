@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Kreiranje zadaće";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+    var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
+}
+
+<style>
+    .form-panel {
+        max-width: 620px;
+        margin: 0 auto;
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 30px 36px;
+        color: #0f1535;
+    }
+
+        .form-panel h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 22px;
+            color: #0f1535;
+        }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: #1e3a8a;
+        margin-bottom: 5px;
+    }
+
+    .form-control, .form-select {
+        background: rgba(255,255,255,0.6);
+        border: 1.5px solid rgba(30,58,138,0.25);
+        border-radius: 9px;
+        font-size: 0.9rem;
+        color: #0f1535;
+        padding: 9px 13px;
+    }
+
+        .form-control:focus, .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255,255,255,0.8);
+            box-shadow: none;
+        }
+
+    .btn-kreiraj {
+        width: 100%;
+        padding: 11px;
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 6px;
+    }
+
+        .btn-kreiraj:hover {
+            opacity: 0.88;
+        }
+</style>
+
+<div class="form-panel">
+    <h5>✏️ Kreiranje nove zadaće</h5>
+
+    <form method="post" asp-controller="Profesor" asp-action="KreiranjeZadace">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Predmet</label>
+            <select name="predmetId" class="form-select" required>
+                <option value="">-- Odaberite predmet --</option>
+                @if (predmeti != null)
+                {
+                    foreach (var p in predmeti)
+                    {
+                        <option value="@p.Id">@p.Naziv (@p.SifraPredmeta)</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Naziv / ID zadaće</label>
+            <input type="text" name="nazividID" class="form-control"
+                   placeholder="npr. Zadaća 1 – Osnove OOP-a" required maxlength="50" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Opis zadaće</label>
+            <textarea name="opis" class="form-control" rows="4"
+                      placeholder="Opišite šta studenti trebaju uraditi..." maxlength="2000"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Rok predaje</label>
+            <input type="datetime-local" name="rok" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn-kreiraj">Kreiraj zadaću →</button>
+    </form>
+</div>

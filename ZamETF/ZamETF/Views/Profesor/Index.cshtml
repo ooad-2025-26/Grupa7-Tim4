@@ -1,71 +1,299 @@
-@model IEnumerable<ZamETF.Models.Profesor>
+﻿@{
+    ViewData["Title"] = "Početna";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
 
-@{
-    ViewData["Title"] = "Index";
+    var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
+    var obavijesti = ViewBag.Obavijesti as List<ZamETF.Models.Obavijest>;
+    var zadace = ViewBag.Zadace as List<ZamETF.Models.Zadaca>;
+    var profesor = ViewBag.Profesor as ZamETF.Models.Profesor;
 }
 
-<h1>Index</h1>
+<style>
+    .panel-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prezime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lozinka)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Uloga)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prezime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lozinka)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uloga)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .panel {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 22px;
+        color: #0f1535;
+        min-height: 380px;
+    }
+
+    .panel-header {
+        font-size: 1rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 16px;
+        color: #0f1535;
+        letter-spacing: 0.03em;
+    }
+
+    /* Predmeti panel – zauzima punu širinu */
+    .panel-predmeti {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 22px;
+        color: #0f1535;
+        margin-bottom: 20px;
+    }
+
+    .predmet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .predmet-card {
+        background: rgba(255,255,255,0.5);
+        border-radius: 10px;
+        padding: 12px 14px;
+        border: 1px solid rgba(30,58,138,0.15);
+    }
+
+        .predmet-card a {
+            color: #1e3a8a;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+            .predmet-card a:hover {
+                text-decoration: underline;
+            }
+
+    .predmet-sifra {
+        font-size: 0.75rem;
+        color: rgba(15,21,53,0.5);
+        margin-bottom: 4px;
+    }
+
+    .brzi-linkovi {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(15,21,53,0.12);
+    }
+
+    .brzi-link {
+        color: #1e3a8a;
+        font-size: 0.85rem;
+        text-decoration: underline;
+    }
+
+        .brzi-link:hover {
+            color: #3b82f6;
+        }
+
+    /* Obavijesti */
+    .obavijest-item {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(15,21,53,0.1);
+        font-size: 0.87rem;
+        line-height: 1.5;
+        color: #0f1535;
+    }
+
+        .obavijest-item:last-child {
+            border-bottom: none;
+        }
+
+    .obavijest-naslov {
+        font-weight: 700;
+        font-size: 0.88rem;
+        margin-bottom: 2px;
+    }
+
+    .obavijest-datum {
+        font-size: 0.75rem;
+        color: rgba(15,21,53,0.45);
+    }
+
+    .badge-nova {
+        display: inline-block;
+        background: #dc2626;
+        color: white;
+        font-size: 0.68rem;
+        padding: 1px 6px;
+        border-radius: 8px;
+        margin-left: 6px;
+        font-weight: 700;
+        vertical-align: middle;
+    }
+
+    /* Aktuelno */
+    .aktuelno-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(15,21,53,0.1);
+        font-size: 0.87rem;
+    }
+
+        .aktuelno-item:last-child {
+            border-bottom: none;
+        }
+
+    .aktuelno-info {
+        flex: 1;
+    }
+
+    .aktuelno-predmet {
+        font-size: 0.75rem;
+        color: rgba(15,21,53,0.5);
+        margin-bottom: 2px;
+    }
+
+    .aktuelno-naziv {
+        font-weight: 600;
+        color: #0f1535;
+    }
+
+    .aktuelno-rok {
+        font-size: 0.75rem;
+        margin-top: 2px;
+    }
+
+    .rok-istekao {
+        color: #dc2626;
+    }
+
+    .rok-aktivan {
+        color: #16a34a;
+    }
+
+    .aktuelno-link {
+        color: #1e3a8a;
+        font-size: 0.82rem;
+        text-decoration: underline;
+        white-space: nowrap;
+        margin-left: 10px;
+        align-self: center;
+    }
+
+        .aktuelno-link:hover {
+            color: #3b82f6;
+        }
+
+    .empty-state {
+        color: rgba(15,21,53,0.4);
+        font-size: 0.87rem;
+        text-align: center;
+        margin-top: 24px;
+    }
+</style>
+
+<!-- PREDMETI – puna širina -->
+<div class="panel-predmeti">
+    <div class="panel-header">Predmeti</div>
+
+    @if (predmeti != null && predmeti.Any())
+    {
+        <div class="predmet-grid">
+            @foreach (var p in predmeti)
+            {
+                <div class="predmet-card">
+                    <div class="predmet-sifra">@p.SifraPredmeta</div>
+                    <a asp-controller="Profesor" asp-action="DetaljiPredmeta" asp-route-id="@p.Id">
+                        @p.Naziv
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div class="brzi-linkovi">
+            <a asp-controller="Profesor" asp-action="KreiranjeZadace" class="brzi-link">
+                Kreiranje i ocjenjivanje zadaća
+            </a>
+            <span style="color:rgba(15,21,53,0.3)">|</span>
+            @if (predmeti.Any())
+            {
+                <a asp-controller="Profesor" asp-action="EvidencijaPrisustva"
+                   asp-route-predmetId="@predmeti.First().Id" class="brzi-link">
+                    Evidencija prisustva i unos rezultata
+                </a>
+                <span style="color:rgba(15,21,53,0.3)">|</span>
+            }
+            <a asp-controller="Profesor" asp-action="ZahtjevZaDokument" class="brzi-link">
+                Zahtjev za dokumente
+            </a>
+            <span style="color:rgba(15,21,53,0.3)">|</span>
+            <a asp-controller="Profesor" asp-action="SlanjeNotifikacija" class="brzi-link">
+                Slanje notifikacija
+            </a>
+        </div>
+    }
+    else
+    {
+        <p class="empty-state">Nema predmeta dodijeljenih vašem nalogu.</p>
+    }
+</div>
+
+<!-- OBAVIJESTI + AKTUELNO -->
+<div class="panel-grid">
+
+    <!-- OBAVIJESTI -->
+    <div class="panel">
+        <div class="panel-header">Obavijesti</div>
+
+        @if (obavijesti != null && obavijesti.Any())
+        {
+            foreach (var o in obavijesti)
+            {
+                <div class="obavijest-item">
+                    <div class="obavijest-naslov">
+                        @o.Naslov
+                        @if (!o.Procitana)
+                        {
+                            <span class="badge-nova">NOVO</span>
+                        }
+                    </div>
+                    <div>@o.Poruka</div>
+                    <div class="obavijest-datum">@o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")</div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="empty-state">Nema novih obavijesti.</p>
+        }
+    </div>
+
+    <!-- AKTUELNO -->
+    <div class="panel">
+        <div class="panel-header">Aktuelno!</div>
+
+        @if (zadace != null && zadace.Any())
+        {
+            foreach (var z in zadace)
+            {
+                var istekao = !z.ProvjeriRok();
+                <div class="aktuelno-item">
+                    <div class="aktuelno-info">
+                        <div class="aktuelno-predmet">@z.Predmet?.Naziv</div>
+                        <div class="aktuelno-naziv">@z.NazivID</div>
+                        <div class="aktuelno-rok @(istekao ? "rok-istekao" : "rok-aktivan")">
+                            @(istekao ? "Istekao" : "Aktivan") – rok: @z.Rok.ToString("dd.MM.yyyy")
+                        </div>
+                    </div>
+                    <a asp-controller="Profesor" asp-action="OcjenjivanjeZadace"
+                       asp-route-id="@z.Id" class="aktuelno-link">
+                        Pogledaj!
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="empty-state">Nema aktuelnih zadaća.</p>
+        }
+    </div>
+
+</div>

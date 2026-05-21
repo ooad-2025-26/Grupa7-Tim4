@@ -350,5 +350,47 @@ namespace ZamETF.Controllers
             doc.Close();
             return ms.ToArray();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OznaciObradenim(int obavijestId)
+        {
+            var obavijest = await _context.Obavijesti
+                .Include(o => o.Zahtjev)
+                    .ThenInclude(z => z.Student)
+                .FirstOrDefaultAsync(o => o.Id == obavijestId);
+
+            if (obavijest == null) return NotFound();
+
+            // Označi obavijest kao pročitanu
+            obavijest.Procitana = true;
+
+            // Označi zahtjev kao obrađen
+            if (obavijest.Zahtjev != null)
+                obavijest.Zahtjev.Status = true;
+
+            await _context.SaveChangesAsync();
+
+            // Pošalji obavijest studentu da je zahtjev obrađen
+            var korisnik = await _userManager.GetUserAsync(User);
+            var student = obavijest.Zahtjev?.Student;
+
+            if (student != null)
+            {
+                var obavijestStudentu = new Obavijest
+                {
+                    Naslov = "Vaš zahtjev je obrađen!",
+                    Poruka = $"Studentska služba: vaš zahtjev za {obavijest.Zahtjev?.TipDokumenta} je gotov!",
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = student.Id,
+                    ZahtjevId = obavijest.ZahtjevId,
+                    DatumSlanja = DateTime.Now
+                };
+                _context.Obavijesti.Add(obavijestStudentu);
+                await _context.SaveChangesAsync();
+            }
+
+            TempData["Uspjeh"] = "Zahtjev označen kao obrađen, student obaviješten!";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

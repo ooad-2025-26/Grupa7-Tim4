@@ -1,0 +1,190 @@
+﻿@model ZamETF.Models.Predmet
+@{
+    ViewData["Title"] = "Evidencija prisustva";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+    var datumDanas = (DateTime)ViewBag.DatumDanas;
+}
+
+<style>
+    .ev-panel {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 24px;
+        color: #0f1535;
+    }
+
+        .ev-panel h5 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+    .datum-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .datum-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1e3a8a;
+    }
+
+    .form-control-datum {
+        background: rgba(255,255,255,0.65);
+        border: 1.5px solid rgba(30,58,138,0.25);
+        border-radius: 9px;
+        padding: 7px 12px;
+        font-size: 0.9rem;
+        color: #0f1535;
+    }
+
+    .prisustvo-tabela {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .prisustvo-tabela th {
+            background: rgba(30,58,138,0.12);
+            color: #1e3a8a;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 2px solid rgba(30,58,138,0.15);
+        }
+
+        .prisustvo-tabela td {
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(15,21,53,0.08);
+            font-size: 0.88rem;
+            color: #0f1535;
+        }
+
+        .prisustvo-tabela tr:last-child td {
+            border-bottom: none;
+        }
+
+        .prisustvo-tabela tr:hover td {
+            background: rgba(255,255,255,0.3);
+        }
+
+    .checkbox-prisustvo {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #1e3a8a;
+    }
+
+    .btn-sacuvaj {
+        margin-top: 18px;
+        padding: 10px 32px;
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+    }
+
+        .btn-sacuvaj:hover {
+            opacity: 0.88;
+        }
+
+    .empty-state {
+        color: rgba(15,21,53,0.4);
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-svi, .btn-niko {
+        padding: 5px 14px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        cursor: pointer;
+        border: 1.5px solid rgba(30,58,138,0.3);
+        background: rgba(255,255,255,0.5);
+        color: #1e3a8a;
+        font-weight: 600;
+    }
+
+        .btn-svi:hover, .btn-niko:hover {
+            background: rgba(255,255,255,0.8);
+        }
+</style>
+
+<div class="ev-panel">
+    <h5>📋 Evidencija prisustva – @Model.Naziv</h5>
+
+    <form method="post" asp-controller="Profesor" asp-action="SacuvajPrisustvo">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="predmetId" value="@Model.Id" />
+
+        <div class="datum-row">
+            <span class="datum-label">Datum:</span>
+            <input type="date" name="datum" class="form-control-datum"
+                   value="@datumDanas.ToString("yyyy-MM-dd")" required />
+            <button type="button" class="btn-svi" onclick="toggleSvi(true)">Svi prisutni</button>
+            <button type="button" class="btn-niko" onclick="toggleSvi(false)">Niko nije prisutan</button>
+        </div>
+
+        @if (Model.Studenti != null && Model.Studenti.Any())
+        {
+            <table class="prisustvo-tabela">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student</th>
+                        <th style="text-align:center;">Prisutan/na</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 1;
+                    }
+                    @foreach (var student in Model.Studenti)
+                    {
+                        // Provjeri postoji li već evidentirano prisustvo za danas
+                        var vecEvidentirano = Model.Prisustva?
+                        .FirstOrDefault(pr => pr.Student.Id == student.Id
+                        && pr.Datum.Date == datumDanas.Date);
+                        var jePrisutan = vecEvidentirano?.Prisutan ?? false;
+
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@student.Ime @student.Prezime</td>
+                            <td style="text-align:center;">
+                                <input type="checkbox"
+                                       name="prisutniIds"
+                                       value="@student.Id"
+                                       class="checkbox-prisustvo prisustvo-cb"
+                                       @(jePrisutan ? "checked" : "") />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn-sacuvaj">Sačuvaj prisustvo →</button>
+        }
+        else
+        {
+            <p class="empty-state">Nema studenata upisanih na ovaj predmet.</p>
+        }
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleSvi(vrijednost) {
+            document.querySelectorAll('.prisustvo-cb').forEach(cb => cb.checked = vrijednost);
+        }
+    </script>
+}

@@ -19,7 +19,8 @@
     {
         Predana,
         Prepisana,
-        Pregledana
+        Pregledana,
+        NijePredana
     }
 
     public enum StatusPrijaveIspit

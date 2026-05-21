@@ -2,7 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Controllers",
-    "\\Models"
+    "\\Models",
+    "\\Views",
+    "\\Views\\Administrator"
   ],
   "SelectedNode": "\\ZamETF.sln",
   "PreviewInSolutionExplorer": false

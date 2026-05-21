@@ -1,0 +1,200 @@
+﻿@model ZamETF.Models.Predmet
+@{
+    ViewData["Title"] = "Detalji predmeta";
+    ViewBag.AktivniPredmetId = Model.Id;
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+}
+
+<style>
+    .det-panel {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 24px;
+        color: #0f1535;
+    }
+
+        .det-panel h5 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+    .det-meta {
+        text-align: center;
+        font-size: 0.82rem;
+        color: rgba(15,21,53,0.5);
+        margin-bottom: 20px;
+    }
+
+    .akcije-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    .btn-akcija {
+        padding: 7px 16px;
+        border-radius: 9px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1.5px solid rgba(30,58,138,0.3);
+        color: #1e3a8a;
+        background: rgba(255,255,255,0.5);
+        transition: background 0.15s;
+    }
+
+        .btn-akcija:hover {
+            background: rgba(255,255,255,0.8);
+            color: #1e3a8a;
+        }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #1e3a8a;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        border-bottom: 1.5px solid rgba(30,58,138,0.15);
+    }
+
+    .studenti-tabela {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 24px;
+    }
+
+        .studenti-tabela th {
+            background: rgba(30,58,138,0.12);
+            color: #1e3a8a;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 9px 14px;
+            text-align: left;
+            border-bottom: 2px solid rgba(30,58,138,0.15);
+        }
+
+        .studenti-tabela td {
+            padding: 8px 14px;
+            border-bottom: 1px solid rgba(15,21,53,0.08);
+            font-size: 0.87rem;
+            color: #0f1535;
+        }
+
+        .studenti-tabela tr:last-child td {
+            border-bottom: none;
+        }
+
+    .zadace-lista {
+        list-style: none;
+        padding: 0;
+    }
+
+    .zadaca-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 0;
+        border-bottom: 1px solid rgba(15,21,53,0.08);
+        font-size: 0.88rem;
+    }
+
+        .zadaca-item:last-child {
+            border-bottom: none;
+        }
+
+    .zadaca-naziv {
+        font-weight: 600;
+    }
+
+    .zadaca-rok {
+        font-size: 0.78rem;
+        color: rgba(15,21,53,0.5);
+        margin-top: 2px;
+    }
+
+    .zadaca-link {
+        color: #1e3a8a;
+        font-size: 0.83rem;
+        text-decoration: underline;
+    }
+
+    .empty-state {
+        color: rgba(15,21,53,0.4);
+        font-size: 0.88rem;
+        margin-top: 8px;
+    }
+</style>
+
+<div class="det-panel">
+    <h5>@Model.Naziv</h5>
+    <div class="det-meta">Šifra: @Model.SifraPredmeta</div>
+
+    <div class="akcije-row">
+        <a asp-controller="Profesor" asp-action="KreiranjeZadace" class="btn-akcija">
+            + Nova zadaća
+        </a>
+        <a asp-controller="Profesor" asp-action="EvidencijaPrisustva"
+           asp-route-predmetId="@Model.Id" class="btn-akcija">
+            Evidencija prisustva
+        </a>
+    </div>
+
+    <!-- STUDENTI -->
+    <div class="section-title">Studenti (@(Model.Studenti?.Count ?? 0))</div>
+
+    @if (Model.Studenti != null && Model.Studenti.Any())
+    {
+        <table class="studenti-tabela">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ime i prezime</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @foreach (var s in Model.Studenti)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@s.Ime @s.Prezime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="empty-state">Nema upisanih studenata.</p>
+    }
+
+    <!-- ZADAĆE -->
+    <div class="section-title">Zadaće (@(Model.Zadace?.Count ?? 0))</div>
+
+    @if (Model.Zadace != null && Model.Zadace.Any())
+    {
+        <ul class="zadace-lista">
+            @foreach (var z in Model.Zadace.OrderByDescending(x => x.Rok))
+            {
+                <li class="zadaca-item">
+                    <div>
+                        <div class="zadaca-naziv">@z.NazivID</div>
+                        <div class="zadaca-rok">Rok: @z.Rok.ToString("dd.MM.yyyy HH:mm")</div>
+                    </div>
+                    <a asp-controller="Profesor" asp-action="OcjenjivanjeZadace"
+                       asp-route-id="@z.Id" class="zadaca-link">
+                        Ocjenjivanje →
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="empty-state">Nema kreiranih zadaća za ovaj predmet.</p>
+    }
+</div>

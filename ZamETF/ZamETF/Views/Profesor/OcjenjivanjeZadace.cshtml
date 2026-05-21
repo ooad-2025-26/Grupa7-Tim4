@@ -1,0 +1,189 @@
+﻿@model ZamETF.Models.Zadaca
+@{
+    ViewData["Title"] = "Ocjenjivanje zadaće";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+}
+
+<style>
+    .oc-panel {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 24px;
+        color: #0f1535;
+    }
+
+        .oc-panel h5 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+    .oc-meta {
+        text-align: center;
+        font-size: 0.82rem;
+        color: rgba(15,21,53,0.5);
+        margin-bottom: 20px;
+    }
+
+    .zadaca-info {
+        background: rgba(255,255,255,0.4);
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        font-size: 0.88rem;
+    }
+
+    .predaje-tabela {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .predaje-tabela th {
+            background: rgba(30,58,138,0.12);
+            color: #1e3a8a;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 2px solid rgba(30,58,138,0.15);
+        }
+
+        .predaje-tabela td {
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(15,21,53,0.08);
+            font-size: 0.87rem;
+            color: #0f1535;
+            vertical-align: middle;
+        }
+
+        .predaje-tabela tr:last-child td {
+            border-bottom: none;
+        }
+
+    .input-bodovi {
+        width: 80px;
+        padding: 5px 9px;
+        background: rgba(255,255,255,0.7);
+        border: 1.5px solid rgba(30,58,138,0.25);
+        border-radius: 7px;
+        font-size: 0.88rem;
+        color: #0f1535;
+    }
+
+    .btn-sacuvaj-red {
+        padding: 5px 14px;
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        border: none;
+        border-radius: 7px;
+        color: white;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-sacuvaj-red:hover {
+            opacity: 0.85;
+        }
+
+    .badge-status {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .status-pregledana {
+        background: rgba(34,197,94,0.15);
+        color: #16a34a;
+    }
+
+    .status-predana {
+        background: rgba(234,179,8,0.15);
+        color: #a16207;
+    }
+
+    .status-prepisana {
+        background: rgba(147,51,234,0.15);
+        color: #7e22ce;
+    }
+
+    .status-nije {
+        background: rgba(107,114,128,0.15);
+        color: #374151;
+    }
+
+    .empty-state {
+        color: rgba(15,21,53,0.4);
+        text-align: center;
+        margin-top: 24px;
+        font-size: 0.88rem;
+    }
+</style>
+
+<div class="oc-panel">
+    <h5>📝 @Model.NazivID</h5>
+    <div class="oc-meta">
+        @Model.Predmet?.Naziv &nbsp;|&nbsp;
+        Rok: @Model.Rok.ToString("dd.MM.yyyy HH:mm") &nbsp;|&nbsp;
+        @(Model.ProvjeriRok() ? "✓ Aktivan" : "✗ Istekao")
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Opis))
+    {
+        <div class="zadaca-info">
+            <strong>Opis:</strong> @Model.Opis
+        </div>
+    }
+
+    @if (Model.Predaje != null && Model.Predaje.Any())
+    {
+        <table class="predaje-tabela">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student</th>
+                    <th>Status</th>
+                    <th>Bodovi</th>
+                    <th>Akcija</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @foreach (var predaja in Model.Predaje)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@predaja.Student?.Ime @predaja.Student?.Prezime</td>
+                        <td>
+                            <span class="badge-status @(
+                                  predaja.Status == ZamETF.Models.StatusZadace.Pregledana ? "status-pregledana" :
+                                  predaja.Status == ZamETF.Models.StatusZadace.NijePredana ? "status-nije" :
+                                  predaja.Status == ZamETF.Models.StatusZadace.Prepisana ? "status-prepisana" :
+                                  "status-predana")">
+                        @predaja.Status
+                    </span>
+                </td>
+                <td>@(predaja.Bodovi.HasValue? predaja.Bodovi.ToString() : "—")</td>
+                <td>
+                    <form method="post" asp-controller="Profesor" asp-action="SacuvajBodove"
+                          style="display:flex; gap:6px; align-items:center;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="predajaId" value="@predaja.Id" />
+                        <input type="number" name="bodovi" class="input-bodovi"
+                               value="@predaja.Bodovi" min="0" max="100" placeholder="0" />
+                        <button type="submit" class="btn-sacuvaj-red">Sačuvaj</button>
+                    </form>
+                </td>
+            </tr>
+                        }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="empty-state">Nema predatih radova za ovu zadaću.</p>
+    }
+</div>
