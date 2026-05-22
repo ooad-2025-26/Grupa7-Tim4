@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\StudentskaSluzba\OdaberiZahtjevZaIzvjestaj.cshtml" />
+    <Content Remove="Views\StudentskaSluzba\ZahtjevPodaci.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Views\StudentskaSluzba\OdaberiZahtjevZaIzvjestaj.cshtml" />
+    <Compile Include="Views\StudentskaSluzba\ZahtjevPodaci.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="itext7" Version="8.0.2" />
     <PackageReference Include="MailKit" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />

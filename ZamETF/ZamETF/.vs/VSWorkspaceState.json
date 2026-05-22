@@ -4,7 +4,9 @@
     "\\Controllers",
     "\\Models",
     "\\Views",
-    "\\Views\\Administrator"
+    "\\Views\\Administrator",
+    "\\Views\\Profesor",
+    "\\Views\\StudentskaSluzba"
   ],
   "SelectedNode": "\\ZamETF.sln",
   "PreviewInSolutionExplorer": false

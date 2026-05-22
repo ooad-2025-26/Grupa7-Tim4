@@ -350,8 +350,46 @@ namespace ZamETF.Controllers
             doc.Close();
             return ms.ToArray();
         }
+        // POST: StudentskaSluzba/ObradiZahtjev
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ObradiZahtjev(int zahtjevId)
+        {
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+
+            if (zahtjev == null) return NotFound();
+
+            // Označi zahtjev kao obrađen
+            zahtjev.Status = true;
+            await _context.SaveChangesAsync();
+
+            // Pošalji obavijest studentu
+            var korisnik = await _userManager.GetUserAsync(User);
+            var student = zahtjev.Student;
+
+            if (student != null)
+            {
+                var obavijest = new Obavijest
+                {
+                    Naslov = "Vaš zahtjev je obrađen!",
+                    Poruka = $"Studentska služba: vaš zahtjev za {zahtjev.TipDokumenta} je gotov!",
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = student.Id,
+                    ZahtjevId = zahtjev.Id,
+                    DatumSlanja = DateTime.Now
+                };
+                _context.Obavijesti.Add(obavijest);
+                await _context.SaveChangesAsync();
+            }
+
+            TempData["Uspjeh"] = "Zahtjev označen kao obrađen, student obaviješten!";
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> OznaciObradenim(int obavijestId)
         {
             var obavijest = await _context.Obavijesti
@@ -392,5 +430,6 @@ namespace ZamETF.Controllers
             TempData["Uspjeh"] = "Zahtjev označen kao obrađen, student obaviješten!";
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
