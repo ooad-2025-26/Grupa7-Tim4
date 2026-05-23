@@ -486,23 +486,6 @@
                             <button type="submit" class="btn-posalji">Posalji</button>
                         </div>
                     </form>
-
-                    <div style="margin-top: 18px;">
-                        @if (zahtjevi != null && zahtjevi.Any(z => !z.Status))
-                        {
-                            foreach (var z in zahtjevi.Where(z2 => !z2.Status))
-                            {
-                                <div class="aktivni-zahtjev-row">
-                                    <span><strong>@z.TipDokumenta</strong> &nbsp;&middot;&nbsp; @z.Datum.ToString("dd.MM.yyyy")</span>
-                                    <span class="badge-ceka">Na cekanju</span>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <p class="aktivni-info">Trenutno nemate aktivnih zahtjeva za dokumente.</p>
-                        }
-                    </div>
                 </div>
             </div>
 
@@ -513,28 +496,31 @@
                     <span class="toggle-icon" id="ikona-prethodni">&#8743;</span>
                 </div>
                 <div class="sekcija-body" id="tijelo-prethodni">
-                    @if (zahtjevi != null && zahtjevi.Any(z => z.Status))
+                    @if (zahtjevi != null && zahtjevi.Any())
                     {
                         <table class="tabela-zahtjeva">
                             <thead>
                                 <tr>
                                     <th>Tip dokumenta</th>
                                     <th>Datum</th>
-                                    <th>Napomena</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var z in zahtjevi.Where(z2 => z2.Status).OrderByDescending(z2 => z2.Datum))
+                                @foreach (var z in zahtjevi.OrderByDescending(z2 => z2.Datum))
                                 {
                                     <tr>
                                         <td>@z.TipDokumenta</td>
                                         <td>@z.Datum.ToString("dd.MM.yyyy")</td>
-                                        <td style="opacity:0.6;">–</td>
                                         <td>
-                                            <span class="status-obraden">
-                                                obradjeno <span class="status-icon">&#10003;</span>
-                                            </span>
+                                            @if (z.Status)
+                                            {
+                                                <span class="status-obraden">obradjeno &#10003;</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-ceka">na cekanju</span>
+                                            }
                                         </td>
                                     </tr>
                                 }

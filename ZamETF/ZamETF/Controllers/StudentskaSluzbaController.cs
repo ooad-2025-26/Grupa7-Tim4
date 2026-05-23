@@ -739,6 +739,49 @@ namespace ZamETF.Controllers
             TempData["Uspjeh"] = "Notifikacija je uspjesno poslana! Broj primatelja: " + brojPoslanih;
             return RedirectToAction(nameof(Notifikacije));
         }
+        public async Task<IActionResult> ZahtjeviProfesora()
+        {
+            var zahtjevi = await _context.Obavijesti
+                .Where(o => o.Naslov.StartsWith("Zahtjev profesora"))
+                .OrderByDescending(o => o.DatumSlanja)
+                .ToListAsync();
+            ViewBag.Zahtjevi = zahtjevi;
+            return View();
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OznaciZahtjevProfesora(int obavijestId)
+        {
+            var obavijest = await _context.Obavijesti.FindAsync(obavijestId);
+            if (obavijest == null) return NotFound();
+            obavijest.Procitana = true;
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Zahtjev oznacen kao obradjeno!";
+            return RedirectToAction(nameof(ZahtjeviProfesora));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProslijediZahtjevProfesora(int obavijestId)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var obavijest = await _context.Obavijesti.FindAsync(obavijestId);
+            if (obavijest == null) return NotFound();
+            var admin = await _context.Administratori.FirstOrDefaultAsync();
+            if (admin == null) { TempData["Greska"] = "Admin nije pronadjen."; return RedirectToAction(nameof(ZahtjeviProfesora)); }
+            _context.Obavijesti.Add(new Obavijest
+            {
+                Naslov = obavijest.Naslov,
+                Poruka = obavijest.Poruka,
+                PošiljalacId = korisnik.Id,
+                PrimalacId = admin.Id,
+                DatumSlanja = DateTime.Now
+            });
+            obavijest.Procitana = true;
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Zahtjev proslijedjen adminu!";
+            return RedirectToAction(nameof(ZahtjeviProfesora));
+        }
     }
 }

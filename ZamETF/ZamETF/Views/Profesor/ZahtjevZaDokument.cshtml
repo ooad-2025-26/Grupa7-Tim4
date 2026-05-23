@@ -2,24 +2,155 @@
     ViewData["Title"] = "Zahtjev za dokument";
     Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
     var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
+    var zahtjevi = ViewBag.Zahtjevi as List<ZamETF.Models.Obavijest>;
 }
 
 <style>
-    .form-panel {
-        max-width: 620px;
-        margin: 0 auto;
-        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
-        border-radius: 15px;
-        padding: 30px 36px;
-        color: #0f1535;
+    .content-area {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: 100%;
     }
 
-        .form-panel h5 {
-            font-size: 1rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 22px;
+    .sekcija {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .sekcija-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(30,58,138,0.12);
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .sekcija-header h5 {
             color: #0f1535;
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+    .toggle-icon {
+        color: #1e3a8a;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .sekcija-body {
+        padding: 24px;
+    }
+
+    .forma-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+    .forma-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+        .forma-group label {
+            color: #1e3a8a;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+            .forma-group label span {
+                color: #e74c3c;
+            }
+
+    .form-select-custom, .form-input-custom {
+        border: 1.5px solid rgba(30,58,138,0.25);
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-size: 0.88rem;
+        color: #0f1535;
+        background: rgba(255,255,255,0.65);
+        outline: none;
+        width: 100%;
+        transition: border-color 0.2s;
+    }
+
+        .form-select-custom:focus, .form-input-custom:focus {
+            border-color: #3b82f6;
+            background: rgba(255,255,255,0.85);
+        }
+
+    .napomena-row {
+        margin-bottom: 18px;
+    }
+
+        .napomena-row label {
+            color: #1e3a8a;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .napomena-row textarea {
+            border: 1.5px solid rgba(30,58,138,0.25);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.88rem;
+            color: #0f1535;
+            background: rgba(255,255,255,0.65);
+            width: 100%;
+            resize: vertical;
+            min-height: 75px;
+            outline: none;
+        }
+
+            .napomena-row textarea:focus {
+                border-color: #3b82f6;
+                background: rgba(255,255,255,0.85);
+            }
+
+    .forma-akcije {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn-posalji {
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 9px 28px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+        .btn-posalji:hover {
+            opacity: 0.88;
+        }
+
+    .btn-ponisti {
+        background: transparent;
+        color: #1e3a8a;
+        border: 1.5px solid #1e3a8a;
+        border-radius: 20px;
+        padding: 9px 22px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-ponisti:hover {
+            background: rgba(30,58,138,0.08);
         }
 
     .info-box {
@@ -29,100 +160,216 @@
         padding: 12px 15px;
         font-size: 0.84rem;
         color: #1e3a8a;
-        margin-bottom: 22px;
+        margin-bottom: 20px;
         line-height: 1.55;
     }
 
-    .form-label {
-        font-weight: 600;
-        font-size: 0.88rem;
-        color: #1e3a8a;
-        margin-bottom: 5px;
-    }
-
-    .form-control, .form-select {
-        background: rgba(255,255,255,0.6);
-        border: 1.5px solid rgba(30,58,138,0.25);
-        border-radius: 9px;
-        font-size: 0.9rem;
-        color: #0f1535;
-        padding: 9px 13px;
-    }
-
-        .form-control:focus, .form-select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background: rgba(255,255,255,0.8);
-            box-shadow: none;
-        }
-
-    .btn-posalji {
-        width: 100%;
-        padding: 11px;
-        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-        border: none;
+    .aktivni-zahtjev-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255,255,255,0.45);
         border-radius: 10px;
-        color: white;
-        font-size: 0.95rem;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 6px;
+        padding: 10px 15px;
+        margin-bottom: 8px;
     }
 
-        .btn-posalji:hover {
-            opacity: 0.88;
+        .aktivni-zahtjev-row span {
+            color: #0f1535;
+            font-size: 0.88rem;
         }
+
+    .badge-ceka {
+        background: #fdebd0;
+        color: #e67e22;
+        border-radius: 8px;
+        padding: 3px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    .aktivni-info {
+        color: #0f1535;
+        font-size: 0.88rem;
+        opacity: 0.65;
+        margin-top: 5px;
+    }
+
+    .tabela-zahtjeva {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .tabela-zahtjeva th {
+            color: #1e3a8a;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-bottom: 2px solid rgba(30,58,138,0.15);
+            text-align: left;
+        }
+
+        .tabela-zahtjeva td {
+            color: #0f1535;
+            font-size: 0.85rem;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(30,58,138,0.08);
+            vertical-align: middle;
+        }
+
+        .tabela-zahtjeva tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tabela-zahtjeva tr:hover td {
+            background: rgba(255,255,255,0.3);
+        }
+
+    .status-obraden {
+        color: #27ae60;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .alert {
+        border-radius: 10px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+    }
 </style>
 
-<div class="form-panel">
-    <h5>📄 Zahtjev za dokument</h5>
+<div class="content-area">
 
-    <div class="info-box">
-        <strong>Tok zahtjeva:</strong> Vaš zahtjev ide do <strong>studentske službe</strong>, koja ga
-        prosljeđuje <strong>administratoru</strong> radi generisanja statističkih podataka. Administrator
-        vraća podatke studentskoj službi koja kreira i dostavlja vam traženi dokument putem obavijesti.
+    @if (TempData["Uspjeh"] != null)
+    {
+        <div class="alert alert-success">@TempData["Uspjeh"]</div>
+    }
+    @if (TempData["Greska"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Greska"]</div>
+    }
+
+    <div class="sekcija">
+        <div class="sekcija-header" onclick="toggleSekcija('forma', this)">
+            <h5>Kreiranje novog zahtjeva</h5>
+            <span class="toggle-icon" id="ikona-forma">&#8743;</span>
+        </div>
+        <div class="sekcija-body" id="tijelo-forma">
+            <div class="info-box">
+                <strong>Tok zahtjeva:</strong> Vas zahtjev ide do <strong>studentske sluzbe</strong>,
+                koja ga prosljedjuje <strong>administratoru</strong> radi generisanja podataka.
+                Administrator vraca podatke studentskoj sluzbi koja vam dostavlja dokument putem obavijesti.
+            </div>
+
+            <form method="post" asp-action="PosaljiZahtjevZaDokument" asp-controller="Profesor" id="formaZahtjev">
+                @Html.AntiForgeryToken()
+
+                <div class="forma-grid">
+                    <div class="forma-group">
+                        <label>Tip dokumenta <span>*</span></label>
+                        <select name="tipDokumenta" class="form-select-custom" required>
+                            <option value="">-- Odaberi --</option>
+                            <option value="Izvjestaj o predmetu">Izvjestaj o predmetu</option>
+                            <option value="Izvjestaj o svim predmetima">Izvjestaj o svim predmetima</option>
+                            <option value="Prolaznost studenata">Prolaznost studenata</option>
+                            <option value="Statistika ocjena">Statistika ocjena</option>
+                            <option value="Evidencija prisustva">Evidencija prisustva</option>
+                        </select>
+                    </div>
+                    <div class="forma-group">
+                        <label>Predmet <span style="font-weight:400; color:rgba(15,21,53,0.5); font-size:0.78rem;">(prazno = svi)</span></label>
+                        <select name="predmetId" class="form-select-custom">
+                            <option value="">-- Svi predmeti --</option>
+                            @if (predmeti != null)
+                            {
+                                foreach (var p in predmeti)
+                                {
+                                    <option value="@p.Id">@p.Naziv</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="forma-group">
+                        <label>Akademska godina</label>
+                        <select name="akademskaGodina" class="form-select-custom">
+                            <option value="2024/2025">2024/2025</option>
+                            <option value="2023/2024">2023/2024</option>
+                            <option value="2022/2023">2022/2023</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="napomena-row">
+                    <label>Napomena / detalji zahtjeva</label>
+                    <textarea name="napomena" placeholder="npr. Izvjestaj za akademsku 2024/25, samo redovni studenti..."></textarea>
+                </div>
+
+                <div class="forma-akcije">
+                    <button type="button" class="btn-ponisti" onclick="resetujFormu()">Ponisti</button>
+                    <button type="submit" class="btn-posalji">Posalji zahtjev</button>
+                </div>
+            </form>
+
+        </div>
     </div>
 
-    <form method="post" asp-controller="Profesor" asp-action="PosaljiZahtjevZaDokument">
-        @Html.AntiForgeryToken()
-
-        <div class="mb-3">
-            <label class="form-label">Tip dokumenta</label>
-            <select name="tipDokumenta" class="form-select" required>
-                <option value="">-- Odaberite tip --</option>
-                <option value="Izvještaj o predmetu">Izvještaj o predmetu</option>
-                <option value="Izvještaj o svim predmetima">Izvještaj o svim predmetima</option>
-                <option value="Prolaznost studenata">Prolaznost studenata</option>
-                <option value="Statistika ocjena">Statistika ocjena</option>
-                <option value="Evidencija prisustva">Evidencija prisustva</option>
-            </select>
+    <div class="sekcija">
+        <div class="sekcija-header" onclick="toggleSekcija('prethodni', this)">
+            <h5>Prethodni zahtjevi</h5>
+            <span class="toggle-icon" id="ikona-prethodni">&#8743;</span>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">
-                Predmet
-                <span style="font-weight:400; color:rgba(15,21,53,0.5); font-size:0.82rem;">
-                    (ostavite prazno za sve predmete)
-                </span>
-            </label>
-            <select name="predmetId" class="form-select">
-                <option value="">-- Svi predmeti --</option>
-                @if (predmeti != null)
-                {
-                    foreach (var p in predmeti)
-                    {
-                        <option value="@p.Id">@p.Naziv (@p.SifraPredmeta)</option>
-                    }
-                }
-            </select>
+        <div class="sekcija-body" id="tijelo-prethodni">
+            @if (zahtjevi != null && zahtjevi.Any())
+            {
+                <table class="tabela-zahtjeva">
+                    <thead>
+                        <tr>
+                            <th>Tip dokumenta</th>
+                            <th>Datum</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var z in zahtjevi.OrderByDescending(z2 => z2.DatumSlanja))
+                        {
+                            <tr>
+                                <td>@z.Naslov?.Replace("Zahtjev profesora: ", "")</td>
+                                <td>@z.DatumSlanja.ToString("dd.MM.yyyy")</td>
+                                <td>
+                                    @if (z.Procitana)
+                                    {
+                                        <span class="status-obraden">obradjeno &#10003;</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-ceka">na cekanju</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="aktivni-info">Nema prethodnih zahtjeva.</p>
+            }
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Napomena</label>
-            <textarea name="napomena" class="form-control" rows="3"
-                      placeholder="npr. Izvještaj za akademsku 2024/25, samo redovni studenti..."></textarea>
-        </div>
-
-        <button type="submit" class="btn-posalji">Pošalji zahtjev →</button>
-    </form>
 </div>
+
+<script>
+    function toggleSekcija(naziv, header) {
+        var tijelo = document.getElementById('tijelo-' + naziv);
+        var ikona = document.getElementById('ikona-' + naziv);
+        if (tijelo.style.display === 'none') {
+            tijelo.style.display = 'block';
+            ikona.innerHTML = '&#8743;';
+        } else {
+            tijelo.style.display = 'none';
+            ikona.innerHTML = '&#8744;';
+        }
+    }
+    function resetujFormu() { document.getElementById('formaZahtjev').reset(); }
+</script>

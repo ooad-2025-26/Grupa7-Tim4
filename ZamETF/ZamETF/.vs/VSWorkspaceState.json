@@ -5,6 +5,7 @@
     "\\Models",
     "\\Views",
     "\\Views\\Administrator",
+    "\\Views\\Profesor",
     "\\Views\\StudentskaSluzba"
   ],
   "SelectedNode": "\\ZamETF.sln",

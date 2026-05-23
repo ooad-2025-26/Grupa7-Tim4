@@ -215,10 +215,13 @@ namespace ZamETF.Controllers
             var profesor = await _context.Profesori
                 .Include(p => p.Predmeti)
                 .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
-
             if (profesor == null) return NotFound();
-
+            var zahtjevi = await _context.Obavijesti
+                .Where(o => o.PošiljalacId == korisnik.Id && o.Naslov.StartsWith("Zahtjev profesora"))
+                .OrderByDescending(o => o.DatumSlanja)
+                .ToListAsync();
             ViewBag.Predmeti = profesor.Predmeti.ToList();
+            ViewBag.Zahtjevi = zahtjevi;
             return View();
         }
 
@@ -312,6 +315,71 @@ namespace ZamETF.Controllers
             await _context.SaveChangesAsync();
             TempData["Uspjeh"] = "Notifikacija je uspješno poslana svim studentima.";
             return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PosaljiNotifikacijuNova(
+    string naslov, string poruka, string tipNotifikacije,
+    string primateljTip, string odabraniPredmeti, string odabraneGodine)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Studenti)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+            if (profesor == null) return NotFound();
+
+            var naslovSaTipom = "[" + tipNotifikacije + "] " + naslov;
+            var primatelji = new List<int>();
+
+            if (primateljTip == "predmet")
+            {
+                var ids = (odabraniPredmeti ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                  .Select(x => int.Parse(x)).ToList();
+                primatelji = profesor.Predmeti
+                    .Where(p => ids.Contains(p.Id))
+                    .SelectMany(p => p.Studenti)
+                    .Select(s => s.Id)
+                    .Distinct().ToList();
+            }
+            else if (primateljTip == "svi")
+            {
+                primatelji = profesor.Predmeti
+                    .SelectMany(p => p.Studenti)
+                    .Select(s => s.Id)
+                    .Distinct().ToList();
+            }
+            else if (primateljTip == "godina")
+            {
+                var godine = (odabraneGodine ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                   .Select(x => int.Parse(x)).ToList();
+                primatelji = profesor.Predmeti
+                    .SelectMany(p => p.Studenti)
+                    .Where(s => godine.Contains(s.GodinaStudija))
+                    .Select(s => s.Id)
+                    .Distinct().ToList();
+            }
+            else if (primateljTip == "sluzba")
+            {
+                var sluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync();
+                if (sluzba != null) primatelji.Add(sluzba.Id);
+            }
+
+            foreach (var primalacId in primatelji)
+            {
+                _context.Obavijesti.Add(new Obavijest
+                {
+                    Naslov = naslovSaTipom,
+                    Poruka = poruka,
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = primalacId,
+                    DatumSlanja = DateTime.Now
+                });
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Notifikacija poslana! Broj primatelja: " + primatelji.Count;
+            return RedirectToAction(nameof(SlanjeNotifikacija));
         }
     }
 }

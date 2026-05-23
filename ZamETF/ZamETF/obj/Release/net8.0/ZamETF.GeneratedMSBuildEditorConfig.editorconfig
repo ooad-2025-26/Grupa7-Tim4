@@ -188,6 +188,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Index1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxJbmRleDEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Notifikacije.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxOb3RpZmlrYWNpamUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/OdaberiZahtjevZaIzvjestaj.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxPZGFiZXJpWmFodGpldlphSXp2amVzdGFqLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -200,6 +208,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxTdmlaYWh0amV2aS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjevPodaci.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxaYWh0amV2UG9kYWNpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjevStatistika.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxaYWh0amV2U3RhdGlzdGlrYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -210,6 +226,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/DetaljiObavijesti.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEZXRhbGppT2JhdmlqZXN0aS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Edit.cshtml]

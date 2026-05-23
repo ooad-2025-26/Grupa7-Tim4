@@ -5,102 +5,518 @@
 }
 
 <style>
-    .form-panel {
-        max-width: 620px;
-        margin: 0 auto;
-        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
-        border-radius: 15px;
-        padding: 30px 36px;
-        color: #0f1535;
+    .notif-layout {
+        display: flex;
+        gap: 25px;
+        width: 100%;
     }
 
-        .form-panel h5 {
-            font-size: 1rem;
+    .notif-left {
+        flex: 1;
+    }
+
+    .notif-right {
+        width: 280px;
+        background: rgba(255,255,255,0.55);
+        border-radius: 15px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .form-card {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 28px;
+    }
+
+        .form-card h5 {
+            color: #0f1535;
             font-weight: 700;
-            text-align: center;
+            font-size: 1.1rem;
             margin-bottom: 22px;
         }
 
     .form-label {
         font-weight: 600;
-        font-size: 0.88rem;
+        font-size: 0.85rem;
         color: #1e3a8a;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
+        display: block;
     }
 
-    .form-control, .form-select {
-        background: rgba(255,255,255,0.6);
+    .form-control-custom, .form-select-custom {
         border: 1.5px solid rgba(30,58,138,0.25);
-        border-radius: 9px;
+        border-radius: 10px;
+        padding: 9px 13px;
         font-size: 0.9rem;
         color: #0f1535;
-        padding: 9px 13px;
+        background: rgba(255,255,255,0.65);
+        width: 100%;
+        outline: none;
+        margin-bottom: 16px;
     }
 
-        .form-control:focus, .form-select:focus {
-            outline: none;
+        .form-control-custom:focus, .form-select-custom:focus {
             border-color: #3b82f6;
-            background: rgba(255,255,255,0.8);
-            box-shadow: none;
+            background: rgba(255,255,255,0.85);
         }
 
-    .hint-text {
-        font-size: 0.78rem;
-        color: rgba(15,21,53,0.5);
-        margin-top: 4px;
+    /* TIP DUGMAD */
+    .tip-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
     }
 
-    .btn-posalji {
+    .tip-btn {
+        flex: 1;
+        padding: 9px 5px;
+        border: 2px solid rgba(30,58,138,0.25);
+        background: rgba(255,255,255,0.65);
+        color: #1e3a8a;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+        .tip-btn:hover {
+            border-color: #1e3a8a;
+        }
+
+        .tip-btn.selected {
+            color: white;
+        }
+
+        .tip-btn.obavijest.selected {
+            background: #1a5f7a;
+            border-color: #1a5f7a;
+        }
+
+        .tip-btn.upozorenje.selected {
+            background: #e67e22;
+            border-color: #e67e22;
+        }
+
+        .tip-btn.podsjetnik.selected {
+            background: #8e44ad;
+            border-color: #8e44ad;
+        }
+
+    /* PRIMATELJ DUGMAD */
+    .primatelj-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .primatelj-btn {
+        padding: 8px 12px;
+        border: 2px solid rgba(30,58,138,0.25);
+        background: rgba(255,255,255,0.65);
+        color: #1e3a8a;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .primatelj-btn:hover, .primatelj-btn.selected {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+    /* SEKCIJE */
+    .sekcija-hidden {
+        display: none;
+    }
+
+    /* PREDMET GRID */
+    .predmet-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .predmet-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.5);
+        border: 1.5px solid rgba(30,58,138,0.2);
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .predmet-check input {
+            accent-color: #1e3a8a;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .predmet-check label {
+            color: #0f1535;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .predmet-check.checked {
+            background: #1e3a8a;
+            border-color: #1e3a8a;
+        }
+
+            .predmet-check.checked label {
+                color: white;
+            }
+
+    /* GODINA GRID */
+    .godina-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .godina-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.5);
+        border: 1.5px solid rgba(30,58,138,0.2);
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+        .godina-check input {
+            accent-color: #1e3a8a;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        .godina-check label {
+            color: #0f1535;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .godina-check.checked {
+            background: #1e3a8a;
+            border-color: #1e3a8a;
+        }
+
+            .godina-check.checked label {
+                color: white;
+            }
+
+    .info-box-notif {
+        background: rgba(59,130,246,0.1);
+        border: 1px solid rgba(59,130,246,0.25);
+        border-radius: 8px;
+        padding: 10px 13px;
+        font-size: 0.82rem;
+        color: #1e3a8a;
+        margin-bottom: 16px;
+    }
+
+    /* POSALJI */
+    .btn-posalji-notif {
         width: 100%;
-        padding: 11px;
+        padding: 12px;
         background: linear-gradient(90deg, #1e3a8a, #3b82f6);
         border: none;
-        border-radius: 10px;
+        border-radius: 12px;
         color: white;
         font-size: 0.95rem;
         font-weight: 600;
         cursor: pointer;
-        margin-top: 6px;
+        transition: opacity 0.2s;
+        margin-top: 4px;
     }
 
-        .btn-posalji:hover {
+        .btn-posalji-notif:hover {
             opacity: 0.88;
         }
+
+    /* PREVIEW */
+    .notif-right h6 {
+        color: #0f1535;
+        font-weight: 700;
+        font-size: 0.95rem;
+        border-bottom: 2px solid rgba(30,58,138,0.15);
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+    }
+
+    .preview-tip {
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 3px 10px;
+        display: inline-block;
+        margin-bottom: 8px;
+    }
+
+        .preview-tip.obavijest {
+            background: #d6eaf8;
+            color: #1a5f7a;
+        }
+
+        .preview-tip.upozorenje {
+            background: #fdebd0;
+            color: #e67e22;
+        }
+
+        .preview-tip.podsjetnik {
+            background: #f5eef8;
+            color: #8e44ad;
+        }
+
+    .preview-naslov {
+        color: #0f1535;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 6px;
+    }
+
+    .preview-poruka {
+        color: #444;
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .preview-primatelj {
+        color: #888;
+        font-size: 0.78rem;
+        margin-top: 10px;
+        border-top: 1px solid rgba(30,58,138,0.12);
+        padding-top: 8px;
+    }
+
+    .alert {
+        border-radius: 10px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+    }
 </style>
 
-<div class="form-panel">
-    <h5>🔔 Slanje notifikacija studentima</h5>
+@if (TempData["Uspjeh"] != null)
+{
+    <div class="alert alert-success">@TempData["Uspjeh"]</div>
+}
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
 
-    <form method="post" asp-controller="Profesor" asp-action="PosaljiNotifikaciju">
-        @Html.AntiForgeryToken()
+<div class="notif-layout">
+    <div class="notif-left">
+        <div class="form-card">
+            <h5>Slanje notifikacija</h5>
 
-        <div class="mb-3">
-            <label class="form-label">Primatelji</label>
-            <select name="predmetId" class="form-select">
-                <option value="">-- Svi studenti (svi predmeti) --</option>
-                @if (predmeti != null)
-                {
-                    foreach (var p in predmeti)
-                    {
-                        <option value="@p.Id">Studenti predmeta: @p.Naziv</option>
-                    }
-                }
-            </select>
-            <div class="hint-text">Ostavite prazno da pošaljete svim vašim studentima.</div>
+            <form method="post" asp-controller="Profesor" asp-action="PosaljiNotifikacijuNova" id="formNotif">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="tipNotifikacije" id="tipNotifInput" value="Obavijest" />
+                <input type="hidden" name="primateljTip" id="primateljTipInput" value="predmet" />
+                <input type="hidden" name="odabraniPredmeti" id="odabraniPredmetiInput" value="" />
+                <input type="hidden" name="odabraneGodine" id="odabraneGodineInput" value="" />
+
+                <label class="form-label">Tip notifikacije</label>
+                <div class="tip-row">
+                    <button type="button" class="tip-btn obavijest selected" onclick="postaviTip('Obavijest', this)">Obavijest</button>
+                    <button type="button" class="tip-btn upozorenje" onclick="postaviTip('Upozorenje', this)">Upozorenje</button>
+                    <button type="button" class="tip-btn podsjetnik" onclick="postaviTip('Podsjetnik', this)">Podsjetnik</button>
+                </div>
+
+                <label class="form-label">Primatelji</label>
+                <div class="primatelj-row">
+                    <button type="button" class="primatelj-btn selected" onclick="postaviPrimatelja('predmet', this)">Po predmetu</button>
+                    <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('svi', this)">Svi moji studenti</button>
+                    <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('godina', this)">Po godini studija</button>
+                    <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('sluzba', this)">Studentska sluzba</button>
+                </div>
+
+                <!-- PO PREDMETU -->
+                <div id="sekcija-predmet">
+                    <label class="form-label">Odaberi predmet(e)</label>
+                    <div class="predmet-grid">
+                        @if (predmeti != null)
+                        {
+                            for (int i = 0; i < predmeti.Count; i++)
+                            {
+                                var p = predmeti[i];
+                                <div class="predmet-check" id="pd@(p.Id)" onclick="togglePredmet(@p.Id, '@p.Naziv', this)">
+                                    <input type="checkbox" id="chkp@(p.Id)" value="@p.Id" />
+                                    <label for="chkp@(p.Id)">@p.Naziv</label>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- SVI -->
+                <div id="sekcija-svi" class="sekcija-hidden">
+                    <div class="info-box-notif">
+                        Notifikacija ce biti poslana svim studentima na svim vasim predmetima.
+                    </div>
+                </div>
+
+                <!-- PO GODINI -->
+                <div id="sekcija-godina" class="sekcija-hidden">
+                    <label class="form-label">Odaberi godinu studija</label>
+                    <div class="godina-grid">
+                        <div class="godina-check" id="god1" onclick="toggleGodina(1, this)">
+                            <input type="checkbox" id="chkg1" value="1" />
+                            <label for="chkg1">1. godina</label>
+                        </div>
+                        <div class="godina-check" id="god2" onclick="toggleGodina(2, this)">
+                            <input type="checkbox" id="chkg2" value="2" />
+                            <label for="chkg2">2. godina</label>
+                        </div>
+                        <div class="godina-check" id="god3" onclick="toggleGodina(3, this)">
+                            <input type="checkbox" id="chkg3" value="3" />
+                            <label for="chkg3">3. godina</label>
+                        </div>
+                        <div class="godina-check" id="god4" onclick="toggleGodina(4, this)">
+                            <input type="checkbox" id="chkg4" value="4" />
+                            <label for="chkg4">4. godina</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STUDENTSKA SLUZBA -->
+                <div id="sekcija-sluzba" class="sekcija-hidden">
+                    <div class="info-box-notif">
+                        Notifikacija ce biti poslana studentskoj sluzbi.
+                    </div>
+                </div>
+
+                <label class="form-label">Naslov</label>
+                <input type="text" name="naslov" class="form-control-custom" id="inputNaslov"
+                       placeholder="Npr. Pomak termina konsultacija"
+                       oninput="azurirajPreview()" required maxlength="200" />
+
+                <label class="form-label">Poruka</label>
+                <textarea name="poruka" class="form-control-custom" id="inputPoruka" rows="4"
+                          placeholder="Unesite tekst notifikacije..."
+                          oninput="azurirajPreview()" required maxlength="1000"></textarea>
+
+                <button type="submit" class="btn-posalji-notif" onclick="pripremiFormu()">
+                    Posalji notifikaciju
+                </button>
+            </form>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Naslov notifikacije</label>
-            <input type="text" name="naslov" class="form-control"
-                   placeholder="npr. Pomak termina konsultacija" required maxlength="200" />
+    <!-- PREVIEW -->
+    <div class="notif-right">
+        <h6>Pregled notifikacije</h6>
+        <span class="preview-tip obavijest" id="previewTip">Obavijest</span>
+        <div class="preview-naslov" id="previewNaslov">Naslov notifikacije</div>
+        <div class="preview-poruka" id="previewPoruka">Tekst poruke ce se prikazati ovdje...</div>
+        <div class="preview-primatelj" id="previewPrimatelj">
+            Primatelj: <strong>Po predmetu</strong>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Poruka</label>
-            <textarea name="poruka" class="form-control" rows="4"
-                      placeholder="Unesite tekst obavijesti..." required maxlength="1000"></textarea>
-        </div>
-
-        <button type="submit" class="btn-posalji">Pošalji notifikaciju →</button>
-    </form>
+    </div>
 </div>
+
+<script>
+    var odabraniPredmeti = [];
+    var odabraneGodine = [];
+    var trenutniTip = 'Obavijest';
+    var trenutniPrimatelj = 'predmet';
+
+    function postaviTip(tip, btn) {
+        trenutniTip = tip;
+        document.getElementById('tipNotifInput').value = tip;
+        document.querySelectorAll('.tip-btn').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        azurirajPreview();
+    }
+
+    function postaviPrimatelja(tip, btn) {
+        trenutniPrimatelj = tip;
+        document.getElementById('primateljTipInput').value = tip;
+        document.querySelectorAll('.primatelj-btn').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        document.getElementById('sekcija-predmet').style.display = tip === 'predmet' ? 'block' : 'none';
+        document.getElementById('sekcija-svi').style.display = tip === 'svi' ? 'block' : 'none';
+        document.getElementById('sekcija-godina').style.display = tip === 'godina' ? 'block' : 'none';
+        document.getElementById('sekcija-sluzba').style.display = tip === 'sluzba' ? 'block' : 'none';
+        azurirajPreview();
+    }
+
+    function togglePredmet(id, naziv, el) {
+        var chk = document.getElementById('chkp' + id);
+        chk.checked = !chk.checked;
+        if (chk.checked) {
+            odabraniPredmeti.push({ id: id, naziv: naziv });
+            el.classList.add('checked');
+        } else {
+            odabraniPredmeti = odabraniPredmeti.filter(function(p) { return p.id !== id; });
+            el.classList.remove('checked');
+        }
+        azurirajPreview();
+    }
+
+    function toggleGodina(god, el) {
+        var chk = document.getElementById('chkg' + god);
+        chk.checked = !chk.checked;
+        if (chk.checked) {
+            odabraneGodine.push(god);
+            el.classList.add('checked');
+        } else {
+            odabraneGodine = odabraneGodine.filter(function(g) { return g !== god; });
+            el.classList.remove('checked');
+        }
+        azurirajPreview();
+    }
+
+    function azurirajPreview() {
+        var naslov = document.getElementById('inputNaslov').value || 'Naslov notifikacije';
+        var poruka = document.getElementById('inputPoruka').value || 'Tekst poruke ce se prikazati ovdje...';
+        document.getElementById('previewNaslov').textContent = naslov;
+        document.getElementById('previewPoruka').textContent = poruka;
+
+        var tipEl = document.getElementById('previewTip');
+        tipEl.textContent = trenutniTip;
+        tipEl.className = 'preview-tip ' + trenutniTip.toLowerCase();
+
+        var primTekst = '';
+        if (trenutniPrimatelj === 'predmet') {
+            primTekst = odabraniPredmeti.length === 0 ? 'Nijedan predmet' :
+                odabraniPredmeti.map(function(p) { return p.naziv; }).join(', ');
+        } else if (trenutniPrimatelj === 'svi') {
+            primTekst = 'Svi studenti';
+        } else if (trenutniPrimatelj === 'godina') {
+            primTekst = odabraneGodine.length === 0 ? 'Nijedna godina' :
+                odabraneGodine.sort().map(function(g) { return g + '. godina'; }).join(', ');
+        } else {
+            primTekst = 'Studentska sluzba';
+        }
+        document.getElementById('previewPrimatelj').innerHTML = 'Primatelj: <strong>' + primTekst + '</strong>';
+    }
+
+    function pripremiFormu() {
+        document.getElementById('odabraniPredmetiInput').value =
+            odabraniPredmeti.map(function(p) { return p.id; }).join(',');
+        document.getElementById('odabraneGodineInput').value = odabraneGodine.join(',');
+    }
+</script>
