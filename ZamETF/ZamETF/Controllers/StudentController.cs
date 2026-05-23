@@ -164,6 +164,12 @@ namespace ZamETF.Controllers
         // GET: Student/ZahtjevZaDokument
         public async Task<IActionResult> ZahtjevZaDokument()
         {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var zahtjevi = await _context.ZahtjeviDokumenata
+                .Where(z => z.Student.Id == korisnik.Id)
+                .OrderByDescending(z => z.Datum)
+                .ToListAsync();
+            ViewBag.Zahtjevi = zahtjevi;
             return View();
         }
 
@@ -201,6 +207,94 @@ namespace ZamETF.Controllers
             {
                 Naslov = $"Zahtjev za dokument: {tipDokumenta}",
                 Poruka = $"Student {student.Ime} {student.Prezime} je poslao zahtjev za {tipDokumenta}. {napomena}",
+                PošiljalacId = student.Id,
+                PrimalacId = studentskaSluzba.Id,
+                ZahtjevId = zahtjev.Id,
+                DatumSlanja = DateTime.Now
+            };
+            _context.Obavijesti.Add(obavijest);
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Zahtjev je uspješno poslan studentskoj službi!";
+            return RedirectToAction(nameof(ZahtjevZaDokument));
+        }
+        // GET: Student/DetaljiObavijesti/5
+        public async Task<IActionResult> DetaljiObavijesti(int id)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            if (korisnik == null) return RedirectToAction("Login", "Account");
+
+            var obavijest = await _context.Obavijesti
+                .Include(o => o.Zahtjev)
+                .FirstOrDefaultAsync(o => o.Id == id && o.PrimalacId == korisnik.Id);
+
+            if (obavijest == null) return NotFound();
+
+            // Oznaci kao procitanu
+            if (!obavijest.Procitana)
+            {
+                obavijest.Procitana = true;
+                await _context.SaveChangesAsync();
+            }
+
+            // Pronadi ime posiljаoca
+            var posiljалac = await _context.Users.FindAsync(obavijest.PošiljalacId);
+            string posiljалacIme = "Sistem";
+            if (posiljалac != null)
+            {
+                var korisnikPosiljалac = posiljалac as Korisnik;
+                if (korisnikPosiljалac != null)
+                    posiljалacIme = korisnikPosiljалac.Ime + " " + korisnikPosiljалac.Prezime;
+            }
+
+            // Provjeri da li je masovno poslano – ako isti naslov ima vise primatelja
+            var naslov = obavijest.Naslov ?? "";
+            int brojSaIstimNaslovom = await _context.Obavijesti
+                .CountAsync(o => o.Naslov == naslov && o.DatumSlanja == obavijest.DatumSlanja);
+            bool masovnoPoslano = brojSaIstimNaslovom > 1;
+
+            ViewBag.Obavijest = obavijest;
+            ViewBag.Posiljалac = posiljалacIme;
+            ViewBag.MasovnoPoslano = masovnoPoslano;
+
+            return View();
+        }
+        // POST: Student/PosaljiZahtjev (bez sumera)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PosaljiZahtjev(string tipDokumenta, string jezik, string svrha, string napomena)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var student = await _context.Studenti.FindAsync(korisnik.Id);
+            if (student == null) return NotFound();
+
+            var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync();
+            if (studentskaSluzba == null)
+            {
+                TempData["Greska"] = "Studentska služba nije pronađena.";
+                return RedirectToAction(nameof(ZahtjevZaDokument));
+            }
+
+            var tipPun = tipDokumenta;
+            if (!string.IsNullOrEmpty(svrha))
+                tipPun += " – " + svrha;
+
+            var zahtjev = new ZahtjevZaDokument
+            {
+                Student = student,
+                TipDokumenta = tipPun,
+                Datum = DateTime.Now,
+                Status = false
+            };
+            _context.ZahtjeviDokumenata.Add(zahtjev);
+            await _context.SaveChangesAsync();
+
+            var obavijest = new Obavijest
+            {
+                Naslov = "Zahtjev za dokument: " + tipPun,
+                Poruka = "Student " + student.Ime + " " + student.Prezime +
+                         " je poslao zahtjev za " + tipPun +
+                         " (Jezik: " + jezik + "). " + napomena,
                 PošiljalacId = student.Id,
                 PrimalacId = studentskaSluzba.Id,
                 ZahtjevId = zahtjev.Id,

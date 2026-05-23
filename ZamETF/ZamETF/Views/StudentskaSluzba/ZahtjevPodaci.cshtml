@@ -1,1 +1,371 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Zahtjev za upis/izmjenu podataka";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZamETF - Zahtjev za upis/izmjenu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-top {
+            background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-top img {
+            height: 35px;
+        }
+
+        .navbar-brand-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background: white;
+            color: #1a1a6e;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-odjava {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            .btn-odjava:hover {
+                background: rgba(255,255,255,0.1);
+                color: white;
+            }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            width: 220px;
+            min-width: 220px;
+        }
+
+            .sidebar h6 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+
+            .sidebar a {
+                display: block;
+                color: #1a1a6e;
+                text-decoration: none;
+                padding: 8px 0;
+                font-size: 0.9rem;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
+                font-weight: 600;
+            }
+
+                .sidebar a:hover {
+                    color: #0a0a2e;
+                }
+
+                .sidebar a:last-child {
+                    border-bottom: none;
+                }
+
+                .sidebar a.active {
+                    text-decoration: underline;
+                }
+
+        .content-area {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+            .content-area h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                margin-bottom: 25px;
+                text-align: center;
+            }
+
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 620px;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-label {
+            color: #1a1a6e;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            border: 1.5px solid #a0c8f0;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: #1a1a6e;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #1a1a6e;
+                box-shadow: none;
+                outline: none;
+            }
+
+        .row-fields {
+            display: flex;
+            gap: 15px;
+        }
+
+            .row-fields > div {
+                flex: 1;
+            }
+
+        .tip-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tip-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #1a1a6e;
+            background: white;
+            color: #1a1a6e;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .tip-btn.selected {
+                background: #1a1a6e;
+                color: white;
+            }
+
+        .btn-posalji {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 35px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: background 0.3s;
+        }
+
+            .btn-posalji:hover {
+                background: #0a3f5a;
+            }
+
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #1a5f7a;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            color: #1a1a6e;
+            font-size: 0.88rem;
+        }
+
+        .section-title {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #a0c8f0;
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar-top">
+        <div class="navbar-left">
+            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
+            <a asp-controller="StudentskaSluzba" asp-action="Index" class="navbar-brand-text">Pocetna</a>
+        </div>
+        <div class="navbar-right">
+            <span class="user-badge">Studentska sluzba - @User.Identity.Name</span>
+            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-odjava">Odjava</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="sidebar">
+            <h6>Studentska sluzba panel</h6>
+            <a asp-controller="StudentskaSluzba" asp-action="Index">Pocetna</a>
+            <a asp-controller="StudentskaSluzba" asp-action="SviZahtjevi">Svi zahtjevi</a>
+            <a asp-controller="StudentskaSluzba" asp-action="OdaberiZahtjevZaIzvjestaj">Generisanje izvjestaja</a>
+            <a asp-controller="StudentskaSluzba" asp-action="ZahtjevStatistika">Zahtjev za statistiku</a>
+            <a asp-controller="StudentskaSluzba" asp-action="ZahtjevPodaci" class="active">Zahtjev za upis/izmjenu</a>
+            <a asp-controller="StudentskaSluzba" asp-action="Notifikacije">Slanje notifikacija</a>
+        </div>
+
+        <div class="content-area">
+            <h5>Zahtjev za upis / izmjenu podataka</h5>
+
+            @if (TempData["Uspjeh"] != null)
+            {
+                <div class="alert alert-success">@TempData["Uspjeh"]</div>
+            }
+            @if (TempData["Greska"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Greska"]</div>
+            }
+
+            <div class="form-card">
+                <div class="info-box">
+                    Student je donio papire na salteru. Popunite podatke i posaljite zahtjev administratoru koji ce ih unijeti u sistem.
+                </div>
+
+                <form method="post" asp-action="PosaljiZahtjevPodataka" asp-controller="StudentskaSluzba">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="tipZahtjeva" id="tipZahtjevaInput" value="Upis" />
+
+                    <p class="section-title">Tip zahtjeva</p>
+                    <div class="tip-toggle">
+                        <button type="button" class="tip-btn selected" onclick="postaviTip('Upis', this)">
+                            Upis studenta
+                        </button>
+                        <button type="button" class="tip-btn" onclick="postaviTip('Izmjena', this)">
+                            Izmjena podataka
+                        </button>
+                    </div>
+
+                    <p class="section-title">Podaci o studentu</p>
+                    <div class="row-fields">
+                        <div>
+                            <label class="form-label">Ime</label>
+                            <input type="text" name="imeStudenta" class="form-control" placeholder="Npr. Amina" required />
+                        </div>
+                        <div>
+                            <label class="form-label">Prezime</label>
+                            <input type="text" name="prezimeStudenta" class="form-control" placeholder="Npr. Hodzic" required />
+                        </div>
+                    </div>
+
+                    <div class="row-fields">
+                        <div>
+                            <label class="form-label">Broj indeksa</label>
+                            <input type="text" name="indeksStudenta" class="form-control" placeholder="Npr. EL-123/22" required />
+                        </div>
+                        <div>
+                            <label class="form-label">Godina studija</label>
+                            <select name="godinaStudija" class="form-select">
+                                <option value="1">1. godina</option>
+                                <option value="2">2. godina</option>
+                                <option value="3">3. godina</option>
+                                <option value="4">4. godina</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="form-label">Email studenta</label>
+                    <input type="email" name="emailStudenta" class="form-control" placeholder="student@etf.unsa.ba" />
+
+                    <label class="form-label">Smjer</label>
+                    <select name="smjer" class="form-select">
+                        <option value="Automatika i elektronika">Automatika i elektronika</option>
+                        <option value="Telekomunikacije">Telekomunikacije</option>
+                        <option value="Racunarstvo i informatika">Racunarstvo i informatika</option>
+                        <option value="Elektroenergetika">Elektroenergetika</option>
+                        <option value="Opsti smjer">Opsti smjer</option>
+                    </select>
+
+                    <label class="form-label">Napomena</label>
+                    <textarea name="napomena" class="form-control" rows="3"
+                              placeholder="Dodatne napomene ili dokumenti koje je student predao..."></textarea>
+
+                    <button type="submit" class="btn-posalji">Posalji zahtjev adminu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function postaviTip(tip, btn) {
+            document.getElementById('tipZahtjevaInput').value = tip;
+            var btns = document.querySelectorAll('.tip-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('selected');
+            }
+            btn.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

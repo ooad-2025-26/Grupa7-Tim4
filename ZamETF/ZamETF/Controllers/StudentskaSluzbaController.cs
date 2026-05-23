@@ -430,6 +430,315 @@ namespace ZamETF.Controllers
             TempData["Uspjeh"] = "Zahtjev označen kao obrađen, student obaviješten!";
             return RedirectToAction(nameof(Index));
         }
+        // ==================== NOVE AKCIJE ====================
+
+        // GET: StudentskaSluzba/OdaberiZahtjevZaIzvjestaj
+        public async Task<IActionResult> OdaberiZahtjevZaIzvjestaj()
+        {
+            var zahtjevi = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .OrderByDescending(z => z.Datum)
+                .ToListAsync();
+
+            return View(zahtjevi);
+        }
+
+        // GET: StudentskaSluzba/ZahtjevStatistika
+        public IActionResult ZahtjevStatistika()
+        {
+            return View();
+        }
+
+        // POST: StudentskaSluzba/PosaljiZahtjevStatistike
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PosaljiZahtjevStatistike(string tipStatistike, string opisZahtjeva, string periodOd, string periodDo)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var admin = await _context.Administratori.FirstOrDefaultAsync();
+
+            if (admin == null)
+            {
+                TempData["Greska"] = "Administrator nije pronađen.";
+                return RedirectToAction(nameof(ZahtjevStatistika));
+            }
+
+            var obavijest = new Obavijest
+            {
+                Naslov = "Zahtjev za statistiku: " + tipStatistike,
+                Poruka = "Tip: " + tipStatistike + "\nPeriod: " + periodOd + " - " + periodDo + "\nOpis: " + opisZahtjeva,
+                PošiljalacId = korisnik.Id,
+                PrimalacId = admin.Id,
+                DatumSlanja = DateTime.Now
+            };
+
+            _context.Obavijesti.Add(obavijest);
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Zahtjev za statistiku je poslan administratoru!";
+            return RedirectToAction(nameof(ZahtjevStatistika));
+        }
+
+        // GET: StudentskaSluzba/ZahtjevPodaci
+        public IActionResult ZahtjevPodaci()
+        {
+            return View();
+        }
+
+        // POST: StudentskaSluzba/PosaljiZahtjevPodataka
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PosaljiZahtjevPodataka(
+            string tipZahtjeva,
+            string imeStudenta,
+            string prezimeStudenta,
+            string indeksStudenta,
+            string godinaStudija,
+            string emailStudenta,
+            string smjer,
+            string napomena)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var admin = await _context.Administratori.FirstOrDefaultAsync();
+
+            if (admin == null)
+            {
+                TempData["Greska"] = "Administrator nije pronađen.";
+                return RedirectToAction(nameof(ZahtjevPodaci));
+            }
+
+            var poruka = "Tip zahtjeva: " + tipZahtjeva + "\n" +
+                         "Indeks: " + indeksStudenta + "\n" +
+                         "Ime: " + imeStudenta + "\n" +
+                         "Prezime: " + prezimeStudenta + "\n" +
+                         "Email: " + emailStudenta + "\n" +
+                         "Godina studija: " + godinaStudija + "\n" +
+                         "Smjer: " + smjer + "\n" +
+                         "Napomena: " + napomena;
+
+            var obavijest = new Obavijest
+            {
+                Naslov = "Zahtjev za " + tipZahtjeva + " podataka - " + indeksStudenta,
+                Poruka = poruka,
+                PošiljalacId = korisnik.Id,
+                PrimalacId = admin.Id,
+                DatumSlanja = DateTime.Now
+            };
+
+            _context.Obavijesti.Add(obavijest);
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Zahtjev za " + tipZahtjeva + " je poslan administratoru!";
+            return RedirectToAction(nameof(ZahtjevPodaci));
+        }
+
+        // POST: StudentskaSluzba/PosaljiNaMail (bez sumera u nazivu)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PosaljiNaMail(int zahtjevId, string tipIzvjestaja)
+        {
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+
+            if (zahtjev == null) return NotFound();
+
+            var student = zahtjev.Student;
+
+            var ocjene = await _context.Ocjene
+                .Include(o => o.Predmet)
+                .Where(o => o.Student.Id == student.Id)
+                .ToListAsync();
+
+            byte[] pdf;
+            string fileName;
+
+            switch (tipIzvjestaja)
+            {
+                case "PrepisOcjena":
+                    pdf = GenerirajPrepisOcjena(student, ocjene);
+                    fileName = student.Ime + student.Prezime + "PrepisOcjena.pdf";
+                    break;
+                case "OcjenePoGodinama":
+                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
+                    fileName = student.Ime + student.Prezime + "OcjenePoGodinama.pdf";
+                    break;
+                case "StatusnaPotvrda":
+                    pdf = GenerirajStatusnuPotvrdu(student);
+                    fileName = student.Ime + student.Prezime + "StatusnaPotvrda.pdf";
+                    break;
+                default:
+                    return BadRequest();
+            }
+
+            try
+            {
+                await _emailService.PošaljiEmail(
+                    student.Email,
+                    student.Ime + " " + student.Prezime,
+                    "ZamETF - " + tipIzvjestaja,
+                    pdf,
+                    fileName);
+
+                zahtjev.Status = true;
+                await _context.SaveChangesAsync();
+
+                var korisnik = await _userManager.GetUserAsync(User);
+                var obavijest = new Obavijest
+                {
+                    Naslov = "Vas dokument je spreman!",
+                    Poruka = "Studentska sluzba: vas " + tipIzvjestaja + " je poslan na email " + student.Email + ".",
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = student.Id,
+                    ZahtjevId = zahtjev.Id,
+                    DatumSlanja = DateTime.Now
+                };
+                _context.Obavijesti.Add(obavijest);
+                await _context.SaveChangesAsync();
+
+                TempData["Uspjeh"] = "Dokument poslan na " + student.Email + "!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Greska"] = "Greska pri slanju emaila: " + ex.Message;
+            }
+
+            return RedirectToAction(nameof(SviZahtjevi));
+        }
+        // GET: StudentskaSluzba/Notifikacije
+        public async Task<IActionResult> Notifikacije()
+        {
+            var studenti = await _context.Users
+                .OfType<Student>()
+                .OrderBy(s => s.Prezime)
+                .ToListAsync();
+
+            ViewBag.Studenti = studenti;
+            return View();
+        }
+
+        // POST: StudentskaSluzba/PosaljiNotifikaciju
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PosaljiNotifikaciju(
+            string naslov,
+            string poruka,
+            string tipNotifikacije,
+            string primateljTip,
+            string odabraniIds,
+            string odabraneGodine)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            int brojPoslanih = 0;
+
+            var naslovSaTipom = "[" + tipNotifikacije + "] " + naslov;
+
+            if (primateljTip == "student")
+            {
+                // Jedan ili vise specificnih studenata
+                if (string.IsNullOrEmpty(odabraniIds))
+                {
+                    TempData["Greska"] = "Niste odabrali nijednog studenta.";
+                    return RedirectToAction(nameof(Notifikacije));
+                }
+
+                var ids = odabraniIds.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                foreach (var idStr in ids)
+                {
+                    if (int.TryParse(idStr, out int studentId))
+                    {
+                        var obavijest = new Obavijest
+                        {
+                            Naslov = naslovSaTipom,
+                            Poruka = poruka,
+                            PošiljalacId = korisnik.Id,
+                            PrimalacId = studentId,
+                            DatumSlanja = DateTime.Now
+                        };
+                        _context.Obavijesti.Add(obavijest);
+                        brojPoslanih++;
+                    }
+                }
+            }
+            else if (primateljTip == "godina")
+            {
+                // Grupa po godini studija
+                if (string.IsNullOrEmpty(odabraneGodine))
+                {
+                    TempData["Greska"] = "Niste odabrali nijednu godinu.";
+                    return RedirectToAction(nameof(Notifikacije));
+                }
+
+                var godine = odabraneGodine.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                           .Select(g => int.Parse(g))
+                                           .ToList();
+
+                var studenti = await _context.Users
+                    .OfType<Student>()
+                    .Where(s => godine.Contains(s.GodinaStudija))
+                    .ToListAsync();
+
+                foreach (var student in studenti)
+                {
+                    var obavijest = new Obavijest
+                    {
+                        Naslov = naslovSaTipom,
+                        Poruka = poruka,
+                        PošiljalacId = korisnik.Id,
+                        PrimalacId = student.Id,
+                        DatumSlanja = DateTime.Now
+                    };
+                    _context.Obavijesti.Add(obavijest);
+                    brojPoslanih++;
+                }
+            }
+            else if (primateljTip == "svi")
+            {
+                // Svi studenti
+                var studenti = await _context.Users
+                    .OfType<Student>()
+                    .ToListAsync();
+
+                foreach (var student in studenti)
+                {
+                    var obavijest = new Obavijest
+                    {
+                        Naslov = naslovSaTipom,
+                        Poruka = poruka,
+                        PošiljalacId = korisnik.Id,
+                        PrimalacId = student.Id,
+                        DatumSlanja = DateTime.Now
+                    };
+                    _context.Obavijesti.Add(obavijest);
+                    brojPoslanih++;
+                }
+            }
+            else if (primateljTip == "admin")
+            {
+                // Admin
+                var admin = await _context.Administratori.FirstOrDefaultAsync();
+                if (admin == null)
+                {
+                    TempData["Greska"] = "Administrator nije pronađen.";
+                    return RedirectToAction(nameof(Notifikacije));
+                }
+
+                var obavijest = new Obavijest
+                {
+                    Naslov = naslovSaTipom,
+                    Poruka = poruka,
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = admin.Id,
+                    DatumSlanja = DateTime.Now
+                };
+                _context.Obavijesti.Add(obavijest);
+                brojPoslanih++;
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Notifikacija je uspjesno poslana! Broj primatelja: " + brojPoslanih;
+            return RedirectToAction(nameof(Notifikacije));
+        }
 
     }
 }

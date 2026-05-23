@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Zahtjev za dokument";
     Layout = null;
+    var zahtjevi = ViewBag.Zahtjevi as List<ZamETF.Models.ZahtjevZaDokument>;
 }
 
 <!DOCTYPE html>
@@ -8,10 +9,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZamETF – Zahtjev za dokument</title>
+    <title>ZamETF - Zahtjev za dokument</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             min-height: 100vh;
@@ -29,8 +34,15 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .navbar-left { display: flex; align-items: center; gap: 20px; }
-        .navbar-top img { height: 35px; }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-top img {
+            height: 35px;
+        }
 
         .navbar-brand-text {
             color: white;
@@ -39,8 +51,15 @@
             text-decoration: none;
         }
 
-        .navbar-brand-text:hover { color: #a0c8f0; }
-        .navbar-right { display: flex; align-items: center; gap: 10px; }
+            .navbar-brand-text:hover {
+                color: #a0c8f0;
+            }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
         .user-badge {
             background: white;
@@ -62,7 +81,10 @@
             text-decoration: none;
         }
 
-        .btn-odjava:hover { background: rgba(255,255,255,0.1); color: white; }
+            .btn-odjava:hover {
+                background: rgba(255,255,255,0.1);
+                color: white;
+            }
 
         .main-content {
             flex: 1;
@@ -77,128 +99,310 @@
             padding: 20px;
             width: 220px;
             min-width: 220px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .sidebar h6 {
+        .sidebar-section-title {
             color: #1a1a6e;
             font-weight: 700;
             font-size: 0.85rem;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
-        .sidebar .semestar {
-            color: #1a1a6e;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(26,26,110,0.2);
-        }
-
-        .sidebar a {
-            display: block;
-            color: #1a1a6e;
-            text-decoration: none;
-            padding: 6px 0;
-            font-size: 0.85rem;
-        }
-
-        .sidebar a:hover { font-weight: 600; }
-        .sidebar .sidebar-divider {
+        .sidebar-divider {
             border-top: 1px solid rgba(26,26,110,0.2);
-            margin: 10px 0;
+            margin: 12px 0;
         }
 
-        .sidebar .sidebar-link-small {
+        .sidebar-link {
             color: #1a1a6e;
-            font-size: 0.82rem;
             text-decoration: none;
-            display: block;
+            font-size: 0.85rem;
             padding: 5px 0;
+            display: block;
         }
 
-        .sidebar .sidebar-link-small:hover { font-weight: 600; }
-        .sidebar .active { font-weight: 700; text-decoration: underline; }
+            .sidebar-link:hover {
+                font-weight: 600;
+                color: #0a0a2e;
+            }
+
+            .sidebar-link.active {
+                font-weight: 700;
+                text-decoration: underline;
+            }
 
         .content-area {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* SEKCIJA KARTICA */
+        .sekcija {
             background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
             border-radius: 15px;
-            padding: 30px;
-            max-width: 600px;
+            padding: 0;
+            overflow: hidden;
         }
 
-        .content-area h5 {
-            color: #1a1a6e;
-            font-weight: 700;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-
-        .form-row {
+        .sekcija-header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(26,26,110,0.1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+            .sekcija-header h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin: 0;
+            }
+
+            .sekcija-header .toggle-icon {
+                color: #1a1a6e;
+                font-size: 1.1rem;
+                font-weight: 700;
+                transition: transform 0.2s;
+            }
+
+        .sekcija-body {
+            padding: 24px;
+        }
+
+        /* FORMA */
+        .forma-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 15px;
+            margin-bottom: 18px;
         }
 
-        .form-row label {
-            color: #1a1a6e;
-            font-size: 0.9rem;
-            font-weight: 500;
-            width: 140px;
-            min-width: 140px;
+        .forma-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .form-control-custom {
-            flex: 1;
-            border: none;
-            border-bottom: 1px solid #1a1a6e;
-            background: transparent;
-            padding: 6px 8px;
-            font-size: 0.9rem;
-            color: #1a1a6e;
-            outline: none;
-        }
+            .forma-group label {
+                color: #1a1a6e;
+                font-size: 0.82rem;
+                font-weight: 600;
+            }
 
-        .form-control-custom:focus {
-            border-bottom: 2px solid #0a0a2e;
-        }
+                .forma-group label span {
+                    color: #e74c3c;
+                }
 
-        textarea.form-control-custom {
-            border: 1px solid #1a1a6e;
+        .form-select-custom, .form-input-custom {
+            border: 1.5px solid rgba(26,26,110,0.25);
             border-radius: 8px;
-            resize: vertical;
-            min-height: 80px;
+            padding: 9px 12px;
+            font-size: 0.88rem;
+            color: #1a1a6e;
+            background: white;
+            outline: none;
+            width: 100%;
+            transition: border-color 0.2s;
         }
 
-        .btn-pošalji {
+            .form-select-custom:focus, .form-input-custom:focus {
+                border-color: #1a1a6e;
+            }
+
+        .napomena-row {
+            margin-bottom: 18px;
+        }
+
+            .napomena-row label {
+                color: #1a1a6e;
+                font-size: 0.82rem;
+                font-weight: 600;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .napomena-row textarea {
+                border: 1.5px solid rgba(26,26,110,0.25);
+                border-radius: 8px;
+                padding: 10px 12px;
+                font-size: 0.88rem;
+                color: #1a1a6e;
+                background: white;
+                width: 100%;
+                resize: vertical;
+                min-height: 75px;
+                outline: none;
+            }
+
+                .napomena-row textarea:focus {
+                    border-color: #1a1a6e;
+                }
+
+        .forma-akcije {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-posalji {
             background: #1a5f7a;
             color: white;
             border: none;
             border-radius: 20px;
-            padding: 10px 35px;
-            font-size: 0.95rem;
+            padding: 9px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            float: right;
-            margin-top: 10px;
-            transition: background 0.3s;
+            transition: background 0.2s;
         }
 
-        .btn-pošalji:hover { background: #0a3f5a; }
+            .btn-posalji:hover {
+                background: #0a3f5a;
+            }
+
+        .btn-ponisti {
+            background: transparent;
+            color: #1a1a6e;
+            border: 1.5px solid #1a1a6e;
+            border-radius: 20px;
+            padding: 9px 22px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .btn-ponisti:hover {
+                background: rgba(26,26,110,0.08);
+            }
+
+        .aktivni-info {
+            color: #1a1a6e;
+            font-size: 0.88rem;
+            opacity: 0.65;
+            margin-top: 5px;
+        }
+
+        /* TABELA PRETHODNIH */
+        .tabela-zahtjeva {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .tabela-zahtjeva th {
+                color: #1a1a6e;
+                font-size: 0.82rem;
+                font-weight: 700;
+                padding: 10px 14px;
+                border-bottom: 2px solid rgba(26,26,110,0.15);
+                text-align: left;
+            }
+
+            .tabela-zahtjeva td {
+                color: #1a1a6e;
+                font-size: 0.85rem;
+                padding: 12px 14px;
+                border-bottom: 1px solid rgba(26,26,110,0.08);
+                vertical-align: middle;
+            }
+
+            .tabela-zahtjeva tr:last-child td {
+                border-bottom: none;
+            }
+
+            .tabela-zahtjeva tr:hover td {
+                background: rgba(255,255,255,0.3);
+            }
+
+        .status-obraden {
+            color: #27ae60;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .status-ceka {
+            color: #e67e22;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .status-icon {
+            margin-left: 5px;
+        }
 
         .alert {
             border-radius: 10px;
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
+
+        .breadcrumb-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 5px;
+        }
+
+            .breadcrumb-row a {
+                color: #1a1a6e;
+                font-size: 0.85rem;
+                text-decoration: none;
+                opacity: 0.7;
+            }
+
+                .breadcrumb-row a:hover {
+                    opacity: 1;
+                }
+
+            .breadcrumb-row span {
+                color: #1a1a6e;
+                opacity: 0.4;
+                font-size: 0.85rem;
+            }
+
+            .breadcrumb-row .current {
+                color: #1a1a6e;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+
+        .aktivni-zahtjev-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.45);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+        }
+
+            .aktivni-zahtjev-row span {
+                color: #1a1a6e;
+                font-size: 0.88rem;
+            }
+
+        .badge-ceka {
+            background: #fdebd0;
+            color: #e67e22;
+            border-radius: 8px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
     <div class="navbar-top">
         <div class="navbar-left">
             <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a asp-controller="Student" asp-action="Index" class="navbar-brand-text">Početna</a>
+            <a asp-controller="Student" asp-action="Index" class="navbar-brand-text">Pocetna</a>
         </div>
         <div class="navbar-right">
             <span class="user-badge">Student: @User.Identity.Name</span>
@@ -209,23 +413,18 @@
         </div>
     </div>
 
-    <!-- MAIN -->
     <div class="main-content">
-        <!-- SIDEBAR -->
         <div class="sidebar">
-            <h6>Trenutni semestar</h6>
-            <div class="semestar">Predmeti</div>
-
+            <div class="sidebar-section-title">Predmeti</div>
+            <div class="sidebar-section-title" style="font-weight:400; margin-bottom:8px;">Trenutni semestar</div>
             <div class="sidebar-divider"></div>
-
-            <a asp-controller="Student" asp-action="PrijavaIspita" class="sidebar-link-small">Prijava ispita</a>
-            <a asp-controller="Student" asp-action="SlanjeZadaca" class="sidebar-link-small">Slanje zadaća</a>
-            <a asp-controller="Student" asp-action="ZahtjevZaDokument" class="sidebar-link-small active">Zahtjev za dokumente</a>
+            <a asp-controller="Student" asp-action="Index" class="sidebar-link">Pocetna</a>
+            <a asp-controller="Student" asp-action="PrijavaIspita" class="sidebar-link">Prijava ispita</a>
+            <a asp-controller="Student" asp-action="SlanjeZadaca" class="sidebar-link">Slanje zadaca</a>
+            <a asp-controller="Student" asp-action="ZahtjevZaDokument" class="sidebar-link active">Zahtjev za dokumente</a>
         </div>
 
-        <!-- CONTENT -->
         <div class="content-area">
-            <h5>Zahtjev za dokument</h5>
 
             @if (TempData["Uspjeh"] != null)
             {
@@ -236,27 +435,147 @@
                 <div class="alert alert-danger">@TempData["Greska"]</div>
             }
 
-            <form method="post" asp-action="PošaljiZahtjev" asp-controller="Student">
-                @Html.AntiForgeryToken()
-
-                <div class="form-row">
-                    <label>Tip dokumenta</label>
-                    <select name="tipDokumenta" class="form-control-custom">
-                        <option value="Potvrda o studiranju">Potvrda o studiranju</option>
-                        <option value="Prepis ocjena">Prepis ocjena</option>
-                        <option value="Ocjene po semestrima">Ocjene po semestrima</option>
-                    </select>
+            <!-- KREIRANJE ZAHTJEVA -->
+            <div class="sekcija">
+                <div class="sekcija-header" onclick="toggleSekcija('forma', this)">
+                    <h5>Kreiranje novog zahtjeva</h5>
+                    <span class="toggle-icon" id="ikona-forma">&#8743;</span>
                 </div>
+                <div class="sekcija-body" id="tijelo-forma">
+                    <form method="post" asp-action="PosaljiZahtjev" asp-controller="Student" id="formaZahtjev">
+                        @Html.AntiForgeryToken()
 
-                <div class="form-row">
-                    <label>Napomena</label>
-                    <textarea name="napomena" class="form-control-custom"
-                              placeholder="Unesite dodatne napomene..."></textarea>
+                        <div class="forma-grid">
+                            <div class="forma-group">
+                                <label>Tip potvrde <span>*</span></label>
+                                <select name="tipDokumenta" class="form-select-custom" id="tipDokumenta"
+                                        onchange="azurirajPrikaz()">
+                                    <option value="">-- Odaberi --</option>
+                                    <option value="Statusna potvrda">Statusna potvrda</option>
+                                    <option value="Prepis ocjena">Prepis ocjena</option>
+                                    <option value="Prepis ocjena po godinama">Prepis ocjena po godinama</option>
+                                    <option value="Potvrda o studiranju">Potvrda o studiranju</option>
+                                </select>
+                            </div>
+                            <div class="forma-group">
+                                <label>Jezik <span>*</span></label>
+                                <select name="jezik" class="form-select-custom">
+                                    <option value="B/H/S jezik">B/H/S jezik</option>
+                                    <option value="Engleski jezik">Engleski jezik</option>
+                                </select>
+                            </div>
+                            <div class="forma-group" id="grupaStatusna">
+                                <label>Statusna potvrda</label>
+                                <select name="svrha" class="form-select-custom">
+                                    <option value="">-- Svrha --</option>
+                                    <option value="Regulisanje stipendije">Regulisanje stipendije</option>
+                                    <option value="Zdravstveno osiguranje">Zdravstveno osiguranje</option>
+                                    <option value="Vojni rok">Vojni rok</option>
+                                    <option value="Ostalo">Ostalo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="napomena-row">
+                            <label>Napišite detalje zahtjeva</label>
+                            <textarea name="napomena" placeholder="Napisite detalje zahtjeva"></textarea>
+                        </div>
+
+                        <div class="forma-akcije">
+                            <button type="button" class="btn-ponisti" onclick="resetujFormu()">Ponisti</button>
+                            <button type="submit" class="btn-posalji">Posalji</button>
+                        </div>
+                    </form>
+
+                    <div style="margin-top: 18px;">
+                        @if (zahtjevi != null && zahtjevi.Any(z => !z.Status))
+                        {
+                            foreach (var z in zahtjevi.Where(z2 => !z2.Status))
+                            {
+                                <div class="aktivni-zahtjev-row">
+                                    <span><strong>@z.TipDokumenta</strong> &nbsp;&middot;&nbsp; @z.Datum.ToString("dd.MM.yyyy")</span>
+                                    <span class="badge-ceka">Na cekanju</span>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p class="aktivni-info">Trenutno nemate aktivnih zahtjeva za dokumente.</p>
+                        }
+                    </div>
                 </div>
+            </div>
 
-                <button type="submit" class="btn-pošalji">Pošalji zahtjev</button>
-            </form>
+            <!-- PRETHODNI ZAHTJEVI -->
+            <div class="sekcija">
+                <div class="sekcija-header" onclick="toggleSekcija('prethodni', this)">
+                    <h5>Prethodni zahtjevi</h5>
+                    <span class="toggle-icon" id="ikona-prethodni">&#8743;</span>
+                </div>
+                <div class="sekcija-body" id="tijelo-prethodni">
+                    @if (zahtjevi != null && zahtjevi.Any(z => z.Status))
+                    {
+                        <table class="tabela-zahtjeva">
+                            <thead>
+                                <tr>
+                                    <th>Tip dokumenta</th>
+                                    <th>Datum</th>
+                                    <th>Napomena</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var z in zahtjevi.Where(z2 => z2.Status).OrderByDescending(z2 => z2.Datum))
+                                {
+                                    <tr>
+                                        <td>@z.TipDokumenta</td>
+                                        <td>@z.Datum.ToString("dd.MM.yyyy")</td>
+                                        <td style="opacity:0.6;">–</td>
+                                        <td>
+                                            <span class="status-obraden">
+                                                obradjeno <span class="status-icon">&#10003;</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="aktivni-info">Nema prethodnih zahtjeva.</p>
+                    }
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <script>
+        function toggleSekcija(naziv, header) {
+            var tijelo = document.getElementById('tijelo-' + naziv);
+            var ikona = document.getElementById('ikona-' + naziv);
+            if (tijelo.style.display === 'none') {
+                tijelo.style.display = 'block';
+                ikona.innerHTML = '&#8743;';
+            } else {
+                tijelo.style.display = 'none';
+                ikona.innerHTML = '&#8744;';
+            }
+        }
+
+        function resetujFormu() {
+            document.getElementById('formaZahtjev').reset();
+        }
+
+        function azurirajPrikaz() {
+            var tip = document.getElementById('tipDokumenta').value;
+            var grupaStatusna = document.getElementById('grupaStatusna');
+            grupaStatusna.style.visibility = (tip === 'Statusna potvrda') ? 'visible' : 'hidden';
+        }
+
+        // Inicijalno sakrij svrhu ako nije statusna
+        azurirajPrikaz();
+    </script>
 </body>
 </html>

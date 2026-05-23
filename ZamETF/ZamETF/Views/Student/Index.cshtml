@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Početna";
+    ViewData["Title"] = "Pocetna";
     Layout = null;
     var obavijesti = ViewBag.Obavijesti as List<ZamETF.Models.Obavijest>;
     var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZamETF – Student</title>
+    <title>ZamETF - Student</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         * {
@@ -95,7 +95,6 @@
             gap: 20px;
         }
 
-        /* SIDEBAR */
         .sidebar {
             background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
             border-radius: 15px;
@@ -149,7 +148,6 @@
                 text-decoration: underline;
             }
 
-        /* CONTENT */
         .content-wrapper {
             flex: 1;
             display: flex;
@@ -173,17 +171,100 @@
                 font-size: 1rem;
             }
 
-        .obavijest-item {
+        .empty-text {
             color: #1a1a6e;
+            opacity: 0.6;
             font-size: 0.85rem;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(26,26,110,0.1);
         }
 
-            .obavijest-item:last-child {
-                border-bottom: none;
+        /* OBAVIJESTI */
+        .obavijest-item {
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            border-left: 4px solid #1a5f7a;
+            background: rgba(255,255,255,0.5);
+            transition: background 0.2s;
+        }
+
+            .obavijest-item:hover {
+                background: rgba(255,255,255,0.8);
             }
 
+            .obavijest-item.neprocitana {
+                background: rgba(255,255,255,0.75);
+                border-left-color: #e74c3c;
+            }
+
+            .obavijest-item.procitana {
+                background: rgba(255,255,255,0.3);
+                border-left-color: #a0c8f0;
+                opacity: 0.8;
+            }
+
+        .obavijest-naslov {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .obavijest-poruka {
+            color: #1a1a6e;
+            font-size: 0.8rem;
+            opacity: 0.75;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .obavijest-meta {
+            color: #1a1a6e;
+            font-size: 0.72rem;
+            opacity: 0.55;
+            margin-top: 3px;
+        }
+
+        .badge-tip {
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 7px;
+            flex-shrink: 0;
+        }
+
+        .badge-Obavijest {
+            background: #d6eaf8;
+            color: #1a5f7a;
+        }
+
+        .badge-Upozorenje {
+            background: #fdebd0;
+            color: #e67e22;
+        }
+
+        .badge-Podsjetnik {
+            background: #f5eef8;
+            color: #8e44ad;
+        }
+
+        .badge-novo {
+            background: #e74c3c;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 8px;
+            padding: 2px 6px;
+            font-weight: 700;
+        }
+
+        /* AKTUELNO */
         .aktuelno-item {
             display: flex;
             justify-content: space-between;
@@ -211,19 +292,22 @@
                 text-decoration: underline;
             }
 
-        .empty-text {
-            color: #1a1a6e;
-            opacity: 0.6;
-            font-size: 0.85rem;
+        .notif-count {
+            background: #e74c3c;
+            color: white;
+            border-radius: 10px;
+            padding: 1px 7px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-left: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
     <div class="navbar-top">
         <div class="navbar-left">
             <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a asp-controller="Student" asp-action="Index" class="navbar-brand-text">Početna</a>
+            <a asp-controller="Student" asp-action="Index" class="navbar-brand-text">Pocetna</a>
         </div>
         <div class="navbar-right">
             <span class="user-badge">Student: @User.Identity.Name</span>
@@ -234,13 +318,10 @@
         </div>
     </div>
 
-    <!-- MAIN -->
     <div class="main-content">
-        <!-- SIDEBAR -->
         <div class="sidebar">
             <div class="sidebar-section-title">Predmeti</div>
             <div class="sidebar-section-title" style="font-weight:400; margin-bottom:8px;">Trenutni semestar</div>
-
             @if (predmeti != null && predmeti.Any())
             {
                 foreach (var p in predmeti)
@@ -252,32 +333,64 @@
             {
                 <span class="empty-text">Nema predmeta.</span>
             }
-
             <div class="sidebar-divider"></div>
-
-            <a asp-controller="Student" asp-action="Index"
-               class="sidebar-link active">Prikaži arhivirane predmete</a>
-            <a asp-controller="Student" asp-action="SlanjeZadaca"
-               class="sidebar-link">Slanje zadaća</a>
-            <a asp-controller="Student" asp-action="PrijavaIspita"
-               class="sidebar-link">Prijava ispita</a>
-            <a asp-controller="Student" asp-action="ZahtjevZaDokument"
-               class="sidebar-link">Zahtjev za dokumente</a>
+            <a asp-controller="Student" asp-action="Index" class="sidebar-link active">Prikazi arhivirane predmete</a>
+            <a asp-controller="Student" asp-action="SlanjeZadaca" class="sidebar-link">Slanje zadaca</a>
+            <a asp-controller="Student" asp-action="PrijavaIspita" class="sidebar-link">Prijava ispita</a>
+            <a asp-controller="Student" asp-action="ZahtjevZaDokument" class="sidebar-link">Zahtjev za dokumente</a>
         </div>
 
-        <!-- CONTENT -->
         <div class="content-wrapper">
-
             <!-- OBAVIJESTI -->
             <div class="card-panel">
-                <h5>Obavijesti</h5>
+                <h5>
+                    Obavijesti
+                    @if (obavijesti != null && obavijesti.Any(o => !o.Procitana))
+                    {
+                        <span class="notif-count">@obavijesti.Count(o => !o.Procitana)</span>
+                    }
+                </h5>
+
                 @if (obavijesti != null && obavijesti.Any())
                 {
                     foreach (var o in obavijesti)
                     {
-                        <div class="obavijest-item">
-                            @o.Poruka
-                        </div>
+                        var tipKlasa = "";
+                        var tipLabel = "";
+                        if (o.Naslov != null && o.Naslov.StartsWith("[Upozorenje]"))
+                        {
+                            tipKlasa = "badge-Upozorenje";
+                            tipLabel = "Upozorenje";
+                        }
+                        else if (o.Naslov != null && o.Naslov.StartsWith("[Podsjetnik]"))
+                        {
+                            tipKlasa = "badge-Podsjetnik";
+                            tipLabel = "Podsjetnik";
+                        }
+                        else if (o.Naslov != null && o.Naslov.StartsWith("[Obavijest]"))
+                        {
+                            tipKlasa = "badge-Obavijest";
+                            tipLabel = "Obavijest";
+                        }
+
+                        <a asp-controller="Student"
+                           asp-action="DetaljiObavijesti"
+                           asp-route-id="@o.Id"
+                           class="obavijest-item @(o.Procitana ? "procitana" : "neprocitana")">
+                            <div class="obavijest-naslov">
+                                @if (!string.IsNullOrEmpty(tipLabel))
+                                {
+                                    <span class="badge-tip @tipKlasa">@tipLabel</span>
+                                }
+                                @(o.Naslov?.Replace("[Obavijest] ", "").Replace("[Upozorenje] ", "").Replace("[Podsjetnik] ", "") ?? "")
+                                @if (!o.Procitana)
+                                {
+                                    <span class="badge-novo">NOVO</span>
+                                }
+                            </div>
+                            <div class="obavijest-poruka">@o.Poruka</div>
+                            <div class="obavijest-meta">@o.DatumSlanja.ToString("dd.MM.yyyy") u @o.DatumSlanja.ToString("HH:mm")</div>
+                        </a>
                     }
                 }
                 else
@@ -304,7 +417,6 @@
                     <span class="empty-text">Nema aktuelnih obavijesti.</span>
                 }
             </div>
-
         </div>
     </div>
 </body>

@@ -1,0 +1,311 @@
+﻿@{
+    ViewData["Title"] = "Detalji obavijesti";
+    Layout = null;
+    var obavijest = ViewBag.Obavijest as ZamETF.Models.Obavijest;
+    var posiljалac = ViewBag.Posiljалac as string;
+    var masovnoPoslano = (bool)(ViewBag.MasovnoPoslano ?? false);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZamETF - Obavijest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-top {
+            background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-top img {
+            height: 35px;
+        }
+
+        .navbar-brand-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+            .navbar-brand-text:hover {
+                color: #a0c8f0;
+            }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background: white;
+            color: #1a1a6e;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-odjava {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            .btn-odjava:hover {
+                background: rgba(255,255,255,0.1);
+                color: white;
+            }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .obavijest-card {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 18px;
+            padding: 35px 40px;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        .back-link {
+            color: #1a1a6e;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 20px;
+            opacity: 0.75;
+        }
+
+            .back-link:hover {
+                opacity: 1;
+                color: #0a0a2e;
+            }
+
+        .tip-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 4px 12px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .tip-Obavijest {
+            background: #d6eaf8;
+            color: #1a5f7a;
+        }
+
+        .tip-Upozorenje {
+            background: #fdebd0;
+            color: #e67e22;
+        }
+
+        .tip-Podsjetnik {
+            background: #f5eef8;
+            color: #8e44ad;
+        }
+
+        .tip-default {
+            background: #eaf0fb;
+            color: #1a1a6e;
+        }
+
+        .obavijest-naslov {
+            color: #1a1a6e;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            opacity: 0.65;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+            .meta-item strong {
+                opacity: 1;
+                font-weight: 600;
+            }
+
+        .divider {
+            border-top: 2px solid rgba(26,26,110,0.12);
+            margin: 18px 0;
+        }
+
+        .poruka-tekst {
+            color: #1a1a6e;
+            font-size: 0.97rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .masovno-badge {
+            background: #1a1a6e;
+            color: white;
+            border-radius: 10px;
+            padding: 4px 12px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-nazad {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 25px;
+            transition: background 0.2s;
+        }
+
+            .btn-nazad:hover {
+                background: #0a3f5a;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+    <div class="navbar-top">
+        <div class="navbar-left">
+            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
+            <a asp-controller="Student" asp-action="Index" class="navbar-brand-text">Pocetna</a>
+        </div>
+        <div class="navbar-right">
+            <span class="user-badge">Student: @User.Identity.Name</span>
+            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-odjava">Odjava</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="obavijest-card">
+            <a asp-controller="Student" asp-action="Index" class="back-link">
+                &larr; Nazad na pocetnu
+            </a>
+
+            @if (obavijest != null)
+            {
+                var naslov = obavijest.Naslov ?? "";
+                var tipLabel = "";
+                var tipKlasa = "tip-default";
+
+                if (naslov.StartsWith("[Upozorenje]"))
+                {
+                    tipLabel = "Upozorenje";
+                    tipKlasa = "tip-Upozorenje";
+                    naslov = naslov.Replace("[Upozorenje] ", "").Replace("[Upozorenje]", "");
+                }
+                else if (naslov.StartsWith("[Podsjetnik]"))
+                {
+                    tipLabel = "Podsjetnik";
+                    tipKlasa = "tip-Podsjetnik";
+                    naslov = naslov.Replace("[Podsjetnik] ", "").Replace("[Podsjetnik]", "");
+                }
+                else if (naslov.StartsWith("[Obavijest]"))
+                {
+                    tipLabel = "Obavijest";
+                    tipKlasa = "tip-Obavijest";
+                    naslov = naslov.Replace("[Obavijest] ", "").Replace("[Obavijest]", "");
+                }
+
+                if (!string.IsNullOrEmpty(tipLabel))
+                {
+                    <span class="tip-badge @tipKlasa">@tipLabel</span>
+                }
+
+                <div class="obavijest-naslov">@naslov</div>
+
+                <div class="meta-row">
+                    <span class="meta-item">
+                        Od: <strong>@(posiljалac ?? "Sistem")</strong>
+                    </span>
+                    <span class="meta-item">
+                        @obavijest.DatumSlanja.ToString("dd.MM.yyyy") u @obavijest.DatumSlanja.ToString("HH:mm")
+                    </span>
+                    @if (masovnoPoslano)
+                    {
+                        <span class="masovno-badge">Poslano svim studentima</span>
+                    }
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poruka-tekst">@obavijest.Poruka</div>
+
+                <a asp-controller="Student" asp-action="Index" class="btn-nazad">
+                    Nazad
+                </a>
+            }
+            else
+            {
+                <p style="color:#1a1a6e;">Obavijest nije pronadjena.</p>
+                <a asp-controller="Student" asp-action="Index" class="btn-nazad">Nazad</a>
+            }
+        </div>
+    </div>
+</body>
+</html>
