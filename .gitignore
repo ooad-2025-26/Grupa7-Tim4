@@ -1,0 +1,11 @@
+# Visual Studio cache and user-specific files
+.vs/
+*.suo
+*.user
+*.slnx.sqlite
+
+# Build outputs
+[Dd]ebug/
+[Rr]elease/
+obj/
+bin/
