@@ -1,0 +1,38 @@
+-Login screen, treba promijeniti UI da bude samo jedno zaboravljena sifra i da to jedno bude funkcionalno
+-Kroz sve dokumente promijeniti afrikate da postoje.
+-pogledat kako zapravo fakat pravi mail napravit prilikom pravljenja korisnika koji ce bit funkcionalan, iako sad sve radi ovo su fiktivni mailovi a nama treba doci na mail pdf i slicno kad je obradjen neki zahtjev, sto takodjer treba implememntirati.
+
+STUDENT:
+-prikazati predmete, da bude funkcionalno kad se klikne na predmet da odvede na stranicu predmeta isto kao na zamgeru trenutno da se moze vidjeti prisustvo, da se mogu vidjeti bodovi zadaca i ukupni bodovi. bilo bi fino da ima negdje napisano koliko koji ispit ukupno nosi bodova da se ne mora svaki put ic na silabus predmeta kao na c2. Omoguciti slanje AKTIVNE zadace za TAJ predmet, tj da se preusmjeri na slanje zadace ukoliko ima zadaca.
+- Implementirati prijava ispita da bude funkcionalno i da se moze kliknuti, te da u AKTUELNO prikazuje ukoliko ima otvoren rok za prijavu nekog ispita
+- implementirati slanje zadace, sve isto kao prijava ispita.
+- implementirati prikazi arhivirane predmete da vodi na stranicu starih predmeta, isto zamger.
+
+-Prijava predmeta preko studentske???????, prijava izbornih 
+
+STUDENTSKA:
+-prikazati zahtjeve za dokument od profesora jer ne prikazuje
+-doraditi zahtjev za statistiku, doraditi zahtjev za upis/izmjenu
+-dodati upis predmeta, automatski dodjeljuje obavezne predmete u semestru po odsjeku, izborni ??
+- generisanje izvjestaja kad se klike da se generise, preusmjeri, to je ok, treba fino osposobiti download pdfa, slanje pdfa na actual mail studenta ne da bude simulacija.
+-NAPRAVITI/UKOMPONOVSTI PDF GENERATOR koji ce fakat napravit dokument u zavisnosti sta se trazi.
+-u index treba dodati da ima i za notifikacije/aktuelno, jer admin moze slat notifs i studenstkoj kad je u pitanju neko odrzavanje sistema i slicno.
+
+PROFESOR:
+-treba izmjenit idex nije konzistentan sa ostalim sto je radjeno, sa desne strane kao sto je u UI dokumentu trebaju bit prikazani aktivni rokovi, kad se klikne na to treba da preusmjeri na stranicu te zadace gdje se moze dalje vidjet ko je sve predao i samim time ocijenit ali i promijenit rok i slicno
+- dodati predmete, omoguciti pregled svakog isto kao za studenta, malo drugaciji layout (postavi zadacu, pregledaj pristigle zadace, unesi prisustvo, postavi prijavu za ispit, uredi koliko koji dio ispita nosi i slicno, pokazi koliko studenata na predmetu ima, da sve to ide kroz predmet)
+- Kreiranje zadace -> odaberi predmet -> UI, uvezati sa studentom da imaju pregled zadaca i slicno
+-Kreiranje ispira isto kao kreiranje zadace, isto index ui treba da radi (ref prvi pasus kod prof.)
+-evidencija prisustva -> odaberi predmet-> odaberi datum -> pokazi listu svih studenata, omoguci preko checkbox da se selektaju studenti koji su bili/ svi studenti / svi studenti osim ----- i omoguci pretrazivanje po imenu/Indexu u sklopu tog
+-zahtjev za dokument treba uvezati sa studentskom i adminom
+-slanje notifikacija samo UI/ boju desnog boxa promijenit, popravit bug kad kliknes vise puta na godinu studija tj na checkbox u tom desnom boxu pise milion puta 2. godina i slicno skontat cete
+
+
+ADMIN:
+-notifikacije, UI + sve da bude funkcionalno 
+-generisanje statistike ima manuelno generisanje treba omogucit pretrazivanje po imenu/indeksu, omogucit generisanje pdfa da bude funkcionalno. uvezati predmet i omogucit da radi i za predmet. omoguciti generisi i preuzmi statistiku i slanje STATISTIKE/pdfa o statistici studentskoj, ono navodno posalje al ne salje nista jer ne generise pdf jos uvijek
+-izbrisat obradjeni zahtjevi iz Indexa
+- napravit UI i funkcionalnost za svi zahtjevi isto kao za studentsku samo sto kod ovog treba biti u dvije grupe tj unos/izmjena podataka, i jedan za statistiku.
+-Kreiranje predmeta treba dodati, UI, funkc, da Admin napravi predmet, selektuje profesore koji su na predmetu, te info da se sve uvezu u bazi podataka i da studentska ima pristup svim kreiranim predmetima radi statistike, selektuje se koji semestar, svi studenti na tom semestru automatski dobiju te predmete.
+
+
