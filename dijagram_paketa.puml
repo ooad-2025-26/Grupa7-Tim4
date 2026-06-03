@@ -1,0 +1,58 @@
+@startuml dijagram_paketa
+title Dijagram paketa – Zamger sistem
+
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+
+package "zamger (root)" {
+
+  package "zamger.ui" as UI {
+    package "zamger.ui.student" as UI_STUD
+    package "zamger.ui.profesor" as UI_PROF
+    package "zamger.ui.admin" as UI_ADMIN
+    package "zamger.ui.sluzba" as UI_SLUZ
+  }
+
+  package "zamger.service" as SVC {
+    package "zamger.service.ispit" as SVC_ISPIT
+    package "zamger.service.zadaca" as SVC_ZAD
+    package "zamger.service.dokument" as SVC_DOK
+    package "zamger.service.statistika" as SVC_STAT
+    package "zamger.service.notifikacija" as SVC_NOTIF
+    package "zamger.service.admin" as SVC_ADMIN
+  }
+
+  package "zamger.domain" as DOM {
+    package "zamger.domain.korisnik" as DOM_KOR
+    package "zamger.domain.akademski" as DOM_AKA
+    package "zamger.domain.zahtjevi" as DOM_ZAH
+  }
+
+  package "zamger.infrastructure" as INFRA {
+    package "zamger.infrastructure.persistence" as INFRA_PERS
+    package "zamger.infrastructure.email" as INFRA_EMAIL
+    package "zamger.infrastructure.pdf" as INFRA_PDF
+    package "zamger.infrastructure.security" as INFRA_SEC
+    package "zamger.infrastructure.interfaces" as INFRA_INT
+  }
+}
+
+' Zavisnosti između slojeva
+UI ..> SVC : <<use>>
+SVC ..> DOM : <<use>>
+SVC ..> INFRA_INT : <<use>>
+INFRA ..> DOM : <<use>>
+
+note bottom of DOM
+  Nema vanjskih zavisnosti –
+  čisti domenski model
+  (Clean Architecture)
+end note
+
+note right of UI
+  Ne smije direktno zavisiti
+  od zamger.domain ili
+  zamger.infrastructure
+end note
+
+@enduml

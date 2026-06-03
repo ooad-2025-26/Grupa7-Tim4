@@ -1,0 +1,55 @@
+@startuml dijagram_rasporedivanja
+title Dijagram raspoređivanja – Zamger produkcija
+
+skinparam backgroundColor white
+skinparam node {
+  BackgroundColor LightYellow
+  BorderColor DarkGoldenRod
+}
+
+node "«device»\nClientBrowser" as CLIENT {
+  artifact "zamger-frontend.js\n(React/Vue SPA)" as FE
+  artifact "zamger-styles.css" as CSS
+}
+
+node "«server»\nWebServer (Nginx :443)" as WEB {
+  artifact "nginx.conf" as NGINX_CONF
+  artifact "SSL Certifikati" as SSL
+}
+
+node "«server»\nAppServer (Spring Boot :8080)" as APP {
+  artifact "zamger-app.jar" as JAR
+  component [zamger.ui] as UI
+  component [zamger.service] as SVC
+  component [zamger.infrastructure] as INFRA
+}
+
+node "«database server»\nDatabaseServer (PostgreSQL :5432)" as DB_PRIMARY {
+  artifact "schema.sql" as SCHEMA
+  artifact "migration/*.sql (Flyway)" as FLYWAY
+}
+
+node "«database server»\nDB Replika (read-only)" as DB_REPLICA {
+}
+
+node "«server»\nFileServer (:8090)" as FILE {
+  artifact "/uploads/zadace/" as UPLOADS
+}
+
+node "«service»\nPDFService (:3000)" as PDF {
+  artifact "pdf-generator.js\n(Puppeteer)" as PDF_GEN
+}
+
+node "«external service»\nMailServer SMTP (:587)" as MAIL {
+}
+
+' Komunikacijske veze
+CLIENT --> WEB : HTTPS/443\n(TLS 1.3, JWT)
+WEB --> APP : HTTP/8080\n(proxy_pass)
+APP --> DB_PRIMARY : JDBC/5432\n(HikariCP)
+APP --> FILE : HTTP/8090\n(REST API, JWT)
+APP --> PDF : HTTP/3000\n(interni poziv)
+APP --> MAIL : SMTP/587\n(STARTTLS)
+DB_PRIMARY --> DB_REPLICA : PostgreSQL streaming\n(asinhrona replikacija, HA)
+
+@enduml

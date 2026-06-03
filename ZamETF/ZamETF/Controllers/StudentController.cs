@@ -286,9 +286,7 @@ namespace ZamETF.Controllers
                 Datum = DateTime.Now,
                 Status = false
             };
-            _context.ZahtjeviDokumenata.Add(zahtjev);
-            await _context.SaveChangesAsync();
-
+          
             var obavijest = new Obavijest
             {
                 Naslov = "Zahtjev za dokument: " + tipPun,
@@ -297,9 +295,12 @@ namespace ZamETF.Controllers
                          " (Jezik: " + jezik + "). " + napomena,
                 PošiljalacId = student.Id,
                 PrimalacId = studentskaSluzba.Id,
-                ZahtjevId = zahtjev.Id,
+                Zahtjev = zahtjev, // <-- assign the object reference, not the int id
                 DatumSlanja = DateTime.Now
             };
+
+            // Add both entities so EF can manage the FK relationship and generate the Id
+            _context.ZahtjeviDokumenata.Add(zahtjev);
             _context.Obavijesti.Add(obavijest);
             await _context.SaveChangesAsync();
 

@@ -1,0 +1,83 @@
+@startuml dijagram_komponenti
+title Dijagram komponenti – Zamger sistem
+
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+
+package "«system» ZamgerSystem" {
+
+  component [AuthKomponenta] as AUTH {
+    interface "IAutentifikacija" as IAUTH
+    interface "IAutorizacija" as IAUTHZ
+  }
+
+  component [StudentKomponenta] as STUD {
+    interface "IStudentOperacije" as ISTUD
+    interface "IPrijavaIspita" as IPRIJ
+  }
+
+  component [ProfesorKomponenta] as PROF {
+    interface "IProfesorOperacije" as IPROF
+    interface "IOcjenjivanje" as IOCJ
+  }
+
+  component [PredmetKomponenta] as PRED {
+    interface "IPredmetManagement" as IPRED
+  }
+
+  component [AdministracijaKomponenta] as ADMIN {
+    interface "IAdminOperacije" as IADMIN
+  }
+
+  component [DokumentKomponenta] as DOK {
+    interface "IGenerisanjeDokumenta" as IGENDOK
+    interface "IEmailSlanje" as IEMAIL
+  }
+
+  component [NotifikacijaKomponenta] as NOTIF {
+    interface "INotifikacija" as INOTIF
+    interface "ISubscription" as ISUB
+  }
+
+  component [StatistikaKomponenta] as STAT {
+    interface "IStatistikaIzracun" as ISTAT
+  }
+
+  component [PerzistencijskaKomponenta] as PERZ {
+    interface "IRepozitorij" as IREP
+    interface "ITransakcija" as ITRAN
+  }
+}
+
+' Vanjske zavisnosti
+cloud "PDF Engine" as PDF
+cloud "SMTP Server" as SMTP
+database "PostgreSQL" as DB
+
+' Veze između komponenti
+STUD --> IAUTH : <<require>>
+PROF --> IAUTH : <<require>>
+ADMIN --> IAUTH : <<require>>
+DOK --> IAUTH : <<require>>
+
+STUD --> IPRED : <<require>>
+PROF --> IPRED : <<require>>
+
+PROF --> IPRIJ : <<require>>
+PROF --> INOTIF : <<require>>
+ADMIN --> INOTIF : <<require>>
+
+STUD --> IGENDOK : <<require>>
+
+DOK --> PDF : <<require>>
+DOK --> SMTP : <<require>>
+
+STUD --> IREP : <<require>>
+PROF --> IREP : <<require>>
+PRED --> IREP : <<require>>
+ADMIN --> IREP : <<require>>
+DOK --> IREP : <<require>>
+
+PERZ --> DB : <<require>>
+
+@enduml

@@ -6,7 +6,7 @@ namespace ZamETF.Models
         public Student() { }
         public Student(int indeks) { Indeks = indeks.ToString(); }
 
-        [StringLength(20)]
+        [StringLength(5)]
         public string Indeks { get; set; }
 
         [Range(1, 5)]
@@ -15,18 +15,18 @@ namespace ZamETF.Models
         [StringLength(13)]
         public string JMBG { get; set; }
 
-        public DateTime? DatumRodjenja { get; set; }
+        public DateTime DatumRodjenja { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string ImeOca { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string ImeMajke { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string MjestoPrebivalisca { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string Odsjek { get; set; }
 
         [StringLength(50)]

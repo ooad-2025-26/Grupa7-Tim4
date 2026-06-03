@@ -7,11 +7,11 @@ namespace ZamETF.Models
     public class Korisnik : IdentityUser<int>
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(20)]
         public string Ime { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(30)]
         public string Prezime { get; set; }
 
         [Required]
@@ -28,7 +28,7 @@ namespace ZamETF.Models
 
         [NotMapped]
         [DataType(DataType.Password)]
-        [StringLength(50, MinimumLength = 6)]
+        [StringLength(50, MinimumLength = 6, ErrorMessage = "Duzina lozinke mora biti najmanje 6 a najvise 50 karaktera!")]
         [RegularExpression("^(?=.*[A-Z])(?=.*\\d).+$", ErrorMessage = "Lozinka mora sadržavati barem jedno veliko slovo i jednu brojku.")]
         public string Lozinka { get; set; }
 
@@ -44,6 +44,10 @@ namespace ZamETF.Models
         public void SetUsername(string username) => UserName = username;
         public Uloga GetUloga() => Uloga;
         public void SetUloga(Uloga uloga) => Uloga = uloga;
-        public bool ProvjeriLozinku(string lozinka) => PasswordHash == lozinka;
+        public bool ProvjeriLozinku(string lozinka, IPasswordHasher<Korisnik> hasher)
+        {
+            var result = hasher.VerifyHashedPassword(this, PasswordHash, lozinka);
+            return result == PasswordVerificationResult.Success;
+        }
     }
 }
