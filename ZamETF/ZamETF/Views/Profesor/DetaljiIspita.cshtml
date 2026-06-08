@@ -1,0 +1,359 @@
+﻿@model ZamETF.Models.Ispit
+@{
+    ViewData["Title"] = "Detalji ispita";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+}
+
+<style>
+    .ispit-layout {
+        display: flex;
+        gap: 20px;
+    }
+
+    .ispit-left {
+        flex: 1;
+    }
+
+    .ispit-right {
+        width: 280px;
+        min-width: 280px;
+    }
+
+    .panel {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 22px;
+        color: #0f1535;
+    }
+
+    .panel-header {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1.5px solid rgba(30,58,138,0.12);
+    }
+
+    .ispit-info-row {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+
+    .info-box-item {
+        background: rgba(255,255,255,0.5);
+        border-radius: 10px;
+        padding: 12px 16px;
+        flex: 1;
+        min-width: 130px;
+    }
+
+    .info-box-label {
+        font-size: 0.72rem;
+        color: rgba(15,21,53,0.5);
+        margin-bottom: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .info-box-value {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1e3a8a;
+    }
+
+    .info-box-sub {
+        font-size: 0.75rem;
+        color: rgba(15,21,53,0.5);
+        margin-top: 2px;
+    }
+
+    .rok-aktivan {
+        color: #16a34a;
+    }
+
+    .rok-istekao {
+        color: #dc2626;
+    }
+
+    .forma-edit {
+        background: rgba(255,255,255,0.4);
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+        .forma-edit .forma-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .forma-edit .forma-input {
+            border: 1.5px solid rgba(30,58,138,0.25);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.88rem;
+            color: #0f1535;
+            background: rgba(255,255,255,0.7);
+            width: 100%;
+            outline: none;
+            margin-bottom: 12px;
+        }
+
+            .forma-edit .forma-input:focus {
+                border-color: #3b82f6;
+            }
+
+    .forma-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .btn-azuriraj {
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-azuriraj:hover {
+            opacity: 0.88;
+        }
+
+    .tabela {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .tabela th {
+            color: #1e3a8a;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-bottom: 2px solid rgba(30,58,138,0.15);
+            text-align: left;
+        }
+
+        .tabela td {
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(15,21,53,0.07);
+            font-size: 0.85rem;
+            color: #0f1535;
+            vertical-align: middle;
+        }
+
+        .tabela tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tabela tr:hover td {
+            background: rgba(255,255,255,0.3);
+        }
+
+    .badge-prijavljen {
+        background: #d6eaf8;
+        color: #1a5f7a;
+        border-radius: 8px;
+        padding: 2px 9px;
+        font-size: 0.73rem;
+        font-weight: 700;
+    }
+
+    .stat-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .stat-box {
+        flex: 1;
+        background: rgba(255,255,255,0.5);
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+    }
+
+        .stat-box .broj {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .stat-box .label {
+            font-size: 0.7rem;
+            color: rgba(15,21,53,0.5);
+        }
+
+    .empty-state {
+        color: rgba(15,21,53,0.4);
+        font-size: 0.84rem;
+        padding: 10px 0;
+    }
+
+    .back-link {
+        color: #1e3a8a;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    .search-box {
+        margin-bottom: 12px;
+    }
+
+        .search-box input {
+            border: 1.5px solid rgba(30,58,138,0.2);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 0.84rem;
+            color: #0f1535;
+            background: rgba(255,255,255,0.65);
+            outline: none;
+            width: 100%;
+        }
+</style>
+
+<a asp-controller="Profesor" asp-action="Index" class="back-link">&larr; Nazad na pocetnu</a>
+
+<div class="ispit-layout">
+    <div class="ispit-left">
+        <div class="panel">
+            <div class="panel-header">Ispit – @Model.Predmet?.Naziv</div>
+
+            <div class="ispit-info-row">
+                <div class="info-box-item">
+                    <div class="info-box-label">Datum ispita</div>
+                    <div class="info-box-value">@Model.Datum.ToString("dd.MM.yyyy")</div>
+                    <div class="info-box-sub">@Model.Datum.ToString("HH:mm")</div>
+                </div>
+                <div class="info-box-item">
+                    <div class="info-box-label">Rok za prijavu</div>
+                    <div class="info-box-value @(Model.ProvjeriRokZaPrijavu() ? "rok-aktivan" : "rok-istekao")">
+                        @Model.RokZaPrijavu.ToString("dd.MM.yyyy")
+                    </div>
+                    <div class="info-box-sub">@(Model.ProvjeriRokZaPrijavu() ? "Aktivan" : "Istekao")</div>
+                </div>
+                <div class="info-box-item">
+                    <div class="info-box-label">Prijavljenih</div>
+                    <div class="info-box-value">@(Model.Prijave?.Count ?? 0)</div>
+                    <div class="info-box-sub">studenata</div>
+                </div>
+            </div>
+
+            <!-- EDIT FORME -->
+            <div class="forma-edit">
+                <div style="font-size:0.82rem; font-weight:700; color:#1e3a8a; margin-bottom:10px;">Izmijeni ispit</div>
+                <form method="post" asp-controller="Profesor" asp-action="IzmijeniIspit">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ispitId" value="@Model.Id" />
+                    <div class="forma-grid">
+                        <div>
+                            <label class="forma-label">Datum ispita</label>
+                            <input type="datetime-local" name="datum" class="forma-input"
+                                   value="@Model.Datum.ToString("yyyy-MM-ddTHH:mm")" required />
+                        </div>
+                        <div>
+                            <label class="forma-label">Rok za prijavu</label>
+                            <input type="date" name="rokZaPrijavu" class="forma-input"
+                                   value="@Model.RokZaPrijavu.ToString("yyyy-MM-dd")" required />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-azuriraj">Sacuvaj izmjene</button>
+                </form>
+            </div>
+
+            <!-- PRIJAVLJENI STUDENTI -->
+            <div style="font-size:0.85rem; font-weight:700; color:#1e3a8a; margin-bottom:10px;">
+                Prijavljeni studenti (@(Model.Prijave?.Count ?? 0))
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Pretrazi studenta..."
+                       oninput="pretraziStudente(this.value)" />
+            </div>
+
+            @if (Model.Prijave != null && Model.Prijave.Any())
+            {
+                <table class="tabela" id="tabelaPrijave">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ime i prezime</th>
+                            <th>Indeks</th>
+                            <th>Datum prijave</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 1;
+                        }
+                        @foreach (var p in Model.Prijave.OrderBy(p2 => p2.Student?.Prezime))
+                        {
+                            <tr data-tekst="@((p.Student?.Ime + " " + p.Student?.Prezime + " " + p.Student?.Indeks).ToLower())">
+                                <td>@(i++)</td>
+                                <td>@p.Student?.Ime @p.Student?.Prezime</td>
+                                <td>@p.Student?.Indeks</td>
+                                <td>@p.DatumPrijave.ToString("dd.MM.yyyy")</td>
+                                <td><span class="badge-prijavljen">Prijavljen</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="empty-state">Nema prijavljenih studenata.</p>
+            }
+        </div>
+    </div>
+
+    <!-- DESNA STRANA -->
+    <div class="ispit-right">
+        <div class="panel">
+            <div class="panel-header" style="font-size:0.9rem;">Statistika</div>
+            <div class="stat-row">
+                <div class="stat-box">
+                    <div class="broj">@(Model.Prijave?.Count ?? 0)</div>
+                    <div class="label">Prijavljenih</div>
+                </div>
+                <div class="stat-box">
+                    <div class="broj">@(Model.Predmet?.Studenti?.Count ?? 0)</div>
+                    <div class="label">Na predmetu</div>
+                </div>
+            </div>
+            @if ((Model.Predmet?.Studenti?.Count ?? 0) > 0)
+            {
+                var posto = (Model.Prijave?.Count ?? 0) * 100 / Model.Predmet.Studenti.Count;
+                <div style="background:rgba(255,255,255,0.5); border-radius:8px; padding:10px; text-align:center; font-size:0.85rem; color:#1e3a8a; font-weight:700;">
+                    @posto% studenata prijavljeno
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function pretraziStudente(val) {
+            var q = val.toLowerCase();
+            document.querySelectorAll('#tabelaPrijave tbody tr').forEach(function(tr) {
+                tr.style.display = (tr.dataset.tekst || '').indexOf(q) !== -1 ? '' : 'none';
+            });
+        }
+    </script>
+}

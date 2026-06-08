@@ -6,8 +6,9 @@
     "\\Views",
     "\\Views\\Administrator",
     "\\Views\\Profesor",
+    "\\Views\\Student",
     "\\Views\\StudentskaSluzba"
   ],
-  "SelectedNode": "\\ZamETF.sln",
+  "SelectedNode": "\\Views\\Student\\ZahtjevZaDokument.cshtml",
   "PreviewInSolutionExplorer": false
 }

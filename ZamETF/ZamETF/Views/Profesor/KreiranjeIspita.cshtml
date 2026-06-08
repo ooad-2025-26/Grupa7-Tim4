@@ -1,8 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Kreiranje zadace";
+@{
+    ViewData["Title"] = "Kreiranje ispita";
     Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
     var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
     var odabraniPredmetId = ViewBag.OdabraniPredmetId as int?;
+    var ispiti = ViewBag.Ispiti as List<ZamETF.Models.Ispit>;
 }
 
 <style>
@@ -32,7 +33,6 @@
         font-size: 1rem;
         margin-bottom: 20px;
         text-align: center;
-        color: #0f1535;
     }
 
     .predmet-odabir {
@@ -101,6 +101,21 @@
             background: rgba(255,255,255,0.85);
         }
 
+    .forma-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+        .forma-grid .forma-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .forma-grid .forma-group .form-input {
+                margin-bottom: 0;
+            }
+
     .btn-kreiraj {
         width: 100%;
         padding: 11px;
@@ -111,45 +126,48 @@
         font-size: 0.95rem;
         font-weight: 600;
         cursor: pointer;
-        margin-top: 4px;
+        margin-top: 14px;
     }
 
         .btn-kreiraj:hover {
             opacity: 0.88;
         }
 
-    /* DESNA - pregled postojecih */
-    .zadaca-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .ispit-item {
         padding: 9px 0;
         border-bottom: 1px solid rgba(15,21,53,0.08);
     }
 
-        .zadaca-item:last-child {
+        .ispit-item:last-child {
             border-bottom: none;
         }
 
-    .zadaca-naziv {
-        font-weight: 600;
-        font-size: 0.84rem;
+    .ispit-datum {
+        font-weight: 700;
+        font-size: 0.86rem;
         color: #0f1535;
     }
 
-    .zadaca-info {
-        font-size: 0.72rem;
+    .ispit-info {
+        font-size: 0.73rem;
         color: rgba(15,21,53,0.5);
         margin-top: 2px;
     }
 
-    .rok-aktivan {
-        color: #16a34a;
-        font-weight: 600;
+    .ispit-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
     }
 
-    .rok-istekao {
-        color: #dc2626;
+    .prijave-badge {
+        background: rgba(142,68,173,0.1);
+        color: #8e44ad;
+        border-radius: 8px;
+        padding: 2px 8px;
+        font-size: 0.72rem;
+        font-weight: 600;
     }
 
     .btn-link {
@@ -163,6 +181,15 @@
             text-decoration: underline;
         }
 
+    .rok-aktivan {
+        color: #16a34a;
+        font-weight: 600;
+    }
+
+    .rok-istekao {
+        color: #dc2626;
+    }
+
     .empty-state {
         color: rgba(15,21,53,0.4);
         font-size: 0.84rem;
@@ -170,12 +197,12 @@
     }
 
     .info-box {
-        background: rgba(30,58,138,0.07);
-        border-left: 3px solid #1a5f7a;
+        background: rgba(142,68,173,0.08);
+        border-left: 3px solid #8e44ad;
         border-radius: 8px;
         padding: 10px 13px;
         font-size: 0.82rem;
-        color: #1e3a8a;
+        color: #6c3483;
         margin-bottom: 16px;
     }
 </style>
@@ -183,9 +210,13 @@
 <div class="forma-layout">
     <div class="forma-left">
         <div class="panel">
-            <div class="panel-header">Kreiranje nove zadace</div>
+            <div class="panel-header">Kreiranje novog ispita</div>
 
-            <form method="post" asp-controller="Profesor" asp-action="KreiranjeZadace" id="formaZadaca">
+            <div class="info-box">
+                Nakon kreiranja, studenti ce moci prijaviti ispit putem svog panela u zadatom roku za prijavu.
+            </div>
+
+            <form method="post" asp-controller="Profesor" asp-action="KreiranjeIspita" id="formaIspit">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="predmetId" id="predmetIdInput"
                        value="@(odabraniPredmetId?.ToString() ?? "")" />
@@ -208,60 +239,62 @@
                     }
                 </div>
 
-                <label class="form-label">Naziv zadace *</label>
-                <input type="text" name="nazividID" class="form-input"
-                       placeholder="Npr. Zadaca 1 - Osnove OOP-a" required maxlength="50" />
+                <div class="forma-grid" style="margin-bottom:14px;">
+                    <div class="forma-group">
+                        <label class="form-label">Datum ispita *</label>
+                        <input type="datetime-local" name="datum" class="form-input" required />
+                    </div>
+                    <div class="forma-group">
+                        <label class="form-label">Rok za prijavu *</label>
+                        <input type="date" name="rokZaPrijavu" class="form-input" required />
+                    </div>
+                </div>
 
-                <label class="form-label">Opis zadace</label>
-                <textarea name="opis" class="form-input" rows="4"
-                          placeholder="Opisite sta studenti trebaju uraditi..." maxlength="2000"></textarea>
-
-                <label class="form-label">Rok predaje *</label>
-                <input type="datetime-local" name="rok" class="form-input" required />
-
-                <button type="submit" class="btn-kreiraj">Kreiraj zadacu</button>
+                <button type="submit" class="btn-kreiraj">Kreiraj ispit</button>
             </form>
         </div>
     </div>
 
     <div class="forma-right">
         <div class="panel">
-            <div class="panel-header" style="font-size:0.9rem;">Postojece zadace</div>
-            <div id="zadacePrikaz">
+            <div class="panel-header" style="font-size:0.9rem;">Postojeci ispiti</div>
+            <div id="ispitiPrikaz">
                 @if (predmeti != null)
                 {
                     foreach (var p in predmeti)
                     {
-                        <div id="zadaceGrupa@(p.Id)"
+                        var ispitiPredmeta = ispiti?.Where(i => i.Predmet?.Id == p.Id).ToList() ?? new List<ZamETF.Models.Ispit>();
+                        <div id="ispitiGrupa@(p.Id)"
                              style="@(odabraniPredmetId == p.Id ? "" : "display:none;")">
                             <div style="font-size:0.78rem; font-weight:700; color:rgba(30,58,138,0.6); margin-bottom:8px; text-transform:uppercase;">@p.Naziv</div>
-                            @if (p.Zadace != null && p.Zadace.Any())
+                            @if (ispitiPredmeta.Any())
                             {
-                                foreach (var z in p.Zadace.OrderByDescending(z2 => z2.Rok))
+                                foreach (var ispit in ispitiPredmeta.OrderByDescending(i2 => i2.Datum))
                                 {
-                                    var istekao = !z.ProvjeriRok();
-                                    <div class="zadaca-item">
-                                        <div>
-                                            <div class="zadaca-naziv">@z.NazivID</div>
-                                            <div class="zadaca-info @(istekao ? "rok-istekao" : "rok-aktivan")">
-                                                @z.Rok.ToString("dd.MM.yyyy")
-                                            </div>
+                                    var rokIstekao = !ispit.ProvjeriRokZaPrijavu();
+                                    <div class="ispit-item">
+                                        <div class="ispit-datum">@ispit.Datum.ToString("dd.MM.yyyy HH:mm")</div>
+                                        <div class="ispit-info @(rokIstekao ? "rok-istekao" : "rok-aktivan")">
+                                            Rok prijave: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy")
                                         </div>
-                                        <a asp-controller="Profesor" asp-action="OcjenjivanjeZadace"
-                                           asp-route-id="@z.Id" class="btn-link">Ocijeni</a>
+                                        <div class="ispit-footer">
+                                            <span class="prijave-badge">@(ispit.Prijave?.Count ?? 0) prijava</span>
+                                            <a asp-controller="Profesor" asp-action="DetaljiIspita"
+                                               asp-route-id="@ispit.Id" class="btn-link">Detalji</a>
+                                        </div>
                                     </div>
                                 }
                             }
                             else
                             {
-                                <p class="empty-state">Nema zadaca.</p>
+                                <p class="empty-state">Nema ispita.</p>
                             }
                         </div>
                     }
                 }
                 <p class="empty-state" id="odaberiInfo"
                    style="@(odabraniPredmetId.HasValue ? "display:none;" : "")">
-                    Odaberi predmet za prikaz zadaca.
+                    Odaberi predmet za prikaz ispita.
                 </p>
             </div>
         </div>
@@ -274,11 +307,9 @@
             document.querySelectorAll('.predmet-btn').forEach(function(b) { b.classList.remove('selected'); });
             btn.classList.add('selected');
             document.getElementById('predmetIdInput').value = id;
-
-            document.querySelectorAll('[id^="zadaceGrupa"]').forEach(function(el) { el.style.display = 'none'; });
-            var grupa = document.getElementById('zadaceGrupa' + id);
+            document.querySelectorAll('[id^="ispitiGrupa"]').forEach(function(el) { el.style.display = 'none'; });
+            var grupa = document.getElementById('ispitiGrupa' + id);
             if (grupa) grupa.style.display = 'block';
-
             var info = document.getElementById('odaberiInfo');
             if (info) info.style.display = 'none';
         }

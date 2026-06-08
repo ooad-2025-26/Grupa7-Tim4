@@ -14,6 +14,8 @@ namespace ZamETF.Models
         [StringLength(50)]
         public string SifraPredmeta { get; set; }
 
+        public int Semestar { get; set; }
+
         public Profesor Profesor { get; set; }
 
         public string GetSifraPredmeta() => SifraPredmeta;

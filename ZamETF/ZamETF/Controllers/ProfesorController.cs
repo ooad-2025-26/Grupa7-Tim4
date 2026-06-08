@@ -17,42 +17,57 @@ namespace ZamETF.Controllers
             _context = context;
         }
 
-        // GET: Profesor/Index
+        // Dodati u ProfesorController.cs prije zadnje }
+
+        // Azurirani Index koji ucitava i ispite
         public async Task<IActionResult> Index()
         {
             var korisnik = await _userManager.GetUserAsync(User);
             var profesor = await _context.Profesori
                 .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Studenti)
+                .Include(p => p.Predmeti)
                     .ThenInclude(pr => pr.Zadace)
+                        .ThenInclude(z => z.Predaje)
                 .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
 
             if (profesor == null) return NotFound();
 
-            // Obavijesti koje su upućene profesoru
             var obavijesti = await _context.Obavijesti
                 .Where(o => o.PrimalacId == profesor.Id)
                 .OrderByDescending(o => o.DatumSlanja)
                 .Take(10)
                 .ToListAsync();
 
-            // Aktuelne zadaće po predmetima profesora
             var predmetIds = profesor.Predmeti.Select(p => p.Id).ToList();
+
             var zadace = await _context.Zadace
                 .Include(z => z.Predmet)
+                .Include(z => z.Predaje)
                 .Where(z => predmetIds.Contains(z.Predmet.Id))
-                .OrderByDescending(z => z.Rok)
+                .OrderBy(z => z.Rok)
+                .Take(10)
+                .ToListAsync();
+
+            var ispiti = await _context.Ispiti
+                .Include(i => i.Predmet)
+                .Include(i => i.Prijave)
+                    .ThenInclude(p => p.Student)
+                .Where(i => predmetIds.Contains(i.Predmet.Id))
+                .OrderBy(i => i.Datum)
                 .Take(10)
                 .ToListAsync();
 
             ViewBag.Profesor = profesor;
             ViewBag.Obavijesti = obavijesti;
             ViewBag.Zadace = zadace;
+            ViewBag.Ispiti = ispiti;
             ViewBag.Predmeti = profesor.Predmeti.ToList();
 
             return View();
         }
 
-        // GET: Profesor/DetaljiPredmeta/5
+        // Azurirani DetaljiPredmeta koji ucitava i ispite
         public async Task<IActionResult> DetaljiPredmeta(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -61,16 +76,48 @@ namespace ZamETF.Controllers
                     .ThenInclude(pr => pr.Studenti)
                 .Include(p => p.Predmeti)
                     .ThenInclude(pr => pr.Zadace)
+                        .ThenInclude(z => z.Predaje)
+                .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Ocjene)
+                .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Prisustva)
                 .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
 
             var predmet = profesor?.Predmeti.FirstOrDefault(p => p.Id == id);
             if (predmet == null) return NotFound();
 
+            var ispiti = await _context.Ispiti
+                .Include(i => i.Prijave)
+                    .ThenInclude(p => p.Student)
+                .Where(i => i.Predmet.Id == id)
+                .OrderByDescending(i => i.Datum)
+                .ToListAsync();
+
+            ViewBag.Ispiti = ispiti;
+            ViewBag.Predmeti = profesor.Predmeti.ToList();
+
             return View(predmet);
         }
 
-        // GET: Profesor/KreiranjeZadace
-        public async Task<IActionResult> KreiranjeZadace()
+        // GET: Profesor/KreiranjeZadace (azurirani – prima opcionalni predmetId)
+        public async Task<IActionResult> KreiranjeZadace(int? predmetId)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Zadace)
+                        .ThenInclude(z => z.Predaje)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+
+            if (profesor == null) return NotFound();
+
+            ViewBag.Predmeti = profesor.Predmeti.ToList();
+            ViewBag.OdabraniPredmetId = predmetId;
+            return View();
+        }
+
+        // GET: Profesor/KreiranjeIspita
+        public async Task<IActionResult> KreiranjeIspita(int? predmetId)
         {
             var korisnik = await _userManager.GetUserAsync(User);
             var profesor = await _context.Profesori
@@ -79,7 +126,115 @@ namespace ZamETF.Controllers
 
             if (profesor == null) return NotFound();
 
+            var predmetIds = profesor.Predmeti.Select(p => p.Id).ToList();
+            var ispiti = await _context.Ispiti
+                .Include(i => i.Predmet)
+                .Include(i => i.Prijave)
+                .Where(i => predmetIds.Contains(i.Predmet.Id))
+                .OrderByDescending(i => i.Datum)
+                .ToListAsync();
+
             ViewBag.Predmeti = profesor.Predmeti.ToList();
+            ViewBag.OdabraniPredmetId = predmetId;
+            ViewBag.Ispiti = ispiti;
+            return View();
+        }
+
+        // POST: Profesor/KreiranjeIspita
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> KreiranjeIspita(int predmetId, DateTime datum, DateTime rokZaPrijavu)
+        {
+            var predmet = await _context.Predmeti.FindAsync(predmetId);
+            if (predmet == null)
+            {
+                TempData["Greska"] = "Predmet nije pronadjen.";
+                return RedirectToAction(nameof(KreiranjeIspita));
+            }
+
+            var ispit = new Ispit
+            {
+                Predmet = predmet,
+                Datum = datum,
+                RokZaPrijavu = rokZaPrijavu
+            };
+
+            _context.Ispiti.Add(ispit);
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Ispit je uspjesno kreiran!";
+            return RedirectToAction(nameof(KreiranjeIspita), new { predmetId });
+        }
+
+        // GET: Profesor/DetaljiIspita/5
+        public async Task<IActionResult> DetaljiIspita(int id)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+
+            var ispit = await _context.Ispiti
+                .Include(i => i.Predmet)
+                    .ThenInclude(p => p.Studenti)
+                .Include(i => i.Prijave)
+                    .ThenInclude(p => p.Student)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            if (ispit == null) return NotFound();
+
+            ViewBag.Predmeti = profesor?.Predmeti.ToList() ?? new List<Predmet>();
+            return View(ispit);
+        }
+
+        // POST: Profesor/IzmijeniIspit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IzmijeniIspit(int ispitId, DateTime datum, DateTime rokZaPrijavu)
+        {
+            var ispit = await _context.Ispiti.FindAsync(ispitId);
+            if (ispit == null) return NotFound();
+
+            ispit.Datum = datum;
+            ispit.RokZaPrijavu = rokZaPrijavu;
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = "Ispit je azuriran!";
+            return RedirectToAction(nameof(DetaljiIspita), new { id = ispitId });
+        }
+
+        // GET: Profesor/DetaljiObavijesti/5
+        public async Task<IActionResult> DetaljiObavijesti(int id)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+
+            var obavijest = await _context.Obavijesti
+                .FirstOrDefaultAsync(o => o.Id == id && o.PrimalacId == korisnik.Id);
+
+            if (obavijest == null) return NotFound();
+
+            if (!obavijest.Procitana)
+            {
+                obavijest.Procitana = true;
+                await _context.SaveChangesAsync();
+            }
+
+            var posiljалac = await _context.Users.FindAsync(obavijest.PošiljalacId) as Korisnik;
+            string posiljалacIme = posiljалac != null ? posiljалac.Ime + " " + posiljалac.Prezime : "Sistem";
+
+            var naslov = obavijest.Naslov ?? "";
+            int brojSaIstimNaslovom = await _context.Obavijesti
+                .CountAsync(o => o.Naslov == naslov && o.DatumSlanja == obavijest.DatumSlanja);
+            bool masovnoPoslano = brojSaIstimNaslovom > 1;
+
+            ViewBag.Obavijest = obavijest;
+            ViewBag.Posiljалac = posiljалacIme;
+            ViewBag.MasovnoPoslano = masovnoPoslano;
+            ViewBag.Predmeti = profesor?.Predmeti.ToList() ?? new List<Predmet>();
+
             return View();
         }
 

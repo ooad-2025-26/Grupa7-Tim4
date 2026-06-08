@@ -3,101 +3,162 @@
     ViewData["Title"] = "Detalji predmeta";
     ViewBag.AktivniPredmetId = Model.Id;
     Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+    var ispiti = ViewBag.Ispiti as List<ZamETF.Models.Ispit>;
 }
 
 <style>
-    .det-panel {
+    .predmet-layout {
+        display: flex;
+        gap: 20px;
+    }
+
+    .predmet-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .predmet-right {
+        width: 260px;
+        min-width: 260px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .panel {
         background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
         border-radius: 15px;
-        padding: 24px;
+        padding: 20px;
         color: #0f1535;
     }
 
-        .det-panel h5 {
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-    .det-meta {
-        text-align: center;
-        font-size: 0.82rem;
-        color: rgba(15,21,53,0.5);
-        margin-bottom: 20px;
+    .panel-header {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 14px;
+        color: #0f1535;
+        padding-bottom: 8px;
+        border-bottom: 1.5px solid rgba(30,58,138,0.12);
     }
 
-    .akcije-row {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 22px;
+    .predmet-naslov {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+        .predmet-naslov h5 {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #0f1535;
+            margin: 0;
+        }
+
+    .predmet-meta {
+        text-align: center;
+        font-size: 0.8rem;
+        color: rgba(15,21,53,0.5);
+        margin-bottom: 18px;
+    }
+
+    /* AKCIJE */
+    .akcije-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 5px;
     }
 
     .btn-akcija {
-        padding: 7px 16px;
-        border-radius: 9px;
-        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.83rem;
         font-weight: 600;
         text-decoration: none;
-        border: 1.5px solid rgba(30,58,138,0.3);
+        border: 1.5px solid rgba(30,58,138,0.2);
         color: #1e3a8a;
-        background: rgba(255,255,255,0.5);
-        transition: background 0.15s;
+        background: rgba(255,255,255,0.55);
+        transition: all 0.2s;
     }
 
         .btn-akcija:hover {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.85);
             color: #1e3a8a;
+            border-color: rgba(30,58,138,0.4);
         }
 
-    .section-title {
-        font-weight: 700;
-        font-size: 0.9rem;
-        color: #1e3a8a;
-        margin-bottom: 10px;
-        padding-bottom: 6px;
-        border-bottom: 1.5px solid rgba(30,58,138,0.15);
-    }
+        .btn-akcija .ikona {
+            font-size: 1rem;
+        }
 
-    .studenti-tabela {
+    /* TABELA */
+    .tabela {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 24px;
     }
 
-        .studenti-tabela th {
-            background: rgba(30,58,138,0.12);
+        .tabela th {
             color: #1e3a8a;
+            font-size: 0.8rem;
             font-weight: 700;
-            font-size: 0.85rem;
-            padding: 9px 14px;
-            text-align: left;
+            padding: 8px 12px;
             border-bottom: 2px solid rgba(30,58,138,0.15);
+            text-align: left;
         }
 
-        .studenti-tabela td {
-            padding: 8px 14px;
-            border-bottom: 1px solid rgba(15,21,53,0.08);
-            font-size: 0.87rem;
+        .tabela td {
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(15,21,53,0.07);
+            font-size: 0.85rem;
             color: #0f1535;
+            vertical-align: middle;
         }
 
-        .studenti-tabela tr:last-child td {
+        .tabela tr:last-child td {
             border-bottom: none;
         }
 
-    .zadace-lista {
-        list-style: none;
-        padding: 0;
+        .tabela tr:hover td {
+            background: rgba(255,255,255,0.3);
+        }
+
+    /* STAT BOXOVI */
+    .stat-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 14px;
     }
 
+    .stat-box {
+        flex: 1;
+        background: rgba(255,255,255,0.5);
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+    }
+
+        .stat-box .broj {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        .stat-box .label {
+            font-size: 0.72rem;
+            color: rgba(15,21,53,0.5);
+        }
+
+    /* ZADACE */
     .zadaca-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 9px 0;
         border-bottom: 1px solid rgba(15,21,53,0.08);
-        font-size: 0.88rem;
     }
 
         .zadaca-item:last-child {
@@ -106,95 +167,263 @@
 
     .zadaca-naziv {
         font-weight: 600;
+        font-size: 0.86rem;
+        color: #0f1535;
     }
 
     .zadaca-rok {
-        font-size: 0.78rem;
-        color: rgba(15,21,53,0.5);
+        font-size: 0.73rem;
         margin-top: 2px;
     }
 
-    .zadaca-link {
+    .rok-aktivan {
+        color: #16a34a;
+    }
+
+    .rok-istekao {
+        color: #dc2626;
+    }
+
+    .predaje-count {
+        font-size: 0.73rem;
+        background: rgba(30,58,138,0.1);
         color: #1e3a8a;
-        font-size: 0.83rem;
-        text-decoration: underline;
+        border-radius: 8px;
+        padding: 2px 8px;
+        margin-right: 8px;
+    }
+
+    .btn-link {
+        color: #1e3a8a;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btn-link:hover {
+            text-decoration: underline;
+            color: #1e3a8a;
+        }
+
+    /* ISPIT ITEM */
+    .ispit-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 0;
+        border-bottom: 1px solid rgba(15,21,53,0.08);
+    }
+
+        .ispit-item:last-child {
+            border-bottom: none;
+        }
+
+    .ispit-datum {
+        font-weight: 600;
+        font-size: 0.86rem;
+    }
+
+    .ispit-prijave {
+        font-size: 0.73rem;
+        background: rgba(142,68,173,0.1);
+        color: #8e44ad;
+        border-radius: 8px;
+        padding: 2px 8px;
     }
 
     .empty-state {
         color: rgba(15,21,53,0.4);
-        font-size: 0.88rem;
-        margin-top: 8px;
+        font-size: 0.84rem;
+        padding: 10px 0;
     }
+
+    .search-box {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+        .search-box input {
+            width: 100%;
+            border: 1.5px solid rgba(30,58,138,0.2);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 0.84rem;
+            color: #0f1535;
+            background: rgba(255,255,255,0.65);
+            outline: none;
+        }
+
+            .search-box input:focus {
+                border-color: #3b82f6;
+            }
 </style>
 
-<div class="det-panel">
-    <h5>@Model.Naziv</h5>
-    <div class="det-meta">Šifra: @Model.SifraPredmeta</div>
+<div class="predmet-layout">
+    <div class="predmet-left">
 
-    <div class="akcije-row">
-        <a asp-controller="Profesor" asp-action="KreiranjeZadace" class="btn-akcija">
-            + Nova zadaća
-        </a>
-        <a asp-controller="Profesor" asp-action="EvidencijaPrisustva"
-           asp-route-predmetId="@Model.Id" class="btn-akcija">
-            Evidencija prisustva
-        </a>
+        <!-- HEADER PREDMETA -->
+        <div class="panel">
+            <div class="predmet-naslov"><h5>@Model.Naziv</h5></div>
+            <div class="predmet-meta">Sifra: @Model.SifraPredmeta &middot; Semestar: @Model.Semestar</div>
+
+            <div class="stat-row">
+                <div class="stat-box">
+                    <div class="broj">@(Model.Studenti?.Count ?? 0)</div>
+                    <div class="label">Studenata</div>
+                </div>
+                <div class="stat-box">
+                    <div class="broj">@(Model.Zadace?.Count ?? 0)</div>
+                    <div class="label">Zadaca</div>
+                </div>
+                <div class="stat-box">
+                    <div class="broj">@(ispiti?.Count ?? 0)</div>
+                    <div class="label">Ispita</div>
+                </div>
+                <div class="stat-box">
+                    <div class="broj">@(Model.Ocjene?.Count ?? 0)</div>
+                    <div class="label">Ocjena</div>
+                </div>
+            </div>
+
+            <div class="akcije-grid">
+                <a asp-controller="Profesor" asp-action="KreiranjeZadace"
+                   asp-route-predmetId="@Model.Id" class="btn-akcija">
+                    <span class="ikona">&#x270F;</span> Postavi zadacu
+                </a>
+                <a asp-controller="Profesor" asp-action="KreiranjeIspita"
+                   asp-route-predmetId="@Model.Id" class="btn-akcija">
+                    <span class="ikona">&#x1F4DD;</span> Postavi ispit
+                </a>
+                <a asp-controller="Profesor" asp-action="EvidencijaPrisustva"
+                   asp-route-predmetId="@Model.Id" class="btn-akcija">
+                    <span class="ikona">&#x2714;</span> Evidencija prisustva
+                </a>
+                <a asp-controller="Profesor" asp-action="UnosOcjena"
+                   asp-route-predmetId="@Model.Id" class="btn-akcija">
+                    <span class="ikona">&#x1F4CA;</span> Unos ocjena
+                </a>
+            </div>
+        </div>
+
+        <!-- STUDENTI -->
+        <div class="panel">
+            <div class="panel-header">Studenti (@(Model.Studenti?.Count ?? 0))</div>
+            <div class="search-box">
+                <input type="text" placeholder="Pretrazi studenta..." id="pretragaStudenti"
+                       oninput="pretraziStudente(this.value)" />
+            </div>
+            @if (Model.Studenti != null && Model.Studenti.Any())
+            {
+                <table class="tabela" id="tabelaStudenti">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ime i prezime</th>
+                            <th>Indeks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 1;
+                        }
+                        @foreach (var s in Model.Studenti.OrderBy(s2 => s2.Prezime))
+                        {
+                            <tr data-tekst="@((s.Ime + " " + s.Prezime + " " + s.Indeks).ToLower())">
+                                <td>@(i++)</td>
+                                <td>@s.Ime @s.Prezime</td>
+                                <td>@s.Indeks</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="empty-state">Nema upisanih studenata.</p>
+            }
+        </div>
+
     </div>
 
-    <!-- STUDENTI -->
-    <div class="section-title">Studenti (@(Model.Studenti?.Count ?? 0))</div>
+    <!-- DESNA STRANA -->
+    <div class="predmet-right">
 
-    @if (Model.Studenti != null && Model.Studenti.Any())
-    {
-        <table class="studenti-tabela">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Ime i prezime</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int i = 1;
-                }
-                @foreach (var s in Model.Studenti)
-                {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@s.Ime @s.Prezime</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p class="empty-state">Nema upisanih studenata.</p>
-    }
-
-    <!-- ZADAĆE -->
-    <div class="section-title">Zadaće (@(Model.Zadace?.Count ?? 0))</div>
-
-    @if (Model.Zadace != null && Model.Zadace.Any())
-    {
-        <ul class="zadace-lista">
-            @foreach (var z in Model.Zadace.OrderByDescending(x => x.Rok))
+        <!-- ZADACE -->
+        <div class="panel">
+            <div class="panel-header">Zadace</div>
+            @if (Model.Zadace != null && Model.Zadace.Any())
             {
-                <li class="zadaca-item">
-                    <div>
-                        <div class="zadaca-naziv">@z.NazivID</div>
-                        <div class="zadaca-rok">Rok: @z.Rok.ToString("dd.MM.yyyy HH:mm")</div>
+                foreach (var z in Model.Zadace.OrderByDescending(z2 => z2.Rok))
+                {
+                    var istekao = !z.ProvjeriRok();
+                    <div class="zadaca-item">
+                        <div>
+                            <div class="zadaca-naziv">@z.NazivID</div>
+                            <div class="zadaca-rok @(istekao ? "rok-istekao" : "rok-aktivan")">
+                                Rok: @z.Rok.ToString("dd.MM.yyyy")
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <span class="predaje-count">@(z.Predaje?.Count ?? 0)</span>
+                            <a asp-controller="Profesor" asp-action="OcjenjivanjeZadace"
+                               asp-route-id="@z.Id" class="btn-link">Pogledaj</a>
+                        </div>
                     </div>
-                    <a asp-controller="Profesor" asp-action="OcjenjivanjeZadace"
-                       asp-route-id="@z.Id" class="zadaca-link">
-                        Ocjenjivanje →
-                    </a>
-                </li>
+                }
             }
-        </ul>
-    }
-    else
-    {
-        <p class="empty-state">Nema kreiranih zadaća za ovaj predmet.</p>
-    }
+            else
+            {
+                <p class="empty-state">Nema zadaca.</p>
+            }
+            <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(15,21,53,0.1);">
+                <a asp-controller="Profesor" asp-action="KreiranjeZadace"
+                   asp-route-predmetId="@Model.Id" class="btn-link">+ Dodaj novu zadacu</a>
+            </div>
+        </div>
+
+        <!-- ISPITI -->
+        <div class="panel">
+            <div class="panel-header">Ispiti</div>
+            @if (ispiti != null && ispiti.Any())
+            {
+                foreach (var ispit in ispiti.OrderByDescending(i2 => i2.Datum))
+                {
+                    var rokIstekao = !ispit.ProvjeriRokZaPrijavu();
+                    <div class="ispit-item">
+                        <div>
+                            <div class="ispit-datum">@ispit.Datum.ToString("dd.MM.yyyy HH:mm")</div>
+                            <div class="zadaca-rok @(rokIstekao ? "rok-istekao" : "rok-aktivan")">
+                                Rok prijave: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy")
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <span class="ispit-prijave">@(ispit.Prijave?.Count ?? 0)</span>
+                            <a asp-controller="Profesor" asp-action="DetaljiIspita"
+                               asp-route-id="@ispit.Id" class="btn-link">Pogledaj</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="empty-state">Nema ispita.</p>
+            }
+            <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(15,21,53,0.1);">
+                <a asp-controller="Profesor" asp-action="KreiranjeIspita"
+                   asp-route-predmetId="@Model.Id" class="btn-link">+ Dodaj novi ispit</a>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        function pretraziStudente(val) {
+            var q = val.toLowerCase();
+            document.querySelectorAll('#tabelaStudenti tbody tr').forEach(function(tr) {
+                tr.style.display = (tr.dataset.tekst || '').indexOf(q) !== -1 ? '' : 'none';
+            });
+        }
+    </script>
+}
