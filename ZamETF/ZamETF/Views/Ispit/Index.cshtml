@@ -1,0 +1,44 @@
+@model IEnumerable<ZamETF.Models.Ispit>
+@{
+    ViewData["Title"] = "Postavljeni ispiti";
+}
+
+<div class="zametf-page">
+    <div class="zametf-wrap">
+    <div class="zametf-card">
+        <h2 class="zametf-naslov">Postavljeni ispiti</h2>
+
+        @if (TempData["Poruka"] != null)
+        {
+            <div class="zametf-alert zametf-alert-ok">@TempData["Poruka"]</div>
+        }
+
+        <div style="text-align:center; margin-bottom:22px;">
+            <a asp-action="Create" class="btn-zametf">+ Postavi novi ispit</a>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p class="zametf-prazno">Još nema postavljenih ispita.</p>
+        }
+        else
+        {
+            @foreach (var ispit in Model)
+            {
+                var brojPrijava = ispit.Prijave.Count(p => p.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit);
+                <div class="zametf-stavka">
+                    <div class="zametf-stavka-naslov">
+                        @ispit.Predmet?.Naziv
+                        <span class="zametf-sifra">@ispit.Predmet?.SifraPredmeta</span>
+                    </div>
+                    <div class="zametf-stavka-info">
+                        Datum ispita: @ispit.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
+                        Rok za prijavu: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy. u HH:mm")<br />
+                        Broj prijavljenih studenata: <strong>@brojPrijava</strong>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+</div>

@@ -5,9 +5,12 @@ namespace ZamETF.Models
     public class PrijavaIspit
     {
         public int Id { get; set; }
+
+        public int StudentId { get; set; }
         [Required]
         public Student Student { get; set; }
 
+        public int IspitId { get; set; }
         [Required]
         public Ispit Ispit { get; set; }
 

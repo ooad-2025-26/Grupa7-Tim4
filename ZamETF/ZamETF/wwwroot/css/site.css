@@ -18,5 +18,6 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background: #0a1138; /* ista tamno plava, da nema bijelih rubova */
+    margin: 0;
 }

@@ -5,6 +5,8 @@ namespace ZamETF.Models
     public class Ispit
     {
         public int Id { get; set; }
+
+        public int PredmetId { get; set; }
         [Required]
         public Predmet Predmet { get; set; }
 

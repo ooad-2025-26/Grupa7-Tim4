@@ -1,0 +1,91 @@
+@model ZamETF.ViewModels.PrijavaIspitaVM
+@{
+    ViewData["Title"] = "Prijava ispita";
+}
+
+<div class="zametf-page">
+    <div class="zametf-wrap zametf-wrap-wide">
+
+        @if (TempData["Poruka"] != null)
+        {
+            <div class="zametf-alert zametf-alert-ok">@TempData["Poruka"]</div>
+        }
+        @if (TempData["Greska"] != null)
+        {
+            <div class="zametf-alert zametf-alert-greska">@TempData["Greska"]</div>
+        }
+
+        <div class="zametf-grid">
+
+            <!-- LIJEVO: dostupni ispiti -->
+            <div class="zametf-col">
+                <div class="zametf-card">
+                    <h2 class="zametf-naslov">Dostupni ispiti</h2>
+
+                    @if (!Model.Dostupni.Any())
+                    {
+                        <p class="zametf-prazno">Trenutno nema otvorenih prijava za ispit.</p>
+                    }
+                    else
+                    {
+                        @foreach (var ispit in Model.Dostupni)
+                        {
+                            <div class="zametf-stavka">
+                                <div class="zametf-stavka-naslov">
+                                    @ispit.Predmet?.Naziv
+                                    <span class="badge-novo">OTVOREN ROK</span>
+                                </div>
+                                <div class="zametf-stavka-info">
+                                    Datum ispita: @ispit.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                    Prijava do: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy. u HH:mm")
+                                </div>
+                                <form asp-action="Prijavi" method="post" style="margin-top:12px;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@ispit.Id" />
+                                    <button type="submit" class="btn-zametf">Prijavi ispit</button>
+                                </form>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- DESNO: moje prijave -->
+            <div class="zametf-col">
+                <div class="zametf-card">
+                    <h2 class="zametf-naslov">Moje prijave</h2>
+
+                    @if (!Model.MojePrijave.Any())
+                    {
+                        <p class="zametf-prazno">Niste prijavili nijedan ispit.</p>
+                    }
+                    else
+                    {
+                        @foreach (var p in Model.MojePrijave)
+                        {
+                            var aktivna = p.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit;
+                            var mozeOdjava = aktivna && p.Ispit != null && DateTime.Now <= p.Ispit.RokZaPrijavu;
+                            <div class="zametf-stavka">
+                                <div class="zametf-stavka-naslov">@p.Ispit?.Predmet?.Naziv</div>
+                                <div class="zametf-stavka-info">
+                                    Datum ispita: @p.Ispit?.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                    Datum prijave: @p.DatumPrijave.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                    Status: <strong>@(aktivna ? "Prijavljen" : "Odjavljen")</strong>
+                                </div>
+                                @if (mozeOdjava)
+                                {
+                                    <form asp-action="Odjavi" method="post" style="margin-top:12px;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@p.Id" />
+                                        <button type="submit" class="btn-zametf-sekundarni">Odjavi se</button>
+                                    </form>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

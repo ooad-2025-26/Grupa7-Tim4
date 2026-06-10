@@ -651,7 +651,6 @@ C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.genruntimeconfi
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ref\ZamETF.dll
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\itext.barcodes.dll
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\itext.bouncy-castle-connector.dll
 C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\itext.forms.dll
@@ -954,3 +953,4 @@ C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\refint\ZamETF.dll
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.pdb
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.genruntimeconfig.cache
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ref\ZamETF.dll
+C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -17,6 +17,7 @@ namespace ZamETF.Models
         public int Semestar { get; set; }
 
         public Profesor Profesor { get; set; }
+        public int? ProfesorId { get; set; }
 
         public string GetSifraPredmeta() => SifraPredmeta;
 
