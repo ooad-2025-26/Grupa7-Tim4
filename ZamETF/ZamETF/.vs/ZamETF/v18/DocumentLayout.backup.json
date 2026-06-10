@@ -3,24 +3,64 @@
   "WorkspaceRootPath": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\wwwroot\\css\\zametf-ispiti.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:wwwroot\\css\\zametf-ispiti.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\ispit\\prijava.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\ispit\\prijava.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\studentskasluzba\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\studentskasluzba\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\administrator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\administrator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\student\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\student\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\zametf.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:zametf.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\profesor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\profesor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\controllers\\ispitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\ispitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\profesor\\_layoutprofesor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\profesor\\_layoutprofesor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\models\\prijavaispitavm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\prijavaispitavm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\wwwroot\\css\\zametf-ispiti.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:wwwroot\\css\\zametf-ispiti.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\models\\prijavaispit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\prijavaispit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\controllers\\ispitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\ispitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 234,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,20 +78,167 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\Index.cshtml",
+              "RelativeToolTip": "Views\\StudentskaSluzba\\Index.cshtml",
+              "ViewState": "AgIAAM4AAAAAMDMzMzMLwCIAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T21:16:26.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_LayoutAdmin.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_LayoutAdmin.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_LayoutAdmin.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T21:16:07.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Administrator\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
+              "RelativeToolTip": "Views\\Administrator\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T21:15:44.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Student\\Index.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\Index.cshtml",
+              "RelativeToolTip": "Views\\Student\\Index.cshtml",
+              "ViewState": "AgIAABIAAACAZmZmZmYkwCQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T20:59:12.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Prijava.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Ispit\\Prijava.cshtml",
+              "RelativeDocumentMoniker": "Views\\Ispit\\Prijava.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Ispit\\Prijava.cshtml",
+              "RelativeToolTip": "Views\\Ispit\\Prijava.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T16:55:37.411Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "zametf-ispiti.css",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\zametf-ispiti.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\zametf-ispiti.css",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\zametf-ispiti.css",
+              "RelativeToolTip": "wwwroot\\css\\zametf-ispiti.css",
+              "ViewState": "AgIAAJkAAAAANDMzMzMbwLAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-06-10T16:26:46.245Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ZamETF",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\ZamETF.csproj",
+              "RelativeDocumentMoniker": "ZamETF.csproj",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\ZamETF.csproj",
+              "RelativeToolTip": "ZamETF.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-06-10T21:02:18.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T21:01:41.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\Index.cshtml",
               "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\Index.cshtml",
               "RelativeToolTip": "Views\\Profesor\\Index.cshtml",
-              "ViewState": "AgIAAB0BAABAZmZmZmYkwCwBAABGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-10T16:48:47.455Z",
+              "WhenOpened": "2026-06-10T20:41:22.766Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
+              "Title": "_LayoutProfesor.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\_LayoutProfesor.cshtml",
+              "RelativeDocumentMoniker": "Views\\Profesor\\_LayoutProfesor.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\_LayoutProfesor.cshtml",
+              "RelativeToolTip": "Views\\Profesor\\_LayoutProfesor.cshtml",
+              "ViewState": "AgIAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-10T20:32:21.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-06-10T20:31:40.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PrijavaIspit.cs",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspit.cs",
+              "RelativeDocumentMoniker": "Models\\PrijavaIspit.cs",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspit.cs",
+              "RelativeToolTip": "Models\\PrijavaIspit.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T16:55:52.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "IspitController.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\IspitController.cs",
               "RelativeDocumentMoniker": "Controllers\\IspitController.cs",
@@ -64,46 +251,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
               "Title": "PrijavaIspitaVM.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspitaVM.cs",
               "RelativeDocumentMoniker": "Models\\PrijavaIspitaVM.cs",
               "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspitaVM.cs",
               "RelativeToolTip": "Models\\PrijavaIspitaVM.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-10T16:29:44.578Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "zametf-ispiti.css",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\zametf-ispiti.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\zametf-ispiti.css",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\zametf-ispiti.css",
-              "RelativeToolTip": "wwwroot\\css\\zametf-ispiti.css",
-              "ViewState": "AgIAAIcAAAAAnJmZmZkRwI0AAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-06-10T16:26:46.245Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-06-10T15:24:29.543Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Bookmark",

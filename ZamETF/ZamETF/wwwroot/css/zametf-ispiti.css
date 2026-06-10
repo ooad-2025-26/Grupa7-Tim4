@@ -166,3 +166,25 @@ body {
 }
 .zametf-alert-ok { background: #c8f0d0; color: #1b6b2f; }
 .zametf-alert-greska { background: #f8d0cc; color: #9b2c1f; }
+
+.zametf-card,
+.zametf-card * {
+    color: #1b1f6b;
+}
+
+.zametf-stavka-info {
+    color: #3a3f7a;
+}
+
+.zametf-input {
+    color: #222;
+    background: #fff;
+}
+
+.btn-zametf {
+    color: #1b1f6b;
+}
+
+.btn-zametf-sekundarni {
+    color: #fff;
+}
