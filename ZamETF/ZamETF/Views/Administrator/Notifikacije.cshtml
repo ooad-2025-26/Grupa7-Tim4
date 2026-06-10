@@ -1,784 +1,630 @@
-﻿@{
+@{
     ViewData["Title"] = "Slanje notifikacija";
-    Layout = null;
+    Layout = "_LayoutAdmin";
     var studenti = ViewBag.Studenti as List<ZamETF.Models.Student>;
     var profesori = ViewBag.Profesori as List<ZamETF.Models.Profesor>;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZamETF - Slanje notifikacija</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+@section Styles {
     <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+        .content-area {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            flex-direction: row !important;
+        }
 
-            body {
-                min-height: 100vh;
-                background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
-                display: flex;
-                flex-direction: column;
-            }
+        .left-panel {
+            flex: 1;
+        }
 
-            .navbar-top {
-                background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
-                padding: 10px 24px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
+        .right-panel {
+            width: 280px;
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
 
-            .navbar-left {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
+        .form-card {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+        }
 
-            .navbar-top img {
-                height: 35px;
-            }
+        .form-card h5 {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
 
-            .navbar-brand-text {
-                color: white;
-                font-weight: 600;
-                font-size: 1rem;
-                text-decoration: none;
-            }
+        .form-label {
+            color: #1a1a6e;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            display: block;
+        }
 
-                .navbar-brand-text:hover {
-                    color: #a0c8f0;
-                }
+        .form-control-custom {
+            border: 1.5px solid rgba(26,26,110,0.25);
+            border-radius: 10px;
+            padding: 9px 13px;
+            font-size: 0.9rem;
+            color: #1a1a6e;
+            background: white;
+            width: 100%;
+            outline: none;
+            margin-bottom: 14px;
+        }
 
-            .navbar-right {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .form-control-custom:focus {
+            border-color: #1a1a6e;
+        }
 
-            .user-badge {
-                background: white;
-                color: #1a1a6e;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-weight: 600;
-                font-size: 0.9rem;
-            }
+        .tip-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
 
-            .btn-odjava {
-                background: transparent;
-                color: white;
-                border: 1px solid white;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-size: 0.9rem;
-                cursor: pointer;
-                text-decoration: none;
-            }
+        .tip-btn {
+            flex: 1;
+            padding: 8px 5px;
+            border: 2px solid rgba(26,26,110,0.2);
+            background: white;
+            color: #1a1a6e;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
 
-                .btn-odjava:hover {
-                    background: rgba(255,255,255,0.1);
-                    color: white;
-                }
+        .tip-btn.selected {
+            color: white;
+        }
 
-            .main-content {
-                flex: 1;
-                display: flex;
-                padding: 20px;
-                gap: 20px;
-            }
+        .tip-btn.obavijest.selected {
+            background: #1a5f7a;
+            border-color: #1a5f7a;
+        }
 
-            .sidebar {
-                background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-                border-radius: 15px;
-                padding: 20px;
-                width: 220px;
-                min-width: 220px;
-            }
+        .tip-btn.upozorenje.selected {
+            background: #e67e22;
+            border-color: #e67e22;
+        }
 
-                .sidebar h6 {
-                    color: #1a1a6e;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    margin-bottom: 15px;
-                    text-align: center;
-                }
+        .tip-btn.podsjetnik.selected {
+            background: #8e44ad;
+            border-color: #8e44ad;
+        }
 
-                .sidebar a {
-                    display: block;
-                    color: #1a1a6e;
-                    text-decoration: none;
-                    padding: 8px 0;
-                    font-size: 0.9rem;
-                    border-bottom: 1px solid rgba(26,26,110,0.1);
-                    font-weight: 600;
-                }
+        .primatelj-row {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
 
-                    .sidebar a:hover {
-                        color: #0a0a2e;
-                    }
+        .primatelj-btn {
+            padding: 7px 11px;
+            border: 2px solid rgba(26,26,110,0.2);
+            background: white;
+            color: #1a1a6e;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-                    .sidebar a:last-child {
-                        border-bottom: none;
-                    }
+        .primatelj-btn:hover, .primatelj-btn.selected {
+            background: #1a1a6e;
+            color: white;
+            border-color: #1a1a6e;
+        }
 
-                    .sidebar a.active {
-                        text-decoration: underline;
-                    }
+        .sekcija-hidden {
+            display: none;
+        }
 
-            .content-area {
-                flex: 1;
-                display: flex;
-                gap: 20px;
-            }
+        .search-box {
+            position: relative;
+            margin-bottom: 10px;
+        }
 
-            .left-panel {
-                flex: 1;
-            }
+        .search-box input {
+            width: 100%;
+            border: 1.5px solid rgba(26,26,110,0.25);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #1a1a6e;
+            background: white;
+            outline: none;
+        }
 
-            .right-panel {
-                width: 280px;
-                background: white;
-                border-radius: 15px;
-                padding: 22px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                flex-shrink: 0;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            }
+        .search-results {
+            background: white;
+            border: 1.5px solid rgba(26,26,110,0.2);
+            border-radius: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
 
-            .form-card {
-                background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-                border-radius: 15px;
-                padding: 25px;
-            }
+        .search-result-item {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #1a1a6e;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
 
-                .form-card h5 {
-                    color: #1a1a6e;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    margin-bottom: 20px;
-                }
+        .search-result-item:hover {
+            background: #f0f8ff;
+        }
 
-            .form-label {
-                color: #1a1a6e;
-                font-weight: 600;
-                font-size: 0.85rem;
-                margin-bottom: 6px;
-                display: block;
-            }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
 
-            .form-control-custom {
-                border: 1.5px solid rgba(26,26,110,0.25);
-                border-radius: 10px;
-                padding: 9px 13px;
-                font-size: 0.9rem;
-                color: #1a1a6e;
-                background: white;
-                width: 100%;
-                outline: none;
-                margin-bottom: 14px;
-            }
+        .odabrani-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 12px;
+            min-height: 28px;
+        }
 
-                .form-control-custom:focus {
-                    border-color: #1a1a6e;
-                }
+        .odabrani-tag {
+            background: #1a1a6e;
+            color: white;
+            border-radius: 15px;
+            padding: 3px 10px;
+            font-size: 0.76rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-            .tip-row {
-                display: flex;
-                gap: 8px;
-                margin-bottom: 14px;
-            }
+        .odabrani-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0;
+        }
 
-            .tip-btn {
-                flex: 1;
-                padding: 8px 5px;
-                border: 2px solid rgba(26,26,110,0.2);
-                background: white;
-                color: #1a1a6e;
-                border-radius: 10px;
-                font-weight: 600;
-                font-size: 0.8rem;
-                cursor: pointer;
-                transition: all 0.2s;
-                text-align: center;
-            }
+        .godina-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
 
-                .tip-btn.selected {
-                    color: white;
-                }
+        .godina-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: white;
+            border: 1.5px solid rgba(26,26,110,0.2);
+            border-radius: 8px;
+            padding: 7px 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-                .tip-btn.obavijest.selected {
-                    background: #1a5f7a;
-                    border-color: #1a5f7a;
-                }
+        .godina-item.checked {
+            background: #1a1a6e;
+            border-color: #1a1a6e;
+        }
 
-                .tip-btn.upozorenje.selected {
-                    background: #e67e22;
-                    border-color: #e67e22;
-                }
+        .godina-item.checked span {
+            color: white;
+        }
 
-                .tip-btn.podsjetnik.selected {
-                    background: #8e44ad;
-                    border-color: #8e44ad;
-                }
+        .godina-item input {
+            accent-color: #1a1a6e;
+            width: 14px;
+            height: 14px;
+            pointer-events: none;
+        }
 
-            .primatelj-row {
-                display: flex;
-                gap: 7px;
-                margin-bottom: 14px;
-                flex-wrap: wrap;
-            }
+        .godina-item span {
+            color: #1a1a6e;
+            font-size: 0.83rem;
+            font-weight: 500;
+            pointer-events: none;
+        }
 
-            .primatelj-btn {
-                padding: 7px 11px;
-                border: 2px solid rgba(26,26,110,0.2);
-                background: white;
-                color: #1a1a6e;
-                border-radius: 10px;
-                font-weight: 600;
-                font-size: 0.78rem;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
+        .info-box {
+            background: rgba(26,26,110,0.06);
+            border-left: 3px solid #1a5f7a;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 0.82rem;
+            color: #1a1a6e;
+            margin-bottom: 14px;
+        }
 
-                .primatelj-btn:hover, .primatelj-btn.selected {
-                    background: #1a1a6e;
-                    color: white;
-                    border-color: #1a1a6e;
-                }
+        .btn-posalji {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 11px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
 
-            .sekcija-hidden {
-                display: none;
-            }
+        .btn-posalji:hover {
+            background: #0a3f5a;
+        }
 
-            .search-box {
-                position: relative;
-                margin-bottom: 10px;
-            }
+        .right-panel h6 {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-bottom: 2px solid rgba(26,26,110,0.1);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
 
-                .search-box input {
-                    width: 100%;
-                    border: 1.5px solid rgba(26,26,110,0.2);
-                    border-radius: 8px;
-                    padding: 8px 12px;
-                    font-size: 0.85rem;
-                    color: #1a1a6e;
-                    background: white;
-                    outline: none;
-                }
+        .preview-tip {
+            font-size: 0.74rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 3px 10px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
 
-            .search-results {
-                background: white;
-                border: 1.5px solid rgba(26,26,110,0.2);
-                border-radius: 8px;
-                max-height: 150px;
-                overflow-y: auto;
-                margin-bottom: 10px;
-            }
+        .preview-tip.obavijest {
+            background: #d6eaf8;
+            color: #1a5f7a;
+        }
 
-            .search-result-item {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-                color: #1a1a6e;
-                cursor: pointer;
-                border-bottom: 1px solid #f0f0f0;
-                display: flex;
-                justify-content: space-between;
-            }
+        .preview-tip.upozorenje {
+            background: #fdebd0;
+            color: #e67e22;
+        }
 
-                .search-result-item:hover {
-                    background: #f0f8ff;
-                }
+        .preview-tip.podsjetnik {
+            background: #f5eef8;
+            color: #8e44ad;
+        }
 
-                .search-result-item:last-child {
-                    border-bottom: none;
-                }
+        .preview-naslov {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
 
-            .odabrani-wrap {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 4px;
-                margin-bottom: 12px;
-                min-height: 28px;
-            }
+        .preview-poruka {
+            color: #555;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
 
-            .odabrani-tag {
-                background: #1a1a6e;
-                color: white;
-                border-radius: 15px;
-                padding: 3px 10px;
-                font-size: 0.76rem;
-                display: inline-flex;
-                align-items: center;
-                gap: 5px;
-            }
+        .preview-primatelj {
+            color: #888;
+            font-size: 0.78rem;
+            margin-top: 10px;
+            border-top: 1px solid rgba(26,26,110,0.1);
+            padding-top: 8px;
+        }
 
-                .odabrani-tag button {
-                    background: none;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    font-size: 0.9rem;
-                    padding: 0;
-                }
-
-            .godina-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 7px;
-                margin-bottom: 14px;
-            }
-
-            .godina-item {
-                display: flex;
-                align-items: center;
-                gap: 7px;
-                background: white;
-                border: 1.5px solid rgba(26,26,110,0.2);
-                border-radius: 8px;
-                padding: 7px 11px;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-
-                .godina-item.checked {
-                    background: #1a1a6e;
-                    border-color: #1a1a6e;
-                }
-
-                    .godina-item.checked span {
-                        color: white;
-                    }
-
-                .godina-item input {
-                    accent-color: #1a1a6e;
-                    width: 14px;
-                    height: 14px;
-                    pointer-events: none;
-                }
-
-                .godina-item span {
-                    color: #1a1a6e;
-                    font-size: 0.83rem;
-                    font-weight: 500;
-                    pointer-events: none;
-                }
-
-            .info-box {
-                background: rgba(26,26,110,0.06);
-                border-left: 3px solid #1a5f7a;
-                border-radius: 8px;
-                padding: 9px 12px;
-                font-size: 0.82rem;
-                color: #1a1a6e;
-                margin-bottom: 14px;
-            }
-
-            .btn-posalji {
-                background: #1a5f7a;
-                color: white;
-                border: none;
-                border-radius: 25px;
-                padding: 11px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                cursor: pointer;
-                width: 100%;
-                transition: background 0.2s;
-            }
-
-                .btn-posalji:hover {
-                    background: #0a3f5a;
-                }
-
-            .right-panel h6 {
-                color: #1a1a6e;
-                font-weight: 700;
-                font-size: 0.95rem;
-                border-bottom: 2px solid rgba(26,26,110,0.1);
-                padding-bottom: 8px;
-                margin-bottom: 10px;
-            }
-
-            .preview-tip {
-                font-size: 0.74rem;
-                font-weight: 700;
-                border-radius: 8px;
-                padding: 3px 10px;
-                display: inline-block;
-                margin-bottom: 8px;
-            }
-
-                .preview-tip.obavijest {
-                    background: #d6eaf8;
-                    color: #1a5f7a;
-                }
-
-                .preview-tip.upozorenje {
-                    background: #fdebd0;
-                    color: #e67e22;
-                }
-
-                .preview-tip.podsjetnik {
-                    background: #f5eef8;
-                    color: #8e44ad;
-                }
-
-            .preview-naslov {
-                color: #1a1a6e;
-                font-weight: 700;
-                font-size: 1rem;
-                margin-bottom: 6px;
-            }
-
-            .preview-poruka {
-                color: #555;
-                font-size: 0.85rem;
-                line-height: 1.5;
-            }
-
-            .preview-primatelj {
-                color: #888;
-                font-size: 0.78rem;
-                margin-top: 10px;
-                border-top: 1px solid rgba(26,26,110,0.1);
-                padding-top: 8px;
-            }
-
-            .alert {
-                border-radius: 10px;
-                margin-bottom: 14px;
-                font-size: 0.9rem;
-            }
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-size: 0.9rem;
+        }
     </style>
-</head>
-<body>
-    <div class="navbar-top">
-        <div class="navbar-left">
-            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a asp-controller="Administrator" asp-action="Index" class="navbar-brand-text">Pocetna</a>
-        </div>
-        <div class="navbar-right">
-            <span class="user-badge">Admin: @User.Identity.Name</span>
-            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn-odjava">Odjava</button>
-            </form>
-        </div>
-    </div>
+}
 
-    <div class="main-content">
-        <div class="sidebar">
-            <h6>Admin panel</h6>
-            <a asp-controller="Administrator" asp-action="Index">Pocetna</a>
-            <a asp-controller="Administrator" asp-action="SviZahtjevi">Svi zahtjevi</a>
-            <a asp-controller="Administrator" asp-action="Statistika">Generisanje statistike</a>
-            <a asp-controller="Administrator" asp-action="UnosIzmjena">Unos/izmjena podataka</a>
-            <a asp-controller="Administrator" asp-action="KreiranjePredmeta">Kreiranje predmeta</a>
-            <a asp-controller="Administrator" asp-action="Notifikacije" class="active">Slanje notifikacija</a>
-        </div>
+<div class="left-panel">
+    <div class="form-card">
+        <h5>Slanje notifikacija</h5>
 
-        <div class="content-area">
-            <div class="left-panel">
-                <div class="form-card">
-                    <h5>Slanje notifikacija</h5>
+        @if (TempData["Uspjeh"] != null)
+        {
+            <div class="alert alert-success">@TempData["Uspjeh"]</div>
+        }
+        @if (TempData["Greska"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Greska"]</div>
+        }
 
-                    @if (TempData["Uspjeh"] != null)
-                    {
-                        <div class="alert alert-success">@TempData["Uspjeh"]</div>
-                    }
-                    @if (TempData["Greska"] != null)
-                    {
-                        <div class="alert alert-danger">@TempData["Greska"]</div>
-                    }
+        <form method="post" asp-action="PosaljiNotifikaciju" asp-controller="Administrator" id="formNotif">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="tipNotifikacije" id="tipNotifInput" value="Obavijest" />
+            <input type="hidden" name="primateljTip" id="primateljTipInput" value="student" />
+            <input type="hidden" name="odabraniIds" id="odabraniIdsInput" value="" />
+            <input type="hidden" name="odabraneGodine" id="odabraneGodineInput" value="" />
 
-                    <form method="post" asp-action="PosaljiNotifikaciju" asp-controller="Administrator" id="formNotif">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="tipNotifikacije" id="tipNotifInput" value="Obavijest" />
-                        <input type="hidden" name="primateljTip" id="primateljTipInput" value="student" />
-                        <input type="hidden" name="odabraniIds" id="odabraniIdsInput" value="" />
-                        <input type="hidden" name="odabraneGodine" id="odabraneGodineInput" value="" />
+            <label class="form-label">Tip notifikacije</label>
+            <div class="tip-row">
+                <button type="button" class="tip-btn obavijest selected" onclick="postaviTip('Obavijest', this)">Obavijest</button>
+                <button type="button" class="tip-btn upozorenje" onclick="postaviTip('Upozorenje', this)">Upozorenje</button>
+                <button type="button" class="tip-btn podsjetnik" onclick="postaviTip('Podsjetnik', this)">Podsjetnik</button>
+            </div>
 
-                        <label class="form-label">Tip notifikacije</label>
-                        <div class="tip-row">
-                            <button type="button" class="tip-btn obavijest selected" onclick="postaviTip('Obavijest', this)">Obavijest</button>
-                            <button type="button" class="tip-btn upozorenje" onclick="postaviTip('Upozorenje', this)">Upozorenje</button>
-                            <button type="button" class="tip-btn podsjetnik" onclick="postaviTip('Podsjetnik', this)">Podsjetnik</button>
-                        </div>
+            <label class="form-label">Primatelj</label>
+            <div class="primatelj-row">
+                <button type="button" class="primatelj-btn selected" onclick="postaviPrimatelja('student', this)">Jedan student</button>
+                <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('profesor', this)">Jedan profesor</button>
+                <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('svi_studenti', this)">Svi studenti</button>
+                <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('svi_profesori', this)">Svi profesori</button>
+                <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('godina', this)">Po godini</button>
+                <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('sluzba', this)">Studentska sluzba</button>
+            </div>
 
-                        <label class="form-label">Primatelj</label>
-                        <div class="primatelj-row">
-                            <button type="button" class="primatelj-btn selected" onclick="postaviPrimatelja('student', this)">Jedan student</button>
-                            <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('profesor', this)">Jedan profesor</button>
-                            <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('svi_studenti', this)">Svi studenti</button>
-                            <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('svi_profesori', this)">Svi profesori</button>
-                            <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('godina', this)">Po godini</button>
-                            <button type="button" class="primatelj-btn" onclick="postaviPrimatelja('sluzba', this)">Studentska sluzba</button>
-                        </div>
-
-                        <!-- STUDENT -->
-                        <div id="sekcija-student">
-                            <label class="form-label">Pretrazi studenta</label>
-                            <div class="search-box">
-                                <input type="text" id="pretragaStudentInput" placeholder="Ime, prezime ili indeks..."
-                                       oninput="pretraziOsobe('student', this.value)" autocomplete="off" />
-                            </div>
-                            <div class="search-results" id="resultsStudent" style="display:none;"></div>
-                            <div class="odabrani-wrap" id="odabraniWrapStudent">
-                                <span style="color:#aaa; font-size:0.8rem;">Niko nije odabran</span>
-                            </div>
-                        </div>
-
-                        <!-- PROFESOR -->
-                        <div id="sekcija-profesor" class="sekcija-hidden">
-                            <label class="form-label">Pretrazi profesora</label>
-                            <div class="search-box">
-                                <input type="text" id="pretragaProfesorInput" placeholder="Ime ili prezime..."
-                                       oninput="pretraziOsobe('profesor', this.value)" autocomplete="off" />
-                            </div>
-                            <div class="search-results" id="resultsProfesori" style="display:none;"></div>
-                            <div class="odabrani-wrap" id="odabraniWrapProfesor">
-                                <span style="color:#aaa; font-size:0.8rem;">Niko nije odabran</span>
-                            </div>
-                        </div>
-
-                        <!-- SVI STUDENTI -->
-                        <div id="sekcija-svi_studenti" class="sekcija-hidden">
-                            <div class="info-box">Notifikacija ce biti poslana svim studentima.</div>
-                        </div>
-
-                        <!-- SVI PROFESORI -->
-                        <div id="sekcija-svi_profesori" class="sekcija-hidden">
-                            <div class="info-box">Notifikacija ce biti poslana svim profesorima.</div>
-                        </div>
-
-                        <!-- PO GODINI -->
-                        <div id="sekcija-godina" class="sekcija-hidden">
-                            <label class="form-label">Odaberi godinu studija</label>
-                            <div class="godina-grid">
-                                <div class="godina-item" id="god1" onclick="toggleGodina(1, this)">
-                                    <input type="checkbox" id="chkg1" /><span>1. godina</span>
-                                </div>
-                                <div class="godina-item" id="god2" onclick="toggleGodina(2, this)">
-                                    <input type="checkbox" id="chkg2" /><span>2. godina</span>
-                                </div>
-                                <div class="godina-item" id="god3" onclick="toggleGodina(3, this)">
-                                    <input type="checkbox" id="chkg3" /><span>3. godina</span>
-                                </div>
-                                <div class="godina-item" id="god4" onclick="toggleGodina(4, this)">
-                                    <input type="checkbox" id="chkg4" /><span>4. godina</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- STUDENTSKA SLUZBA -->
-                        <div id="sekcija-sluzba" class="sekcija-hidden">
-                            <div class="info-box">Notifikacija ce biti poslana studentskoj sluzbi.</div>
-                        </div>
-
-                        <label class="form-label">Naslov</label>
-                        <input type="text" name="naslov" class="form-control-custom" id="inputNaslov"
-                               placeholder="Npr. Vazna obavijest" oninput="azurirajPreview()" required />
-
-                        <label class="form-label">Poruka</label>
-                        <textarea name="poruka" class="form-control-custom" id="inputPoruka" rows="4"
-                                  placeholder="Unesite tekst notifikacije..."
-                                  oninput="azurirajPreview()"></textarea>
-
-                        <button type="submit" class="btn-posalji" onclick="pripremiFormu()">
-                            Posalji notifikaciju
-                        </button>
-                    </form>
+            <!-- STUDENT -->
+            <div id="sekcija-student">
+                <label class="form-label">Pretrazi studenta</label>
+                <div class="search-box">
+                    <input type="text" id="pretragaStudentInput" placeholder="Ime, prezime ili indeks..."
+                           oninput="pretraziOsobe('student', this.value)" autocomplete="off" />
+                </div>
+                <div class="search-results" id="resultsStudent" style="display:none;"></div>
+                <div class="odabrani-wrap" id="odabraniWrapStudent">
+                    <span style="color:#aaa; font-size:0.8rem;">Niko nije odabran</span>
                 </div>
             </div>
 
-            <div class="right-panel">
-                <h6>Pregled notifikacije</h6>
-                <span class="preview-tip obavijest" id="previewTip">Obavijest</span>
-                <div class="preview-naslov" id="previewNaslov">Naslov notifikacije</div>
-                <div class="preview-poruka" id="previewPoruka">Tekst poruke ce se prikazati ovdje...</div>
-                <div class="preview-primatelj" id="previewPrimatelj">
-                    Primatelj: <strong>Jedan student</strong>
+            <!-- PROFESOR -->
+            <div id="sekcija-profesor" class="sekcija-hidden">
+                <label class="form-label">Pretrazi profesora</label>
+                <div class="search-box">
+                    <input type="text" id="pretragaProfesorInput" placeholder="Ime ili prezime..."
+                           oninput="pretraziOsobe('profesor', this.value)" autocomplete="off" />
+                </div>
+                <div class="search-results" id="resultsProfesori" style="display:none;"></div>
+                <div class="odabrani-wrap" id="odabraniWrapProfesor">
+                    <span style="color:#aaa; font-size:0.8rem;">Niko nije odabran</span>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <!-- SVI STUDENTI -->
+            <div id="sekcija-svi_studenti" class="sekcija-hidden">
+                <div class="info-box">Notifikacija ce biti poslana svim studentima.</div>
+            </div>
+
+            <!-- SVI PROFESORI -->
+            <div id="sekcija-svi_profesori" class="sekcija-hidden">
+                <div class="info-box">Notifikacija ce biti poslana svim profesorima.</div>
+            </div>
+
+            <!-- PO GODINI -->
+            <div id="sekcija-godina" class="sekcija-hidden">
+                <label class="form-label">Odaberi godinu studija</label>
+                <div class="godina-grid">
+                    <div class="godina-item" id="god1" onclick="toggleGodina(1, this)">
+                        <input type="checkbox" id="chkg1" /><span>1. godina</span>
+                    </div>
+                    <div class="godina-item" id="god2" onclick="toggleGodina(2, this)">
+                        <input type="checkbox" id="chkg2" /><span>2. godina</span>
+                    </div>
+                    <div class="godina-item" id="god3" onclick="toggleGodina(3, this)">
+                        <input type="checkbox" id="chkg3" /><span>3. godina</span>
+                    </div>
+                    <div class="godina-item" id="god4" onclick="toggleGodina(4, this)">
+                        <input type="checkbox" id="chkg4" /><span>4. godina</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDENTSKA SLUZBA -->
+            <div id="sekcija-sluzba" class="sekcija-hidden">
+                <div class="info-box">Notifikacija ce biti poslana studentskoj sluzbi.</div>
+            </div>
+
+            <label class="form-label">Naslov</label>
+            <input type="text" name="naslov" class="form-control-custom" id="inputNaslov"
+                   placeholder="Npr. Vazna obavijest" oninput="azurirajPreview()" required />
+
+            <label class="form-label">Poruka</label>
+            <textarea name="poruka" class="form-control-custom" id="inputPoruka" rows="4"
+                      placeholder="Unesite tekst notifikacije..."
+                      oninput="azurirajPreview()"></textarea>
+
+            <button type="submit" class="btn-posalji" onclick="pripremiFormu()">
+                Posalji notifikaciju
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="right-panel">
+    <h6>Pregled notifikacije</h6>
+    <span class="preview-tip obavijest" id="previewTip">Obavijest</span>
+    <div class="preview-naslov" id="previewNaslov">Naslov notifikacije</div>
+    <div class="preview-poruka" id="previewPoruka">Tekst poruke ce se prikazati ovdje...</div>
+    <div class="preview-primatelj" id="previewPrimatelj">
+        Primatelj: <strong>Jedan student</strong>
+    </div>
+</div>
+
+@section Scripts {
     <script>
-            var sviStudenti = [
-                @if (studenti != null)
+        var sviStudenti = [
+            @if (studenti != null)
+            {
+                for (int i = 0; i < studenti.Count; i++)
                 {
-                        for (int i = 0; i < studenti.Count; i++)
-                        {
-                                var s = studenti[i];
-                                <text>{ id: @s.Id, ime: '@s.Ime', prezime: '@s.Prezime', indeks: '@s.Indeks', tip: 'student' }</text>
-                                if (i < studenti.Count - 1)
-                                {
-
-                                    <text>,</text>
-                                }
-                        }
+                    var s = studenti[i];
+                    <text>{ id: @s.Id, ime: '@s.Ime', prezime: '@s.Prezime', indeks: '@s.Indeks', tip: 'student' }</text>
+                    if (i < studenti.Count - 1)
+                    {
+                        <text>,</text>
+                    }
                 }
-            ];
+            }
+        ];
 
-            var sviProfesori = [
-                @if (profesori != null)
+        var sviProfesori = [
+            @if (profesori != null)
+            {
+                for (int i = 0; i < profesori.Count; i++)
                 {
-                        for (int i = 0; i < profesori.Count; i++)
-                        {
-                                var p = profesori[i];
-                                <text>{ id: @p.Id, ime: '@p.Ime', prezime: '@p.Prezime', indeks: '', tip: 'profesor' }</text>
-                                if (i < profesori.Count - 1)
-                                {
-
-                                    <text>,</text>
-                                }
-                        }
+                    var p = profesori[i];
+                    <text>{ id: @p.Id, ime: '@p.Ime', prezime: '@p.Prezime', indeks: '', tip: 'profesor' }</text>
+                    if (i < profesori.Count - 1)
+                    {
+                        <text>,</text>
+                    }
                 }
-            ];
-
-            var odabraniStudenti = [];
-            var odabraniProfesori = [];
-            var odabraneGodine = [];
-            var trenutniTip = 'Obavijest';
-            var trenutniPrimatelj = 'student';
-
-            function postaviTip(tip, btn) {
-                trenutniTip = tip;
-                document.getElementById('tipNotifInput').value = tip;
-                document.querySelectorAll('.tip-btn').forEach(function(b) { b.classList.remove('selected'); });
-                btn.classList.add('selected');
-                azurirajPreview();
             }
+        ];
 
-            function postaviPrimatelja(tip, btn) {
-                trenutniPrimatelj = tip;
-                document.getElementById('primateljTipInput').value = tip;
-                document.querySelectorAll('.primatelj-btn').forEach(function(b) { b.classList.remove('selected'); });
-                btn.classList.add('selected');
-                ['student','profesor','svi_studenti','svi_profesori','godina','sluzba'].forEach(function(t) {
-                    var el = document.getElementById('sekcija-' + t);
-                    if (el) el.style.display = t === tip ? 'block' : 'none';
-                });
-                azurirajPreview();
-            }
+        var odabraniStudenti = [];
+        var odabraniProfesori = [];
+        var odabraneGodine = [];
+        var trenutniTip = 'Obavijest';
+        var trenutniPrimatelj = 'student';
 
-            function pretraziOsobe(tip, val) {
-                var lista = tip === 'student' ? sviStudenti : sviProfesori;
-                var resultsEl = document.getElementById('results' + (tip === 'student' ? 'Student' : 'Profesori'));
-                if (val.length < 2) { resultsEl.style.display = 'none'; return; }
+        function postaviTip(tip, btn) {
+            trenutniTip = tip;
+            document.getElementById('tipNotifInput').value = tip;
+            document.querySelectorAll('.tip-btn').forEach(function(b) { b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            azurirajPreview();
+        }
 
-                var q = val.toLowerCase();
-                var filtered = lista.filter(function(o) {
-                    return (o.ime + ' ' + o.prezime).toLowerCase().indexOf(q) !== -1 ||
-                           (o.indeks && o.indeks.toLowerCase().indexOf(q) !== -1);
-                });
-
-                if (!filtered.length) { resultsEl.style.display = 'none'; return; }
-                resultsEl.innerHTML = '';
-                filtered.slice(0, 8).forEach(function(o) {
-                    var odabrani = tip === 'student' ? odabraniStudenti : odabraniProfesori;
-                    var vec = odabrani.some(function(x) { return x.id === o.id; });
-                    var div = document.createElement('div');
-                    div.className = 'search-result-item';
-                    div.innerHTML = '<span>' + o.ime + ' ' + o.prezime + (o.indeks ? ' <small>(' + o.indeks + ')</small>' : '') + '</span>' +
-                                    (vec ? '<span style="color:#27ae60;font-size:0.78rem;">Odabran</span>' : '<span style="color:#1a5f7a;font-size:0.78rem;">+ Dodaj</span>');
-                    if (!vec) div.onclick = function() { dodajOsobu(tip, o); };
-                    resultsEl.appendChild(div);
-                });
-                resultsEl.style.display = 'block';
-            }
-
-            function dodajOsobu(tip, o) {
-                var odabrani = tip === 'student' ? odabraniStudenti : odabraniProfesori;
-                if (odabrani.some(function(x) { return x.id === o.id; })) return;
-                odabrani.push(o);
-                renderOdabrani(tip);
-                document.getElementById(tip === 'student' ? 'resultsStudent' : 'resultsProfesori').style.display = 'none';
-                document.getElementById(tip === 'student' ? 'pretragaStudentInput' : 'pretragaProfesorInput').value = '';
-                azurirajPreview();
-            }
-
-            function ukloniOsobu(tip, id) {
-                if (tip === 'student') odabraniStudenti = odabraniStudenti.filter(function(o) { return o.id !== id; });
-                else odabraniProfesori = odabraniProfesori.filter(function(o) { return o.id !== id; });
-                renderOdabrani(tip);
-                azurirajPreview();
-            }
-
-            function renderOdabrani(tip) {
-                var odabrani = tip === 'student' ? odabraniStudenti : odabraniProfesori;
-                var wrap = document.getElementById('odabraniWrap' + (tip === 'student' ? 'Student' : 'Profesor'));
-                if (!odabrani.length) { wrap.innerHTML = '<span style="color:#aaa; font-size:0.8rem;">Niko nije odabran</span>'; return; }
-                wrap.innerHTML = '';
-                odabrani.forEach(function(o) {
-                    var span = document.createElement('span');
-                    span.className = 'odabrani-tag';
-                    span.innerHTML = o.ime + ' ' + o.prezime + '<button type="button" onclick="ukloniOsobu(\'' + tip + '\',' + o.id + ')">&times;</button>';
-                    wrap.appendChild(span);
-                });
-            }
-
-            function toggleGodina(god, el) {
-                var checked = el.classList.contains('checked');
-                var chk = document.getElementById('chkg' + god);
-                if (checked) {
-                    el.classList.remove('checked');
-                    chk.checked = false;
-                    odabraneGodine = odabraneGodine.filter(function(g) { return g !== god; });
-                } else {
-                    el.classList.add('checked');
-                    chk.checked = true;
-                    odabraneGodine.push(god);
-                }
-                azurirajPreview();
-            }
-
-            function azurirajPreview() {
-                var naslov = document.getElementById('inputNaslov').value || 'Naslov notifikacije';
-                var poruka = document.getElementById('inputPoruka').value || 'Tekst poruke ce se prikazati ovdje...';
-                document.getElementById('previewNaslov').textContent = naslov;
-                document.getElementById('previewPoruka').textContent = poruka;
-
-                var tipEl = document.getElementById('previewTip');
-                tipEl.textContent = trenutniTip;
-                tipEl.className = 'preview-tip ' + trenutniTip.toLowerCase();
-
-                var primTekst = '';
-                if (trenutniPrimatelj === 'student') primTekst = odabraniStudenti.length ? odabraniStudenti.map(function(o) { return o.ime + ' ' + o.prezime; }).join(', ') : 'Niko nije odabran';
-                else if (trenutniPrimatelj === 'profesor') primTekst = odabraniProfesori.length ? odabraniProfesori.map(function(o) { return o.ime + ' ' + o.prezime; }).join(', ') : 'Niko nije odabran';
-                else if (trenutniPrimatelj === 'svi_studenti') primTekst = 'Svi studenti';
-                else if (trenutniPrimatelj === 'svi_profesori') primTekst = 'Svi profesori';
-                else if (trenutniPrimatelj === 'godina') primTekst = odabraneGodine.length ? odabraneGodine.sort().map(function(g) { return g + '. godina'; }).join(', ') : 'Nijedna godina';
-                else primTekst = 'Studentska sluzba';
-
-                document.getElementById('previewPrimatelj').innerHTML = 'Primatelj: <strong>' + primTekst + '</strong>';
-            }
-
-            function pripremiFormu() {
-                var ids = [];
-                if (trenutniPrimatelj === 'student') ids = odabraniStudenti.map(function(o) { return o.id; });
-                else if (trenutniPrimatelj === 'profesor') ids = odabraniProfesori.map(function(o) { return o.id; });
-                document.getElementById('odabraniIdsInput').value = ids.join(',');
-                document.getElementById('odabraneGodineInput').value = odabraneGodine.join(',');
-            }
-
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.search-box') && !e.target.closest('.search-results')) {
-                    var r1 = document.getElementById('resultsStudent');
-                    var r2 = document.getElementById('resultsProfesori');
-                    if (r1) r1.style.display = 'none';
-                    if (r2) r2.style.display = 'none';
-                }
+        function postaviPrimatelja(tip, btn) {
+            trenutniPrimatelj = tip;
+            document.getElementById('primateljTipInput').value = tip;
+            document.querySelectorAll('.primatelj-btn').forEach(function(b) { b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            ['student','profesor','svi_studenti','svi_profesori','godina','sluzba'].forEach(function(t) {
+                var el = document.getElementById('sekcija-' + t);
+                if (el) el.style.display = t === tip ? 'block' : 'none';
             });
+            azurirajPreview();
+        }
+
+        function pretraziOsobe(tip, val) {
+            var lista = tip === 'student' ? sviStudenti : sviProfesori;
+            var resultsEl = document.getElementById('results' + (tip === 'student' ? 'Student' : 'Profesori'));
+            if (val.length < 2) { resultsEl.style.display = 'none'; return; }
+
+            var q = val.toLowerCase();
+            var filtered = lista.filter(function(o) {
+                return (o.ime + ' ' + o.prezime).toLowerCase().indexOf(q) !== -1 ||
+                       (o.indeks && o.indeks.toLowerCase().indexOf(q) !== -1);
+            });
+
+            if (!filtered.length) { resultsEl.style.display = 'none'; return; }
+            resultsEl.innerHTML = '';
+            filtered.slice(0, 8).forEach(function(o) {
+                var odabrani = tip === 'student' ? odabraniStudenti : odabraniProfesori;
+                var vec = odabrani.some(function(x) { return x.id === o.id; });
+                var div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.innerHTML = '<span>' + o.ime + ' ' + o.prezime + (o.indeks ? ' <small>(' + o.indeks + ')</small>' : '') + '</span>' +
+                                (vec ? '<span style="color:#27ae60;font-size:0.78rem;">Odabran</span>' : '<span style="color:#1a5f7a;font-size:0.78rem;">+ Dodaj</span>');
+                if (!vec) div.onclick = function() { dodajOsobu(tip, o); };
+                resultsEl.appendChild(div);
+            });
+            resultsEl.style.display = 'block';
+        }
+
+        function dodajOsobu(tip, o) {
+            var odabrani = tip === 'student' ? odabraniStudenti : odabraniProfesori;
+            if (odabrani.some(function(x) { return x.id === o.id; })) return;
+            odabrani.push(o);
+            renderOdabrani(tip);
+            document.getElementById(tip === 'student' ? 'resultsStudent' : 'resultsProfesori').style.display = 'none';
+            document.getElementById(tip === 'student' ? 'pretragaStudentInput' : 'pretragaProfesorInput').value = '';
+            azurirajPreview();
+        }
+
+        function ukloniOsobu(tip, id) {
+            if (tip === 'student') odabraniStudenti = odabraniStudenti.filter(function(o) { return o.id !== id; });
+            else odabraniProfesori = odabraniProfesori.filter(function(o) { return o.id !== id; });
+            renderOdabrani(tip);
+            azurirajPreview();
+        }
+
+        function renderOdabrani(tip) {
+            var odabrani = tip === 'student' ? odabraniStudenti : odabraniProfesori;
+            var wrap = document.getElementById('odabraniWrap' + (tip === 'student' ? 'Student' : 'Profesor'));
+            if (!odabrani.length) { wrap.innerHTML = '<span style="color:#aaa; font-size:0.8rem;">Niko nije odabran</span>'; return; }
+            wrap.innerHTML = '';
+            odabrani.forEach(function(o) {
+                var span = document.createElement('span');
+                span.className = 'odabrani-tag';
+                span.innerHTML = o.ime + ' ' + o.prezime + '<button type="button" onclick="ukloniOsobu(\'' + tip + '\',' + o.id + ')">&times;</button>';
+                wrap.appendChild(span);
+            });
+        }
+
+        function toggleGodina(god, el) {
+            var checked = el.classList.contains('checked');
+            var chk = document.getElementById('chkg' + god);
+            if (checked) {
+                el.classList.remove('checked');
+                chk.checked = false;
+                odabraneGodine = odabraneGodine.filter(function(g) { return g !== god; });
+            } else {
+                el.classList.add('checked');
+                chk.checked = true;
+                odabraneGodine.push(god);
+            }
+            azurirajPreview();
+        }
+
+        function azurirajPreview() {
+            var naslov = document.getElementById('inputNaslov').value || 'Naslov notifikacije';
+            var poruka = document.getElementById('inputPoruka').value || 'Tekst poruke ce se prikazati ovdje...';
+            document.getElementById('previewNaslov').textContent = naslov;
+            document.getElementById('previewPoruka').textContent = poruka;
+
+            var tipEl = document.getElementById('previewTip');
+            tipEl.textContent = trenutniTip;
+            tipEl.className = 'preview-tip ' + trenutniTip.toLowerCase();
+
+            var primTekst = '';
+            if (trenutniPrimatelj === 'student') primTekst = odabraniStudenti.length ? odabraniStudenti.map(function(o) { return o.ime + ' ' + o.prezime; }).join(', ') : 'Niko nije odabran';
+            else if (trenutniPrimatelj === 'profesor') primTekst = odabraniProfesori.length ? odabraniProfesori.map(function(o) { return o.ime + ' ' + o.prezime; }).join(', ') : 'Niko nije odabran';
+            else if (trenutniPrimatelj === 'svi_studenti') primTekst = 'Svi studenti';
+            else if (trenutniPrimatelj === 'svi_profesori') primTekst = 'Svi profesori';
+            else if (trenutniPrimatelj === 'godina') primTekst = odabraneGodine.length ? odabraneGodine.sort().map(function(g) { return g + '. godina'; }).join(', ') : 'Nijedna godina';
+            else primTekst = 'Studentska sluzba';
+
+            document.getElementById('previewPrimatelj').innerHTML = 'Primatelj: <strong>' + primTekst + '</strong>';
+        }
+
+        function pripremiFormu() {
+            var ids = [];
+            if (trenutniPrimatelj === 'student') ids = odabraniStudenti.map(function(o) { return o.id; });
+            else if (trenutniPrimatelj === 'profesor') ids = odabraniProfesori.map(function(o) { return o.id; });
+            document.getElementById('odabraniIdsInput').value = ids.join(',');
+            document.getElementById('odabraneGodineInput').value = odabraneGodine.join(',');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-box') && !e.target.closest('.search-results')) {
+                var r1 = document.getElementById('resultsStudent');
+                var r2 = document.getElementById('resultsProfesori');
+                if (r1) r1.style.display = 'none';
+                if (r2) r2.style.display = 'none';
+            }
+        });
     </script>
-</body>
-</html>
+}

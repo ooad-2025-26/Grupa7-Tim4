@@ -1,590 +1,431 @@
-﻿@{
+@{
     ViewData["Title"] = "Kreiranje predmeta";
-    Layout = null;
+    Layout = "_LayoutAdmin";
     var profesori = ViewBag.Profesori as List<ZamETF.Models.Profesor>;
     var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZamETF - Kreiranje predmeta</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+@section Styles {
     <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+        .sekcija {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
 
-            body {
-                min-height: 100vh;
-                background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
-                display: flex;
-                flex-direction: column;
-            }
+        .sekcija-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(26,26,110,0.1);
+            cursor: pointer;
+            user-select: none;
+        }
 
-            .navbar-top {
-                background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
-                padding: 10px 24px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
+        .sekcija-header h5 {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0;
+        }
 
-            .navbar-left {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
+        .toggle-icon {
+            color: #1a1a6e;
+            font-size: 1.1rem;
+        }
 
-            .navbar-top img {
-                height: 35px;
-            }
+        .sekcija-body {
+            padding: 24px;
+        }
 
-            .navbar-brand-text {
-                color: white;
-                font-weight: 600;
-                font-size: 1rem;
-                text-decoration: none;
-            }
+        .forma-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
 
-                .navbar-brand-text:hover {
-                    color: #a0c8f0;
-                }
+        .forma-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
 
-            .navbar-right {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .forma-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-            .user-badge {
-                background: white;
-                color: #1a1a6e;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-weight: 600;
-                font-size: 0.9rem;
-            }
+        .forma-group label {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
 
-            .btn-odjava {
-                background: transparent;
-                color: white;
-                border: 1px solid white;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-size: 0.9rem;
-                cursor: pointer;
-                text-decoration: none;
-            }
+        .forma-group label span {
+            color: #e74c3c;
+        }
 
-                .btn-odjava:hover {
-                    background: rgba(255,255,255,0.1);
-                    color: white;
-                }
+        .form-input {
+            border: 1.5px solid rgba(26,26,110,0.25);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 0.88rem;
+            color: #1a1a6e;
+            background: white;
+            outline: none;
+            width: 100%;
+        }
 
-            .main-content {
-                flex: 1;
-                display: flex;
-                padding: 20px;
-                gap: 20px;
-            }
+        .form-input:focus {
+            border-color: #1a1a6e;
+        }
 
-            .sidebar {
-                background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-                border-radius: 15px;
-                padding: 20px;
-                width: 220px;
-                min-width: 220px;
-            }
+        .profesor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
 
-                .sidebar h6 {
-                    color: #1a1a6e;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    margin-bottom: 15px;
-                    text-align: center;
-                }
+        .profesor-item {
+            background: white;
+            border: 1.5px solid rgba(26,26,110,0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
 
-                .sidebar a {
-                    display: block;
-                    color: #1a1a6e;
-                    text-decoration: none;
-                    padding: 8px 0;
-                    font-size: 0.9rem;
-                    border-bottom: 1px solid rgba(26,26,110,0.1);
-                    font-weight: 600;
-                }
+        .profesor-item:hover {
+            border-color: #1a1a6e;
+        }
 
-                    .sidebar a:hover {
-                        color: #0a0a2e;
-                    }
+        .profesor-item.selected {
+            background: #1a1a6e;
+            border-color: #1a1a6e;
+        }
 
-                    .sidebar a:last-child {
-                        border-bottom: none;
-                    }
+        .profesor-item.selected span {
+            color: white;
+        }
 
-                    .sidebar a.active {
-                        text-decoration: underline;
-                    }
+        .profesor-item input {
+            accent-color: #1a1a6e;
+            width: 14px;
+            height: 14px;
+            pointer-events: none;
+        }
 
-            .content-area {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 18px;
-            }
+        .profesor-item span {
+            color: #1a1a6e;
+            font-size: 0.83rem;
+            font-weight: 500;
+            pointer-events: none;
+        }
 
-            .sekcija {
-                background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-                border-radius: 15px;
-                overflow: hidden;
-            }
+        .forma-akcije {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 5px;
+        }
 
-            .sekcija-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 16px 24px;
-                border-bottom: 1px solid rgba(26,26,110,0.1);
-                cursor: pointer;
-                user-select: none;
-            }
+        .btn-kreiraj {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-                .sekcija-header h5 {
-                    color: #1a1a6e;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    margin: 0;
-                }
+        .btn-kreiraj:hover {
+            background: #0a3f5a;
+        }
 
-            .toggle-icon {
-                color: #1a1a6e;
-                font-size: 1.1rem;
-            }
+        .btn-ponisti {
+            background: transparent;
+            color: #1a1a6e;
+            border: 1.5px solid #1a1a6e;
+            border-radius: 20px;
+            padding: 10px 22px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-            .sekcija-body {
-                padding: 24px;
-            }
+        .btn-ponisti:hover {
+            background: rgba(26,26,110,0.08);
+        }
 
-            .forma-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-                margin-bottom: 16px;
-            }
+        .info-box {
+            background: rgba(26,26,110,0.07);
+            border-left: 4px solid #1a5f7a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            color: #1a1a6e;
+            margin-bottom: 18px;
+        }
 
-            .forma-grid-3 {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 15px;
-                margin-bottom: 16px;
-            }
+        .tabela {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-            .forma-group {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-            }
+        .tabela th {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 9px 14px;
+            border-bottom: 2px solid rgba(26,26,110,0.15);
+            text-align: left;
+        }
 
-                .forma-group label {
-                    color: #1a1a6e;
-                    font-size: 0.82rem;
-                    font-weight: 600;
-                }
+        .tabela td {
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            padding: 11px 14px;
+            border-bottom: 1px solid rgba(26,26,110,0.08);
+            vertical-align: middle;
+        }
 
-                    .forma-group label span {
-                        color: #e74c3c;
-                    }
+        .tabela tr:last-child td {
+            border-bottom: none;
+        }
 
-            .form-input {
-                border: 1.5px solid rgba(26,26,110,0.25);
-                border-radius: 8px;
-                padding: 9px 12px;
-                font-size: 0.88rem;
-                color: #1a1a6e;
-                background: white;
-                outline: none;
-                width: 100%;
-            }
+        .tabela tr:hover td {
+            background: rgba(255,255,255,0.3);
+        }
 
-                .form-input:focus {
-                    border-color: #1a1a6e;
-                }
+        .tabela-wrap {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-            .profesor-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 8px;
-                margin-bottom: 16px;
-            }
+        .btn-brisi {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 4px 11px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
 
-            .profesor-item {
-                background: white;
-                border: 1.5px solid rgba(26,26,110,0.2);
-                border-radius: 8px;
-                padding: 8px 12px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                transition: all 0.2s;
-            }
+        .btn-brisi:hover {
+            background: #c0392b;
+        }
 
-                .profesor-item:hover {
-                    border-color: #1a1a6e;
-                }
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
 
-                .profesor-item.selected {
-                    background: #1a1a6e;
-                    border-color: #1a1a6e;
-                }
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.88rem;
+        }
 
-                    .profesor-item.selected span {
-                        color: white;
-                    }
-
-                .profesor-item input {
-                    accent-color: #1a1a6e;
-                    width: 14px;
-                    height: 14px;
-                    pointer-events: none;
-                }
-
-                .profesor-item span {
-                    color: #1a1a6e;
-                    font-size: 0.83rem;
-                    font-weight: 500;
-                    pointer-events: none;
-                }
-
-            .forma-akcije {
-                display: flex;
-                justify-content: flex-end;
-                gap: 10px;
-                margin-top: 5px;
-            }
-
-            .btn-kreiraj {
-                background: #1a5f7a;
-                color: white;
-                border: none;
-                border-radius: 20px;
-                padding: 10px 28px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                cursor: pointer;
-            }
-
-                .btn-kreiraj:hover {
-                    background: #0a3f5a;
-                }
-
-            .btn-ponisti {
-                background: transparent;
-                color: #1a1a6e;
-                border: 1.5px solid #1a1a6e;
-                border-radius: 20px;
-                padding: 10px 22px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                cursor: pointer;
-            }
-
-                .btn-ponisti:hover {
-                    background: rgba(26,26,110,0.08);
-                }
-
-            .info-box {
-                background: rgba(26,26,110,0.07);
-                border-left: 4px solid #1a5f7a;
-                border-radius: 8px;
-                padding: 10px 14px;
-                font-size: 0.82rem;
-                color: #1a1a6e;
-                margin-bottom: 18px;
-            }
-
-            .tabela {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-                .tabela th {
-                    color: #1a1a6e;
-                    font-size: 0.82rem;
-                    font-weight: 700;
-                    padding: 9px 14px;
-                    border-bottom: 2px solid rgba(26,26,110,0.15);
-                    text-align: left;
-                }
-
-                .tabela td {
-                    color: #1a1a6e;
-                    font-size: 0.85rem;
-                    padding: 11px 14px;
-                    border-bottom: 1px solid rgba(26,26,110,0.08);
-                    vertical-align: middle;
-                }
-
-                .tabela tr:last-child td {
-                    border-bottom: none;
-                }
-
-                .tabela tr:hover td {
-                    background: rgba(255,255,255,0.3);
-                }
-
-            .tabela-wrap {
-                background: rgba(255,255,255,0.3);
-                border-radius: 10px;
-                overflow: hidden;
-            }
-
-            .btn-brisi {
-                background: #e74c3c;
-                color: white;
-                border: none;
-                border-radius: 10px;
-                padding: 4px 11px;
-                font-size: 0.75rem;
-                cursor: pointer;
-            }
-
-                .btn-brisi:hover {
-                    background: #c0392b;
-                }
-
-            .alert {
-                border-radius: 10px;
-                margin-bottom: 12px;
-                font-size: 0.9rem;
-            }
-
-            .empty-text {
-                color: #1a1a6e;
-                opacity: 0.6;
-                font-size: 0.88rem;
-            }
-
-            .semestar-info {
-                background: rgba(26,26,110,0.07);
-                border-radius: 8px;
-                padding: 8px 12px;
-                color: #1a1a6e;
-                font-size: 0.82rem;
-                margin-top: 10px;
-            }
+        .semestar-info {
+            background: rgba(26,26,110,0.07);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            margin-top: 10px;
+        }
     </style>
-</head>
-<body>
-    <div class="navbar-top">
-        <div class="navbar-left">
-            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a asp-controller="Administrator" asp-action="Index" class="navbar-brand-text">Pocetna</a>
-        </div>
-        <div class="navbar-right">
-            <span class="user-badge">Admin: @User.Identity.Name</span>
-            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn-odjava">Odjava</button>
-            </form>
-        </div>
+}
+
+@if (TempData["Uspjeh"] != null)
+{
+    <div class="alert alert-success">@TempData["Uspjeh"]</div>
+}
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
+
+<!-- KREIRANJE -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('forma', this)">
+        <h5>Kreiranje novog predmeta</h5>
+        <span class="toggle-icon" id="ikona-forma">&#8743;</span>
     </div>
-
-    <div class="main-content">
-        <div class="sidebar">
-            <h6>Admin panel</h6>
-            <a asp-controller="Administrator" asp-action="Index">Pocetna</a>
-            <a asp-controller="Administrator" asp-action="SviZahtjevi">Svi zahtjevi</a>
-            <a asp-controller="Administrator" asp-action="Statistika">Generisanje statistike</a>
-            <a asp-controller="Administrator" asp-action="UnosIzmjena">Unos/izmjena podataka</a>
-            <a asp-controller="Administrator" asp-action="KreiranjePredmeta" class="active">Kreiranje predmeta</a>
-            <a asp-controller="Administrator" asp-action="Notifikacije">Slanje notifikacija</a>
+    <div class="sekcija-body" id="tijelo-forma">
+        <div class="info-box">
+            Novi predmet ce automatski biti dodijeljen svim studentima upisanim na odabrani semestar.
+            Odaberite profesora koji predaje predmet.
         </div>
 
-        <div class="content-area">
-            @if (TempData["Uspjeh"] != null)
-            {
-                <div class="alert alert-success">@TempData["Uspjeh"]</div>
-            }
-            @if (TempData["Greska"] != null)
-            {
-                <div class="alert alert-danger">@TempData["Greska"]</div>
-            }
+        <form method="post" asp-action="KreirajPredmet" asp-controller="Administrator" id="formaPredmet">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="odabraniProfesorId" id="odabraniProfesorIdInput" value="" />
 
-            <!-- KREIRANJE -->
-            <div class="sekcija">
-                <div class="sekcija-header" onclick="toggleSekcija('forma', this)">
-                    <h5>Kreiranje novog predmeta</h5>
-                    <span class="toggle-icon" id="ikona-forma">&#8743;</span>
+            <div class="forma-grid-3">
+                <div class="forma-group">
+                    <label>Naziv predmeta <span>*</span></label>
+                    <input type="text" name="naziv" class="form-input" placeholder="Npr. Programiranje 1" required />
                 </div>
-                <div class="sekcija-body" id="tijelo-forma">
-                    <div class="info-box">
-                        Novi predmet ce automatski biti dodijeljen svim studentima upisanim na odabrani semestar.
-                        Odaberite profesora koji predaje predmet.
-                    </div>
-
-                    <form method="post" asp-action="KreirajPredmet" asp-controller="Administrator" id="formaPredmet">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="odabraniProfesorId" id="odabraniProfesorIdInput" value="" />
-
-                        <div class="forma-grid-3">
-                            <div class="forma-group">
-                                <label>Naziv predmeta <span>*</span></label>
-                                <input type="text" name="naziv" class="form-input" placeholder="Npr. Programiranje 1" required />
-                            </div>
-                            <div class="forma-group">
-                                <label>Sifra predmeta <span>*</span></label>
-                                <input type="text" name="sifraPredmeta" class="form-input" placeholder="Npr. CS101" required />
-                            </div>
-                            <div class="forma-group">
-                                <label>Semestar <span>*</span></label>
-                                <select name="semestar" class="form-input" id="semestarSelect" onchange="azurirajInfo()">
-                                    <option value="1">1. semestar</option>
-                                    <option value="2">2. semestar</option>
-                                    <option value="3">3. semestar</option>
-                                    <option value="4">4. semestar</option>
-                                    <option value="5">5. semestar</option>
-                                    <option value="6">6. semestar</option>
-                                    <option value="7">7. semestar</option>
-                                    <option value="8">8. semestar</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="semestar-info" id="semestarInfo">
-                            Predmet ce biti dodijeljen svim studentima na 1. semestru (1. godina studija).
-                        </div>
-
-                        <div style="margin-top: 18px; margin-bottom: 8px;">
-                            <label style="color:#1a1a6e; font-size:0.82rem; font-weight:600; display:block; margin-bottom:8px;">
-                                Odaberi profesora <span style="color:#e74c3c;">*</span>
-                            </label>
-                            <div class="profesor-grid" id="profesorGrid">
-                                @if (profesori != null)
-                                {
-                                    foreach (var p in profesori)
-                                    {
-                                        <div class="profesor-item" id="prof@(p.Id)"
-                                             onclick="odaberiProfesora(@p.Id, this)">
-                                            <input type="radio" name="profesorRadio" value="@p.Id" />
-                                            <span>@p.Ime @p.Prezime</span>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
-
-                        <div class="forma-akcije">
-                            <button type="button" class="btn-ponisti" onclick="document.getElementById('formaPredmet').reset(); ocistiProfesore();">Ponisti</button>
-                            <button type="submit" class="btn-kreiraj">Kreiraj predmet</button>
-                        </div>
-                    </form>
+                <div class="forma-group">
+                    <label>Sifra predmeta <span>*</span></label>
+                    <input type="text" name="sifraPredmeta" class="form-input" placeholder="Npr. CS101" required />
+                </div>
+                <div class="forma-group">
+                    <label>Semestar <span>*</span></label>
+                    <select name="semestar" class="form-input" id="semestarSelect" onchange="azurirajInfo()">
+                        <option value="1">1. semestar</option>
+                        <option value="2">2. semestar</option>
+                        <option value="3">3. semestar</option>
+                        <option value="4">4. semestar</option>
+                        <option value="5">5. semestar</option>
+                        <option value="6">6. semestar</option>
+                        <option value="7">7. semestar</option>
+                        <option value="8">8. semestar</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- POSTOJECI PREDMETI -->
-            <div class="sekcija">
-                <div class="sekcija-header" onclick="toggleSekcija('lista', this)">
-                    <h5>Postojeci predmeti (@(predmeti?.Count ?? 0))</h5>
-                    <span class="toggle-icon" id="ikona-lista">&#8743;</span>
-                </div>
-                <div class="sekcija-body" id="tijelo-lista">
-                    @if (predmeti != null && predmeti.Any())
+            <div class="semestar-info" id="semestarInfo">
+                Predmet ce biti dodijeljen svim studentima na 1. semestru (1. godina studija).
+            </div>
+
+            <div style="margin-top: 18px; margin-bottom: 8px;">
+                <label style="color:#1a1a6e; font-size:0.82rem; font-weight:600; display:block; margin-bottom:8px;">
+                    Odaberi profesora <span style="color:#e74c3c;">*</span>
+                </label>
+                <div class="profesor-grid" id="profesorGrid">
+                    @if (profesori != null)
                     {
-                        <div class="tabela-wrap">
-                            <table class="tabela">
-                                <thead>
-                                    <tr>
-                                        <th>Naziv</th>
-                                        <th>Sifra</th>
-                                        <th>Semestar</th>
-                                        <th>Profesor</th>
-                                        <th>Studenti</th>
-                                        <th>Akcija</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var p in predmeti.OrderBy(p2 => p2.Semestar))
-                                    {
-                                        <tr>
-                                            <td><strong>@p.Naziv</strong></td>
-                                            <td>@p.SifraPredmeta</td>
-                                            <td>@p.Semestar. sem.</td>
-                                            <td>@(p.Profesor?.Ime + " " + p.Profesor?.Prezime)</td>
-                                            <td>@(p.Studenti?.Count ?? 0)</td>
-                                            <td>
-                                                <form method="post" asp-action="ObrisiPredmet"
-                                                      asp-controller="Administrator" style="display:inline"
-                                                      onsubmit="return confirm('Sigurno zelis obrisati predmet?')">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="predmetId" value="@p.Id" />
-                                                    <button type="submit" class="btn-brisi">Obrisi</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="empty-text">Nema kreiranih predmeta.</p>
+                        foreach (var p in profesori)
+                        {
+                            <div class="profesor-item" id="prof@(p.Id)"
+                                 onclick="odaberiProfesora(@p.Id, this)">
+                                <input type="radio" name="profesorRadio" value="@p.Id" />
+                                <span>@p.Ime @p.Prezime</span>
+                            </div>
+                        }
                     }
                 </div>
             </div>
-        </div>
-    </div>
 
+            <div class="forma-akcije">
+                <button type="button" class="btn-ponisti" onclick="document.getElementById('formaPredmet').reset(); ocistiProfesore();">Ponisti</button>
+                <button type="submit" class="btn-kreiraj">Kreiraj predmet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- POSTOJECI PREDMETI -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('lista', this)">
+        <h5>Postojeci predmeti (@(predmeti?.Count ?? 0))</h5>
+        <span class="toggle-icon" id="ikona-lista">&#8743;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-lista">
+        @if (predmeti != null && predmeti.Any())
+        {
+            <div class="tabela-wrap">
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>Naziv</th>
+                            <th>Sifra</th>
+                            <th>Semestar</th>
+                            <th>Profesor</th>
+                            <th>Studenti</th>
+                            <th>Akcija</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in predmeti.OrderBy(p2 => p2.Semestar))
+                        {
+                            <tr>
+                                <td><strong>@p.Naziv</strong></td>
+                                <td>@p.SifraPredmeta</td>
+                                <td>@p.Semestar. sem.</td>
+                                <td>@(p.Profesor?.Ime + " " + p.Profesor?.Prezime)</td>
+                                <td>@(p.Studenti?.Count ?? 0)</td>
+                                <td>
+                                    <form method="post" asp-action="ObrisiPredmet"
+                                          asp-controller="Administrator" style="display:inline"
+                                          onsubmit="return confirm('Sigurno zelis obrisati predmet?')">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="predmetId" value="@p.Id" />
+                                        <button type="submit" class="btn-brisi">Obrisi</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="empty-text">Nema kreiranih predmeta.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
     <script>
-            var semestarGodine = {
-                1: '1. semestru (1. godina)', 2: '2. semestru (1. godina)',
-                3: '3. semestru (2. godina)', 4: '4. semestru (2. godina)',
-                5: '5. semestru (3. godina)', 6: '6. semestru (3. godina)',
-                7: '7. semestru (4. godina)', 8: '8. semestru (4. godina)'
-            };
+        var semestarGodine = {
+            1: '1. semestru (1. godina)', 2: '2. semestru (1. godina)',
+            3: '3. semestru (2. godina)', 4: '4. semestru (2. godina)',
+            5: '5. semestru (3. godina)', 6: '6. semestru (3. godina)',
+            7: '7. semestru (4. godina)', 8: '8. semestru (4. godina)'
+        };
 
-            function azurirajInfo() {
-                var sem = document.getElementById('semestarSelect').value;
-                document.getElementById('semestarInfo').textContent =
-                    'Predmet ce biti dodijeljen svim studentima na ' + (semestarGodine[sem] || sem + '. semestru') + '.';
-            }
+        function azurirajInfo() {
+            var sem = document.getElementById('semestarSelect').value;
+            document.getElementById('semestarInfo').textContent =
+                'Predmet ce biti dodijeljen svim studentima na ' + (semestarGodine[sem] || sem + '. semestru') + '.';
+        }
 
-            function odaberiProfesora(id, el) {
-                document.querySelectorAll('.profesor-item').forEach(function(p) {
-                    p.classList.remove('selected');
-                    p.querySelector('input').checked = false;
-                });
-                el.classList.add('selected');
-                el.querySelector('input').checked = true;
-                document.getElementById('odabraniProfesorIdInput').value = id;
-            }
+        function odaberiProfesora(id, el) {
+            document.querySelectorAll('.profesor-item').forEach(function(p) {
+                p.classList.remove('selected');
+                p.querySelector('input').checked = false;
+            });
+            el.classList.add('selected');
+            el.querySelector('input').checked = true;
+            document.getElementById('odabraniProfesorIdInput').value = id;
+        }
 
-            function ocistiProfesore() {
-                document.querySelectorAll('.profesor-item').forEach(function(p) {
-                    p.classList.remove('selected');
-                    p.querySelector('input').checked = false;
-                });
-                document.getElementById('odabraniProfesorIdInput').value = '';
-            }
+        function ocistiProfesore() {
+            document.querySelectorAll('.profesor-item').forEach(function(p) {
+                p.classList.remove('selected');
+                p.querySelector('input').checked = false;
+            });
+            document.getElementById('odabraniProfesorIdInput').value = '';
+        }
 
-            function toggleSekcija(naziv, header) {
-                var tijelo = document.getElementById('tijelo-' + naziv);
-                var ikona = document.getElementById('ikona-' + naziv);
-                if (tijelo.style.display === 'none') {
-                    tijelo.style.display = 'block';
-                    ikona.innerHTML = '&#8743;';
-                } else {
-                    tijelo.style.display = 'none';
-                    ikona.innerHTML = '&#8744;';
-                }
+        function toggleSekcija(naziv, header) {
+            var tijelo = document.getElementById('tijelo-' + naziv);
+            var ikona = document.getElementById('ikona-' + naziv);
+            if (tijelo.style.display === 'none') {
+                tijelo.style.display = 'block';
+                ikona.innerHTML = '&#8743;';
+            } else {
+                tijelo.style.display = 'none';
+                ikona.innerHTML = '&#8744;';
             }
+        }
     </script>
-</body>
-</html>
+}

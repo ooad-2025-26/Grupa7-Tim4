@@ -1,108 +1,11 @@
-﻿@{
+@{
     ViewData["Title"] = "Unos/Izmjena podataka";
-    Layout = null;
+    Layout = "_LayoutAdmin";
     var studenti = ViewBag.Studenti as List<ZamETF.Models.Student>;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZamETF – Unos/Izmjena</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+@section Styles {
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .navbar-top {
-            background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
-            padding: 10px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .navbar-left { display: flex; align-items: center; gap: 20px; }
-        .navbar-top img { height: 35px; }
-
-        .navbar-brand-text {
-            color: white;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-        }
-
-        .navbar-brand-text:hover { color: #a0c8f0; }
-
-        .navbar-right { display: flex; align-items: center; gap: 10px; }
-
-        .user-badge {
-            background: white;
-            color: #1a1a6e;
-            border-radius: 20px;
-            padding: 6px 16px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .btn-odjava {
-            background: transparent;
-            color: white;
-            border: 1px solid white;
-            border-radius: 20px;
-            padding: 6px 16px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn-odjava:hover { background: rgba(255,255,255,0.1); color: white; }
-
-        .main-content {
-            flex: 1;
-            display: flex;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .sidebar {
-            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-            border-radius: 15px;
-            padding: 20px;
-            width: 220px;
-            min-width: 220px;
-        }
-
-        .sidebar h6 {
-            color: #1a1a6e;
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .sidebar a {
-            display: block;
-            color: #1a1a6e;
-            text-decoration: none;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(26,26,110,0.1);
-            font-weight: 600;
-        }
-
-        .sidebar a:hover { color: #0a0a2e; }
-        .sidebar a:last-child { border-bottom: none; }
-        .sidebar a.active { text-decoration: underline; }
-
         .content-area {
             flex: 1;
             display: flex;
@@ -188,187 +91,151 @@
             font-size: 0.85rem;
         }
     </style>
-</head>
-<body>
-    <!-- NAVBAR -->
-    <div class="navbar-top">
-        <div class="navbar-left">
-            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a <a asp-controller="Administrator" asp-action="Index">Početna</a> class="navbar-brand-text">Početna</a>
+}
+
+<!-- IZMJENA PODATAKA -->
+<div class="card-panel">
+    <h5>Izmjena podataka</h5>
+
+    @if (TempData["Uspjeh"] != null)
+    {
+        <div class="alert alert-success">@TempData["Uspjeh"]</div>
+    }
+    @if (TempData["Greska"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Greska"]</div>
+    }
+
+    <!-- Odabir studenta -->
+    <select class="select-student" id="selectStudent" onchange="popuniFormu(this)">
+        <option value="">-- Odaberi korisnika --</option>
+        @if (studenti != null)
+        {
+            foreach (var s in studenti)
+            {
+                <option value="@s.Id"
+                        data-ime="@s.Ime"
+                        data-prezime="@s.Prezime"
+                        data-username="@s.UserName"
+                        data-email="@s.Email"
+                        data-indeks="@s.Indeks"
+                        data-godina="@s.GodinaStudija">
+                    @s.Ime @s.Prezime
+                </option>
+            }
+        }
+    </select>
+
+    <form method="post" asp-action="IzmijeniKorisnika" asp-controller="Administrator">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" id="hiddenId" />
+
+        <div class="form-row">
+            <label>Ime</label>
+            <input type="text" name="ime" id="fIme" />
         </div>
-        <div class="navbar-right">
-            <span class="user-badge">@User.Identity.Name</span>
-            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn-odjava">Odjava</button>
-            </form>
+        <div class="form-row">
+            <label>Prezime</label>
+            <input type="text" name="prezime" id="fPrezime" />
         </div>
-    </div>
-
-    <!-- MAIN -->
-    <div class="main-content">
-        <!-- SIDEBAR -->
-        <div class="sidebar">
-            <h6>Admin panel</h6>
-            <a <a asp-controller="Administrator" asp-action="Index">Početna</a>>Početna</a>
-            <a href="/Administrator/UnosIzmjena" class="active">Unos/izmjena podataka</a>
-            <a href="/Administrator/Statistika">Generisanje statistike</a>
-            <a href="/Administrator/Notifikacije">Slanje notifikacija</a>
-            <a href="/Administrator/Zahtjevi">Svi zahtjevi</a>
-            <a href="/Administrator/ObradeniZahtjevi">Obrađeni zahtjevi</a>
+        <div class="form-row">
+            <label>JMBG</label>
+            <input type="text" name="jmbg" />
+        </div>
+        <div class="form-row">
+            <label>Datum rođenja</label>
+            <input type="date" name="datumRodjenja" />
+        </div>
+        <div class="form-row">
+            <label>Ime i prezime oca</label>
+            <input type="text" name="imeOca" />
+        </div>
+        <div class="form-row">
+            <label>Ime i prezime majke</label>
+            <input type="text" name="imeMajke" />
+        </div>
+        <div class="form-row">
+            <label>Mjesto prebivališta</label>
+            <input type="text" name="mjesto" />
+        </div>
+        <div class="form-row">
+            <label>Korisničko ime</label>
+            <input type="text" name="username" id="fUsername" />
+        </div>
+        <div class="form-row">
+            <label>Korisnički email</label>
+            <input type="email" name="email" id="fEmail" />
+        </div>
+        <div class="form-row">
+            <label>Index</label>
+            <input type="text" name="indeks" id="fIndeks" />
+        </div>
+        <div class="form-row">
+            <label>Odsjek</label>
+            <input type="text" name="odsjek" />
+        </div>
+        <div class="form-row">
+            <label>Ciklus</label>
+            <input type="text" name="ciklus" />
+        </div>
+        <div class="form-row">
+            <label>Tip studija</label>
+            <input type="text" name="tipStudija" />
+        </div>
+        <div class="form-row">
+            <label>Status</label>
+            <input type="text" name="status" />
+        </div>
+        <div class="form-row">
+            <label>Semestar</label>
+            <input type="number" name="semestar" id="fSemestar" />
         </div>
 
-        <!-- CONTENT -->
-        <div class="content-area">
+        <button type="submit" class="btn-akcija">Spasi promjene</button>
+    </form>
+</div>
 
-            <!-- IZMJENA PODATAKA -->
-            <div class="card-panel">
-                <h5>Izmjena podataka</h5>
+<!-- KREIRANJE NOVOG KORISNIKA -->
+<div class="card-panel">
+    <h5>Kreiranje novog korisnika</h5>
 
-                @if (TempData["Uspjeh"] != null)
-                {
-                    <div class="alert alert-success">@TempData["Uspjeh"]</div>
-                }
-                @if (TempData["Greska"] != null)
-                {
-                    <div class="alert alert-danger">@TempData["Greska"]</div>
-                }
+    <form method="post" asp-action="KreirajKorisnika" asp-controller="Administrator">
+        @Html.AntiForgeryToken()
 
-                <!-- Odabir studenta -->
-                <select class="select-student" id="selectStudent" onchange="popuniFormu(this)">
-                    <option value="">-- Odaberi korisnika --</option>
-                    @if (studenti != null)
-                    {
-                        foreach (var s in studenti)
-                        {
-                            <option value="@s.Id"
-                                    data-ime="@s.Ime"
-                                    data-prezime="@s.Prezime"
-                                    data-username="@s.UserName"
-                                    data-email="@s.Email"
-                                    data-indeks="@s.Indeks"
-                                    data-godina="@s.GodinaStudija">
-                                @s.Ime @s.Prezime
-                            </option>
-                        }
-                    }
-                </select>
-
-                <form method="post" asp-action="IzmijeniKorisnika" asp-controller="Administrator">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" id="hiddenId" />
-
-                    <div class="form-row">
-                        <label>Ime</label>
-                        <input type="text" name="ime" id="fIme" />
-                    </div>
-                    <div class="form-row">
-                        <label>Prezime</label>
-                        <input type="text" name="prezime" id="fPrezime" />
-                    </div>
-                    <div class="form-row">
-                        <label>JMBG</label>
-                        <input type="text" name="jmbg" />
-                    </div>
-                    <div class="form-row">
-                        <label>Datum rođenja</label>
-                        <input type="date" name="datumRodjenja" />
-                    </div>
-                    <div class="form-row">
-                        <label>Ime i prezime oca</label>
-                        <input type="text" name="imeOca" />
-                    </div>
-                    <div class="form-row">
-                        <label>Ime i prezime majke</label>
-                        <input type="text" name="imeMajke" />
-                    </div>
-                    <div class="form-row">
-                        <label>Mjesto prebivališta</label>
-                        <input type="text" name="mjesto" />
-                    </div>
-                    <div class="form-row">
-                        <label>Korisničko ime</label>
-                        <input type="text" name="username" id="fUsername" />
-                    </div>
-                    <div class="form-row">
-                        <label>Korisnički email</label>
-                        <input type="email" name="email" id="fEmail" />
-                    </div>
-                    <div class="form-row">
-                        <label>Index</label>
-                        <input type="text" name="indeks" id="fIndeks" />
-                    </div>
-                    <div class="form-row">
-                        <label>Odsjek</label>
-                        <input type="text" name="odsjek" />
-                    </div>
-                    <div class="form-row">
-                        <label>Ciklus</label>
-                        <input type="text" name="ciklus" />
-                    </div>
-                    <div class="form-row">
-                        <label>Tip studija</label>
-                        <input type="text" name="tipStudija" />
-                    </div>
-                    <div class="form-row">
-                        <label>Status</label>
-                        <input type="text" name="status" />
-                    </div>
-                    <div class="form-row">
-                        <label>Semestar</label>
-                        <input type="number" name="semestar" id="fSemestar" />
-                    </div>
-
-                    <button type="submit" class="btn-akcija">Spasi promjene</button>
-                </form>
-            </div>
-
-            <!-- KREIRANJE NOVOG KORISNIKA -->
-            <div class="card-panel">
-                <h5>Kreiranje novog korisnika</h5>
-
-                <form method="post" asp-action="KreirajKorisnika" asp-controller="Administrator">
-                    @Html.AntiForgeryToken()
-
-                    
-                    <!-- Kreiranje novog korisnika - samo ova polja trebaju ostati -->
-                    <div class="form-row">
-                        <label>Ime</label>
-                        <input type="text" name="ime" required />
-                    </div>
-                    <div class="form-row">
-                        <label>Prezime</label>
-                        <input type="text" name="prezime" required />
-                    </div>
-                    <div class="form-row">
-                        <label>Lozinka</label>
-                        <input type="password" name="lozinka" required />
-                    </div>
-                    <div class="form-row">
-                        <label>Index (za studente)</label>
-                        <input type="text" name="indeks" />
-                    </div>
-                    <div class="form-row">
-                        <label>Godina studija</label>
-                        <input type="number" name="godinaStudija" />
-                    </div>
-                    <div class="form-row">
-                        <label>Privilegije</label>
-                        <select name="privilegije">
-                            <option value="Student">Student</option>
-                            <option value="Profesor">Profesor</option>
-                            <option value="Administrator">Administrator</option>
-                            <option value="StudentskaSluzba">Studentska služba</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn-akcija">Kreiraj</button>
-
-                </form>
-            </div>
-
+        <div class="form-row">
+            <label>Ime</label>
+            <input type="text" name="ime" required />
         </div>
-    </div>
+        <div class="form-row">
+            <label>Prezime</label>
+            <input type="text" name="prezime" required />
+        </div>
+        <div class="form-row">
+            <label>Lozinka</label>
+            <input type="password" name="lozinka" required />
+        </div>
+        <div class="form-row">
+            <label>Index (za studente)</label>
+            <input type="text" name="indeks" />
+        </div>
+        <div class="form-row">
+            <label>Godina studija</label>
+            <input type="number" name="godinaStudija" />
+        </div>
+        <div class="form-row">
+            <label>Privilegije</label>
+            <select name="privilegije">
+                <option value="Student">Student</option>
+                <option value="Profesor">Profesor</option>
+                <option value="Administrator">Administrator</option>
+                <option value="StudentskaSluzba">Studentska služba</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-akcija">Kreiraj</button>
+    </form>
+</div>
 
+@section Scripts {
     <script>
         function popuniFormu(select) {
             var option = select.options[select.selectedIndex];
@@ -381,5 +248,4 @@
             document.getElementById('fSemestar').value = option.dataset.godina || '';
         }
     </script>
-</body>
-</html>
+}

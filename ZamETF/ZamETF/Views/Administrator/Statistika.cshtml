@@ -1,596 +1,421 @@
-﻿@{
+@{
     ViewData["Title"] = "Generisanje statistike";
-    Layout = null;
+    Layout = "_LayoutAdmin";
     var studenti = ViewBag.Studenti as List<ZamETF.Models.Student>;
     var profesori = ViewBag.Profesori as List<ZamETF.Models.Profesor>;
     var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
     var zahtjevi = ViewBag.Zahtjevi as List<ZamETF.Models.Obavijest>;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZamETF - Generisanje statistike</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+@section Styles {
     <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+        .sekcija {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
 
-            body {
-                min-height: 100vh;
-                background: linear-gradient(135deg, #0a0a2e 0%, #1a1a6e 50%, #2d2d9e 100%);
-                display: flex;
-                flex-direction: column;
-            }
+        .sekcija-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(26,26,110,0.1);
+            cursor: pointer;
+            user-select: none;
+        }
 
-            .navbar-top {
-                background: linear-gradient(90deg, #1a1a6e, #2d2d9e);
-                padding: 10px 24px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
+        .sekcija-header h5 {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0;
+        }
 
-            .navbar-left {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
+        .toggle-icon {
+            color: #1a1a6e;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
 
-            .navbar-top img {
-                height: 35px;
-            }
+        .sekcija-body {
+            padding: 20px;
+        }
 
-            .navbar-brand-text {
-                color: white;
-                font-weight: 600;
-                font-size: 1rem;
-                text-decoration: none;
-            }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-                .navbar-brand-text:hover {
-                    color: #a0c8f0;
-                }
+        .search-box input {
+            flex: 1;
+            border: 1.5px solid rgba(26,26,110,0.25);
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 0.88rem;
+            color: #1a1a6e;
+            background: white;
+            outline: none;
+        }
 
-            .navbar-right {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
+        .search-box input:focus {
+            border-color: #1a1a6e;
+        }
 
-            .user-badge {
-                background: white;
-                color: #1a1a6e;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-weight: 600;
-                font-size: 0.9rem;
-            }
+        .tabela {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-            .btn-odjava {
-                background: transparent;
-                color: white;
-                border: 1px solid white;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-size: 0.9rem;
-                cursor: pointer;
-                text-decoration: none;
-            }
+        .tabela th {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 9px 14px;
+            border-bottom: 2px solid rgba(26,26,110,0.15);
+            text-align: left;
+        }
 
-                .btn-odjava:hover {
-                    background: rgba(255,255,255,0.1);
-                    color: white;
-                }
+        .tabela td {
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            padding: 11px 14px;
+            border-bottom: 1px solid rgba(26,26,110,0.08);
+            vertical-align: middle;
+        }
 
-            .main-content {
-                flex: 1;
-                display: flex;
-                padding: 20px;
-                gap: 20px;
-            }
+        .tabela tr:last-child td {
+            border-bottom: none;
+        }
 
-            .sidebar {
-                background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-                border-radius: 15px;
-                padding: 20px;
-                width: 220px;
-                min-width: 220px;
-            }
+        .tabela tr:hover td {
+            background: rgba(255,255,255,0.35);
+        }
 
-                .sidebar h6 {
-                    color: #1a1a6e;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    margin-bottom: 15px;
-                    text-align: center;
-                }
+        .tabela-wrap {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-                .sidebar a {
-                    display: block;
-                    color: #1a1a6e;
-                    text-decoration: none;
-                    padding: 8px 0;
-                    font-size: 0.9rem;
-                    border-bottom: 1px solid rgba(26,26,110,0.1);
-                    font-weight: 600;
-                }
+        .btn-pdf {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 5px 13px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            margin-right: 5px;
+        }
 
-                    .sidebar a:hover {
-                        color: #0a0a2e;
-                    }
+        .btn-pdf:hover {
+            background: #0a3f5a;
+        }
 
-                    .sidebar a:last-child {
-                        border-bottom: none;
-                    }
+        .btn-posalji-ss {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 5px 13px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
 
-                    .sidebar a.active {
-                        text-decoration: underline;
-                    }
+        .btn-posalji-ss:hover {
+            background: #6c3483;
+        }
 
-            .content-area {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 18px;
-            }
+        .zahtjev-card {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-left: 4px solid #8e44ad;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-            .sekcija {
-                background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-                border-radius: 15px;
-                overflow: hidden;
-            }
+        .zahtjev-info {
+            flex: 1;
+            color: #1a1a6e;
+            font-size: 0.88rem;
+        }
 
-            .sekcija-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 16px 24px;
-                border-bottom: 1px solid rgba(26,26,110,0.1);
-                cursor: pointer;
-                user-select: none;
-            }
+        .zahtjev-info .naslov {
+            font-weight: 700;
+        }
 
-                .sekcija-header h5 {
-                    color: #1a1a6e;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    margin: 0;
-                }
+        .zahtjev-info .detalji {
+            font-size: 0.78rem;
+            opacity: 0.6;
+            margin-top: 2px;
+        }
 
-            .toggle-icon {
-                color: #1a1a6e;
-                font-size: 1.1rem;
-                font-weight: 700;
-            }
+        .zahtjev-actions {
+            display: flex;
+            gap: 7px;
+        }
 
-            .sekcija-body {
-                padding: 20px;
-            }
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
 
-            .search-box {
-                display: flex;
-                gap: 10px;
-                margin-bottom: 15px;
-            }
-
-                .search-box input {
-                    flex: 1;
-                    border: 1.5px solid rgba(26,26,110,0.25);
-                    border-radius: 10px;
-                    padding: 8px 14px;
-                    font-size: 0.88rem;
-                    color: #1a1a6e;
-                    background: white;
-                    outline: none;
-                }
-
-                    .search-box input:focus {
-                        border-color: #1a1a6e;
-                    }
-
-            .tabela {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-                .tabela th {
-                    color: #1a1a6e;
-                    font-size: 0.82rem;
-                    font-weight: 700;
-                    padding: 9px 14px;
-                    border-bottom: 2px solid rgba(26,26,110,0.15);
-                    text-align: left;
-                }
-
-                .tabela td {
-                    color: #1a1a6e;
-                    font-size: 0.85rem;
-                    padding: 11px 14px;
-                    border-bottom: 1px solid rgba(26,26,110,0.08);
-                    vertical-align: middle;
-                }
-
-                .tabela tr:last-child td {
-                    border-bottom: none;
-                }
-
-                .tabela tr:hover td {
-                    background: rgba(255,255,255,0.35);
-                }
-
-            .tabela-wrap {
-                background: rgba(255,255,255,0.3);
-                border-radius: 10px;
-                overflow: hidden;
-            }
-
-            .btn-pdf {
-                background: #1a5f7a;
-                color: white;
-                border: none;
-                border-radius: 12px;
-                padding: 5px 13px;
-                font-size: 0.78rem;
-                cursor: pointer;
-                margin-right: 5px;
-            }
-
-                .btn-pdf:hover {
-                    background: #0a3f5a;
-                }
-
-            .btn-posalji-ss {
-                background: #8e44ad;
-                color: white;
-                border: none;
-                border-radius: 12px;
-                padding: 5px 13px;
-                font-size: 0.78rem;
-                cursor: pointer;
-            }
-
-                .btn-posalji-ss:hover {
-                    background: #6c3483;
-                }
-
-            .zahtjev-card {
-                background: white;
-                border-radius: 10px;
-                padding: 12px 16px;
-                margin-bottom: 8px;
-                border-left: 4px solid #8e44ad;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .zahtjev-info {
-                flex: 1;
-                color: #1a1a6e;
-                font-size: 0.88rem;
-            }
-
-                .zahtjev-info .naslov {
-                    font-weight: 700;
-                }
-
-                .zahtjev-info .detalji {
-                    font-size: 0.78rem;
-                    opacity: 0.6;
-                    margin-top: 2px;
-                }
-
-            .zahtjev-actions {
-                display: flex;
-                gap: 7px;
-            }
-
-            .alert {
-                border-radius: 10px;
-                margin-bottom: 10px;
-                font-size: 0.9rem;
-            }
-
-            .empty-text {
-                color: #1a1a6e;
-                opacity: 0.6;
-                font-size: 0.88rem;
-            }
-
-            .section-divider {
-                border: none;
-                border-top: 1px solid rgba(26,26,110,0.1);
-                margin: 15px 0;
-            }
-
-            .badge-novi {
-                background: #e74c3c;
-                color: white;
-                border-radius: 10px;
-                padding: 2px 8px;
-                font-size: 0.75rem;
-                margin-left: 5px;
-            }
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.88rem;
+        }
     </style>
-</head>
-<body>
-    <div class="navbar-top">
-        <div class="navbar-left">
-            <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a asp-controller="Administrator" asp-action="Index" class="navbar-brand-text">Pocetna</a>
-        </div>
-        <div class="navbar-right">
-            <span class="user-badge">Admin: @User.Identity.Name</span>
-            <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn-odjava">Odjava</button>
-            </form>
-        </div>
-    </div>
+}
 
-    <div class="main-content">
-        <div class="sidebar">
-            <h6>Admin panel</h6>
-            <a asp-controller="Administrator" asp-action="Index">Pocetna</a>
-            <a asp-controller="Administrator" asp-action="SviZahtjevi">Svi zahtjevi</a>
-            <a asp-controller="Administrator" asp-action="Statistika" class="active">Generisanje statistike</a>
-            <a asp-controller="Administrator" asp-action="UnosIzmjena">Unos/izmjena podataka</a>
-            <a asp-controller="Administrator" asp-action="KreiranjePredmeta">Kreiranje predmeta</a>
-            <a asp-controller="Administrator" asp-action="Notifikacije">Slanje notifikacija</a>
+@if (TempData["Uspjeh"] != null)
+{
+    <div class="alert alert-success">@TempData["Uspjeh"]</div>
+}
+@if (TempData["Greska"] != null)
+{
+    <div class="alert alert-danger">@TempData["Greska"]</div>
+}
+
+<!-- ZAHTJEVI ZA STATISTIKU -->
+@if (zahtjevi != null && zahtjevi.Any())
+{
+    <div class="sekcija">
+        <div class="sekcija-header" onclick="toggleSekcija('zahtjevi', this)">
+            <h5>
+                Zahtjevi za statistiku
+                <span class="badge-novi">@zahtjevi.Count</span>
+            </h5>
+            <span class="toggle-icon" id="ikona-zahtjevi">&#8743;</span>
         </div>
-
-        <div class="content-area">
-            @if (TempData["Uspjeh"] != null)
+        <div class="sekcija-body" id="tijelo-zahtjevi">
+            @foreach (var z in zahtjevi)
             {
-                <div class="alert alert-success">@TempData["Uspjeh"]</div>
-            }
-            @if (TempData["Greska"] != null)
-            {
-                <div class="alert alert-danger">@TempData["Greska"]</div>
-            }
-
-            <!-- ZAHTJEVI ZA STATISTIKU -->
-            @if (zahtjevi != null && zahtjevi.Any())
-            {
-                <div class="sekcija">
-                    <div class="sekcija-header" onclick="toggleSekcija('zahtjevi', this)">
-                        <h5>
-                            Zahtjevi za statistiku
-                            <span class="badge-novi">@zahtjevi.Count</span>
-                        </h5>
-                        <span class="toggle-icon" id="ikona-zahtjevi">&#8743;</span>
-                    </div>
-                    <div class="sekcija-body" id="tijelo-zahtjevi">
-                        @foreach (var z in zahtjevi)
+                <div class="zahtjev-card">
+                    <div class="zahtjev-info">
+                        <div class="naslov">@z.Naslov</div>
+                        <div class="detalji">
+                            Od: @(z.Posiljалac?.Ime + " " + z.Posiljалac?.Prezime)
+                            &nbsp;&middot;&nbsp; @z.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
+                        </div>
+                        @if (!string.IsNullOrEmpty(z.Poruka))
                         {
-                            <div class="zahtjev-card">
-                                <div class="zahtjev-info">
-                                    <div class="naslov">@z.Naslov</div>
-                                    <div class="detalji">
-                                        Od: @(z.Posiljалac?.Ime + " " + z.Posiljалac?.Prezime)
-                                        &nbsp;&middot;&nbsp; @z.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
-                                    </div>
-                                    @if (!string.IsNullOrEmpty(z.Poruka))
-                                    {
-                                        <div class="detalji" style="margin-top:3px;">@z.Poruka</div>
-                                    }
-                                </div>
-                                <div class="zahtjev-actions">
-                                    <form method="post" asp-action="GenerirajIzZahtjeva"
-                                          asp-controller="Administrator" target="_blank" style="display:inline">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="obavijestId" value="@z.Id" />
-                                        <button type="submit" class="btn-pdf">Generisi PDF</button>
-                                    </form>
-                                    <form method="post" asp-action="PosaljiPdfStudentskaSluzba"
-                                          asp-controller="Administrator" style="display:inline">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="obavijestId" value="@z.Id" />
-                                        <button type="submit" class="btn-posalji-ss">Posalji studentskoj sluzbi</button>
-                                    </form>
-                                </div>
-                            </div>
+                            <div class="detalji" style="margin-top:3px;">@z.Poruka</div>
                         }
                     </div>
+                    <div class="zahtjev-actions">
+                        <form method="post" asp-action="GenerirajIzZahtjeva"
+                              asp-controller="Administrator" target="_blank" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="obavijestId" value="@z.Id" />
+                            <button type="submit" class="btn-pdf">Generisi PDF</button>
+                        </form>
+                        <form method="post" asp-action="PosaljiPdfStudentskaSluzba"
+                              asp-controller="Administrator" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="obavijestId" value="@z.Id" />
+                            <button type="submit" class="btn-posalji-ss">Posalji studentskoj sluzbi</button>
+                        </form>
+                    </div>
                 </div>
             }
-
-            <!-- STUDENTI -->
-            <div class="sekcija">
-                <div class="sekcija-header" onclick="toggleSekcija('studenti', this)">
-                    <h5>Statistika studenata</h5>
-                    <span class="toggle-icon" id="ikona-studenti">&#8743;</span>
-                </div>
-                <div class="sekcija-body" id="tijelo-studenti">
-                    <div class="search-box">
-                        <input type="text" id="pretragaStudenti" placeholder="Pretrazi po imenu ili indeksu..."
-                               oninput="pretraziTabelu('tabela-studenti', this.value)" />
-                    </div>
-                    <div class="tabela-wrap">
-                        <table class="tabela" id="tabela-studenti">
-                            <thead>
-                                <tr>
-                                    <th>Ime i prezime</th>
-                                    <th>Indeks</th>
-                                    <th>Godina</th>
-                                    <th>Akcije</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (studenti != null)
-                                {
-                                    foreach (var s in studenti)
-                                    {
-                                        <tr data-tekst="@((s.Ime + " " + s.Prezime + " " + s.Indeks).ToLower())">
-                                            <td>@s.Ime @s.Prezime</td>
-                                            <td>@s.Indeks</td>
-                                            <td>@s.GodinaStudija. god.</td>
-                                            <td>
-                                                <form method="post" asp-action="GenerirajStatistikuStudenta"
-                                                      asp-controller="Administrator" target="_blank" style="display:inline">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="studentId" value="@s.Id" />
-                                                    <button type="submit" class="btn-pdf">Generisi i preuzmi</button>
-                                                </form>
-                                                <form method="post" asp-action="PosaljiStatistikuStudentskaSluzba"
-                                                      asp-controller="Administrator" style="display:inline">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="studentId" value="@s.Id" />
-                                                    <button type="submit" class="btn-posalji-ss">Posalji SS</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PREDMETI -->
-            <div class="sekcija">
-                <div class="sekcija-header" onclick="toggleSekcija('predmeti', this)">
-                    <h5>Statistika predmeta</h5>
-                    <span class="toggle-icon" id="ikona-predmeti">&#8743;</span>
-                </div>
-                <div class="sekcija-body" id="tijelo-predmeti">
-                    <div class="search-box">
-                        <input type="text" placeholder="Pretrazi predmet..."
-                               oninput="pretraziTabelu('tabela-predmeti', this.value)" />
-                    </div>
-                    <div class="tabela-wrap">
-                        <table class="tabela" id="tabela-predmeti">
-                            <thead>
-                                <tr>
-                                    <th>Naziv predmeta</th>
-                                    <th>Semestar</th>
-                                    <th>Profesor</th>
-                                    <th>Akcije</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (predmeti != null)
-                                {
-                                    foreach (var p in predmeti)
-                                    {
-                                        <tr data-tekst="@(p.Naziv?.ToLower())">
-                                            <td>@p.Naziv</td>
-                                            <td>@p.Semestar. sem.</td>
-                                            <td>@(p.Profesor?.Ime + " " + p.Profesor?.Prezime)</td>
-                                            <td>
-                                                <form method="post" asp-action="GenerirajStatistikuPredmeta"
-                                                      asp-controller="Administrator" target="_blank" style="display:inline">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="predmetId" value="@p.Id" />
-                                                    <button type="submit" class="btn-pdf">Generisi i preuzmi</button>
-                                                </form>
-                                                <form method="post" asp-action="PosaljiStatistikuPredmetaStudentskaSluzba"
-                                                      asp-controller="Administrator" style="display:inline">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="predmetId" value="@p.Id" />
-                                                    <button type="submit" class="btn-posalji-ss">Posalji SS</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROFESORI -->
-            <div class="sekcija">
-                <div class="sekcija-header" onclick="toggleSekcija('profesori', this)">
-                    <h5>Statistika profesora</h5>
-                    <span class="toggle-icon" id="ikona-profesori">&#8743;</span>
-                </div>
-                <div class="sekcija-body" id="tijelo-profesori">
-                    <div class="tabela-wrap">
-                        <table class="tabela">
-                            <thead>
-                                <tr>
-                                    <th>Ime i prezime</th>
-                                    <th>Akcije</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (profesori != null)
-                                {
-                                    foreach (var p in profesori)
-                                    {
-                                        <tr>
-                                            <td>@p.Ime @p.Prezime</td>
-                                            <td>
-                                                <form method="post" asp-action="GenerirajStatistikuProfesora"
-                                                      asp-controller="Administrator" target="_blank" style="display:inline">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="profesorId" value="@p.Id" />
-                                                    <button type="submit" class="btn-pdf">Generisi i preuzmi</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STUDENTSKA SLUZBA -->
-            <div class="sekcija">
-                <div class="sekcija-header" onclick="toggleSekcija('sluzba', this)">
-                    <h5>Statistika studentske sluzbe</h5>
-                    <span class="toggle-icon" id="ikona-sluzba">&#8743;</span>
-                </div>
-                <div class="sekcija-body" id="tijelo-sluzba">
-                    <p style="color:#1a1a6e; font-size:0.88rem; margin-bottom:15px; opacity:0.8;">
-                        Generisi opstu statistiku svih zahtjeva za dokumente.
-                    </p>
-                    <form method="post" asp-action="GenerirajStatistikuStudentskeSluzbe"
-                          asp-controller="Administrator" target="_blank" style="display:inline">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn-pdf" style="padding:8px 20px; font-size:0.88rem;">
-                            Generisi i preuzmi PDF
-                        </button>
-                    </form>
-                </div>
-            </div>
-
         </div>
     </div>
+}
 
+<!-- STUDENTI -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('studenti', this)">
+        <h5>Statistika studenata</h5>
+        <span class="toggle-icon" id="ikona-studenti">&#8743;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-studenti">
+        <div class="search-box">
+            <input type="text" id="pretragaStudenti" placeholder="Pretrazi po imenu ili indeksu..."
+                   oninput="pretraziTabelu('tabela-studenti', this.value)" />
+        </div>
+        <div class="tabela-wrap">
+            <table class="tabela" id="tabela-studenti">
+                <thead>
+                    <tr>
+                        <th>Ime i prezime</th>
+                        <th>Indeks</th>
+                        <th>Godina</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (studenti != null)
+                    {
+                        foreach (var s in studenti)
+                        {
+                            <tr data-tekst="@((s.Ime + " " + s.Prezime + " " + s.Indeks).ToLower())">
+                                <td>@s.Ime @s.Prezime</td>
+                                <td>@s.Indeks</td>
+                                <td>@s.GodinaStudija. god.</td>
+                                <td>
+                                    <form method="post" asp-action="GenerirajStatistikuStudenta"
+                                          asp-controller="Administrator" target="_blank" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="studentId" value="@s.Id" />
+                                        <button type="submit" class="btn-pdf">Generisi i preuzmi</button>
+                                    </form>
+                                    <form method="post" asp-action="PosaljiStatistikuStudentskaSluzba"
+                                          asp-controller="Administrator" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="studentId" value="@s.Id" />
+                                        <button type="submit" class="btn-posalji-ss">Posalji SS</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- PREDMETI -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('predmeti', this)">
+        <h5>Statistika predmeta</h5>
+        <span class="toggle-icon" id="ikona-predmeti">&#8743;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-predmeti">
+        <div class="search-box">
+            <input type="text" placeholder="Pretrazi predmet..."
+                   oninput="pretraziTabelu('tabela-predmeti', this.value)" />
+        </div>
+        <div class="tabela-wrap">
+            <table class="tabela" id="tabela-predmeti">
+                <thead>
+                    <tr>
+                        <th>Naziv predmeta</th>
+                        <th>Semestar</th>
+                        <th>Profesor</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (predmeti != null)
+                    {
+                        foreach (var p in predmeti)
+                        {
+                            <tr data-tekst="@(p.Naziv?.ToLower())">
+                                <td>@p.Naziv</td>
+                                <td>@p.Semestar. sem.</td>
+                                <td>@(p.Profesor?.Ime + " " + p.Profesor?.Prezime)</td>
+                                <td>
+                                    <form method="post" asp-action="GenerirajStatistikuPredmeta"
+                                          asp-controller="Administrator" target="_blank" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="predmetId" value="@p.Id" />
+                                        <button type="submit" class="btn-pdf">Generisi i preuzmi</button>
+                                    </form>
+                                    <form method="post" asp-action="PosaljiStatistikuPredmetaStudentskaSluzba"
+                                          asp-controller="Administrator" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="predmetId" value="@p.Id" />
+                                        <button type="submit" class="btn-posalji-ss">Posalji SS</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- PROFESORI -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('profesori', this)">
+        <h5>Statistika profesora</h5>
+        <span class="toggle-icon" id="ikona-profesori">&#8743;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-profesori">
+        <div class="tabela-wrap">
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Ime i prezime</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (profesori != null)
+                    {
+                        foreach (var p in profesori)
+                        {
+                            <tr>
+                                <td>@p.Ime @p.Prezime</td>
+                                <td>
+                                    <form method="post" asp-action="GenerirajStatistikuProfesora"
+                                          asp-controller="Administrator" target="_blank" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="profesorId" value="@p.Id" />
+                                        <button type="submit" class="btn-pdf">Generisi i preuzmi</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- STUDENTSKA SLUZBA -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('sluzba', this)">
+        <h5>Statistika studentske sluzbe</h5>
+        <span class="toggle-icon" id="ikona-sluzba">&#8743;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-sluzba">
+        <p style="color:#1a1a6e; font-size:0.88rem; margin-bottom:15px; opacity:0.8;">
+            Generisi opstu statistiku svih zahtjeva za dokumente.
+        </p>
+        <form method="post" asp-action="GenerirajStatistikuStudentskeSluzbe"
+              asp-controller="Administrator" target="_blank" style="display:inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn-pdf" style="padding:8px 20px; font-size:0.88rem;">
+                Generisi i preuzmi PDF
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
     <script>
-            function toggleSekcija(naziv, header) {
-                var tijelo = document.getElementById('tijelo-' + naziv);
-                var ikona = document.getElementById('ikona-' + naziv);
-                if (tijelo.style.display === 'none') {
-                    tijelo.style.display = 'block';
-                    ikona.innerHTML = '&#8743;';
-                } else {
-                    tijelo.style.display = 'none';
-                    ikona.innerHTML = '&#8744;';
-                }
+        function toggleSekcija(naziv, header) {
+            var tijelo = document.getElementById('tijelo-' + naziv);
+            var ikona = document.getElementById('ikona-' + naziv);
+            if (tijelo.style.display === 'none') {
+                tijelo.style.display = 'block';
+                ikona.innerHTML = '&#8743;';
+            } else {
+                tijelo.style.display = 'none';
+                ikona.innerHTML = '&#8744;';
             }
+        }
 
-            function pretraziTabelu(tabelaId, val) {
-                var q = val.toLowerCase();
-                var tabela = document.getElementById(tabelaId);
-                if (!tabela) return;
-                tabela.querySelectorAll('tbody tr').forEach(function(tr) {
-                    tr.style.display = (tr.dataset.tekst || '').indexOf(q) !== -1 ? '' : 'none';
-                });
-            }
+        function pretraziTabelu(tabelaId, val) {
+            var q = val.toLowerCase();
+            var tabela = document.getElementById(tabelaId);
+            if (!tabela) return;
+            tabela.querySelectorAll('tbody tr').forEach(function(tr) {
+                tr.style.display = (tr.dataset.tekst || '').indexOf(q) !== -1 ? '' : 'none';
+            });
+        }
     </script>
-</body>
-</html>
+}
