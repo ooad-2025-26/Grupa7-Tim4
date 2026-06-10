@@ -1,44 +1,88 @@
-@model IEnumerable<ZamETF.Models.Ispit>
+@model ZamETF.ViewModels.ProfesorIspitiVM
 @{
-    ViewData["Title"] = "Postavljeni ispiti";
+    ViewData["Title"] = "Ispiti";
 }
 
 <div class="zametf-page">
-    <div class="zametf-wrap">
-    <div class="zametf-card">
-        <h2 class="zametf-naslov">Postavljeni ispiti</h2>
+    <div class="zametf-wrap zametf-wrap-wide">
 
         @if (TempData["Poruka"] != null)
         {
             <div class="zametf-alert zametf-alert-ok">@TempData["Poruka"]</div>
         }
 
-        <div style="text-align:center; margin-bottom:22px;">
-            <a asp-action="Create" class="btn-zametf">+ Postavi novi ispit</a>
-        </div>
+        <div class="zametf-grid">
 
-        @if (!Model.Any())
-        {
-            <p class="zametf-prazno">Još nema postavljenih ispita.</p>
-        }
-        else
-        {
-            @foreach (var ispit in Model)
-            {
-                var brojPrijava = ispit.Prijave.Count(p => p.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit);
-                <div class="zametf-stavka">
-                    <div class="zametf-stavka-naslov">
-                        @ispit.Predmet?.Naziv
-                        <span class="zametf-sifra">@ispit.Predmet?.SifraPredmeta</span>
-                    </div>
-                    <div class="zametf-stavka-info">
-                        Datum ispita: @ispit.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
-                        Rok za prijavu: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy. u HH:mm")<br />
-                        Broj prijavljenih studenata: <strong>@brojPrijava</strong>
-                    </div>
+            <!-- LIJEVO: forma za postavljanje ispita -->
+            <div class="zametf-col">
+                <div class="zametf-card">
+                    <h2 class="zametf-naslov">Postavi novi ispit</h2>
+
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="zametf-greska"></div>
+
+                        <div class="zametf-polje">
+                            <label asp-for="Novi.PredmetId">Predmet</label>
+                            <select asp-for="Novi.PredmetId" asp-items="@(ViewBag.Predmeti as Microsoft.AspNetCore.Mvc.Rendering.SelectList)" class="zametf-input">
+                                <option value="">-- odaberi predmet --</option>
+                            </select>
+                            <span asp-validation-for="Novi.PredmetId" class="zametf-greska"></span>
+                        </div>
+
+                        <div class="zametf-polje">
+                            <label asp-for="Novi.Datum">Datum ispita</label>
+                            <input asp-for="Novi.Datum" type="datetime-local" class="zametf-input" />
+                            <span asp-validation-for="Novi.Datum" class="zametf-greska"></span>
+                        </div>
+
+                        <div class="zametf-polje">
+                            <label asp-for="Novi.RokZaPrijavu">Rok za prijavu</label>
+                            <input asp-for="Novi.RokZaPrijavu" type="datetime-local" class="zametf-input" />
+                            <span asp-validation-for="Novi.RokZaPrijavu" class="zametf-greska"></span>
+                        </div>
+
+                        <div style="text-align:center; margin-top:24px;">
+                            <button type="submit" class="btn-zametf">Postavi ispit</button>
+                        </div>
+                    </form>
                 </div>
-            }
-        }
+            </div>
+
+            <!-- DESNO: postavljeni ispiti -->
+            <div class="zametf-col">
+                <div class="zametf-card">
+                    <h2 class="zametf-naslov">Postavljeni ispiti</h2>
+
+                    @if (!Model.Ispiti.Any())
+                    {
+                        <p class="zametf-prazno">Još nema postavljenih ispita.</p>
+                    }
+                    else
+                    {
+                        @foreach (var ispit in Model.Ispiti)
+                        {
+                            var brojPrijava = ispit.Prijave.Count(p => p.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit);
+                            <div class="zametf-stavka">
+                                <div class="zametf-stavka-naslov">
+                                    @ispit.Predmet?.Naziv
+                                    <span class="zametf-sifra">@ispit.Predmet?.SifraPredmeta</span>
+                                </div>
+                                <div class="zametf-stavka-info">
+                                    Datum ispita: @ispit.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                    Rok za prijavu: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                    Broj prijavljenih studenata: <strong>@brojPrijava</strong>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
-</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

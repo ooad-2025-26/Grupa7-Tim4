@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
+using ZamETF.ViewModels;
 
 namespace ZamETF.Controllers
 {
@@ -20,27 +21,10 @@ namespace ZamETF.Controllers
             _userManager = userManager;
         }
 
-        // ===================== PROFESOR: POSTAVLJANJE ISPITA =====================
+        // ===================== PROFESOR: POSTAVLJANJE + PREGLED (jedna stranica) =====================
 
-        // Pregled svih ispita za predmete prijavljenog profesora
+        // Lijevo forma za postavljanje, desno lista postavljenih ispita
         public async Task<IActionResult> Index()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user is not Profesor profesor)
-                return Forbid();
-
-            var ispiti = await _context.Ispiti
-                .Include(i => i.Predmet)
-                .Include(i => i.Prijave)
-                .Where(i => i.Predmet.ProfesorId == profesor.Id)
-                .OrderBy(i => i.Datum)
-                .ToListAsync();
-
-            return View(ispiti);
-        }
-
-        // GET: forma za novi ispit
-        public async Task<IActionResult> Create()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user is not Profesor profesor)
@@ -48,41 +32,49 @@ namespace ZamETF.Controllers
 
             await PopuniPredmete(profesor.Id);
 
-            return View(new IspitCreateVM
+            return View(new ProfesorIspitiVM
             {
-                Datum = DateTime.Today.AddDays(7).AddHours(9),
-                RokZaPrijavu = DateTime.Today.AddDays(5).AddHours(23)
+                Ispiti = await DohvatiIspiteProfesora(profesor.Id),
+                Novi = new IspitCreateVM
+                {
+                    Datum = DateTime.Today.AddDays(7).AddHours(9),
+                    RokZaPrijavu = DateTime.Today.AddDays(5).AddHours(23)
+                }
             });
         }
 
-        // POST: kreiranje ispita
+        // POST: kreiranje ispita (sa iste stranice)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IspitCreateVM model)
+        public async Task<IActionResult> Create(IspitCreateVM Novi)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user is not Profesor profesor)
                 return Forbid();
 
             var predmet = await _context.Predmeti
-                .FirstOrDefaultAsync(p => p.Id == model.PredmetId && p.ProfesorId == profesor.Id);
+                .FirstOrDefaultAsync(p => p.Id == Novi.PredmetId && p.ProfesorId == profesor.Id);
             if (predmet == null)
-                ModelState.AddModelError(nameof(model.PredmetId), "Odaberite jedan od svojih predmeta.");
+                ModelState.AddModelError("Novi.PredmetId", "Odaberite jedan od svojih predmeta.");
 
-            if (model.RokZaPrijavu > model.Datum)
-                ModelState.AddModelError(nameof(model.RokZaPrijavu), "Rok za prijavu mora biti prije datuma ispita.");
+            if (Novi.RokZaPrijavu > Novi.Datum)
+                ModelState.AddModelError("Novi.RokZaPrijavu", "Rok za prijavu mora biti prije datuma ispita.");
 
             if (!ModelState.IsValid)
             {
                 await PopuniPredmete(profesor.Id);
-                return View(model);
+                return View("Index", new ProfesorIspitiVM
+                {
+                    Ispiti = await DohvatiIspiteProfesora(profesor.Id),
+                    Novi = Novi
+                });
             }
 
             _context.Ispiti.Add(new Ispit
             {
-                PredmetId = model.PredmetId,
-                Datum = model.Datum,
-                RokZaPrijavu = model.RokZaPrijavu
+                PredmetId = Novi.PredmetId,
+                Datum = Novi.Datum,
+                RokZaPrijavu = Novi.RokZaPrijavu
             });
             await _context.SaveChangesAsync();
 
@@ -92,7 +84,6 @@ namespace ZamETF.Controllers
 
         // ===================== STUDENT: PRIJAVA ISPITA (kombinovana stranica) =====================
 
-        // Jedna stranica: lijevo dostupni ispiti, desno studentove prijave
         public async Task<IActionResult> Prijava()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -195,6 +186,16 @@ namespace ZamETF.Controllers
         }
 
         // ===================== POMOĆNO =====================
+
+        private async Task<List<Ispit>> DohvatiIspiteProfesora(int profesorId)
+        {
+            return await _context.Ispiti
+                .Include(i => i.Predmet)
+                .Include(i => i.Prijave)
+                .Where(i => i.Predmet.ProfesorId == profesorId)
+                .OrderBy(i => i.Datum)
+                .ToListAsync();
+        }
 
         private async Task PopuniPredmete(int profesorId)
         {
