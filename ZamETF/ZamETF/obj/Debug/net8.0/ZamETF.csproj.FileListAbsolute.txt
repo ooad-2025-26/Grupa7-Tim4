@@ -948,7 +948,6 @@ C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.build.
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\swae.build.ex.cache
-C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.csproj.Up2Date
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.dll
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\refint\ZamETF.dll

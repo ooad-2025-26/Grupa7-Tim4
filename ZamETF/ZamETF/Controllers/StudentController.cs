@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ZamETF.Controllers
 {
+    [Authorize]
+
     public class StudentController : Controller
     {
         private readonly UserManager<Korisnik> _userManager;

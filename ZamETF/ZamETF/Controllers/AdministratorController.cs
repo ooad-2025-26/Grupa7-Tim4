@@ -6,9 +6,12 @@ using ZamETF.Models;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ZamETF.Controllers
 {
+    [Authorize]
+
     public class AdministratorController : Controller
     {
         private readonly UserManager<Korisnik> _userManager;
