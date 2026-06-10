@@ -27,6 +27,15 @@ Sistem centralizuje podatke o studentima, profesorima i predmetima, omogućava d
 - HTML, CSS, JavaScript (frontend)  
 - iTextSharp / QuestPDF (generisanje PDF dokumenata)  
 
+## Render link: 
+https://grupa7-tim4.onrender.com
+
+## Pristupni podaci:
+Admin: admin@zametf.ba šifra: Admin123!
+Profesor: kenan.sehic šifra: Kenan11
+Studentska služba: studentska.sluzba1 šifra: Studentska11
+Student: hamza.tarahija šifra: Hamza11
+
 ## ⚙️ Konfiguracija baze
 Konekcijski string:
 
