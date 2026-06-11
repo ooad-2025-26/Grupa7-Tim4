@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
@@ -15,12 +17,166 @@ namespace ZamETF.Controllers
         private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public StudentController(UserManager<Korisnik> userManager, ApplicationDbContext context)
+        private readonly IWebHostEnvironment _env;
+
+        public StudentController(UserManager<Korisnik> userManager, ApplicationDbContext context, IWebHostEnvironment env)
         {
             _userManager = userManager;
             _context = context;
+            _env = env;
+        }
+        public async Task<IActionResult> SlanjeZadaca()
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            if (korisnik == null) return RedirectToAction("Login", "Account");
+
+            var predmeti = await _context.UpisaNaPredmet
+                .Include(u => u.Predmet)
+                .Where(u => u.StudentId == korisnik.Id)
+                .Select(u => u.Predmet)
+                .ToListAsync();
+
+            var predmetIds = predmeti.Select(p => p.Id).ToList();
+
+            var zadace = await _context.Zadace
+                .Include(z => z.Predmet)
+                .Where(z => predmetIds.Contains(z.PredmetID))
+                .OrderBy(z => z.Rok)
+                .ToListAsync();
+
+            var mojePredaje = await _context.PredajeZadace
+                .Where(p => p.StudentID == korisnik.Id)
+                .ToListAsync();
+
+            var model = new ZamETF.ViewModels.StudentZadaceVM
+            {
+                Stavke = zadace.Select(z => new ZamETF.ViewModels.StudentZadacaItemVM
+                {
+                    Zadaca = z,
+                    MojaPredaja = mojePredaje.FirstOrDefault(p => p.ZadacaId == z.Id)
+                }).ToList()
+            };
+
+            ViewBag.Predmeti = predmeti;   // za sidebar u _LayoutStudent
+            return View(model);
         }
 
+        // GET: Student/DetaljiZadace/5  — detalji jedne zadaće + forma za predaju
+        public async Task<IActionResult> DetaljiZadace(int id)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            if (korisnik == null) return RedirectToAction("Login", "Account");
+
+            var zadaca = await _context.Zadace
+                .Include(z => z.Predmet)
+                .FirstOrDefaultAsync(z => z.Id == id);
+            if (zadaca == null) return NotFound();
+
+            var predaja = await _context.PredajeZadace
+                .FirstOrDefaultAsync(p => p.ZadacaId == id && p.StudentID == korisnik.Id);
+
+            var predmeti = await _context.UpisaNaPredmet
+                .Include(u => u.Predmet)
+                .Where(u => u.StudentId == korisnik.Id)
+                .Select(u => u.Predmet)
+                .ToListAsync();
+            ViewBag.Predmeti = predmeti;
+
+            return View(new ZamETF.ViewModels.DetaljiZadaceVM
+            {
+                Zadaca = zadaca,
+                MojaPredaja = predaja
+            });
+        }
+
+        // POST: Student/PredajZadacu  — upload PDF-a
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PredajZadacu(int zadacaId, IFormFile fajl, string komentar)
+        {
+            komentar = komentar ?? "";
+            var korisnik = await _userManager.GetUserAsync(User);
+            var student = await _context.Studenti.FindAsync(korisnik.Id);
+            if (student == null) return NotFound();
+
+            var zadaca = await _context.Zadace.FirstOrDefaultAsync(z => z.Id == zadacaId);
+            if (zadaca == null) return NotFound();
+
+            if (!zadaca.ProvjeriRok())
+            {
+                TempData["Greska"] = "Rok za predaju je istekao.";
+                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+            }
+
+            // --- validacija fajla ---
+            if (fajl == null || fajl.Length == 0)
+            {
+                TempData["Greska"] = "Niste odabrali fajl.";
+                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+            }
+
+            var ext = Path.GetExtension(fajl.FileName).ToLowerInvariant();
+            if (ext != ".pdf")
+            {
+                TempData["Greska"] = "Dozvoljeni su samo PDF fajlovi.";
+                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+            }
+
+            if (fajl.Length > 10 * 1024 * 1024)   // 10 MB limit
+            {
+                TempData["Greska"] = "Fajl je prevelik (maksimalno 10 MB).";
+                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+            }
+
+            // --- snimi fajl u wwwroot/uploads/zadace ---
+            var uploadsDir = Path.Combine(_env.WebRootPath, "uploads", "zadace");
+            Directory.CreateDirectory(uploadsDir);
+
+            var fileName = $"z{zadacaId}_s{student.Id}_{Guid.NewGuid():N}.pdf";
+            var fullPath = Path.Combine(uploadsDir, fileName);
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await fajl.CopyToAsync(stream);
+            }
+            var relPath = $"/uploads/zadace/{fileName}";
+
+            // --- postojeća predaja? (ažuriraj umjesto duplikata) ---
+            var predaja = await _context.PredajeZadace
+                .FirstOrDefaultAsync(p => p.ZadacaId == zadacaId && p.StudentID == student.Id);
+
+            if (predaja != null)
+            {
+                // obriši stari fajl
+                if (!string.IsNullOrEmpty(predaja.Fajl))
+                {
+                    var stari = Path.Combine(_env.WebRootPath,
+                        predaja.Fajl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+                    if (System.IO.File.Exists(stari)) System.IO.File.Delete(stari);
+                }
+
+                predaja.Fajl = relPath;
+                predaja.Komentar = komentar;
+                predaja.DatumPredaje = DateTime.Now;
+                predaja.Status = StatusZadace.Predana;
+                predaja.Bodovi = null;   // vraća se na ocjenjivanje
+            }
+            else
+            {
+                _context.PredajeZadace.Add(new PredajaZadace
+                {
+                    ZadacaId = zadacaId,
+                    StudentID = student.Id,
+                    Fajl = relPath,
+                    Komentar = komentar,
+                    DatumPredaje = DateTime.Now,
+                    Status = StatusZadace.Predana
+                });
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Zadaća je uspješno predana.";
+            return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+        }
         // GET: Student
         public async Task<IActionResult> Index()
         {

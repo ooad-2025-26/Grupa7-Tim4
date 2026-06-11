@@ -1,0 +1,57 @@
+@model ZamETF.ViewModels.StudentZadaceVM
+@{
+    ViewData["Title"] = "Zadaće";
+    Layout = "~/Views/Student/_LayoutStudent.cshtml";
+}
+
+<div class="zametf-wrap">
+    <div class="zametf-card">
+        <h2 class="zametf-naslov">Zadaće</h2>
+
+        @if (!Model.Stavke.Any())
+        {
+            <p class="zametf-prazno">Trenutno nema zadaća za vaše predmete.</p>
+        }
+        else
+        {
+            @foreach (var s in Model.Stavke)
+            {
+                var predano = s.MojaPredaja != null;
+                var ocijenjeno = s.MojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
+                var istekao = !s.Zadaca.ProvjeriRok();
+                <div class="zametf-stavka">
+                    <div class="zametf-stavka-naslov">
+                        @s.Zadaca.NazivID
+                        <span class="zametf-sifra">@s.Zadaca.Predmet?.Naziv</span>
+                        @if (ocijenjeno)
+                        {
+                            <span class="badge-status badge-ok">Ocijenjeno</span>
+                        }
+                        else if (predano)
+                        {
+                            <span class="badge-status badge-info">Predano</span>
+                        }
+                        else if (istekao)
+                        {
+                            <span class="badge-status badge-greska">Rok istekao</span>
+                        }
+                        else
+                        {
+                            <span class="badge-novo">OTVORENO</span>
+                        }
+                    </div>
+                    <div class="zametf-stavka-info">
+                        Rok: @s.Zadaca.Rok.ToString("dd.MM.yyyy. u HH:mm")
+                        @if (ocijenjeno)
+                        {
+                            <text><br />Bodovi: <strong>@s.MojaPredaja.Bodovi / 100</strong></text>
+                        }
+                    </div>
+                    <div style="margin-top:10px;">
+                        <a asp-action="DetaljiZadace" asp-route-id="@s.Zadaca.Id" class="btn-zametf">Otvori</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

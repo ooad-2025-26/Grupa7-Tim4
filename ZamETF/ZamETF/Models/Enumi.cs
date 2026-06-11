@@ -18,7 +18,6 @@
     public enum StatusZadace
     {
         Predana,
-        Prepisana,
         Pregledana,
         NijePredana
     }

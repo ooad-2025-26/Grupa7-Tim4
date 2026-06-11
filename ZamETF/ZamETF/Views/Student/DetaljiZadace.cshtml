@@ -1,0 +1,93 @@
+@model ZamETF.ViewModels.DetaljiZadaceVM
+@{
+    ViewData["Title"] = "Zadaća";
+    Layout = "~/Views/Student/_LayoutStudent.cshtml";
+    var predano = Model.MojaPredaja != null;
+    var ocijenjeno = Model.MojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
+    var istekao = !Model.Zadaca.ProvjeriRok();
+}
+
+<div class="zametf-wrap zametf-wrap-wide">
+
+    <div style="margin-bottom:14px;">
+        <a asp-action="SlanjeZadaca" class="btn-zametf-sekundarni">&larr; Nazad na zadaće</a>
+    </div>
+
+    <div class="zametf-grid">
+
+        <!-- LIJEVO: detalji + predaja -->
+        <div class="zametf-col">
+            <div class="zametf-card">
+                <h2 class="zametf-naslov">@Model.Zadaca.NazivID</h2>
+
+                <div class="zametf-stavka-info" style="margin-bottom:18px;">
+                    Predmet: @Model.Zadaca.Predmet?.Naziv<br />
+                    Rok: @Model.Zadaca.Rok.ToString("dd.MM.yyyy. u HH:mm")
+                    @if (!string.IsNullOrWhiteSpace(Model.Zadaca.Opis))
+                    {
+                        <text><br /><br />@Model.Zadaca.Opis</text>
+                    }
+                </div>
+
+                @if (istekao && !predano)
+                {
+                    <p class="zametf-prazno">Rok za predaju je istekao.</p>
+                }
+                else
+                {
+                    <form asp-action="PredajZadacu" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="zadacaId" value="@Model.Zadaca.Id" />
+
+                        <div class="zametf-polje">
+                            <label>PDF fajl</label>
+                            <input type="file" name="fajl" accept="application/pdf,.pdf" class="zametf-input" required />
+                        </div>
+
+                        <div class="zametf-polje">
+                            <label>Komentar (opcionalno)</label>
+                            <textarea name="komentar" rows="3" class="zametf-input">@Model.MojaPredaja?.Komentar</textarea>
+                        </div>
+
+                        <div style="text-align:center; margin-top:18px;">
+                            <button type="submit" class="btn-zametf">@(predano ? "Ponovo predaj" : "Predaj zadaću")</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+
+        <!-- DESNO: status moje predaje -->
+        <div class="zametf-col">
+            <div class="zametf-card">
+                <h2 class="zametf-naslov">Moja predaja</h2>
+
+                @if (!predano)
+                {
+                    <p class="zametf-prazno">Još niste predali ovu zadaću.</p>
+                }
+                else
+                {
+                    <div class="zametf-stavka">
+                        <div class="zametf-stavka-info">
+                            Predano: @Model.MojaPredaja.DatumPredaje.ToString("dd.MM.yyyy. u HH:mm")<br />
+                            Status: <strong>@(ocijenjeno ? "Ocijenjeno" : "Čeka pregled")</strong>
+                            @if (ocijenjeno)
+                            {
+                                <text><br />Bodovi: <strong>@Model.MojaPredaja.Bodovi / 100</strong></text>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.MojaPredaja.Komentar))
+                            {
+                                <text><br />Vaš komentar: @Model.MojaPredaja.Komentar</text>
+                            }
+                        </div>
+                        <div style="margin-top:12px;">
+                            <a href="@Model.MojaPredaja.Fajl" target="_blank" class="btn-zametf-sekundarni">Pregledaj predani PDF</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

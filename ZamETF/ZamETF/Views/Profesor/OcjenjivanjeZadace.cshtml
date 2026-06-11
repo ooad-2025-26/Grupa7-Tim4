@@ -154,15 +154,14 @@
                 }
                 @foreach (var predaja in Model.Predaje)
                 {
+                    <a href="@predaja.Fajl" target="_blank" class="btn-zametf-sekundarni">Pregledaj PDF</a>
                     <tr>
                         <td>@(i++)</td>
                         <td>@predaja.Student?.Ime @predaja.Student?.Prezime</td>
                         <td>
                             <span class="badge-status @(
                                   predaja.Status == ZamETF.Models.StatusZadace.Pregledana ? "status-pregledana" :
-                                  predaja.Status == ZamETF.Models.StatusZadace.NijePredana ? "status-nije" :
-                                  predaja.Status == ZamETF.Models.StatusZadace.Prepisana ? "status-prepisana" :
-                                  "status-predana")">
+                                  predaja.Status == ZamETF.Models.StatusZadace.NijePredana ? "status-nije" : "status-predana")">
                         @predaja.Status
                     </span>
                 </td>
