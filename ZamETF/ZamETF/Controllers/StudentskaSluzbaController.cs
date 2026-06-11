@@ -113,7 +113,7 @@ namespace ZamETF.Controllers
                 {
                     return StatusCode(500, ex.Message + " | " + ex.InnerException?.Message);
                 }
-            }
+            
          
         }
 
