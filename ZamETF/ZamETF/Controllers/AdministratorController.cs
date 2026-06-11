@@ -7,6 +7,7 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using Microsoft.AspNetCore.Authorization;
+using ZamETF.Services;
 
 namespace ZamETF.Controllers
 {
