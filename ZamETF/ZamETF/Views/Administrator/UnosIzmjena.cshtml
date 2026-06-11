@@ -6,7 +6,6 @@
 
 @section Styles {
     <style>
-        /* Make the content area match the home page's unified mint-blue panel design */
         .content-area {
             background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
             border-radius: 15px;
@@ -16,13 +15,13 @@
             gap: 20px;
         }
 
-        .content-area h4 {
-            color: #1a1a6e;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 5px;
-            font-size: 1.3rem;
-        }
+            .content-area h4 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 5px;
+                font-size: 1.3rem;
+            }
 
         .panels-wrapper {
             display: flex;
@@ -39,13 +38,13 @@
             border-top: 4px solid #1a5f7a;
         }
 
-        .card-panel h5 {
-            color: #1a1a6e;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.1rem;
+            }
 
         .form-row {
             display: flex;
@@ -54,29 +53,38 @@
             gap: 10px;
         }
 
-        .form-row label {
-            color: #1a1a6e;
-            font-size: 0.85rem;
-            width: 140px;
-            min-width: 140px;
-            font-weight: 600;
-        }
+            .form-row label {
+                color: #1a1a6e;
+                font-size: 0.85rem;
+                width: 140px;
+                min-width: 140px;
+                font-weight: 600;
+            }
 
-        .form-row input,
-        .form-row select {
-            flex: 1;
-            border: none;
-            border-bottom: 1.5px solid rgba(26,26,110,0.25);
-            background: transparent;
-            padding: 4px 6px;
-            font-size: 0.85rem;
-            color: #1a1a6e;
-            outline: none;
-        }
+            .form-row input,
+            .form-row select {
+                flex: 1;
+                border: none;
+                border-bottom: 1.5px solid rgba(26,26,110,0.25);
+                background: transparent;
+                padding: 4px 6px;
+                font-size: 0.85rem;
+                color: #1a1a6e;
+                outline: none;
+            }
 
-        .form-row input:focus,
-        .form-row select:focus {
-            border-bottom: 2px solid #1a1a6e;
+                .form-row input:focus,
+                .form-row select:focus {
+                    border-bottom: 2px solid #1a1a6e;
+                }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: #888;
+            margin-left: 150px;
+            margin-top: -6px;
+            margin-bottom: 8px;
+            font-style: italic;
         }
 
         .btn-akcija {
@@ -93,7 +101,9 @@
             font-weight: 600;
         }
 
-        .btn-akcija:hover { background: #0a3f5a; }
+            .btn-akcija:hover {
+                background: #0a3f5a;
+            }
 
         .select-student {
             width: 100%;
@@ -125,11 +135,11 @@
 
         @if (TempData["Uspjeh"] != null)
         {
-            <div class="alert alert-success">@TempData["Uspjeh"]</div>
+        <div class="alert alert-success">@TempData["Uspjeh"]</div>
         }
         @if (TempData["Greska"] != null)
         {
-            <div class="alert alert-danger">@TempData["Greska"]</div>
+        <div class="alert alert-danger">@TempData["Greska"]</div>
         }
 
         <!-- Odabir studenta -->
@@ -139,15 +149,25 @@
             {
                 foreach (var s in studenti)
                 {
-                    <option value="@s.Id"
-                            data-ime="@s.Ime"
-                            data-prezime="@s.Prezime"
-                            data-username="@s.UserName"
-                            data-email="@s.Email"
-                            data-indeks="@s.Indeks"
-                            data-godina="@s.GodinaStudija">
-                        @s.Ime @s.Prezime
-                    </option>
+            <option value="@s.Id"
+                    data-ime="@s.Ime"
+                    data-prezime="@s.Prezime"
+                    data-username="@s.UserName"
+                    data-email="@s.Email"
+                    data-indeks="@s.Indeks"
+                    data-godina="@s.GodinaStudija"
+                    data-jmbg="@s.JMBG"
+                    data-datum="@(s.DatumRodjenja != default ? s.DatumRodjenja.ToString("yyyy-MM-dd") : "")"
+                    data-imeoca="@s.ImeOca"
+                    data-imemajke="@s.ImeMajke"
+                    data-mjesto="@s.MjestoPrebivalisca"
+                    data-odsjek="@s.Odsjek"
+                    data-ciklus="@s.Ciklus"
+                    data-tipstudija="@s.TipStudija"
+                    data-status="@s.StatusStudenta"
+                    data-semestar="@s.Semestar">
+                @s.Ime @s.Prezime
+            </option>
                 }
             }
         </select>
@@ -166,23 +186,23 @@
             </div>
             <div class="form-row">
                 <label>JMBG</label>
-                <input type="text" name="jmbg" />
+                <input type="text" name="jmbg" id="fJmbg" />
             </div>
             <div class="form-row">
                 <label>Datum rođenja</label>
-                <input type="date" name="datumRodjenja" />
+                <input type="date" name="datumRodjenja" id="fDatum" />
             </div>
             <div class="form-row">
                 <label>Ime i prezime oca</label>
-                <input type="text" name="imeOca" />
+                <input type="text" name="imeOca" id="fImeOca" />
             </div>
             <div class="form-row">
                 <label>Ime i prezime majke</label>
-                <input type="text" name="imeMajke" />
+                <input type="text" name="imeMajke" id="fImeMajke" />
             </div>
             <div class="form-row">
                 <label>Mjesto prebivališta</label>
-                <input type="text" name="mjesto" />
+                <input type="text" name="mjesto" id="fMjesto" />
             </div>
             <div class="form-row">
                 <label>Korisničko ime</label>
@@ -193,24 +213,28 @@
                 <input type="email" name="email" id="fEmail" />
             </div>
             <div class="form-row">
-                <label>Index</label>
+                <label>Indeks</label>
                 <input type="text" name="indeks" id="fIndeks" />
             </div>
             <div class="form-row">
                 <label>Odsjek</label>
-                <input type="text" name="odsjek" />
+                <input type="text" name="odsjek" id="fOdsjek" />
             </div>
             <div class="form-row">
                 <label>Ciklus</label>
-                <input type="text" name="ciklus" />
+                <input type="text" name="ciklus" id="fCiklus" />
             </div>
             <div class="form-row">
                 <label>Tip studija</label>
-                <input type="text" name="tipStudija" />
+                <input type="text" name="tipStudija" id="fTipStudija" />
             </div>
             <div class="form-row">
                 <label>Status</label>
-                <input type="text" name="status" />
+                <input type="text" name="status" id="fStatus" />
+            </div>
+            <div class="form-row">
+                <label>Godina studija</label>
+                <input type="number" name="godinaStudija" id="fGodinaStudija" min="1" max="5" />
             </div>
             <div class="form-row">
                 <label>Semestar</label>
@@ -237,11 +261,16 @@
                 <input type="text" name="prezime" required />
             </div>
             <div class="form-row">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Ostavi prazno za automatski" />
+            </div>
+            <p class="form-hint">Ako se ne unese, email će biti automatski generisan (ime.prezime@etf.unsa.ba)</p>
+            <div class="form-row">
                 <label>Lozinka</label>
                 <input type="password" name="lozinka" required />
             </div>
             <div class="form-row">
-                <label>Index (za studente)</label>
+                <label>Indeks (studenti)</label>
                 <input type="text" name="indeks" />
             </div>
             <div class="form-row">
@@ -265,14 +294,24 @@
 @section Scripts {
     <script>
         function popuniFormu(select) {
-            var option = select.options[select.selectedIndex];
+            var opt = select.options[select.selectedIndex];
             document.getElementById('hiddenId').value = select.value;
-            document.getElementById('fIme').value = option.dataset.ime || '';
-            document.getElementById('fPrezime').value = option.dataset.prezime || '';
-            document.getElementById('fUsername').value = option.dataset.username || '';
-            document.getElementById('fEmail').value = option.dataset.email || '';
-            document.getElementById('fIndeks').value = option.dataset.indeks || '';
-            document.getElementById('fSemestar').value = option.dataset.godina || '';
+            document.getElementById('fIme').value = opt.dataset.ime || '';
+            document.getElementById('fPrezime').value = opt.dataset.prezime || '';
+            document.getElementById('fUsername').value = opt.dataset.username || '';
+            document.getElementById('fEmail').value = opt.dataset.email || '';
+            document.getElementById('fIndeks').value = opt.dataset.indeks || '';
+            document.getElementById('fGodinaStudija').value = opt.dataset.godina || '';
+            document.getElementById('fJmbg').value = opt.dataset.jmbg || '';
+            document.getElementById('fDatum').value = opt.dataset.datum || '';
+            document.getElementById('fImeOca').value = opt.dataset.imeoca || '';
+            document.getElementById('fImeMajke').value = opt.dataset.imemajke || '';
+            document.getElementById('fMjesto').value = opt.dataset.mjesto || '';
+            document.getElementById('fOdsjek').value = opt.dataset.odsjek || '';
+            document.getElementById('fCiklus').value = opt.dataset.ciklus || '';
+            document.getElementById('fTipStudija').value = opt.dataset.tipstudija || '';
+            document.getElementById('fStatus').value = opt.dataset.status || '';
+            document.getElementById('fSemestar').value = opt.dataset.semestar || '';
         }
     </script>
 }
