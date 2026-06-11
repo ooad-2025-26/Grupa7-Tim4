@@ -270,7 +270,7 @@
     <script>
         var odabraniTip = 'PrepisOcjena';
         var zahtjevId = '@zahtjev?.Id';
-        var imeStudenta = '@(student?.Ime ?? "")@(student?.Prezime ?? "")';
+        var imeStudenta = '@Html.Raw(student?.Ime ?? "")@Html.Raw(student?.Prezime ?? "")';
         var antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
         function ukloniDijakritike(str) {
