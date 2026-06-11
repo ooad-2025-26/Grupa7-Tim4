@@ -164,6 +164,16 @@ namespace ZamETF.Data
                 .HasOne(pz => pz.Zadaca).WithMany(z => z.Predaje)
                 .HasForeignKey(pz => pz.ZadacaId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Bodovanje>()
+                .HasOne(b => b.Student).WithMany()
+                .HasForeignKey(b => b.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Bodovanje>()
+                .HasOne(b => b.Predmet).WithMany(p => p.Bodovanja)
+                .HasForeignKey(b => b.PredmetId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Student> Studenti { get; set; }

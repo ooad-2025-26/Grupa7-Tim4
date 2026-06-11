@@ -157,3 +157,26 @@
 .badge-ok { background: #27ae60; }
 .badge-info { background: #2d6cdf; }
 .badge-greska { background: #c0392b; }
+
+/* Jednostavna tabela za unos/pregled bodova */
+.zametf-tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+.zametf-tabela th {
+    color: #1b1f6b;
+    font-size: .82rem;
+    font-weight: 700;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid rgba(27,31,107,.15);
+}
+.zametf-tabela td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(27,31,107,.08);
+    font-size: .9rem;
+    color: #1b1f6b;
+}
+.zametf-tabela tr:last-child td { border-bottom: none; }
+.ocjena-prikaz { font-weight: 700; }
+.ocjena-pao { color: #c0392b; }

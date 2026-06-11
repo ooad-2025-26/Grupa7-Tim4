@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZamETF.Data;
 using ZamETF.Models;
+using ZamETF.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ZamETF.Controllers
@@ -18,6 +19,82 @@ namespace ZamETF.Controllers
         {
             _userManager = userManager;
             _context = context;
+        }
+        // GET: Profesor/UnosOcjena?predmetId=5
+        public async Task<IActionResult> UnosOcjena(int predmetId)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Studenti)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+
+            var predmet = profesor?.Predmeti.FirstOrDefault(p => p.Id == predmetId);
+            if (predmet == null) return NotFound();
+
+            // postojeća bodovanja za ovaj predmet
+            var bodovanja = await _context.Bodovanja
+                .Where(b => b.PredmetId == predmetId)
+                .ToListAsync();
+
+            var model = new UnosOcjenaVM
+            {
+                Predmet = predmet,
+                Studenti = predmet.Studenti
+                    .OrderBy(s => s.Prezime)
+                    .Select(s => new StudentBodVM
+                    {
+                        StudentId = s.Id,
+                        ImePrezime = s.Ime + " " + s.Prezime,
+                        Indeks = s.Indeks,
+                        Bodovi = bodovanja.FirstOrDefault(b => b.StudentId == s.Id)?.Bodovi
+                    }).ToList()
+            };
+
+            ViewBag.Predmeti = profesor.Predmeti.ToList();   // za sidebar
+            return View(model);
+        }
+
+        // POST: Profesor/SacuvajBodovanje
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SacuvajBodovanje(int predmetId, List<int> studentId, List<string> bodovi)
+        {
+            var predmet = await _context.Predmeti.FindAsync(predmetId);
+            if (predmet == null) return NotFound();
+
+            var postojeca = await _context.Bodovanja
+                .Where(b => b.PredmetId == predmetId)
+                .ToListAsync();
+
+            for (int i = 0; i < studentId.Count; i++)
+            {
+                var sid = studentId[i];
+                var raw = (i < bodovi.Count) ? bodovi[i] : null;
+
+                if (string.IsNullOrWhiteSpace(raw)) continue;      // prazno = preskoči
+                if (!int.TryParse(raw, out var b)) continue;
+                b = Math.Clamp(b, 0, 100);
+
+                var zapis = postojeca.FirstOrDefault(x => x.StudentId == sid);
+                if (zapis != null)
+                {
+                    zapis.Bodovi = b;                              // ažuriraj
+                }
+                else
+                {
+                    _context.Bodovanja.Add(new Bodovanje          // novi
+                    {
+                        StudentId = sid,
+                        PredmetId = predmetId,
+                        Bodovi = b
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Bodovi su uspješno sačuvani.";
+            return RedirectToAction(nameof(UnosOcjena), new { predmetId });
         }
 
         // Dodati u ProfesorController.cs prije zadnje }

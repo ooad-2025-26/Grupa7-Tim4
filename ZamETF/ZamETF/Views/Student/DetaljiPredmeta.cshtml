@@ -1,0 +1,84 @@
+@model ZamETF.ViewModels.StudentPredmetVM
+@{
+    ViewData["Title"] = Model.Predmet.Naziv;
+    Layout = "~/Views/Student/_LayoutStudent.cshtml";
+    var imaOcjenu = Model.Bodovi.HasValue;
+    var ocjena = imaOcjenu ? ZamETF.Helpers.OcjenaHelper.BodoviUOcjenu(Model.Bodovi.Value) : 0;
+    var pao = imaOcjenu && Model.Bodovi.Value < 55;
+}
+
+<div class="zametf-wrap zametf-wrap-wide">
+
+    <div class="zametf-grid">
+
+        <!-- LIJEVO: info + ocjena -->
+        <div class="zametf-col">
+            <div class="zametf-card">
+                <h2 class="zametf-naslov">@Model.Predmet.Naziv</h2>
+                <div class="zametf-stavka-info" style="text-align:center; margin-bottom:16px;">
+                    Šifra: @Model.Predmet.SifraPredmeta &middot; Semestar: @Model.Predmet.Semestar
+                </div>
+
+                <div class="zametf-stavka" style="text-align:center;">
+                    <div class="zametf-stavka-naslov" style="justify-content:center;">Finalna ocjena</div>
+                    @if (imaOcjenu)
+                    {
+                        <div style="font-size:2.4rem; font-weight:800; color:@(pao ? "#c0392b" : "#1b1f6b"); margin:6px 0;">@ocjena</div>
+                        <div class="zametf-stavka-info">
+                            Bodovi: <strong>@Model.Bodovi / 100</strong>
+                            @if (pao)
+                            {
+                                <text><br /><span style="color:#c0392b; font-weight:600;">Nije položeno</span></text>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="zametf-prazno">Ocjena još nije unesena.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- DESNO: zadaće -->
+        <div class="zametf-col">
+            <div class="zametf-card">
+                <h2 class="zametf-naslov">Zadaće</h2>
+
+                @if (!Model.Zadace.Any())
+                {
+                    <p class="zametf-prazno">Nema zadaća za ovaj predmet.</p>
+                }
+                else
+                {
+                    @foreach (var z in Model.Zadace)
+                    {
+                        var mojaPredaja = z.Predaje?.FirstOrDefault(p => p.StudentID == Model.MojeId);
+                        var ocijenjeno = mojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
+                        var predano = mojaPredaja != null;
+                        <div class="zametf-stavka">
+                            <div class="zametf-stavka-naslov">
+                                @z.NazivID
+                                @if (ocijenjeno)
+                                {
+                                    <span class="badge-status badge-ok">@mojaPredaja.Bodovi/100</span>
+                                }
+                                else if (predano)
+                                {
+                                    <span class="badge-status badge-info">Predano</span>
+                                }
+                            </div>
+                            <div class="zametf-stavka-info">
+                                Rok: @z.Rok.ToString("dd.MM.yyyy. u HH:mm")
+                            </div>
+                            <div style="margin-top:8px;">
+                                <a asp-controller="Student" asp-action="DetaljiZadace" asp-route-id="@z.Id" class="btn-zametf">Otvori</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -11,7 +11,7 @@ namespace ZamETF.Models
         [Required]
         public Predmet Predmet { get; set; }
 
-        [Range(1, 10)]
+        [Range(5, 10)]
         public int Vrijednost { get; set; }
     }
 }

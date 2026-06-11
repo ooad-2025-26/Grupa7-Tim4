@@ -1,0 +1,85 @@
+@model ZamETF.ViewModels.UnosOcjenaVM
+@{
+    ViewData["Title"] = "Unos ocjena";
+    Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
+}
+
+<div class="zametf-wrap zametf-wrap-wide">
+
+    <div style="margin-bottom:14px;">
+        <a asp-controller="Profesor" asp-action="DetaljiPredmeta" asp-route-id="@Model.Predmet.Id" class="btn-zametf-sekundarni">&larr; Nazad na predmet</a>
+    </div>
+
+    <div class="zametf-card">
+        <h2 class="zametf-naslov">Unos ocjena — @Model.Predmet.Naziv</h2>
+
+        @if (TempData["Uspjeh"] != null)
+        {
+            <div class="zametf-alert zametf-alert-ok">@TempData["Uspjeh"]</div>
+        }
+
+        @if (!Model.Studenti.Any())
+        {
+            <p class="zametf-prazno">Nema upisanih studenata na ovaj predmet.</p>
+        }
+        else
+        {
+            <form asp-action="SacuvajBodovanje" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="predmetId" value="@Model.Predmet.Id" />
+
+                <table class="zametf-tabela">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Indeks</th>
+                            <th>Bodovi (0–100)</th>
+                            <th>Ocjena</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var s in Model.Studenti)
+                        {
+                            var trenutnaOcjena = s.Bodovi.HasValue
+                                ? ZamETF.Helpers.OcjenaHelper.BodoviUOcjenu(s.Bodovi.Value).ToString()
+                                : "-";
+                            var pao = s.Bodovi.HasValue && s.Bodovi.Value < 55;
+                            <tr>
+                                <td>@s.ImePrezime</td>
+                                <td>@s.Indeks</td>
+                                <td>
+                                    <input type="hidden" name="studentId" value="@s.StudentId" />
+                                    <input type="number" name="bodovi" min="0" max="100"
+                                           value="@(s.Bodovi?.ToString() ?? "")"
+                                           class="zametf-input" style="width:90px;"
+                                           data-row="@s.StudentId" oninput="izracunajOcjenu(this)" />
+                                </td>
+                                <td>
+                                    <span class="ocjena-prikaz @(pao ? "ocjena-pao" : "")" id="ocj-@s.StudentId">@trenutnaOcjena</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div style="text-align:center; margin-top:20px;">
+                    <button type="submit" class="btn-zametf">Sačuvaj bodove</button>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function izracunajOcjenu(input) {
+            var el = document.getElementById('ocj-' + input.dataset.row);
+            var v = parseInt(input.value);
+            if (isNaN(v)) { el.textContent = '-'; el.classList.remove('ocjena-pao'); return; }
+            if (v < 0) v = 0; if (v > 100) v = 100;
+            var o = v < 55 ? 5 : v < 65 ? 6 : v < 75 ? 7 : v < 85 ? 8 : v < 95 ? 9 : 10;
+            el.textContent = o;
+            if (v < 55) el.classList.add('ocjena-pao'); else el.classList.remove('ocjena-pao');
+        }
+    </script>
+}

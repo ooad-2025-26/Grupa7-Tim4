@@ -333,6 +333,46 @@ namespace ZamETF.Controllers
             return View();
         }
 
+        // GET: Student/DetaljiPredmeta/5
+        public async Task<IActionResult> DetaljiPredmeta(int id)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            if (korisnik == null) return RedirectToAction("Login", "Account");
+
+            // student mora biti upisan na predmet
+            var upis = await _context.UpisaNaPredmet
+                .Include(u => u.Predmet)
+                .FirstOrDefaultAsync(u => u.StudentId == korisnik.Id && u.Predmet.Id == id);
+            if (upis == null) return NotFound();
+
+            var predmet = upis.Predmet;
+
+            var bodovanje = await _context.Bodovanja
+                .FirstOrDefaultAsync(b => b.PredmetId == id && b.StudentId == korisnik.Id);
+
+            var zadace = await _context.Zadace
+                .Include(z => z.Predaje)
+                .Where(z => z.PredmetID == id)
+                .OrderBy(z => z.Rok)
+                .ToListAsync();
+
+            // za sidebar
+            var predmeti = await _context.UpisaNaPredmet
+                .Include(u => u.Predmet)
+                .Where(u => u.StudentId == korisnik.Id)
+                .Select(u => u.Predmet)
+                .ToListAsync();
+            ViewBag.Predmeti = predmeti;
+
+            return View(new ZamETF.ViewModels.StudentPredmetVM
+            {
+                Predmet = predmet,
+                Bodovi = bodovanje?.Bodovi,
+                Zadace = zadace,
+                MojeId = korisnik.Id
+            });
+        }
+
         // POST: Student/PošaljiZahtjev
         [HttpPost]
         [ValidateAntiForgeryToken]

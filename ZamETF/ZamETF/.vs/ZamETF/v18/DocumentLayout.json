@@ -3,8 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\student\\detaljipredmeta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\student\\detaljipredmeta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\controllers\\profesorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\profesorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\models\\ocjena.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\ocjena.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\models\\bodovanje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:models\\bodovanje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\profesor\\detaljipredmeta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\profesor\\detaljipredmeta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\student\\slanjezadaca.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -17,22 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\profesor\\ocjenjivanjezadace.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\profesor\\ocjenjivanjezadace.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\wwwroot\\css\\zametf-ispiti.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:wwwroot\\css\\zametf-ispiti.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\controllers\\profesorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\profesorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\models\\zadaca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -53,10 +65,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\controllers\\ispitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\ispitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\student\\_layoutstudent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\student\\_layoutstudent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\hf\\desktop\\ooad1\\grupa7-tim4\\zametf\\zametf\\views\\profesor\\_layoutprofesor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -130,7 +138,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 234,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -138,7 +146,102 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DetaljiPredmeta.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
+              "RelativeDocumentMoniker": "Views\\Student\\DetaljiPredmeta.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
+              "RelativeToolTip": "Views\\Student\\DetaljiPredmeta.cshtml",
+              "ViewState": "AgIAACYAAAAAAAAAAAAWwDwAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T23:54:49.987Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Ocjena.cs",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Ocjena.cs",
+              "RelativeDocumentMoniker": "Models\\Ocjena.cs",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Ocjena.cs",
+              "RelativeToolTip": "Models\\Ocjena.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T22:52:49.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwBYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-06-10T20:31:40.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ProfesorController.cs",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\ProfesorController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProfesorController.cs",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\ProfesorController.cs",
+              "RelativeToolTip": "Controllers\\ProfesorController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T14:11:51.987Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StudentController.cs",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StudentController.cs",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
+              "RelativeToolTip": "Controllers\\StudentController.cs",
+              "ViewState": "AgIAAJEBAAAAcGZmZmYGwF8BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T20:23:16.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Bodovanje.cs",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Bodovanje.cs",
+              "RelativeDocumentMoniker": "Models\\Bodovanje.cs",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Bodovanje.cs",
+              "RelativeToolTip": "Models\\Bodovanje.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T22:52:14.186Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DetaljiPredmeta.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\DetaljiPredmeta.cshtml",
+              "RelativeDocumentMoniker": "Views\\Profesor\\DetaljiPredmeta.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\DetaljiPredmeta.cshtml",
+              "RelativeToolTip": "Views\\Profesor\\DetaljiPredmeta.cshtml",
+              "ViewState": "AgIAAKABAAAAAAAAAAAAAK0BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T22:48:00.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "SlanjeZadaca.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\SlanjeZadaca.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\SlanjeZadaca.cshtml",
@@ -151,7 +254,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAJEAAAAAMDMzMzPjv58AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-11T20:03:48.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "KreiranjeZadace.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\KreiranjeZadace.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\KreiranjeZadace.cshtml",
@@ -164,7 +280,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "OcjenjivanjeZadace.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\OcjenjivanjeZadace.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\OcjenjivanjeZadace.cshtml",
@@ -177,63 +293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "StudentController.cs",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\StudentController.cs",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
-              "RelativeToolTip": "Controllers\\StudentController.cs",
-              "ViewState": "AgIAAFEAAAAAMzMzMzMnwGMAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-11T20:23:16.71Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "wwwroot\\css\\site.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-06-10T20:31:40.885Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "zametf-ispiti.css",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\zametf-ispiti.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\zametf-ispiti.css",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\wwwroot\\css\\zametf-ispiti.css",
-              "RelativeToolTip": "wwwroot\\css\\zametf-ispiti.css",
-              "ViewState": "AgIAAGcAAAAANjMzMzMLwAAAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-06-11T21:40:12.674Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAKAAAAAAAAAAAAAAAKsAAABBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-11T20:03:48.585Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "Zadaca.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Zadaca.cs",
               "RelativeDocumentMoniker": "Models\\Zadaca.cs",
@@ -246,20 +306,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "_LayoutStudent.cshtml",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\_LayoutStudent.cshtml",
-              "RelativeDocumentMoniker": "Views\\Student\\_LayoutStudent.cshtml",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\_LayoutStudent.cshtml",
-              "RelativeToolTip": "Views\\Student\\_LayoutStudent.cshtml",
-              "ViewState": "AgIAALoAAAAAAAAAAAAAANEAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-11T14:10:31.297Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "_LayoutProfesor.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\_LayoutProfesor.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\_LayoutProfesor.cshtml",
@@ -272,20 +319,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ProfesorController.cs",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\ProfesorController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProfesorController.cs",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\ProfesorController.cs",
-              "RelativeToolTip": "Controllers\\ProfesorController.cs",
-              "ViewState": "AgIAAAwCAAAAAAAAAAAmwBsCAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-11T14:11:51.987Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "PredajaZadace.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PredajaZadace.cs",
               "RelativeDocumentMoniker": "Models\\PredajaZadace.cs",
@@ -298,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "Enumi.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Enumi.cs",
               "RelativeDocumentMoniker": "Models\\Enumi.cs",
@@ -311,7 +345,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "IspitController.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\IspitController.cs",
               "RelativeDocumentMoniker": "Controllers\\IspitController.cs",
@@ -324,7 +358,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\Index.cshtml",
@@ -337,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "_LayoutAdmin.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Shared\\_LayoutAdmin.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_LayoutAdmin.cshtml",
@@ -350,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -363,7 +397,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "Student.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Student.cs",
               "RelativeDocumentMoniker": "Models\\Student.cs",
@@ -376,7 +410,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "StudentDashboardView.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\StudentDashboardView.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\StudentDashboardView.cshtml",
@@ -389,7 +423,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "ProfesorIspit.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\ProfesorIspit.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\ProfesorIspit.cshtml",
@@ -402,7 +436,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "StudentIspit.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\StudentIspit.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\StudentIspit.cshtml",
@@ -415,7 +449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "ZahtjevZaDokument.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\ZahtjevZaDokument.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\ZahtjevZaDokument.cshtml",
@@ -428,7 +462,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "PregledRezultataView.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\PregledRezultataView.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\PregledRezultataView.cshtml",
@@ -441,7 +475,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\Index.cshtml",
@@ -454,7 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Administrator\\Index.cshtml",
@@ -467,7 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "ZamETF",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\ZamETF.csproj",
               "RelativeDocumentMoniker": "ZamETF.csproj",
@@ -480,7 +514,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -493,7 +527,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\Index.cshtml",
@@ -506,7 +540,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "PrijavaIspit.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspit.cs",
               "RelativeDocumentMoniker": "Models\\PrijavaIspit.cs",
@@ -519,7 +553,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "PrijavaIspitaVM.cs",
               "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspitaVM.cs",
               "RelativeDocumentMoniker": "Models\\PrijavaIspitaVM.cs",

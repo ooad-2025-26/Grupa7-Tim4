@@ -177,7 +177,7 @@
             {
                 foreach (var p in predmeti)
                 {
-                    <a href="#" class="sidebar-predmet">@p.Naziv</a>
+                    <a asp-controller="Student" asp-action="DetaljiPredmeta" asp-route-id="@p.Id" class="sidebar-predmet">@p.Naziv</a>
                 }
             }
             else
