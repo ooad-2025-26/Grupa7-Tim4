@@ -53,7 +53,17 @@ namespace ZamETF.Controllers
             ViewBag.Zahtjev = zahtjev;
             return View();
         }
-
+        private string OcistiNaziv(string ime)
+        {
+            if (string.IsNullOrWhiteSpace(ime)) return "";
+            return ime
+                .Replace("č", "c").Replace("Č", "C")
+                .Replace("ć", "c").Replace("Ć", "C")
+                .Replace("š", "s").Replace("Š", "S")
+                .Replace("ž", "z").Replace("Ž", "Z")
+                .Replace("đ", "d").Replace("Đ", "D")
+                .Replace(" ", "");
+        }
         // POST: StudentskaSluzba/GenerirajPdf
         [HttpPost]
         public async Task<IActionResult> GenerirajPdf(int zahtjevId, string tipIzvjestaja)
@@ -78,18 +88,16 @@ namespace ZamETF.Controllers
             {
                 case "PrepisOcjena":
                     pdf = GenerirajPrepisOcjena(student, ocjene);
-                    fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
+                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}PrepisOcjena.pdf";
                     break;
                 case "OcjenePoGodinama":
                     pdf = GenerirajOcjenePoGodinama(student, ocjene);
-                    fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
+                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}OcjenePoGodinama.pdf";
                     break;
                 case "StatusnaPotvrda":
                     pdf = GenerirajStatusnuPotvrdu(student);
-                    fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
+                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}StatusnaPotvrda.pdf";
                     break;
-                default:
-                    return BadRequest();
             }
 
             return File(pdf, "application/pdf", fileName);
@@ -120,15 +128,15 @@ namespace ZamETF.Controllers
             {
                 case "PrepisOcjena":
                     pdf = GenerirajPrepisOcjena(student, ocjene);
-                    fileName = student.Ime + student.Prezime + "PrepisOcjena.pdf";
+                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}PrepisOcjena.pdf";
                     break;
                 case "OcjenePoGodinama":
                     pdf = GenerirajOcjenePoGodinama(student, ocjene);
-                    fileName = student.Ime + student.Prezime + "OcjenePoGodinama.pdf";
+                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}OcjenePoGodinama.pdf";
                     break;
                 case "StatusnaPotvrda":
                     pdf = GenerirajStatusnuPotvrdu(student);
-                    fileName = student.Ime + student.Prezime + "StatusnaPotvrda.pdf";
+                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}StatusnaPotvrda.pdf";
                     break;
                 default:
                     return BadRequest();
