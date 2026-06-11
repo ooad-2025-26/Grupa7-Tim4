@@ -5,7 +5,6 @@ using ZamETF.Data;
 using ZamETF.Models;
 using ZamETF.Services;
 using iText.Kernel.Pdf;
-using iText.Kernel.Font;
 using iText.Layout;
 using iText.Layout.Element;
 using Microsoft.AspNetCore.Authorization;
@@ -18,25 +17,15 @@ namespace ZamETF.Controllers
         private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService;
-        private readonly IWebHostEnvironment _env;
 
         public StudentskaSluzbaController(
             UserManager<Korisnik> userManager,
             ApplicationDbContext context,
-            EmailService emailService,
-            IWebHostEnvironment env)
+            EmailService emailService)
         {
             _userManager = userManager;
             _context = context;
             _emailService = emailService;
-            _env = env;
-        }
-
-        // Helper — učitaj DejaVu font koji podržava čćžšđ
-        private PdfFont UcitajFont()
-        {
-            var fontPath = Path.Combine(_env.WebRootPath, "fonts", "DejaVuSans.ttf");
-            return PdfFontFactory.CreateFont(fontPath, iText.IO.Font.PdfEncodings.IDENTITY_H);
         }
 
         // GET: StudentskaSluzba/Index
@@ -69,52 +58,41 @@ namespace ZamETF.Controllers
         [HttpPost]
         public async Task<IActionResult> GenerirajPdf(int zahtjevId, string tipIzvjestaja)
         {
-          
-                try
-                {
-                // ... postojeci kod ...
-                var zahtjev = await _context.ZahtjeviDokumenata
-         .Include(z => z.Student)
-         .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+            var zahtjev = await _context.ZahtjeviDokumenata
+                .Include(z => z.Student)
+                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
 
-                if (zahtjev == null) return NotFound();
+            if (zahtjev == null) return NotFound();
 
-                var student = zahtjev.Student;
+            var student = zahtjev.Student;
 
-                var ocjene = await _context.Ocjene
-                    .Include(o => o.Predmet)
-                    .Where(o => o.Student.Id == student.Id)
-                    .ToListAsync();
+            var ocjene = await _context.Ocjene
+                .Include(o => o.Predmet)
+                .Where(o => o.Student.Id == student.Id)
+                .ToListAsync();
 
-                byte[] pdf;
-                string fileName;
+            byte[] pdf;
+            string fileName;
 
-                switch (tipIzvjestaja)
-                {
-                    case "PrepisOcjena":
-                        pdf = GenerirajPrepisOcjena(student, ocjene);
-                        fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
-                        break;
-                    case "OcjenePoGodinama":
-                        pdf = GenerirajOcjenePoGodinama(student, ocjene);
-                        fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
-                        break;
-                    case "StatusnaPotvrda":
-                        pdf = GenerirajStatusnuPotvrdu(student);
-                        fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
-                        break;
-                    default:
-                        return BadRequest();
-                }
-
-                return File(pdf, "application/pdf", fileName);
+            switch (tipIzvjestaja)
+            {
+                case "PrepisOcjena":
+                    pdf = GenerirajPrepisOcjena(student, ocjene);
+                    fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
+                    break;
+                case "OcjenePoGodinama":
+                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
+                    fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
+                    break;
+                case "StatusnaPotvrda":
+                    pdf = GenerirajStatusnuPotvrdu(student);
+                    fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
+                    break;
+                default:
+                    return BadRequest();
             }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, ex.Message + " | " + ex.InnerException?.Message);
-                }
-            
-         
+
+            return File(pdf, "application/pdf", fileName);
         }
 
         // POST: StudentskaSluzba/PosaljiNaMail
@@ -318,10 +296,8 @@ namespace ZamETF.Controllers
             return View(zahtjevi);
         }
 
-        // GET: StudentskaSluzba/ZahtjevStatistika
         public IActionResult ZahtjevStatistika() => View();
 
-        // POST: StudentskaSluzba/PosaljiZahtjevStatistike
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiZahtjevStatistike(string tipStatistike, string opisZahtjeva, string periodOd, string periodDo)
@@ -349,10 +325,8 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(ZahtjevStatistika));
         }
 
-        // GET: StudentskaSluzba/ZahtjevPodaci
         public IActionResult ZahtjevPodaci() => View();
 
-        // POST: StudentskaSluzba/PosaljiZahtjevPodataka
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiZahtjevPodataka(
@@ -392,7 +366,6 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(ZahtjevPodaci));
         }
 
-        // GET: StudentskaSluzba/Notifikacije
         public async Task<IActionResult> Notifikacije()
         {
             var studenti = await _context.Users
@@ -404,7 +377,6 @@ namespace ZamETF.Controllers
             return View();
         }
 
-        // POST: StudentskaSluzba/PosaljiNotifikaciju
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiNotifikaciju(
@@ -512,7 +484,7 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(ZahtjeviProfesora));
         }
 
-        // ==================== PDF GENERATORI ====================
+        // ==================== PDF GENERATORI (bez fonta, standardni Helvetica) ====================
 
         private byte[] GenerirajPrepisOcjena(Student student, List<Ocjena> ocjene)
         {
@@ -520,45 +492,44 @@ namespace ZamETF.Controllers
             var writer = new PdfWriter(ms);
             var pdf = new PdfDocument(writer);
             var doc = new Document(pdf);
-            var font = UcitajFont();
 
             doc.Add(new Paragraph("UNIVERZITET U SARAJEVU")
-                .SetFont(font).SetFontSize(14).SetBold()
+                .SetFontSize(14).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph("ELEKTROTEHNICKI FAKULTET")
-                .SetFont(font).SetFontSize(12).SetBold()
+                .SetFontSize(12).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph("PREPIS OCJENA")
-                .SetFont(font).SetFontSize(16).SetBold()
+                .SetFontSize(16).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph(" "));
 
-            doc.Add(new Paragraph($"Ime i prezime: {student.Ime} {student.Prezime}").SetFont(font).SetFontSize(11));
-            doc.Add(new Paragraph($"Broj indeksa: {student.Indeks}").SetFont(font).SetFontSize(11));
-            doc.Add(new Paragraph($"Datum: {DateTime.Now:dd.MM.yyyy}").SetFont(font).SetFontSize(11));
+            doc.Add(new Paragraph($"Ime i prezime: {student.Ime} {student.Prezime}").SetFontSize(11));
+            doc.Add(new Paragraph($"Broj indeksa: {student.Indeks}").SetFontSize(11));
+            doc.Add(new Paragraph($"Datum: {DateTime.Now:dd.MM.yyyy}").SetFontSize(11));
             doc.Add(new Paragraph(" "));
 
             if (ocjene.Any())
             {
                 var tabela = new Table(3).UseAllAvailableWidth();
-                tabela.AddHeaderCell(new Cell().Add(new Paragraph("Predmet").SetFont(font)));
-                tabela.AddHeaderCell(new Cell().Add(new Paragraph("Ocjena").SetFont(font)));
-                tabela.AddHeaderCell(new Cell().Add(new Paragraph("Status").SetFont(font)));
+                tabela.AddHeaderCell("Predmet");
+                tabela.AddHeaderCell("Ocjena");
+                tabela.AddHeaderCell("Status");
 
                 foreach (var o in ocjene)
                 {
-                    tabela.AddCell(new Cell().Add(new Paragraph(o.Predmet?.Naziv ?? "N/A").SetFont(font)));
-                    tabela.AddCell(new Cell().Add(new Paragraph(o.Vrijednost.ToString()).SetFont(font)));
-                    tabela.AddCell(new Cell().Add(new Paragraph(o.Vrijednost >= 6 ? "Polozeno" : "Nije polozeno").SetFont(font)));
+                    tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                    tabela.AddCell(o.Vrijednost.ToString());
+                    tabela.AddCell(o.Vrijednost >= 6 ? "Polozeno" : "Nije polozeno");
                 }
                 doc.Add(tabela);
                 doc.Add(new Paragraph(" "));
                 doc.Add(new Paragraph($"Prosjecna ocjena: {ocjene.Average(o => o.Vrijednost):F2}")
-                    .SetFont(font).SetFontSize(11).SetBold());
+                    .SetFontSize(11).SetBold());
             }
             else
             {
-                doc.Add(new Paragraph("Nema unesenih ocjena.").SetFont(font).SetFontSize(11));
+                doc.Add(new Paragraph("Nema unesenih ocjena.").SetFontSize(11));
             }
 
             doc.Close();
@@ -571,38 +542,37 @@ namespace ZamETF.Controllers
             var writer = new PdfWriter(ms);
             var pdf = new PdfDocument(writer);
             var doc = new Document(pdf);
-            var font = UcitajFont();
 
             doc.Add(new Paragraph("PREPIS OCJENA PO GODINAMA")
-                .SetFont(font).SetFontSize(16).SetBold()
+                .SetFontSize(16).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph(" "));
             doc.Add(new Paragraph($"Student: {student.Ime} {student.Prezime} | Indeks: {student.Indeks}")
-                .SetFont(font).SetFontSize(11));
+                .SetFontSize(11));
             doc.Add(new Paragraph(" "));
 
             for (int godina = 1; godina <= student.GodinaStudija; godina++)
             {
                 doc.Add(new Paragraph($"{godina}. godina studija")
-                    .SetFont(font).SetFontSize(13).SetBold());
+                    .SetFontSize(13).SetBold());
 
                 var ocjeneZaGodinu = ocjene.Skip((godina - 1) * 6).Take(6).ToList();
 
                 if (ocjeneZaGodinu.Any())
                 {
                     var tabela = new Table(2).UseAllAvailableWidth();
-                    tabela.AddHeaderCell(new Cell().Add(new Paragraph("Predmet").SetFont(font)));
-                    tabela.AddHeaderCell(new Cell().Add(new Paragraph("Ocjena").SetFont(font)));
+                    tabela.AddHeaderCell("Predmet");
+                    tabela.AddHeaderCell("Ocjena");
                     foreach (var o in ocjeneZaGodinu)
                     {
-                        tabela.AddCell(new Cell().Add(new Paragraph(o.Predmet?.Naziv ?? "N/A").SetFont(font)));
-                        tabela.AddCell(new Cell().Add(new Paragraph(o.Vrijednost.ToString()).SetFont(font)));
+                        tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                        tabela.AddCell(o.Vrijednost.ToString());
                     }
                     doc.Add(tabela);
                 }
                 else
                 {
-                    doc.Add(new Paragraph("Nema ocjena za ovu godinu.").SetFont(font).SetFontSize(10));
+                    doc.Add(new Paragraph("Nema ocjena za ovu godinu.").SetFontSize(10));
                 }
                 doc.Add(new Paragraph(" "));
             }
@@ -617,17 +587,16 @@ namespace ZamETF.Controllers
             var writer = new PdfWriter(ms);
             var pdf = new PdfDocument(writer);
             var doc = new Document(pdf);
-            var font = UcitajFont();
 
             doc.Add(new Paragraph("UNIVERZITET U SARAJEVU")
-                .SetFont(font).SetFontSize(14).SetBold()
+                .SetFontSize(14).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph("ELEKTROTEHNICKI FAKULTET")
-                .SetFont(font).SetFontSize(12).SetBold()
+                .SetFontSize(12).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph(" "));
             doc.Add(new Paragraph("POTVRDA O STATUSU STUDENTA")
-                .SetFont(font).SetFontSize(16).SetBold()
+                .SetFontSize(16).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph(" "));
 
@@ -636,14 +605,14 @@ namespace ZamETF.Controllers
                 $"broj indeksa {student.Indeks}, student/ica " +
                 $"Elektrotehnickog fakulteta Univerziteta u Sarajevu, " +
                 $"{student.GodinaStudija}. godina studija.")
-                .SetFont(font).SetFontSize(12));
+                .SetFontSize(12));
 
             doc.Add(new Paragraph(" "));
-            doc.Add(new Paragraph($"Datum izdavanja: {DateTime.Now:dd.MM.yyyy}").SetFont(font).SetFontSize(11));
+            doc.Add(new Paragraph($"Datum izdavanja: {DateTime.Now:dd.MM.yyyy}").SetFontSize(11));
             doc.Add(new Paragraph(" "));
             doc.Add(new Paragraph(" "));
-            doc.Add(new Paragraph("_______________________").SetFont(font).SetFontSize(11));
-            doc.Add(new Paragraph("Studentska sluzba ETF").SetFont(font).SetFontSize(11));
+            doc.Add(new Paragraph("_______________________").SetFontSize(11));
+            doc.Add(new Paragraph("Studentska sluzba ETF").SetFontSize(11));
 
             doc.Close();
             return ms.ToArray();
