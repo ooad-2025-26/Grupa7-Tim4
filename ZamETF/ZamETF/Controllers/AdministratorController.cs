@@ -1045,6 +1045,7 @@ namespace ZamETF.Controllers
         }
 
         // POST: Administrator/PosaljiNotifikaciju
+        // POST: Administrator/PosaljiNotifikaciju
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiNotifikaciju(
@@ -1055,7 +1056,6 @@ namespace ZamETF.Controllers
             int brojPoslanih = 0;
             var naslovSaTipom = "[" + tipNotifikacije + "] " + naslov;
 
-            // Sakupljamo primatelje u listu da izbjegnemo ponavljanje koda
             var primatelji = new List<Korisnik>();
 
             if (primateljTip == "student")
@@ -1079,13 +1079,9 @@ namespace ZamETF.Controllers
                     }
             }
             else if (primateljTip == "svi_studenti")
-            {
                 primatelji.AddRange(await _context.Studenti.ToListAsync());
-            }
             else if (primateljTip == "svi_profesori")
-            {
                 primatelji.AddRange(await _context.Profesori.ToListAsync());
-            }
             else if (primateljTip == "godina")
             {
                 var godine = (odabraneGodine ?? "")
@@ -1100,10 +1096,9 @@ namespace ZamETF.Controllers
                 if (sluzba != null) primatelji.Add(sluzba);
             }
 
-            // Za svakog primatelja: in-app obavijest + email
+            // In-app obavijesti za sve
             foreach (var p in primatelji)
             {
-                // In-app obavijest (kao i prije)
                 _context.Obavijesti.Add(new Obavijest
                 {
                     Naslov = naslovSaTipom,
@@ -1113,27 +1108,24 @@ namespace ZamETF.Controllers
                     DatumSlanja = DateTime.Now
                 });
                 brojPoslanih++;
+            }
+            await _context.SaveChangesAsync();
 
-                // Email — samo ako korisnik ima validan email
-                if (!string.IsNullOrWhiteSpace(p.Email))
-                {
-                    try
-                    {
-                        await _emailService.PošaljiEmail(
-                            p.Email,
-                            p.GetImeIPrezime(),
-                            naslovSaTipom,
-                            poruka);
-                    }
-                    catch
-                    {
-                        // Email neuspješan ne smije blokirati in-app obavijest
-                        // U produkciji: logovati grešku
-                    }
-                }
+            // Email — jedna konekcija za sve primatelje (bulk)
+            try
+            {
+                var emailPrimatelji = primatelji
+                    .Where(p => !string.IsNullOrWhiteSpace(p.Email))
+                    .Select(p => (p.Email, p.GetImeIPrezime()));
+
+                await _emailService.PošaljiBulkEmail(emailPrimatelji, naslovSaTipom, poruka);
+            }
+            catch (Exception ex)
+            {
+                TempData["Greska"] = $"Notifikacija poslana, ali email nije uspio: {ex.Message}";
+                return RedirectToAction(nameof(Notifikacije));
             }
 
-            await _context.SaveChangesAsync();
             TempData["Uspjeh"] = $"Notifikacija poslana! Primatelja: {brojPoslanih}";
             return RedirectToAction(nameof(Notifikacije));
         }
