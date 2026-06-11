@@ -1,17 +1,5 @@
 /* ===== ZamETF – stil za view-ove ispita (uklapa se u postojeći UI) ===== */
 
-/* Plava pozadina stranice (kao na ostalim stranicama) */
-.zametf-page {
-    background: linear-gradient(160deg, #141a5e 0%, #0a1138 100%);
-    min-height: 100vh;
-    padding: 30px 0 60px;
-}
-
-.zametf-wrap {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
 .zametf-wrap-wide {
     max-width: 1150px;   /* šire, da stanu dvije kolone */
 }
@@ -155,14 +143,6 @@
 body {
     background: #0a1138;
     margin: 0;
-}
-
-/* Razvuci plavu pozadinu do ivica ekrana, i kad je unutar .container */
-.zametf-page {
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-    padding-left: 15px;
-    padding-right: 15px;
 }
 .zametf-alert-ok { background: #c8f0d0; color: #1b6b2f; }
 .zametf-alert-greska { background: #f8d0cc; color: #9b2c1f; }

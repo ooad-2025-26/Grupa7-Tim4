@@ -15,291 +15,293 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v8.0
 build_property.RootNamespace = ZamETF
 build_property.RootNamespace = ZamETF
-build_property.ProjectDir = C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\
+build_property.ProjectDir = C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF
+build_property.MSBuildProjectDirectory = C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Create.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Delete.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Details.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Edit.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Index.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Login.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Create.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Delete.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Details.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Edit.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Index.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/KorisniciView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/KorisniciView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxLb3Jpc25pY2lWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/KreiranjePredmeta.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/KreiranjePredmeta.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxLcmVpcmFuamVQcmVkbWV0YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Notifikacije.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Notifikacije.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxOb3RpZmlrYWNpamUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Statistika.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/Statistika.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxTdGF0aXN0aWthLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/SviZahtjevi.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/SviZahtjevi.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxTdmlaYWh0amV2aS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/UnosIzmjena.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Administrator/UnosIzmjena.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRvclxVbm9zSXptamVuYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Home/Index.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Home/Privacy.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Ispit/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNwaXRcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Ispit/Prijava.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNwaXRcUHJpamF2YS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Create.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Delete.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Details.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiIspita.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiIspita.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGV0YWxqaUlzcGl0YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiObavijesti.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiObavijesti.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGV0YWxqaU9iYXZpamVzdGkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiPredmeta.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/DetaljiPredmeta.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRGV0YWxqaVByZWRtZXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Edit.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/EvidencijaPrisustva.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/EvidencijaPrisustva.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcRXZpZGVuY2lqYVByaXN1c3R2YS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Index.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/KreiranjeIspita.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/KreiranjeIspita.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcS3JlaXJhbmplSXNwaXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/KreiranjeZadace.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/KreiranjeZadace.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcS3JlaXJhbmplWmFkYWNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/OcjenjivanjeZadace.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/OcjenjivanjeZadace.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcT2NqZW5qaXZhbmplWmFkYWNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ProfesorDashboardView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ProfesorDashboardView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcUHJvZmVzb3JEYXNoYm9hcmRWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/SlanjeNotifikacija.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ProfesorIspit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcUHJvZmVzb3JJc3BpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/SlanjeNotifikacija.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcU2xhbmplTm90aWZpa2FjaWphLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/StatistikeView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/StatistikeView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcU3RhdGlzdGlrZVZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/UnosBodovaView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/UnosBodovaView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcVW5vc0JvZG92YVZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ZahtjevZaDokument.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/ZahtjevZaDokument.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcWmFodGpldlphRG9rdW1lbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/_LayoutProfesor.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Profesor/_LayoutProfesor.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmVzb3JcX0xheW91dFByb2Zlc29yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/Error.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/_LayoutAdmin.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/_LayoutAdmin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Create.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Delete.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Details.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Edit.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/GeneriranjeIzvjestaja.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/GeneriranjeIzvjestaja.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxHZW5lcmlyYW5qZUl6dmplc3RhamEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Index.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Notifikacije.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/Notifikacije.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxOb3RpZmlrYWNpamUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/OdaberiZahtjevZaIzvjestaj.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/OdaberiZahtjevZaIzvjestaj.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxPZGFiZXJpWmFodGpldlphSXp2amVzdGFqLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/SluzbaDashboardView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/SluzbaDashboardView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxTbHV6YmFEYXNoYm9hcmRWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/SviZahtjevi.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/SviZahtjevi.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxTdmlaYWh0amV2aS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjeviProfesora.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjeviProfesora.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxaYWh0amV2aVByb2Zlc29yYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjevPodaci.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjevPodaci.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxaYWh0amV2UG9kYWNpLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjevStatistika.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/StudentskaSluzba/ZahtjevStatistika.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNrYVNsdXpiYVxaYWh0amV2U3RhdGlzdGlrYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Create.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Delete.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Details.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/DetaljiObavijesti.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/DetaljiObavijesti.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEZXRhbGppT2JhdmlqZXN0aS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Edit.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Index.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/PredajaZadaceView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/PredajaZadaceView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcmVkYWphWmFkYWNlVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/PregledRezultataView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/PregledRezultataView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcmVnbGVkUmV6dWx0YXRhVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/PrijavaIspitaView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcmlqYXZhSXNwaXRhVmlldy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/StudentDashboardView.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/StudentDashboardView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdHVkZW50RGFzaGJvYXJkVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/ZahtjevZaDokument.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/StudentIspit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdHVkZW50SXNwaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/ZahtjevZaDokument.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxaYWh0amV2WmFEb2t1bWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/_ViewImports.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Student/_LayoutStudent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxfTGF5b3V0U3R1ZGVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/_ViewStart.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nedzi/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/_Layout.cshtml]
+[C:/Users/HF/Desktop/ooad1/Grupa7-Tim4/ZamETF/ZamETF/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-lvudi7696b

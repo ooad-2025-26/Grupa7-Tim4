@@ -954,3 +954,6 @@ C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.pdb
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ZamETF.genruntimeconfig.cache
 C:\Users\Freya\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\ref\ZamETF.dll
 C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\itext.bouncy-castle-adapter.dll
+C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\SendGrid.dll
+C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\StarkbankEcdsa.dll

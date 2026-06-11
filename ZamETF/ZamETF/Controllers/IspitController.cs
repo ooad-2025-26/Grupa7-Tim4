@@ -32,7 +32,7 @@ namespace ZamETF.Controllers
 
             await PopuniPredmete(profesor.Id);
 
-            return View(new ProfesorIspitiVM
+            var model = new ProfesorIspitiVM
             {
                 Ispiti = await DohvatiIspiteProfesora(profesor.Id),
                 Novi = new IspitCreateVM
@@ -40,7 +40,10 @@ namespace ZamETF.Controllers
                     Datum = DateTime.Today.AddDays(7).AddHours(9),
                     RokZaPrijavu = DateTime.Today.AddDays(5).AddHours(23)
                 }
-            });
+            };
+
+            // Views were moved to Views/Profesor; render the view by explicit path
+            return View("~/Views/Profesor/ProfesorIspit.cshtml", model);
         }
 
         // POST: kreiranje ispita (sa iste stranice)
@@ -63,11 +66,12 @@ namespace ZamETF.Controllers
             if (!ModelState.IsValid)
             {
                 await PopuniPredmete(profesor.Id);
-                return View("Index", new ProfesorIspitiVM
+                var vm = new ProfesorIspitiVM
                 {
                     Ispiti = await DohvatiIspiteProfesora(profesor.Id),
                     Novi = Novi
-                });
+                };
+                return View("~/Views/Profesor/ProfesorIspit.cshtml", vm);
             }
 
             _context.Ispiti.Add(new Ispit
@@ -109,12 +113,23 @@ namespace ZamETF.Controllers
                 .OrderBy(i => i.Datum)
                 .ToListAsync();
 
-            return View(new PrijavaIspitaVM
+            var studentModel = new PrijavaIspitaVM
             {
                 Dostupni = dostupni,
                 MojePrijave = mojePrijave
-            });
+            };
+
+            // Student view moved to Views/Student
+            return View("~/Views/Student/StudentIspit.cshtml", studentModel);
         }
+
+        // Compatibility actions: old URLs that pointed to views in /Ispit/*
+        // Keep them as simple delegates so existing links/bookmarks continue to work.
+        [HttpGet]
+        public Task<IActionResult> StudentIspit() => Prijava();
+
+        [HttpGet]
+        public Task<IActionResult> ProfesorIspit() => Index();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
