@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 
 namespace ZamETF.Services
@@ -47,11 +48,51 @@ namespace ZamETF.Services
             await SendAsync(message, settings);
         }
 
-        // Zajednička SMTP logika
+        // Bulk slanje — jedna SMTP konekcija za sve primatelje
+        public async Task PošaljiBulkEmail(
+            IEnumerable<(string Email, string Ime)> primatelji,
+            string naslov, string poruka)
+        {
+            var settings = _config.GetSection("EmailSettings");
+
+            var lista = primatelji
+                .Where(p => !string.IsNullOrWhiteSpace(p.Email))
+                .ToList();
+
+            if (!lista.Any()) return;
+
+            using var client = new SmtpClient();
+            await client.ConnectAsync(settings["SmtpServer"],
+                int.Parse(settings["SmtpPort"]), SecureSocketOptions.StartTls);
+            await client.AuthenticateAsync(settings["SenderEmail"], settings["SenderPassword"]);
+
+            foreach (var p in lista)
+            {
+                try
+                {
+                    var message = new MimeMessage();
+                    message.From.Add(new MailboxAddress(settings["SenderName"], settings["SenderEmail"]));
+                    message.To.Add(new MailboxAddress(p.Ime, p.Email));
+                    message.Subject = naslov;
+                    message.Body = new BodyBuilder
+                    {
+                        TextBody = $"Poštovani {p.Ime},\n\n{poruka}\n\nS poštovanjem,\nETF Sarajevo"
+                    }.ToMessageBody();
+
+                    await client.SendAsync(message);
+                }
+                catch { /* jedna neuspješna ne blokira ostale */ }
+            }
+
+            await client.DisconnectAsync(true);
+        }
+
+        // Zajednička SMTP logika za pojedinačno slanje
         private async Task SendAsync(MimeMessage message, IConfigurationSection settings)
         {
             using var client = new SmtpClient();
-            await client.ConnectAsync(settings["SmtpServer"], int.Parse(settings["SmtpPort"]), false);
+            await client.ConnectAsync(settings["SmtpServer"],
+                int.Parse(settings["SmtpPort"]), SecureSocketOptions.StartTls);
             await client.AuthenticateAsync(settings["SenderEmail"], settings["SenderPassword"]);
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
