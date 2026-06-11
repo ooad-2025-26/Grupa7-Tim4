@@ -69,41 +69,52 @@ namespace ZamETF.Controllers
         [HttpPost]
         public async Task<IActionResult> GenerirajPdf(int zahtjevId, string tipIzvjestaja)
         {
-            var zahtjev = await _context.ZahtjeviDokumenata
-                .Include(z => z.Student)
-                .FirstOrDefaultAsync(z => z.Id == zahtjevId);
+          
+                try
+                {
+                // ... postojeci kod ...
+                var zahtjev = await _context.ZahtjeviDokumenata
+         .Include(z => z.Student)
+         .FirstOrDefaultAsync(z => z.Id == zahtjevId);
 
-            if (zahtjev == null) return NotFound();
+                if (zahtjev == null) return NotFound();
 
-            var student = zahtjev.Student;
+                var student = zahtjev.Student;
 
-            var ocjene = await _context.Ocjene
-                .Include(o => o.Predmet)
-                .Where(o => o.Student.Id == student.Id)
-                .ToListAsync();
+                var ocjene = await _context.Ocjene
+                    .Include(o => o.Predmet)
+                    .Where(o => o.Student.Id == student.Id)
+                    .ToListAsync();
 
-            byte[] pdf;
-            string fileName;
+                byte[] pdf;
+                string fileName;
 
-            switch (tipIzvjestaja)
-            {
-                case "PrepisOcjena":
-                    pdf = GenerirajPrepisOcjena(student, ocjene);
-                    fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
-                    break;
-                case "OcjenePoGodinama":
-                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
-                    fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
-                    break;
-                case "StatusnaPotvrda":
-                    pdf = GenerirajStatusnuPotvrdu(student);
-                    fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
-                    break;
-                default:
-                    return BadRequest();
+                switch (tipIzvjestaja)
+                {
+                    case "PrepisOcjena":
+                        pdf = GenerirajPrepisOcjena(student, ocjene);
+                        fileName = $"{student.Ime}{student.Prezime}PrepisOcjena.pdf";
+                        break;
+                    case "OcjenePoGodinama":
+                        pdf = GenerirajOcjenePoGodinama(student, ocjene);
+                        fileName = $"{student.Ime}{student.Prezime}OcjenePoGodinama.pdf";
+                        break;
+                    case "StatusnaPotvrda":
+                        pdf = GenerirajStatusnuPotvrdu(student);
+                        fileName = $"{student.Ime}{student.Prezime}StatusnaPotvrda.pdf";
+                        break;
+                    default:
+                        return BadRequest();
+                }
+
+                return File(pdf, "application/pdf", fileName);
             }
-
-            return File(pdf, "application/pdf", fileName);
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message + " | " + ex.InnerException?.Message);
+                }
+            }
+         
         }
 
         // POST: StudentskaSluzba/PosaljiNaMail
@@ -452,7 +463,7 @@ namespace ZamETF.Controllers
             }
 
             await _context.SaveChangesAsync();
-            TempData["Uspjeh"] = "Notifikacija je uspješno poslana! Broj primatelja: " + brojPoslanih;
+            TempData["Uspjeh"] = "Notifikacija je uspjesno poslana! Broj primatelja: " + brojPoslanih;
             return RedirectToAction(nameof(Notifikacije));
         }
 
@@ -474,7 +485,7 @@ namespace ZamETF.Controllers
             if (obavijest == null) return NotFound();
             obavijest.Procitana = true;
             await _context.SaveChangesAsync();
-            TempData["Uspjeh"] = "Zahtjev označen kao obrađen!";
+            TempData["Uspjeh"] = "Zahtjev oznacen kao obradjeno!";
             return RedirectToAction(nameof(ZahtjeviProfesora));
         }
 
@@ -486,7 +497,7 @@ namespace ZamETF.Controllers
             var obavijest = await _context.Obavijesti.FindAsync(obavijestId);
             if (obavijest == null) return NotFound();
             var admin = await _context.Administratori.FirstOrDefaultAsync();
-            if (admin == null) { TempData["Greska"] = "Admin nije pronađen."; return RedirectToAction(nameof(ZahtjeviProfesora)); }
+            if (admin == null) { TempData["Greska"] = "Admin nije pronadjen."; return RedirectToAction(nameof(ZahtjeviProfesora)); }
             _context.Obavijesti.Add(new Obavijest
             {
                 Naslov = obavijest.Naslov,
@@ -497,7 +508,7 @@ namespace ZamETF.Controllers
             });
             obavijest.Procitana = true;
             await _context.SaveChangesAsync();
-            TempData["Uspjeh"] = "Zahtjev proslijeđen adminu!";
+            TempData["Uspjeh"] = "Zahtjev proslijedjen adminu!";
             return RedirectToAction(nameof(ZahtjeviProfesora));
         }
 
@@ -514,7 +525,7 @@ namespace ZamETF.Controllers
             doc.Add(new Paragraph("UNIVERZITET U SARAJEVU")
                 .SetFont(font).SetFontSize(14).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            doc.Add(new Paragraph("ELEKTROTEHNIČKI FAKULTET")
+            doc.Add(new Paragraph("ELEKTROTEHNICKI FAKULTET")
                 .SetFont(font).SetFontSize(12).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph("PREPIS OCJENA")
@@ -538,11 +549,11 @@ namespace ZamETF.Controllers
                 {
                     tabela.AddCell(new Cell().Add(new Paragraph(o.Predmet?.Naziv ?? "N/A").SetFont(font)));
                     tabela.AddCell(new Cell().Add(new Paragraph(o.Vrijednost.ToString()).SetFont(font)));
-                    tabela.AddCell(new Cell().Add(new Paragraph(o.Vrijednost >= 6 ? "Položeno" : "Nije položeno").SetFont(font)));
+                    tabela.AddCell(new Cell().Add(new Paragraph(o.Vrijednost >= 6 ? "Polozeno" : "Nije polozeno").SetFont(font)));
                 }
                 doc.Add(tabela);
                 doc.Add(new Paragraph(" "));
-                doc.Add(new Paragraph($"Prosječna ocjena: {ocjene.Average(o => o.Vrijednost):F2}")
+                doc.Add(new Paragraph($"Prosjecna ocjena: {ocjene.Average(o => o.Vrijednost):F2}")
                     .SetFont(font).SetFontSize(11).SetBold());
             }
             else
@@ -611,7 +622,7 @@ namespace ZamETF.Controllers
             doc.Add(new Paragraph("UNIVERZITET U SARAJEVU")
                 .SetFont(font).SetFontSize(14).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            doc.Add(new Paragraph("ELEKTROTEHNIČKI FAKULTET")
+            doc.Add(new Paragraph("ELEKTROTEHNICKI FAKULTET")
                 .SetFont(font).SetFontSize(12).SetBold()
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             doc.Add(new Paragraph(" "));
@@ -621,9 +632,9 @@ namespace ZamETF.Controllers
             doc.Add(new Paragraph(" "));
 
             doc.Add(new Paragraph(
-                $"Potvrđuje se da je {student.Ime} {student.Prezime}, " +
+                $"Potvrdjuje se da je {student.Ime} {student.Prezime}, " +
                 $"broj indeksa {student.Indeks}, student/ica " +
-                $"Elektrotehničkog fakulteta Univerziteta u Sarajevu, " +
+                $"Elektrotehnickog fakulteta Univerziteta u Sarajevu, " +
                 $"{student.GodinaStudija}. godina studija.")
                 .SetFont(font).SetFontSize(12));
 
@@ -632,7 +643,7 @@ namespace ZamETF.Controllers
             doc.Add(new Paragraph(" "));
             doc.Add(new Paragraph(" "));
             doc.Add(new Paragraph("_______________________").SetFont(font).SetFontSize(11));
-            doc.Add(new Paragraph("Studentska služba ETF").SetFont(font).SetFontSize(11));
+            doc.Add(new Paragraph("Studentska sluzba ETF").SetFont(font).SetFontSize(11));
 
             doc.Close();
             return ms.ToArray();
