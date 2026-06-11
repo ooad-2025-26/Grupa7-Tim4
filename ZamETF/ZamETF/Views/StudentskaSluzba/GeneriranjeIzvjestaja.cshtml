@@ -273,10 +273,20 @@
         var imeStudenta = '@(student?.Ime ?? "")@(student?.Prezime ?? "")';
         var antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
+        function ukloniDijakritike(str) {
+            return str
+                .replace(/č/g, 'c').replace(/Č/g, 'C')
+                .replace(/ć/g, 'c').replace(/Ć/g, 'C')
+                .replace(/š/g, 's').replace(/Š/g, 'S')
+                .replace(/ž/g, 'z').replace(/Ž/g, 'Z')
+                .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        }
+
+        var imeStudentaClean = ukloniDijakritike(imeStudenta);
         var nazivi = {
-            'PrepisOcjena': imeStudenta + 'PrepisOcjena.pdf',
-            'OcjenePoGodinama': imeStudenta + 'OcjenePoGodinama.pdf',
-            'StatusnaPotvrda': imeStudenta + 'StatusnaPotvrda.pdf'
+            'PrepisOcjena': imeStudentaClean + 'PrepisOcjena.pdf',
+            'OcjenePoGodinama': imeStudentaClean + 'OcjenePoGodinama.pdf',
+            'StatusnaPotvrda': imeStudentaClean + 'StatusnaPotvrda.pdf'
         };
 
         var pdfBlob = null;
