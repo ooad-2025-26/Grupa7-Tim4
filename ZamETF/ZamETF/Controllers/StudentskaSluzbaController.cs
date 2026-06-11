@@ -98,6 +98,8 @@ namespace ZamETF.Controllers
                     pdf = GenerirajStatusnuPotvrdu(student);
                     fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}StatusnaPotvrda.pdf";
                     break;
+                default:
+                    return BadRequest();
             }
 
             return File(pdf, "application/pdf", fileName);
