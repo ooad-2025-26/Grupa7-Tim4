@@ -28,6 +28,28 @@ namespace ZamETF.Controllers
             _emailService = emailService;
         }
 
+        // Helper — uklanja dijakritike iz stringa
+        private string OcistiNaziv(string ime)
+        {
+            if (string.IsNullOrWhiteSpace(ime)) return "";
+            return ime
+                .Replace("č", "c").Replace("Č", "C")
+                .Replace("ć", "c").Replace("Ć", "C")
+                .Replace("š", "s").Replace("Š", "S")
+                .Replace("ž", "z").Replace("Ž", "Z")
+                .Replace("đ", "d").Replace("Đ", "D")
+                .Replace(" ", "");
+        }
+
+        // Kreira kopiju studenta s očišćenim imenima za PDF
+        private Student StudentZaPdf(Student s) => new Student
+        {
+            Ime = OcistiNaziv(s.Ime),
+            Prezime = OcistiNaziv(s.Prezime),
+            Indeks = s.Indeks,
+            GodinaStudija = s.GodinaStudija
+        };
+
         // GET: StudentskaSluzba/Index
         public async Task<IActionResult> Index()
         {
@@ -53,17 +75,7 @@ namespace ZamETF.Controllers
             ViewBag.Zahtjev = zahtjev;
             return View();
         }
-        private string OcistiNaziv(string ime)
-        {
-            if (string.IsNullOrWhiteSpace(ime)) return "";
-            return ime
-                .Replace("č", "c").Replace("Č", "C")
-                .Replace("ć", "c").Replace("Ć", "C")
-                .Replace("š", "s").Replace("Š", "S")
-                .Replace("ž", "z").Replace("Ž", "Z")
-                .Replace("đ", "d").Replace("Đ", "D")
-                .Replace(" ", "");
-        }
+
         // POST: StudentskaSluzba/GenerirajPdf
         [HttpPost]
         public async Task<IActionResult> GenerirajPdf(int zahtjevId, string tipIzvjestaja)
@@ -75,6 +87,7 @@ namespace ZamETF.Controllers
             if (zahtjev == null) return NotFound();
 
             var student = zahtjev.Student;
+            var studentPdf = StudentZaPdf(student);
 
             var ocjene = await _context.Ocjene
                 .Include(o => o.Predmet)
@@ -83,20 +96,22 @@ namespace ZamETF.Controllers
 
             byte[] pdf;
             string fileName;
+            var imeClean = OcistiNaziv(student.Ime);
+            var prezimeClean = OcistiNaziv(student.Prezime);
 
             switch (tipIzvjestaja)
             {
                 case "PrepisOcjena":
-                    pdf = GenerirajPrepisOcjena(student, ocjene);
-                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}PrepisOcjena.pdf";
+                    pdf = GenerirajPrepisOcjena(studentPdf, ocjene);
+                    fileName = $"{imeClean}{prezimeClean}PrepisOcjena.pdf";
                     break;
                 case "OcjenePoGodinama":
-                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
-                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}OcjenePoGodinama.pdf";
+                    pdf = GenerirajOcjenePoGodinama(studentPdf, ocjene);
+                    fileName = $"{imeClean}{prezimeClean}OcjenePoGodinama.pdf";
                     break;
                 case "StatusnaPotvrda":
-                    pdf = GenerirajStatusnuPotvrdu(student);
-                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}StatusnaPotvrda.pdf";
+                    pdf = GenerirajStatusnuPotvrdu(studentPdf);
+                    fileName = $"{imeClean}{prezimeClean}StatusnaPotvrda.pdf";
                     break;
                 default:
                     return BadRequest();
@@ -117,6 +132,7 @@ namespace ZamETF.Controllers
             if (zahtjev == null) return NotFound();
 
             var student = zahtjev.Student;
+            var studentPdf = StudentZaPdf(student);
 
             var ocjene = await _context.Ocjene
                 .Include(o => o.Predmet)
@@ -125,20 +141,22 @@ namespace ZamETF.Controllers
 
             byte[] pdf;
             string fileName;
+            var imeClean = OcistiNaziv(student.Ime);
+            var prezimeClean = OcistiNaziv(student.Prezime);
 
             switch (tipIzvjestaja)
             {
                 case "PrepisOcjena":
-                    pdf = GenerirajPrepisOcjena(student, ocjene);
-                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}PrepisOcjena.pdf";
+                    pdf = GenerirajPrepisOcjena(studentPdf, ocjene);
+                    fileName = $"{imeClean}{prezimeClean}PrepisOcjena.pdf";
                     break;
                 case "OcjenePoGodinama":
-                    pdf = GenerirajOcjenePoGodinama(student, ocjene);
-                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}OcjenePoGodinama.pdf";
+                    pdf = GenerirajOcjenePoGodinama(studentPdf, ocjene);
+                    fileName = $"{imeClean}{prezimeClean}OcjenePoGodinama.pdf";
                     break;
                 case "StatusnaPotvrda":
-                    pdf = GenerirajStatusnuPotvrdu(student);
-                    fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}StatusnaPotvrda.pdf";
+                    pdf = GenerirajStatusnuPotvrdu(studentPdf);
+                    fileName = $"{imeClean}{prezimeClean}StatusnaPotvrda.pdf";
                     break;
                 default:
                     return BadRequest();
@@ -494,7 +512,7 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(ZahtjeviProfesora));
         }
 
-        // ==================== PDF GENERATORI (bez fonta, standardni Helvetica) ====================
+        // ==================== PDF GENERATORI ====================
 
         private byte[] GenerirajPrepisOcjena(Student student, List<Ocjena> ocjene)
         {
@@ -528,7 +546,7 @@ namespace ZamETF.Controllers
 
                 foreach (var o in ocjene)
                 {
-                    tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                    tabela.AddCell(OcistiNaziv(o.Predmet?.Naziv ?? "N/A"));
                     tabela.AddCell(o.Vrijednost.ToString());
                     tabela.AddCell(o.Vrijednost >= 6 ? "Polozeno" : "Nije polozeno");
                 }
@@ -575,7 +593,7 @@ namespace ZamETF.Controllers
                     tabela.AddHeaderCell("Ocjena");
                     foreach (var o in ocjeneZaGodinu)
                     {
-                        tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                        tabela.AddCell(OcistiNaziv(o.Predmet?.Naziv ?? "N/A"));
                         tabela.AddCell(o.Vrijednost.ToString());
                     }
                     doc.Add(tabela);
