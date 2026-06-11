@@ -12,6 +12,7 @@ namespace ZamETF.Models
 
         [Required]
         public Student Student { get; set; }
+        public int StudentID { get; set; }
 
         public DateTime DatumPredaje { get; set; } = DateTime.Now;
 

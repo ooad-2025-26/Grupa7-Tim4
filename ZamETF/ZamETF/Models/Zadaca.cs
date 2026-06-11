@@ -11,6 +11,7 @@ namespace ZamETF.Models
         public string NazivID { get; set; }
 
         public Predmet Predmet { get; set; }
+        public int PredmetID { get; set; }
 
         [StringLength(2000)]
         public string Opis { get; set; }
