@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ZamETF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Profesor")]
 
     public class ProfesorController : Controller
     {

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ZamETF.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "StudentskaSluzba")]
 
     public class StudentskaSluzbaController : Controller
     {

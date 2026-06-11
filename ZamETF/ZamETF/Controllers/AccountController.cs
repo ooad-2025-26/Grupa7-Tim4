@@ -121,10 +121,7 @@ namespace ZamETF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string email, string lozinka)
         {
-            // Pokušaj naći po emailu
             var korisnik = await _userManager.FindByEmailAsync(email);
-
-            // Ako nije po emailu, pokušaj po usernameu
             if (korisnik == null)
                 korisnik = await _userManager.FindByNameAsync(email);
 
@@ -137,6 +134,11 @@ namespace ZamETF.Controllers
             var result = await _signInManager.PasswordSignInAsync(korisnik, lozinka, false, false);
             if (result.Succeeded)
             {
+                // Dodaj korisnika u Identity rolu ako već nije dodan
+                var roleName = korisnik.Uloga.ToString();
+                if (!await _userManager.IsInRoleAsync(korisnik, roleName))
+                    await _userManager.AddToRoleAsync(korisnik, roleName);
+
                 return korisnik.Uloga switch
                 {
                     Uloga.Student => RedirectToAction("Index", "Student"),
