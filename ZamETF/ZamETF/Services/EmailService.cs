@@ -1,59 +1,78 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace ZamETF.Services
 {
     public class EmailService
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration config)
+        public EmailService(IConfiguration config, ILogger<EmailService> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
-        // Slanje emaila S PDF prilogom (za funk. 7 — dokumenti studentske službe)
+        // Slanje emaila S PDF prilogom (funk. 7)
         public async Task PošaljiEmail(string primalacEmail, string primalacIme,
             string naslov, byte[] pdfBytes, string pdfNaziv)
         {
             var settings = _config.GetSection("EmailSettings");
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(settings["SenderName"], settings["SenderEmail"]));
-            message.To.Add(new MailboxAddress(primalacIme, primalacEmail));
-            message.Subject = naslov;
+            var client = new SendGridClient(settings["SendGridApiKey"]);
 
-            var builder = new BodyBuilder();
-            builder.TextBody = $"Poštovani {primalacIme},\n\nU prilogu se nalazi traženi dokument.\n\nS poštovanjem,\nStudentska služba ETF";
-            builder.Attachments.Add(pdfNaziv, pdfBytes, new ContentType("application", "pdf"));
-            message.Body = builder.ToMessageBody();
+            var msg = new SendGridMessage
+            {
+                From = new EmailAddress(settings["SenderEmail"], settings["SenderName"]),
+                Subject = naslov,
+                PlainTextContent = $"Poštovani {primalacIme},\n\nU prilogu se nalazi traženi dokument.\n\nS poštovanjem,\nStudentska služba ETF"
+            };
+            msg.AddTo(new EmailAddress(primalacEmail, primalacIme));
+            msg.AddAttachment(pdfNaziv, Convert.ToBase64String(pdfBytes), "application/pdf");
 
-            await SendAsync(message, settings);
+            var response = await client.SendEmailAsync(msg);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Body.ReadAsStringAsync();
+                _logger.LogError("SendGrid greška: {Status} {Body}", response.StatusCode, body);
+                throw new Exception($"SendGrid greška: {response.StatusCode}");
+            }
         }
 
-        // Slanje emaila BEZ priloga (za funk. 5 — notifikacije)
+        // Slanje emaila BEZ priloga (funk. 5 — jedna notifikacija)
         public async Task PošaljiEmail(string primalacEmail, string primalacIme,
             string naslov, string poruka)
         {
             var settings = _config.GetSection("EmailSettings");
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(settings["SenderName"], settings["SenderEmail"]));
-            message.To.Add(new MailboxAddress(primalacIme, primalacEmail));
-            message.Subject = naslov;
+            var client = new SendGridClient(settings["SendGridApiKey"]);
 
-            var builder = new BodyBuilder();
-            builder.TextBody = $"Poštovani {primalacIme},\n\n{poruka}\n\nS poštovanjem,\nETF Sarajevo";
-            message.Body = builder.ToMessageBody();
+            var msg = new SendGridMessage
+            {
+                From = new EmailAddress(settings["SenderEmail"], settings["SenderName"]),
+                Subject = naslov,
+                PlainTextContent = $"Poštovani {primalacIme},\n\n{poruka}\n\nS poštovanjem,\nETF Sarajevo"
+            };
+            msg.AddTo(new EmailAddress(primalacEmail, primalacIme));
 
-            await SendAsync(message, settings);
+            var response = await client.SendEmailAsync(msg);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Body.ReadAsStringAsync();
+                _logger.LogError("SendGrid greška: {Status} {Body}", response.StatusCode, body);
+                throw new Exception($"SendGrid greška: {response.StatusCode}");
+            }
         }
 
-        // Bulk slanje — jedna SMTP konekcija za sve primatelje
+        // Bulk slanje — za admin notifikacije
         public async Task PošaljiBulkEmail(
             IEnumerable<(string Email, string Ime)> primatelji,
             string naslov, string poruka)
         {
             var settings = _config.GetSection("EmailSettings");
+            var client = new SendGridClient(settings["SendGridApiKey"]);
+            var from = new EmailAddress(settings["SenderEmail"], settings["SenderName"]);
 
             var lista = primatelji
                 .Where(p => !string.IsNullOrWhiteSpace(p.Email))
@@ -61,41 +80,31 @@ namespace ZamETF.Services
 
             if (!lista.Any()) return;
 
-            using var client = new SmtpClient();
-            await client.ConnectAsync(settings["SmtpServer"],
-                int.Parse(settings["SmtpPort"]), SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(settings["SenderEmail"], settings["SenderPassword"]);
+            // SendGrid podržava do 1000 primatelja u jednom pozivu
+            var msg = new SendGridMessage
+            {
+                From = from,
+                Subject = naslov
+            };
 
             foreach (var p in lista)
             {
-                try
-                {
-                    var message = new MimeMessage();
-                    message.From.Add(new MailboxAddress(settings["SenderName"], settings["SenderEmail"]));
-                    message.To.Add(new MailboxAddress(p.Ime, p.Email));
-                    message.Subject = naslov;
-                    message.Body = new BodyBuilder
-                    {
-                        TextBody = $"Poštovani {p.Ime},\n\n{poruka}\n\nS poštovanjem,\nETF Sarajevo"
-                    }.ToMessageBody();
-
-                    await client.SendAsync(message);
-                }
-                catch { /* jedna neuspješna ne blokira ostale */ }
+                msg.AddTo(new EmailAddress(p.Email, p.Ime));
             }
 
-            await client.DisconnectAsync(true);
-        }
+            // Personalizovani tekst nije moguć u bulk modu — koristimo generički
+            msg.PlainTextContent = $"{poruka}\n\nS poštovanjem,\nETF Sarajevo";
 
-        // Zajednička SMTP logika za pojedinačno slanje
-        private async Task SendAsync(MimeMessage message, IConfigurationSection settings)
-        {
-            using var client = new SmtpClient();
-            await client.ConnectAsync(settings["SmtpServer"],
-                int.Parse(settings["SmtpPort"]), SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(settings["SenderEmail"], settings["SenderPassword"]);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+            var response = await client.SendEmailAsync(msg);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Body.ReadAsStringAsync();
+                _logger.LogError("SendGrid bulk greška: {Status} {Body}", response.StatusCode, body);
+                throw new Exception($"SendGrid greška: {response.StatusCode}");
+            }
+
+            _logger.LogInformation("Bulk email poslan na {Count} primatelja", lista.Count);
         }
     }
 }
