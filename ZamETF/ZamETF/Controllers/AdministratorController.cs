@@ -1116,7 +1116,7 @@ namespace ZamETF.Controllers
             {
                 var emailPrimatelji = primatelji
                     .Where(p => !string.IsNullOrWhiteSpace(p.Email))
-                    .Select(p => (p.Email, p.GetImeIPrezime()));
+                    .Select(p => (p.Email!, p.GetImeIPrezime()));
 
                 await _emailService.PošaljiBulkEmail(emailPrimatelji, naslovSaTipom, poruka);
             }
