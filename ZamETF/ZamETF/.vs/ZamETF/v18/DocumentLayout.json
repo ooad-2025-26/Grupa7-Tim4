@@ -156,22 +156,10 @@
               "RelativeDocumentMoniker": "Controllers\\AdministratorController.cs",
               "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AdministratorController.cs",
               "RelativeToolTip": "Controllers\\AdministratorController.cs",
-              "ViewState": "AgIAAAMBAAAAzczMzMwYwBEBAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAiwKcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-12T17:57:10.144Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DetaljiPredmeta.cshtml",
-              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
-              "RelativeDocumentMoniker": "Views\\Student\\DetaljiPredmeta.cshtml",
-              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
-              "RelativeToolTip": "Views\\Student\\DetaljiPredmeta.cshtml",
-              "ViewState": "AgIAACYAAAAAAAAAAAAWwDwAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-11T23:54:49.987Z"
             },
             {
               "$type": "Document",
@@ -221,6 +209,22 @@
               "ViewState": "AgIAABIBAACAZmZmZmYgwCcBAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-06-10T20:41:22.766Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DetaljiPredmeta.cshtml",
+              "DocumentMoniker": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
+              "RelativeDocumentMoniker": "Views\\Student\\DetaljiPredmeta.cshtml",
+              "ToolTip": "C:\\Users\\HF\\Desktop\\ooad1\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
+              "RelativeToolTip": "Views\\Student\\DetaljiPredmeta.cshtml",
+              "ViewState": "AgIAACYAAAAAAAAAAAAWwDwAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T23:54:49.987Z"
             },
             {
               "$type": "Document",
@@ -561,10 +565,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         },
