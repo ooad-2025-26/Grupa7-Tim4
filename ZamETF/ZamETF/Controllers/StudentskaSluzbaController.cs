@@ -466,12 +466,13 @@ namespace ZamETF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiNotifikaciju(
-            string naslov, string poruka, string tipNotifikacije,
-            string primateljTip, string odabraniIds, string odabraneGodine)
+    string naslov, string poruka, string tipNotifikacije,
+    string primateljTip, string odabraniIds, string odabraneGodine)
         {
             var korisnik = await _userManager.GetUserAsync(User);
             int brojPoslanih = 0;
             var naslovSaTipom = "[" + tipNotifikacije + "] " + naslov;
+            var primatelji = new List<Student>();
 
             if (primateljTip == "student")
             {
@@ -484,8 +485,8 @@ namespace ZamETF.Controllers
                 foreach (var idStr in ids)
                     if (int.TryParse(idStr, out int studentId))
                     {
-                        _context.Obavijesti.Add(new Obavijest { Naslov = naslovSaTipom, Poruka = poruka, PošiljalacId = korisnik.Id, PrimalacId = studentId, DatumSlanja = DateTime.Now });
-                        brojPoslanih++;
+                        var s = await _context.Studenti.FindAsync(studentId);
+                        if (s != null) primatelji.Add(s);
                     }
             }
             else if (primateljTip == "godina")
@@ -495,33 +496,67 @@ namespace ZamETF.Controllers
                     TempData["Greska"] = "Niste odabrali nijednu godinu.";
                     return RedirectToAction(nameof(Notifikacije));
                 }
-                var godine = odabraneGodine.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(g => int.Parse(g)).ToList();
-                var studenti = await _context.Users.OfType<Student>().Where(s => godine.Contains(s.GodinaStudija)).ToListAsync();
-                foreach (var s in studenti)
-                {
-                    _context.Obavijesti.Add(new Obavijest { Naslov = naslovSaTipom, Poruka = poruka, PošiljalacId = korisnik.Id, PrimalacId = s.Id, DatumSlanja = DateTime.Now });
-                    brojPoslanih++;
-                }
+                var godine = odabraneGodine.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(g => int.Parse(g)).ToList();
+                primatelji = await _context.Users.OfType<Student>()
+                    .Where(s => godine.Contains(s.GodinaStudija)).ToListAsync();
             }
             else if (primateljTip == "svi")
             {
-                var studenti = await _context.Users.OfType<Student>().ToListAsync();
-                foreach (var s in studenti)
-                {
-                    _context.Obavijesti.Add(new Obavijest { Naslov = naslovSaTipom, Poruka = poruka, PošiljalacId = korisnik.Id, PrimalacId = s.Id, DatumSlanja = DateTime.Now });
-                    brojPoslanih++;
-                }
+                primatelji = await _context.Users.OfType<Student>().ToListAsync();
             }
             else if (primateljTip == "admin")
             {
                 var admin = await _context.Administratori.FirstOrDefaultAsync();
-                if (admin == null) { TempData["Greska"] = "Administrator nije pronadjen."; return RedirectToAction(nameof(Notifikacije)); }
-                _context.Obavijesti.Add(new Obavijest { Naslov = naslovSaTipom, Poruka = poruka, PošiljalacId = korisnik.Id, PrimalacId = admin.Id, DatumSlanja = DateTime.Now });
-                brojPoslanih++;
+                if (admin == null)
+                {
+                    TempData["Greska"] = "Administrator nije pronadjen.";
+                    return RedirectToAction(nameof(Notifikacije));
+                }
+                _context.Obavijesti.Add(new Obavijest
+                {
+                    Naslov = naslovSaTipom,
+                    Poruka = poruka,
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = admin.Id,
+                    DatumSlanja = DateTime.Now
+                });
+                await _context.SaveChangesAsync();
+                TempData["Uspjeh"] = "Notifikacija poslana adminu!";
+                return RedirectToAction(nameof(Notifikacije));
             }
 
+            // In-app obavijesti
+            foreach (var s in primatelji)
+            {
+                _context.Obavijesti.Add(new Obavijest
+                {
+                    Naslov = naslovSaTipom,
+                    Poruka = poruka,
+                    PošiljalacId = korisnik.Id,
+                    PrimalacId = s.Id,
+                    DatumSlanja = DateTime.Now
+                });
+                brojPoslanih++;
+            }
             await _context.SaveChangesAsync();
-            TempData["Uspjeh"] = "Notifikacija je uspjesno poslana! Broj primatelja: " + brojPoslanih;
+
+            // Email slanje
+            try
+            {
+                var emailPrimatelji = primatelji
+                    .Where(s => !string.IsNullOrWhiteSpace(s.Email))
+                    .Select(s => (s.Email!, s.Ime + " " + s.Prezime));
+
+                await _emailService.PošaljiBulkEmail(emailPrimatelji, naslovSaTipom, poruka);
+            }
+            catch (Exception ex)
+            {
+                TempData["Greska"] = $"Notifikacija poslana, ali email nije uspio: {ex.Message}";
+                return RedirectToAction(nameof(Notifikacije));
+            }
+
+            TempData["Uspjeh"] = $"Notifikacija uspjesno poslana! Broj primatelja: {brojPoslanih}";
             return RedirectToAction(nameof(Notifikacije));
         }
 
