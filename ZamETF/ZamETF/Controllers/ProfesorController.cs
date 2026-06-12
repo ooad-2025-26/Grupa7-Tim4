@@ -342,39 +342,7 @@ namespace ZamETF.Controllers
             return View(predmetSaDetalima);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> KreiranjeZadace(string nazividID, string opis, DateTime rok, int predmetId, int maxBodovi = 100)
-        {
-            var predmet = await _context.Predmeti
-                .Include(p => p.Zadace)
-                .FirstOrDefaultAsync(p => p.Id == predmetId);
-
-            if (predmet == null)
-                ModelState.AddModelError("", "Predmet nije pronađen.");
-
-            if (ModelState.IsValid)
-            {
-                var zadaca = new Zadaca
-                {
-                    NazivID = nazividID,
-                    Opis = opis,
-                    Rok = rok,
-                    MaxBodovi = maxBodovi,
-                    Predmet = predmet
-                };
-
-                _context.Zadace.Add(zadaca);
-                await _context.SaveChangesAsync();
-                TempData["Uspjeh"] = "Zadaća je uspješno kreirana.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            var korisnik = await _userManager.GetUserAsync(User);
-            var profesor = await _context.Profesori.Include(p => p.Predmeti).FirstOrDefaultAsync(p => p.Id == korisnik.Id);
-            ViewBag.Predmeti = profesor?.Predmeti.ToList();
-            return View();
-        }
+        
 
         public async Task<IActionResult> KreiranjeIspita(int? predmetId)
         {
@@ -493,10 +461,39 @@ namespace ZamETF.Controllers
             return View();
         }
 
+        // GET: Profesor/KreiranjeZadace
+        public async Task<IActionResult> KreiranjeZadace(int? predmetId)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                    .ThenInclude(pr => pr.Zadace)
+                        .ThenInclude(z => z.Predaje)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+
+            if (profesor == null) return NotFound();
+
+            ViewBag.Predmeti = profesor.Predmeti.ToList();
+            ViewBag.OdabraniPredmetId = predmetId;
+            return View();
+        }
+
+        // POST: Profesor/KreiranjeZadace
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> KreiranjeZadace(string nazividID, string opis, DateTime rok, int predmetId)
+        public async Task<IActionResult> KreiranjeZadace(string nazividID, string opis, DateTime rok, int predmetId, int maxBodovi = 100)
         {
+            if (predmetId == 0)
+            {
+                TempData["Greska"] = "Morate odabrati predmet.";
+                var korisnikErr = await _userManager.GetUserAsync(User);
+                var profesorErr = await _context.Profesori
+                    .Include(p => p.Predmeti)
+                    .FirstOrDefaultAsync(p => p.Id == korisnikErr.Id);
+                ViewBag.Predmeti = profesorErr?.Predmeti.ToList();
+                return View();
+            }
+
             var predmet = await _context.Predmeti
                 .Include(p => p.Zadace)
                 .FirstOrDefaultAsync(p => p.Id == predmetId);
@@ -511,6 +508,7 @@ namespace ZamETF.Controllers
                     NazivID = nazividID,
                     Opis = opis,
                     Rok = rok,
+                    MaxBodovi = maxBodovi,
                     Predmet = predmet
                 };
 
@@ -521,11 +519,13 @@ namespace ZamETF.Controllers
             }
 
             var korisnik = await _userManager.GetUserAsync(User);
-            var profesor = await _context.Profesori.Include(p => p.Predmeti).FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
             ViewBag.Predmeti = profesor?.Predmeti.ToList();
+            ViewBag.OdabraniPredmetId = predmetId;
             return View();
         }
-
         public async Task<IActionResult> OcjenjivanjeZadace(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
