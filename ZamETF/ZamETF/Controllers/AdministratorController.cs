@@ -1063,11 +1063,9 @@ namespace ZamETF.Controllers
                 return RedirectToAction(nameof(KreiranjePredmeta));
             }
 
-            int godinaStudija = (int)Math.Ceiling(semestar / 2.0);
-
             var studenti = await _context.Studenti
-                .Where(s => s.GodinaStudija == godinaStudija)
-                .ToListAsync();
+           .Where(s => s.Semestar == semestar)
+           .ToListAsync();
 
             var predmet = new Predmet
             {
@@ -1103,14 +1101,27 @@ namespace ZamETF.Controllers
             var predmet = await _context.Predmeti.FindAsync(predmetId);
             if (predmet == null) return NotFound();
 
+            // Nulliraj PredmetId na svim korisnicima koji ga referenciraju
+            var korisnici = await _context.Users
+                .Where(u => EF.Property<int?>(u, "PredmetId") == predmetId)
+                .ToListAsync();
+            foreach (var k in korisnici)
+                _context.Entry(k).Property("PredmetId").CurrentValue = null;
+            await _context.SaveChangesAsync();
+
+            // Ukloni upise
             var upisi = await _context.UpisaNaPredmet.Where(u => u.PredmetId == predmetId).ToListAsync();
             _context.UpisaNaPredmet.RemoveRange(upisi);
 
+            // Ukloni ocjene
             var ocjene = await _context.Ocjene.Where(o => o.Predmet.Id == predmetId).ToListAsync();
             _context.Ocjene.RemoveRange(ocjene);
 
+            // Ukloni prisustva
             var prisustva = await _context.Prisustva.Where(p => p.Predmet.Id == predmetId).ToListAsync();
             _context.Prisustva.RemoveRange(prisustva);
+
+            await _context.SaveChangesAsync();
 
             _context.Predmeti.Remove(predmet);
             await _context.SaveChangesAsync();

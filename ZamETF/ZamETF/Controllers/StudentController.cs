@@ -177,23 +177,19 @@ namespace ZamETF.Controllers
             TempData["Uspjeh"] = "Zadaća je uspješno predana.";
             return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
         }
-        // GET: Student
         public async Task<IActionResult> Index()
         {
             var korisnik = await _userManager.GetUserAsync(User);
             if (korisnik == null) return RedirectToAction("Login", "Account");
 
-            var student = await _context.Studenti
-                .Include(s => s.PrijaveIspita)
-                .Include(s => s.PredajeZadace)
-                .FirstOrDefaultAsync(s => s.Id == korisnik.Id);
-
-            // Predmeti studenta
+            // Predmeti studenta — samo upisani
             var predmeti = await _context.UpisaNaPredmet
                 .Include(u => u.Predmet)
                 .Where(u => u.StudentId == korisnik.Id)
                 .Select(u => u.Predmet)
                 .ToListAsync();
+
+            var predmetIds = predmeti.Select(p => p.Id).ToList();
 
             // Obavijesti za studenta
             var obavijesti = await _context.Obavijesti
@@ -201,18 +197,17 @@ namespace ZamETF.Controllers
                 .OrderByDescending(o => o.DatumSlanja)
                 .ToListAsync();
 
-            // Aktuelno – ispiti dostupni za prijavu i zadace otvorene
+            // Aktuelno — samo za predmete na koje je student upisan
             var aktuelnoIspiti = await _context.Ispiti
                 .Include(i => i.Predmet)
-                .Where(i => i.RokZaPrijavu >= DateTime.Now)
+                .Where(i => i.RokZaPrijavu >= DateTime.Now && predmetIds.Contains(i.PredmetId))
                 .ToListAsync();
 
             var aktuelnoZadace = await _context.Zadace
                 .Include(z => z.Predmet)
-                .Where(z => z.Rok >= DateTime.Now)
+                .Where(z => z.Rok >= DateTime.Now && predmetIds.Contains(z.PredmetID))
                 .ToListAsync();
 
-            // Pretvori u listu obavijesti za prikaz
             var aktuelno = new List<Obavijest>();
 
             foreach (var ispit in aktuelnoIspiti)
