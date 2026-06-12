@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Zahtjev za upis/izmjenu podataka";
     Layout = null;
+    var studenti = ViewBag.Studenti as List<ZamETF.Models.Student>;
 }
 
 <!DOCTYPE html>
@@ -144,7 +145,7 @@
             background: white;
             border-radius: 15px;
             padding: 30px;
-            max-width: 620px;
+            max-width: 700px;
             margin: 0 auto;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
@@ -152,18 +153,18 @@
         .form-label {
             color: #1a1a6e;
             font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 6px;
+            font-size: 0.88rem;
+            margin-bottom: 5px;
             display: block;
         }
 
         .form-control, .form-select {
             border: 1.5px solid #a0c8f0;
             border-radius: 10px;
-            padding: 10px 15px;
-            font-size: 0.9rem;
+            padding: 8px 12px;
+            font-size: 0.88rem;
             color: #1a1a6e;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             width: 100%;
         }
 
@@ -186,6 +187,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tip-btn {
@@ -196,14 +198,20 @@
             color: #1a1a6e;
             border-radius: 10px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             cursor: pointer;
             transition: all 0.2s;
+            min-width: 120px;
         }
 
             .tip-btn.selected {
                 background: #1a1a6e;
                 color: white;
+            }
+
+            .tip-btn.brisanje.selected {
+                background: #e74c3c;
+                border-color: #e74c3c;
             }
 
         .btn-posalji {
@@ -224,6 +232,14 @@
                 background: #0a3f5a;
             }
 
+            .btn-posalji.brisanje {
+                background: #e74c3c;
+            }
+
+                .btn-posalji.brisanje:hover {
+                    background: #c0392b;
+                }
+
         .info-box {
             background: #e8f4fd;
             border-left: 4px solid #1a5f7a;
@@ -234,10 +250,16 @@
             font-size: 0.88rem;
         }
 
+            .info-box.brisanje {
+                background: #fdecea;
+                border-left-color: #e74c3c;
+                color: #c0392b;
+            }
+
         .section-title {
             color: #1a1a6e;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             margin-bottom: 12px;
             padding-bottom: 5px;
             border-bottom: 2px solid #a0c8f0;
@@ -248,16 +270,32 @@
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
+
+        .student-select-wrap {
+            margin-bottom: 16px;
+        }
+
+        .polja-izmjena {
+            display: block;
+        }
+
+        .polja-brisanje {
+            display: none;
+        }
+
+        .polja-upis {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="navbar-top">
         <div class="navbar-left">
             <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
-            <a asp-controller="StudentskaSluzba" asp-action="Index" class="navbar-brand-text">Pocetna</a>
+            <a asp-controller="StudentskaSluzba" asp-action="Index" class="navbar-brand-text">Početna</a>
         </div>
         <div class="navbar-right">
-            <span class="user-badge">Studentska sluzba - @User.Identity.Name</span>
+            <span class="user-badge">Studentska služba - @User.Identity.Name</span>
             <form method="post" asp-action="Logout" asp-controller="Account" style="display:inline">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="btn-odjava">Odjava</button>
@@ -267,17 +305,17 @@
 
     <div class="main-content">
         <div class="sidebar">
-            <h6>Studentska sluzba panel</h6>
-            <a asp-controller="StudentskaSluzba" asp-action="Index">Pocetna</a>
+            <h6>Studentska služba panel</h6>
+            <a asp-controller="StudentskaSluzba" asp-action="Index">Početna</a>
             <a asp-controller="StudentskaSluzba" asp-action="SviZahtjevi">Svi zahtjevi</a>
-            <a asp-controller="StudentskaSluzba" asp-action="OdaberiZahtjevZaIzvjestaj">Generisanje izvjestaja</a>
+            <a asp-controller="StudentskaSluzba" asp-action="OdaberiZahtjevZaIzvjestaj">Generisanje izvještaja</a>
             <a asp-controller="StudentskaSluzba" asp-action="ZahtjevStatistika">Zahtjev za statistiku</a>
             <a asp-controller="StudentskaSluzba" asp-action="ZahtjevPodaci" class="active">Zahtjev za upis/izmjenu</a>
             <a asp-controller="StudentskaSluzba" asp-action="Notifikacije">Slanje notifikacija</a>
         </div>
 
         <div class="content-area">
-            <h5>Zahtjev za upis / izmjenu podataka</h5>
+            <h5>Zahtjev za upis / izmjenu / brisanje</h5>
 
             @if (TempData["Uspjeh"] != null)
             {
@@ -289,8 +327,8 @@
             }
 
             <div class="form-card">
-                <div class="info-box">
-                    Student je donio papire na salteru. Popunite podatke i posaljite zahtjev administratoru koji ce ih unijeti u sistem.
+                <div class="info-box" id="infoBoks">
+                    Student je donio papire na šalteru. Popunite podatke i pošaljite zahtjev administratoru.
                 </div>
 
                 <form method="post" asp-action="PosaljiZahtjevPodataka" asp-controller="StudentskaSluzba">
@@ -305,53 +343,154 @@
                         <button type="button" class="tip-btn" onclick="postaviTip('Izmjena', this)">
                             Izmjena podataka
                         </button>
+                        <button type="button" class="tip-btn brisanje" onclick="postaviTip('Brisanje', this)">
+                            Brisanje studenta
+                        </button>
                     </div>
 
-                    <p class="section-title">Podaci o studentu</p>
-                    <div class="row-fields">
-                        <div>
-                            <label class="form-label">Ime</label>
-                            <input type="text" name="imeStudenta" class="form-control" placeholder="Npr. Amina" required />
-                        </div>
-                        <div>
-                            <label class="form-label">Prezime</label>
-                            <input type="text" name="prezimeStudenta" class="form-control" placeholder="Npr. Hodzic" required />
-                        </div>
+                    <!-- ODABIR STUDENTA (za izmjenu i brisanje) -->
+                    <div class="student-select-wrap" id="studentOdabirWrap" style="display:none;">
+                        <p class="section-title">Odaberi studenta</p>
+                        <select class="form-select" id="studentOdabir" onchange="popuniPodatke(this)">
+                            <option value="">-- Odaberi studenta --</option>
+                            @if (studenti != null)
+                            {
+                                foreach (var s in studenti)
+                                {
+                                    <option value="@s.Id"
+                                            data-ime="@s.Ime"
+                                            data-prezime="@s.Prezime"
+                                            data-indeks="@s.Indeks"
+                                            data-email="@s.Email"
+                                            data-godina="@s.GodinaStudija"
+                                            data-odsjek="@s.Odsjek"
+                                            data-jmbg="@s.JMBG"
+                                            data-datum="@(s.DatumRodjenja != default ? s.DatumRodjenja.ToString("yyyy-MM-dd") : "")"
+                                            data-imeoca="@s.ImeOca"
+                                            data-imemajke="@s.ImeMajke"
+                                            data-mjesto="@s.MjestoPrebivalisca"
+                                            data-ciklus="@s.Ciklus"
+                                            data-tipstudija="@s.TipStudija"
+                                            data-status="@s.StatusStudenta"
+                                            data-semestar="@s.Semestar">
+                                        @s.Ime @s.Prezime (@s.Indeks)
+                                    </option>
+                                }
+                            }
+                        </select>
+                        <input type="hidden" name="studentId" id="studentIdInput" value="" />
                     </div>
 
-                    <div class="row-fields">
-                        <div>
-                            <label class="form-label">Broj indeksa</label>
-                            <input type="text" name="indeksStudenta" class="form-control" placeholder="Npr. EL-123/22" required />
+                    <!-- POLJA ZA UPIS I IZMJENU -->
+                    <div id="poljaUpisIzmjena">
+                        <p class="section-title">Podaci o studentu</p>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Ime</label>
+                                <input type="text" name="imeStudenta" id="fIme" class="form-control" placeholder="Npr. Amina" />
+                            </div>
+                            <div>
+                                <label class="form-label">Prezime</label>
+                                <input type="text" name="prezimeStudenta" id="fPrezime" class="form-control" placeholder="Npr. Hodžić" />
+                            </div>
                         </div>
-                        <div>
-                            <label class="form-label">Godina studija</label>
-                            <select name="godinaStudija" class="form-select">
-                                <option value="1">1. godina</option>
-                                <option value="2">2. godina</option>
-                                <option value="3">3. godina</option>
-                                <option value="4">4. godina</option>
-                            </select>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Broj indeksa</label>
+                                <input type="text" name="indeksStudenta" id="fIndeks" class="form-control" placeholder="Npr. EL-123/22" />
+                            </div>
+                            <div>
+                                <label class="form-label">Email</label>
+                                <input type="email" name="emailStudenta" id="fEmail" class="form-control" placeholder="student@etf.unsa.ba" />
+                            </div>
                         </div>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Godina studija</label>
+                                <select name="godinaStudija" id="fGodina" class="form-select">
+                                    <option value="1">1. godina</option>
+                                    <option value="2">2. godina</option>
+                                    <option value="3">3. godina</option>
+                                    <option value="4">4. godina</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Semestar</label>
+                                <input type="number" name="semestar" id="fSemestar" class="form-control" min="1" max="8" placeholder="1-8" />
+                            </div>
+                        </div>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">JMBG</label>
+                                <input type="text" name="jmbg" id="fJmbg" class="form-control" placeholder="1234567890123" maxlength="13" />
+                            </div>
+                            <div>
+                                <label class="form-label">Datum rođenja</label>
+                                <input type="date" name="datumRodjenja" id="fDatum" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Ime oca</label>
+                                <input type="text" name="imeOca" id="fImeOca" class="form-control" />
+                            </div>
+                            <div>
+                                <label class="form-label">Ime majke</label>
+                                <input type="text" name="imeMajke" id="fImeMajke" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Mjesto prebivališta</label>
+                                <input type="text" name="mjesto" id="fMjesto" class="form-control" />
+                            </div>
+                            <div>
+                                <label class="form-label">Odsjek/Smjer</label>
+                                <input type="text" name="smjer" id="fOdsjek" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Ciklus</label>
+                                <input type="text" name="ciklus" id="fCiklus" class="form-control" placeholder="Npr. I, II, III" />
+                            </div>
+                            <div>
+                                <label class="form-label">Tip studija</label>
+                                <input type="text" name="tipStudija" id="fTipStudija" class="form-control" placeholder="Npr. Redovni, Vanredni" />
+                            </div>
+                        </div>
+
+                        <div class="row-fields">
+                            <div>
+                                <label class="form-label">Status studenta</label>
+                                <input type="text" name="statusStudenta" id="fStatus" class="form-control" placeholder="Npr. Aktivan, Mirovanje" />
+                            </div>
+                        </div>
+
+                        <label class="form-label">Napomena</label>
+                        <textarea name="napomena" class="form-control" rows="3"
+                                  placeholder="Dodatne napomene..."></textarea>
                     </div>
 
-                    <label class="form-label">Email studenta</label>
-                    <input type="email" name="emailStudenta" class="form-control" placeholder="student@etf.unsa.ba" />
+                    <!-- POLJA ZA BRISANJE -->
+                    <div id="poljaBrisanje" style="display:none;">
+                        <div class="info-box brisanje">
+                            Pažnja! Zahtjev za brisanje studenta će biti poslan administratoru na odobrenje.
+                            Administrator će obrisati studenta i sve njegove podatke iz sistema.
+                        </div>
+                        <label class="form-label">Razlog brisanja</label>
+                        <textarea name="razlogBrisanja" id="fRazlog" class="form-control" rows="3"
+                                  placeholder="Unesite razlog brisanja studenta..."></textarea>
+                    </div>
 
-                    <label class="form-label">Smjer</label>
-                    <select name="smjer" class="form-select">
-                        <option value="Automatika i elektronika">Automatika i elektronika</option>
-                        <option value="Telekomunikacije">Telekomunikacije</option>
-                        <option value="Racunarstvo i informatika">Racunarstvo i informatika</option>
-                        <option value="Elektroenergetika">Elektroenergetika</option>
-                        <option value="Opsti smjer">Opsti smjer</option>
-                    </select>
-
-                    <label class="form-label">Napomena</label>
-                    <textarea name="napomena" class="form-control" rows="3"
-                              placeholder="Dodatne napomene ili dokumenti koje je student predao..."></textarea>
-
-                    <button type="submit" class="btn-posalji">Posalji zahtjev adminu</button>
+                    <button type="submit" class="btn-posalji" id="btnPosalji">Pošalji zahtjev adminu</button>
                 </form>
             </div>
         </div>
@@ -360,11 +499,72 @@
     <script>
         function postaviTip(tip, btn) {
             document.getElementById('tipZahtjevaInput').value = tip;
-            var btns = document.querySelectorAll('.tip-btn');
-            for (var i = 0; i < btns.length; i++) {
-                btns[i].classList.remove('selected');
-            }
+            document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
+
+            var studentWrap = document.getElementById('studentOdabirWrap');
+            var poljaUpisIzmjena = document.getElementById('poljaUpisIzmjena');
+            var poljaBrisanje = document.getElementById('poljaBrisanje');
+            var btnPosalji = document.getElementById('btnPosalji');
+            var infoBoks = document.getElementById('infoBoks');
+
+            if (tip === 'Upis') {
+                studentWrap.style.display = 'none';
+                poljaUpisIzmjena.style.display = 'block';
+                poljaBrisanje.style.display = 'none';
+                btnPosalji.className = 'btn-posalji';
+                btnPosalji.textContent = 'Pošalji zahtjev adminu';
+                infoBoks.className = 'info-box';
+                infoBoks.textContent = 'Student je donio papire na šalteru. Popunite podatke i pošaljite zahtjev administratoru.';
+                ocistiFormu();
+            } else if (tip === 'Izmjena') {
+                studentWrap.style.display = 'block';
+                poljaUpisIzmjena.style.display = 'block';
+                poljaBrisanje.style.display = 'none';
+                btnPosalji.className = 'btn-posalji';
+                btnPosalji.textContent = 'Pošalji zahtjev za izmjenu';
+                infoBoks.className = 'info-box';
+                infoBoks.textContent = 'Odaberite studenta da biste automatski popunili polja, zatim izmijenite podatke koje treba promijeniti.';
+            } else if (tip === 'Brisanje') {
+                studentWrap.style.display = 'block';
+                poljaUpisIzmjena.style.display = 'none';
+                poljaBrisanje.style.display = 'block';
+                btnPosalji.className = 'btn-posalji brisanje';
+                btnPosalji.textContent = 'Pošalji zahtjev za brisanje';
+                infoBoks.className = 'info-box brisanje';
+                infoBoks.textContent = 'Odaberite studenta kojeg treba obrisati iz sistema.';
+            }
+        }
+
+        function popuniPodatke(select) {
+            var opt = select.options[select.selectedIndex];
+            document.getElementById('studentIdInput').value = select.value;
+            document.getElementById('fIme').value = opt.dataset.ime || '';
+            document.getElementById('fPrezime').value = opt.dataset.prezime || '';
+            document.getElementById('fIndeks').value = opt.dataset.indeks || '';
+            document.getElementById('fEmail').value = opt.dataset.email || '';
+            document.getElementById('fGodina').value = opt.dataset.godina || '1';
+            document.getElementById('fSemestar').value = opt.dataset.semestar || '';
+            document.getElementById('fJmbg').value = opt.dataset.jmbg || '';
+            document.getElementById('fDatum').value = opt.dataset.datum || '';
+            document.getElementById('fImeOca').value = opt.dataset.imeoca || '';
+            document.getElementById('fImeMajke').value = opt.dataset.imemajke || '';
+            document.getElementById('fMjesto').value = opt.dataset.mjesto || '';
+            document.getElementById('fOdsjek').value = opt.dataset.odsjek || '';
+            document.getElementById('fCiklus').value = opt.dataset.ciklus || '';
+            document.getElementById('fTipStudija').value = opt.dataset.tipstudija || '';
+            document.getElementById('fStatus').value = opt.dataset.status || '';
+        }
+
+        function ocistiFormu() {
+            ['fIme','fPrezime','fIndeks','fEmail','fSemestar','fJmbg',
+             'fDatum','fImeOca','fImeMajke','fMjesto','fOdsjek','fCiklus',
+             'fTipStudija','fStatus'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('fGodina').value = '1';
+            document.getElementById('studentIdInput').value = '';
         }
     </script>
 </body>

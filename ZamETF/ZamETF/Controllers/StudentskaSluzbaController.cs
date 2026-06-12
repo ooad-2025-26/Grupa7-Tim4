@@ -53,13 +53,23 @@ namespace ZamETF.Controllers
         // GET: StudentskaSluzba/Index
         public async Task<IActionResult> Index()
         {
+            var korisnik = await _userManager.GetUserAsync(User);
+
             var zahtjevi = await _context.ZahtjeviDokumenata
                 .Include(z => z.Student)
                 .Where(z => !z.Status)
                 .OrderByDescending(z => z.Datum)
                 .ToListAsync();
 
+            // Obavijesti primljene od admina
+            var obavijesti = await _context.Obavijesti
+                .Include(o => o.Posiljалac)
+                .Where(o => o.PrimalacId == korisnik.Id)
+                .OrderByDescending(o => o.DatumSlanja)
+                .ToListAsync();
+
             ViewBag.Zahtjevi = zahtjevi;
+            ViewBag.Obavijesti = obavijesti;
             return View();
         }
 
@@ -74,6 +84,17 @@ namespace ZamETF.Controllers
 
             ViewBag.Zahtjev = zahtjev;
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OznaciObavijestProcitanom(int obavijestId)
+        {
+            var obavijest = await _context.Obavijesti.FindAsync(obavijestId);
+            if (obavijest == null) return NotFound();
+            obavijest.Procitana = true;
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Obavijest označena kao pročitana.";
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: StudentskaSluzba/GenerirajPdf
@@ -353,36 +374,75 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(ZahtjevStatistika));
         }
 
-        public IActionResult ZahtjevPodaci() => View();
+        public async Task<IActionResult> ZahtjevPodaci()
+        {
+            var studenti = await _context.Studenti.OrderBy(s => s.Prezime).ToListAsync();
+            ViewBag.Studenti = studenti;
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiZahtjevPodataka(
             string tipZahtjeva, string imeStudenta, string prezimeStudenta,
             string indeksStudenta, string godinaStudija, string emailStudenta,
-            string smjer, string napomena)
+            string smjer, string napomena, string jmbg, string datumRodjenja,
+            string imeOca, string imeMajke, string mjesto, string ciklus,
+            string tipStudija, string statusStudenta, string semestar,
+            string razlogBrisanja, int? studentId)
         {
             var korisnik = await _userManager.GetUserAsync(User);
             var admin = await _context.Administratori.FirstOrDefaultAsync();
 
             if (admin == null)
             {
-                TempData["Greska"] = "Administrator nije pronadjen.";
-                return RedirectToAction(nameof(ZahtjevPodaci));
+                TempData["Greska"] = "Administrator nije pronađen.";
+                var studentiErr = await _context.Studenti.OrderBy(s => s.Prezime).ToListAsync();
+                ViewBag.Studenti = studentiErr;
+                return View();
             }
 
-            var poruka = "Tip zahtjeva: " + tipZahtjeva + "\n" +
-                         "Indeks: " + indeksStudenta + "\n" +
-                         "Ime: " + imeStudenta + "\n" +
-                         "Prezime: " + prezimeStudenta + "\n" +
-                         "Email: " + emailStudenta + "\n" +
-                         "Godina studija: " + godinaStudija + "\n" +
-                         "Smjer: " + smjer + "\n" +
-                         "Napomena: " + napomena;
+            string naslov, poruka;
+
+            if (tipZahtjeva == "Brisanje")
+            {
+                Student student = null;
+                if (studentId.HasValue)
+                    student = await _context.Studenti.FindAsync(studentId.Value);
+
+                naslov = $"Zahtjev za brisanje studenta: {student?.Ime} {student?.Prezime} ({student?.Indeks})";
+                poruka = $"Tip zahtjeva: Brisanje\n" +
+                         $"Student: {student?.Ime} {student?.Prezime}\n" +
+                         $"Indeks: {student?.Indeks}\n" +
+                         $"Email: {student?.Email}\n" +
+                         $"StudentId: {studentId}\n" +
+                         $"Razlog: {razlogBrisanja}";
+            }
+            else
+            {
+                naslov = $"Zahtjev za {tipZahtjeva} podataka - {indeksStudenta}";
+                poruka = $"Tip zahtjeva: {tipZahtjeva}\n" +
+                         $"Indeks: {indeksStudenta}\n" +
+                         $"Ime: {imeStudenta}\n" +
+                         $"Prezime: {prezimeStudenta}\n" +
+                         $"Email: {emailStudenta}\n" +
+                         $"Godina studija: {godinaStudija}\n" +
+                         $"Semestar: {semestar}\n" +
+                         $"JMBG: {jmbg}\n" +
+                         $"Datum rodjenja: {datumRodjenja}\n" +
+                         $"Ime oca: {imeOca}\n" +
+                         $"Ime majke: {imeMajke}\n" +
+                         $"Mjesto: {mjesto}\n" +
+                         $"Odsjek: {smjer}\n" +
+                         $"Ciklus: {ciklus}\n" +
+                         $"Tip studija: {tipStudija}\n" +
+                         $"Status: {statusStudenta}\n" +
+                         $"Napomena: {napomena}";
+            }
 
             _context.Obavijesti.Add(new Obavijest
             {
-                Naslov = "Zahtjev za " + tipZahtjeva + " podataka - " + indeksStudenta,
+                Naslov = naslov,
                 Poruka = poruka,
                 PošiljalacId = korisnik.Id,
                 PrimalacId = admin.Id,
@@ -390,8 +450,10 @@ namespace ZamETF.Controllers
             });
             await _context.SaveChangesAsync();
 
-            TempData["Uspjeh"] = "Zahtjev za " + tipZahtjeva + " je poslan administratoru!";
-            return RedirectToAction(nameof(ZahtjevPodaci));
+            TempData["Uspjeh"] = $"Zahtjev za {tipZahtjeva} je poslan administratoru!";
+            var studenti = await _context.Studenti.OrderBy(s => s.Prezime).ToListAsync();
+            ViewBag.Studenti = studenti;
+            return View();
         }
 
         public async Task<IActionResult> Notifikacije()

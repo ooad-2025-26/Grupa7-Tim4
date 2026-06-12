@@ -3,6 +3,7 @@
     Layout = null;
     var zahtjevi = ViewBag.Zahtjevi as List<ZamETF.Models.ZahtjevZaDokument>;
     var obavijesti = ViewBag.Obavijesti as List<ZamETF.Models.Obavijest>;
+    var neprocitane = obavijesti?.Count(o => !o.Procitana) ?? 0;
 }
 
 <!DOCTYPE html>
@@ -130,35 +131,63 @@
 
         .content-area {
             flex: 1;
-            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-            border-radius: 15px;
-            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-            .content-area h5 {
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            flex: 1;
+        }
+
+        .card-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .card-panel h5 {
                 color: #1a1a6e;
                 font-weight: 700;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
                 text-align: center;
+                font-size: 1rem;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
             }
 
         .zahtjev-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(26,26,110,0.1);
-            color: #1a1a6e;
-            font-size: 0.9rem;
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a5f7a;
         }
 
-            .zahtjev-item:last-child {
-                border-bottom: none;
+        .zahtjev-info {
+            color: #1a1a6e;
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+        }
+
+            .zahtjev-info strong {
+                font-weight: 700;
+            }
+
+            .zahtjev-info small {
+                opacity: 0.65;
             }
 
         .zahtjev-buttons {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .btn-proslijedi {
@@ -176,7 +205,7 @@
             }
 
         .btn-obradi {
-            background: #2ecc71;
+            background: #27ae60;
             color: white;
             border: none;
             border-radius: 15px;
@@ -186,13 +215,72 @@
         }
 
             .btn-obradi:hover {
-                background: #27ae60;
+                background: #1e8449;
             }
 
-        .alert {
+        .btn-generisi {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .btn-generisi:hover {
+                background: #6c3483;
+                color: white;
+            }
+
+        /* OBAVIJESTI */
+        .obavijest-item {
+            background: rgba(255,255,255,0.55);
             border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a5f7a;
+            transition: background 0.2s;
+        }
+
+            .obavijest-item.neprocitana {
+                background: rgba(255,255,255,0.8);
+                border-left-color: #e74c3c;
+            }
+
+        .obavijest-naslov {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .obavijest-poruka {
+            color: #1a1a6e;
+            font-size: 0.8rem;
+            opacity: 0.75;
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .obavijest-meta {
+            color: #1a1a6e;
+            font-size: 0.72rem;
+            opacity: 0.55;
+        }
+
+        .badge-novo {
+            background: #e74c3c;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 8px;
+            padding: 2px 6px;
+            font-weight: 700;
         }
 
         .badge-novi {
@@ -204,15 +292,45 @@
             margin-left: 5px;
         }
 
+        .btn-procitano {
+            background: transparent;
+            color: #1a1a6e;
+            border: 1.5px solid rgba(26,26,110,0.3);
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .btn-procitano:hover {
+                background: rgba(26,26,110,0.08);
+            }
+
         .empty-text {
             color: #1a1a6e;
             opacity: 0.6;
+            font-size: 0.88rem;
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 15px;
             font-size: 0.9rem;
+        }
+
+        .notif-count {
+            background: #e74c3c;
+            color: white;
+            border-radius: 10px;
+            padding: 1px 7px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-left: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
     <div class="navbar-top">
         <div class="navbar-left">
             <img src="~/images/etf-logo.png" alt="ETF" onerror="this.style.display='none'" />
@@ -227,29 +345,18 @@
         </div>
     </div>
 
-    <!-- MAIN -->
     <div class="main-content">
-        <!-- SIDEBAR -->
         <div class="sidebar">
             <h6>Studentska služba panel</h6>
             <a asp-controller="StudentskaSluzba" asp-action="Index" class="active">Početna</a>
-            <a asp-controller="StudentskaSluzba" asp-action="SviZahtjevi">
-                Svi zahtjevi
-                @if (zahtjevi != null && zahtjevi.Any())
-                {
-                    <span class="badge-novi">@zahtjevi.Count</span>
-                }
-            </a>
+            <a asp-controller="StudentskaSluzba" asp-action="SviZahtjevi">Svi zahtjevi</a>
             <a asp-controller="StudentskaSluzba" asp-action="OdaberiZahtjevZaIzvjestaj">Generisanje izvještaja</a>
             <a asp-controller="StudentskaSluzba" asp-action="ZahtjevStatistika">Zahtjev za statistiku</a>
             <a asp-controller="StudentskaSluzba" asp-action="ZahtjevPodaci">Zahtjev za upis/izmjenu</a>
             <a asp-controller="StudentskaSluzba" asp-action="Notifikacije">Slanje notifikacija</a>
         </div>
 
-        <!-- CONTENT -->
         <div class="content-area">
-            <h5>Zahtjevi</h5>
-
             @if (TempData["Uspjeh"] != null)
             {
                 <div class="alert alert-success">@TempData["Uspjeh"]</div>
@@ -259,37 +366,102 @@
                 <div class="alert alert-danger">@TempData["Greska"]</div>
             }
 
-            @if (zahtjevi != null && zahtjevi.Any())
-            {
-                foreach (var z in zahtjevi)
-                {
-                    <div class="zahtjev-item">
-                        <span>
-                            Zahtjev: @z.TipDokumenta za studenta @z.Student?.Ime @z.Student?.Prezime
-                            <br />
-                            <small style="opacity:0.7">@z.Datum.ToString("dd.MM.yyyy HH:mm")</small>
-                        </span>
-                        <div class="zahtjev-buttons">
-                            <form method="post" asp-action="ProslijediAdminu"
-                                  asp-controller="StudentskaSluzba" style="display:inline">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="zahtjevId" value="@z.Id" />
-                                <button type="submit" class="btn-proslijedi">Proslijedi adminu</button>
-                            </form>
-                            <form method="post" asp-action="ObradiZahtjev"
-                                  asp-controller="StudentskaSluzba" style="display:inline">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="zahtjevId" value="@z.Id" />
-                                <button type="submit" class="btn-obradi">Označi obrađenim</button>
-                            </form>
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <p class="empty-text">Nema novih zahtjeva.</p>
-            }
+            <div class="content-wrapper">
+                <!-- LIJEVO: Zahtjevi studenata -->
+                <div class="card-panel">
+                    <h5>
+                        Zahtjevi studenata
+                        @if (zahtjevi != null && zahtjevi.Any())
+                        {
+                            <span class="notif-count">@zahtjevi.Count</span>
+                        }
+                    </h5>
+
+                    @if (zahtjevi != null && zahtjevi.Any())
+                    {
+                        foreach (var z in zahtjevi)
+                        {
+                            <div class="zahtjev-item">
+                                <div class="zahtjev-info">
+                                    <strong>@z.TipDokumenta</strong><br />
+                                    Student: @z.Student?.Ime @z.Student?.Prezime
+                                    (@z.Student?.Indeks)<br />
+                                    <small>@z.Datum.ToString("dd.MM.yyyy HH:mm")</small>
+                                </div>
+                                <div class="zahtjev-buttons">
+                                    <a asp-controller="StudentskaSluzba"
+                                       asp-action="GeneriranjeIzvjestaja"
+                                       asp-route-zahtjevId="@z.Id"
+                                       class="btn-generisi">Generiši izvještaj</a>
+                                    <form method="post" asp-action="ProslijediAdminu"
+                                          asp-controller="StudentskaSluzba" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="zahtjevId" value="@z.Id" />
+                                        <button type="submit" class="btn-proslijedi">Proslijedi adminu</button>
+                                    </form>
+                                    <form method="post" asp-action="ObradiZahtjev"
+                                          asp-controller="StudentskaSluzba" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="zahtjevId" value="@z.Id" />
+                                        <button type="submit" class="btn-obradi">Označi obrađenim</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <span class="empty-text">Nema novih zahtjeva.</span>
+                    }
+                </div>
+
+                <!-- DESNO: Obavijesti od admina -->
+                <div class="card-panel">
+                    <h5>
+                        Obavijesti
+                        @if (neprocitane > 0)
+                        {
+                            <span class="notif-count">@neprocitane</span>
+                        }
+                    </h5>
+
+                    @if (obavijesti != null && obavijesti.Any())
+                    {
+                        foreach (var o in obavijesti)
+                        {
+                            <div class="obavijest-item @(!o.Procitana ? "neprocitana" : "")">
+                                <div class="obavijest-naslov">
+                                    @(o.Naslov?.Replace("[Obavijest] ", "") ?? "")
+                                    @if (!o.Procitana)
+                                    {
+                                        <span class="badge-novo">NOVO</span>
+                                    }
+                                </div>
+                                @if (!string.IsNullOrEmpty(o.Poruka))
+                                {
+                                    <div class="obavijest-poruka">@o.Poruka</div>
+                                }
+                                <div class="obavijest-meta">
+                                    @o.DatumSlanja.ToString("dd.MM.yyyy") u @o.DatumSlanja.ToString("HH:mm")
+                                </div>
+                                @if (!o.Procitana)
+                                {
+                                    <form method="post" asp-action="OznaciObavijestProcitanom"
+                                          asp-controller="StudentskaSluzba" style="margin-top:8px;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="obavijestId" value="@o.Id" />
+                                        <button type="submit" class="btn-procitano">Označi pročitanom</button>
+                                    </form>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <span class="empty-text">Nema obavijesti.</span>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </body>
