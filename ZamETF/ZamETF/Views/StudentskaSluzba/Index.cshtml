@@ -427,7 +427,7 @@
 
                     @if (obavijesti != null && obavijesti.Any())
                     {
-                        foreach (var o in obavijesti)
+                        @foreach (var o in obavijesti)
                         {
                             <div class="obavijest-item @(!o.Procitana ? "neprocitana" : "")">
                                 <div class="obavijest-naslov">
@@ -444,15 +444,36 @@
                                 <div class="obavijest-meta">
                                     @o.DatumSlanja.ToString("dd.MM.yyyy") u @o.DatumSlanja.ToString("HH:mm")
                                 </div>
-                                @if (!o.Procitana)
-                                {
-                                    <form method="post" asp-action="OznaciObavijestProcitanom"
-                                          asp-controller="StudentskaSluzba" style="margin-top:8px;">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="obavijestId" value="@o.Id" />
-                                        <button type="submit" class="btn-procitano">Označi pročitanom</button>
-                                    </form>
-                                }
+                                <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                                    @if (o.ZahtjevId.HasValue && (o.Naslov?.Contains("Statistika") == true || o.Naslov?.Contains("statistik") == true))
+                                    {
+                                        <form method="post" asp-action="GenerirajIPreuzmiStatistiku"
+                                              asp-controller="StudentskaSluzba" target="_blank" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="obavijestId" value="@o.Id" />
+                                            <button type="submit" class="btn-proslijedi" style="background:#8e44ad;">
+                                                Pogledaj statistiku
+                                            </button>
+                                        </form>
+                                        <form method="post" asp-action="ProslijediStatistikuStudentu"
+                                              asp-controller="StudentskaSluzba" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="obavijestId" value="@o.Id" />
+                                            <button type="submit" class="btn-obradi">
+                                                Proslijedi studentu
+                                            </button>
+                                        </form>
+                                    }
+                                    @if (!o.Procitana)
+                                    {
+                                        <form method="post" asp-action="OznaciObavijestProcitanom"
+                                              asp-controller="StudentskaSluzba" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="obavijestId" value="@o.Id" />
+                                            <button type="submit" class="btn-procitano">Označi pročitanom</button>
+                                        </form>
+                                    }
+                                </div>
                             </div>
                         }
                     }

@@ -384,12 +384,12 @@ namespace ZamETF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiZahtjevPodataka(
-            string tipZahtjeva, string imeStudenta, string prezimeStudenta,
-            string indeksStudenta, string godinaStudija, string emailStudenta,
-            string smjer, string napomena, string jmbg, string datumRodjenja,
-            string imeOca, string imeMajke, string mjesto, string ciklus,
-            string tipStudija, string statusStudenta, string semestar,
-            string razlogBrisanja, int? studentId)
+        string tipZahtjeva, string imeStudenta, string prezimeStudenta,
+        string indeksStudenta, string godinaStudija, string emailStudenta,
+        string smjer, string napomena, string jmbg, string datumRodjenja,
+        string imeOca, string imeMajke, string mjesto, string ciklus,
+        string tipStudija, string statusStudenta, string semestar,
+        string razlogBrisanja, int? studentId)
         {
             var korisnik = await _userManager.GetUserAsync(User);
             var admin = await _context.Administratori.FirstOrDefaultAsync();
@@ -397,9 +397,7 @@ namespace ZamETF.Controllers
             if (admin == null)
             {
                 TempData["Greska"] = "Administrator nije pronađen.";
-                var studentiErr = await _context.Studenti.OrderBy(s => s.Prezime).ToListAsync();
-                ViewBag.Studenti = studentiErr;
-                return View();
+                return RedirectToAction(nameof(ZahtjevPodaci));
             }
 
             string naslov, poruka;
@@ -451,9 +449,7 @@ namespace ZamETF.Controllers
             await _context.SaveChangesAsync();
 
             TempData["Uspjeh"] = $"Zahtjev za {tipZahtjeva} je poslan administratoru!";
-            var studenti = await _context.Studenti.OrderBy(s => s.Prezime).ToListAsync();
-            ViewBag.Studenti = studenti;
-            return View();
+            return RedirectToAction(nameof(ZahtjevPodaci));
         }
 
         public async Task<IActionResult> Notifikacije()
@@ -707,5 +703,70 @@ namespace ZamETF.Controllers
             doc.Close();
             return ms.ToArray();
         }
+        [HttpPost]
+        public async Task<IActionResult> GenerirajIPreuzmiStatistiku(int obavijestId)
+        {
+            var obavijest = await _context.Obavijesti
+                .Include(o => o.Zahtjev)
+                    .ThenInclude(z => z.Student)
+                .FirstOrDefaultAsync(o => o.Id == obavijestId);
+
+            if (obavijest == null) return NotFound();
+
+            var student = obavijest.Zahtjev?.Student;
+            if (student == null) return NotFound();
+
+            var ocjene = await _context.Ocjene
+                .Include(o => o.Predmet)
+                .Where(o => o.Student.Id == student.Id)
+                .ToListAsync();
+
+            var studentPdf = StudentZaPdf(student);
+            var pdf = GenerirajPrepisOcjena(studentPdf, ocjene);
+            var fileName = $"{OcistiNaziv(student.Ime)}{OcistiNaziv(student.Prezime)}Statistika.pdf";
+
+            return File(pdf, "application/pdf", fileName);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProslijediStatistikuStudentu(int obavijestId)
+        {
+            var korisnik = await _userManager.GetUserAsync(User);
+
+            var obavijest = await _context.Obavijesti
+                .Include(o => o.Zahtjev)
+                    .ThenInclude(z => z.Student)
+                .FirstOrDefaultAsync(o => o.Id == obavijestId);
+
+            if (obavijest == null) return NotFound();
+
+            var student = obavijest.Zahtjev?.Student;
+            if (student == null)
+            {
+                TempData["Greska"] = "Student nije pronađen u zahtjevu.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Obavijesti.Add(new Obavijest
+            {
+                Naslov = "[Obavijest] Vaša statistika je spremna",
+                Poruka = $"Studentska služba: Vaša statistika je generisana i dostupna. Obratite se studentskoj službi za preuzimanje dokumenta.",
+                PošiljalacId = korisnik.Id,
+                PrimalacId = student.Id,
+                ZahtjevId = obavijest.ZahtjevId,
+                DatumSlanja = DateTime.Now
+            });
+
+            obavijest.Procitana = true;
+            if (obavijest.Zahtjev != null)
+                obavijest.Zahtjev.Status = true;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Uspjeh"] = $"Obavijest poslana studentu {student.Ime} {student.Prezime}!";
+            return RedirectToAction(nameof(Index));
+        }
     }
+
 }
