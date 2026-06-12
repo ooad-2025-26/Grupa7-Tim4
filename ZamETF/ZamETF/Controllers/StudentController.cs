@@ -349,6 +349,13 @@ namespace ZamETF.Controllers
             var bodovanje = await _context.Bodovanja
                 .FirstOrDefaultAsync(b => b.PredmetId == id && b.StudentId == korisnik.Id);
 
+            var bodovanjaIspit = await _context.BodovanjaIspit
+                .Where(b => b.PredmetId == id && b.StudentId == korisnik.Id)
+                .ToListAsync();
+
+            var ocjena = await _context.Ocjene
+                .FirstOrDefaultAsync(o => o.PredmetId == id && o.StudentId == korisnik.Id);
+
             var zadace = await _context.Zadace
                 .Include(z => z.Predaje)
                 .Where(z => z.PredmetID == id)
@@ -366,6 +373,12 @@ namespace ZamETF.Controllers
             {
                 Predmet = predmet,
                 Bodovi = bodovanje?.Bodovi,
+                BodoviParcijalni1 = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Parcijalni1)?.Bodovi,
+                BodoviParcijalni2 = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Parcijalni2)?.Bodovi,
+                BodoviZavrsni = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Zavrsni)?.Bodovi,
+                BodoviIntegralni = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Integralni)?.Bodovi,
+                BodoviTeorija = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Teorija)?.Bodovi,
+                FinalnaOcjena = ocjena?.Vrijednost,
                 Zadace = zadace,
                 MojeId = korisnik.Id
             });

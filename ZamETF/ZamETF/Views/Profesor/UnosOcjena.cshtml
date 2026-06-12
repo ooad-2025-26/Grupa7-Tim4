@@ -4,82 +4,304 @@
     Layout = "~/Views/Profesor/_LayoutProfesor.cshtml";
 }
 
-<div class="zametf-wrap zametf-wrap-wide">
+<style>
+    .panel {
+        background: linear-gradient(145deg, #b8c8f8 0%, #c8e8c8 100%);
+        border-radius: 15px;
+        padding: 24px;
+        color: #0f1535;
+        margin-bottom: 20px;
+    }
 
-    <div style="margin-bottom:14px;">
-        <a asp-controller="Profesor" asp-action="DetaljiPredmeta" asp-route-id="@Model.Predmet.Id" class="btn-zametf-sekundarni">&larr; Nazad na predmet</a>
+    .panel-header {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 16px;
+        color: #0f1535;
+        padding-bottom: 8px;
+        border-bottom: 1.5px solid rgba(30,58,138,0.12);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .back-link {
+        color: #1e3a8a;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        opacity: 0.7;
+    }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+    .tabela {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+    }
+
+        .tabela th {
+            background: rgba(30,58,138,0.1);
+            color: #1e3a8a;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 9px 10px;
+            text-align: center;
+            border-bottom: 2px solid rgba(30,58,138,0.15);
+        }
+
+            .tabela th.left {
+                text-align: left;
+            }
+
+        .tabela td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(15,21,53,0.07);
+            color: #0f1535;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+            .tabela td.left {
+                text-align: left;
+            }
+
+        .tabela tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tabela tr:hover td {
+            background: rgba(255,255,255,0.3);
+        }
+
+    .input-bod {
+        width: 65px;
+        padding: 4px 7px;
+        background: rgba(255,255,255,0.7);
+        border: 1.5px solid rgba(30,58,138,0.2);
+        border-radius: 7px;
+        font-size: 0.85rem;
+        color: #0f1535;
+        text-align: center;
+    }
+
+    .input-ocjena {
+        width: 65px;
+        padding: 4px 7px;
+        background: rgba(255,255,255,0.85);
+        border: 2px solid #1e3a8a;
+        border-radius: 7px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #1e3a8a;
+        text-align: center;
+    }
+
+    .ukupno-badge {
+        display: inline-block;
+        background: rgba(30,58,138,0.1);
+        color: #1e3a8a;
+        border-radius: 8px;
+        padding: 3px 10px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        min-width: 40px;
+        text-align: center;
+    }
+
+    .ocjena-auto {
+        display: inline-block;
+        background: rgba(22,163,74,0.1);
+        color: #16a34a;
+        border-radius: 8px;
+        padding: 3px 10px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        min-width: 30px;
+        text-align: center;
+    }
+
+    .ocjena-pao {
+        background: rgba(220,38,38,0.1);
+        color: #dc2626;
+    }
+
+    .btn-sacuvaj {
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 30px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 16px;
+    }
+
+        .btn-sacuvaj:hover {
+            opacity: 0.88;
+        }
+
+    .sekcija-title {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: rgba(30,58,138,0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .alert-ok {
+        background: #d4edda;
+        color: #155724;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        font-size: 0.88rem;
+    }
+</style>
+
+@if (TempData["Uspjeh"] != null)
+{
+    <div class="alert-ok">✓ @TempData["Uspjeh"]</div>
+}
+
+<div class="panel">
+    <div class="panel-header">
+        <span>Unos bodova i ocjena — @Model.Predmet.Naziv</span>
+        <a asp-controller="Profesor" asp-action="DetaljiPredmeta"
+           asp-route-id="@Model.Predmet.Id" class="back-link">
+            &larr; Nazad na predmet
+        </a>
     </div>
 
-    <div class="zametf-card">
-        <h2 class="zametf-naslov">Unos ocjena — @Model.Predmet.Naziv</h2>
+    @if (!Model.Studenti.Any())
+    {
+        <p style="color:rgba(15,21,53,0.4); font-size:0.88rem;">Nema upisanih studenata.</p>
+    }
+    else
+    {
+        <form asp-action="SacuvajBodovanjeIspit" asp-controller="Profesor" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="predmetId" value="@Model.Predmet.Id" />
 
-        @if (TempData["Uspjeh"] != null)
-        {
-            <div class="zametf-alert zametf-alert-ok">@TempData["Uspjeh"]</div>
-        }
-
-        @if (!Model.Studenti.Any())
-        {
-            <p class="zametf-prazno">Nema upisanih studenata na ovaj predmet.</p>
-        }
-        else
-        {
-            <form asp-action="SacuvajBodovanje" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="predmetId" value="@Model.Predmet.Id" />
-
-                <table class="zametf-tabela">
-                    <thead>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th class="left" rowspan="2">Student</th>
+                        <th class="left" rowspan="2">Indeks</th>
+                        <th colspan="2" class="sekcija-title">Parcijalni</th>
+                        <th rowspan="2" class="sekcija-title">Završni</th>
+                        <th rowspan="2" class="sekcija-title">Integralni</th>
+                        <th rowspan="2" class="sekcija-title">Teorija</th>
+                        <th rowspan="2" class="sekcija-title">Zadaće</th>
+                        <th rowspan="2" class="sekcija-title">Ukupno</th>
+                        <th rowspan="2" class="sekcija-title">Auto ocjena</th>
+                        <th rowspan="2" class="sekcija-title">Finalna ocjena</th>
+                    </tr>
+                    <tr>
+                        <th class="sekcija-title">P1</th>
+                        <th class="sekcija-title">P2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model.Studenti)
+                    {
+                        var ukupno = s.UkupnoBodova;
+                        var autoOcjena = ukupno < 55 ? 5 : ukupno < 65 ? 6 : ukupno < 75 ? 7 : ukupno < 85 ? 8 : ukupno < 95 ? 9 : 10;
                         <tr>
-                            <th>Student</th>
-                            <th>Indeks</th>
-                            <th>Bodovi (0–100)</th>
-                            <th>Ocjena</th>
+                            <td class="left"><strong>@s.ImePrezime</strong></td>
+                            <td class="left">@s.Indeks</td>
+                            <td>
+                                <input type="hidden" name="studentId" value="@s.StudentId" />
+                                <input type="number" name="bodoviParcijalni1" min="0" max="100"
+                                       value="@(s.BodoviParcijalni1?.ToString() ?? "")"
+                                       class="input-bod" id="p1-@s.StudentId"
+                                       oninput="izracunaj(@s.StudentId)" />
+                            </td>
+                            <td>
+                                <input type="number" name="bodoviParcijalni2" min="0" max="100"
+                                       value="@(s.BodoviParcijalni2?.ToString() ?? "")"
+                                       class="input-bod" id="p2-@s.StudentId"
+                                       oninput="izracunaj(@s.StudentId)" />
+                            </td>
+                            <td>
+                                <input type="number" name="bodoviZavrsni" min="0" max="100"
+                                       value="@(s.BodoviZavrsni?.ToString() ?? "")"
+                                       class="input-bod" id="zav-@s.StudentId"
+                                       oninput="izracunaj(@s.StudentId)" />
+                            </td>
+                            <td>
+                                <input type="number" name="bodoviIntegralni" min="0" max="100"
+                                       value="@(s.BodoviIntegralni?.ToString() ?? "")"
+                                       class="input-bod" id="int-@s.StudentId"
+                                       oninput="izracunaj(@s.StudentId)" />
+                            </td>
+                            <td>
+                                <input type="number" name="bodoviTeorija" min="0" max="100"
+                                       value="@(s.BodoviTeorija?.ToString() ?? "")"
+                                       class="input-bod" id="teo-@s.StudentId"
+                                       oninput="izracunaj(@s.StudentId)" />
+                            </td>
+                            <td>
+                                <span class="ukupno-badge" id="zad-@s.StudentId">
+                                    @(s.Bodovi ?? 0)
+                                </span>
+                            </td>
+                            <td>
+                                <span class="ukupno-badge" id="ukupno-@s.StudentId">
+                                    @ukupno
+                                </span>
+                            </td>
+                            <td>
+                                <span class="ocjena-auto @(autoOcjena < 6 ? "ocjena-pao" : "")"
+                                      id="auto-@s.StudentId">
+                                    @autoOcjena
+                                </span>
+                            </td>
+                            <td>
+                                <input type="number" name="finalnaOcjena" min="5" max="10"
+                                       value="@(s.FinalnaOcjena?.ToString() ?? autoOcjena.ToString())"
+                                       class="input-ocjena" id="fin-@s.StudentId" />
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var s in Model.Studenti)
-                        {
-                            var trenutnaOcjena = s.Bodovi.HasValue
-                                ? ZamETF.Helpers.OcjenaHelper.BodoviUOcjenu(s.Bodovi.Value).ToString()
-                                : "-";
-                            var pao = s.Bodovi.HasValue && s.Bodovi.Value < 55;
-                            <tr>
-                                <td>@s.ImePrezime</td>
-                                <td>@s.Indeks</td>
-                                <td>
-                                    <input type="hidden" name="studentId" value="@s.StudentId" />
-                                    <input type="number" name="bodovi" min="0" max="100"
-                                           value="@(s.Bodovi?.ToString() ?? "")"
-                                           class="zametf-input" style="width:90px;"
-                                           data-row="@s.StudentId" oninput="izracunajOcjenu(this)" />
-                                </td>
-                                <td>
-                                    <span class="ocjena-prikaz @(pao ? "ocjena-pao" : "")" id="ocj-@s.StudentId">@trenutnaOcjena</span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                    }
+                </tbody>
+            </table>
 
-                <div style="text-align:center; margin-top:20px;">
-                    <button type="submit" class="btn-zametf">Sačuvaj bodove</button>
-                </div>
-            </form>
-        }
-    </div>
+            <div style="text-align:right; margin-top:16px;">
+                <button type="submit" class="btn-sacuvaj">Sačuvaj sve</button>
+            </div>
+        </form>
+    }
 </div>
 
 @section Scripts {
     <script>
-        function izracunajOcjenu(input) {
-            var el = document.getElementById('ocj-' + input.dataset.row);
-            var v = parseInt(input.value);
-            if (isNaN(v)) { el.textContent = '-'; el.classList.remove('ocjena-pao'); return; }
-            if (v < 0) v = 0; if (v > 100) v = 100;
-            var o = v < 55 ? 5 : v < 65 ? 6 : v < 75 ? 7 : v < 85 ? 8 : v < 95 ? 9 : 10;
-            el.textContent = o;
-            if (v < 55) el.classList.add('ocjena-pao'); else el.classList.remove('ocjena-pao');
+        function izracunaj(sid) {
+            var p1 = parseInt(document.getElementById('p1-' + sid)?.value) || 0;
+            var p2 = parseInt(document.getElementById('p2-' + sid)?.value) || 0;
+            var zav = parseInt(document.getElementById('zav-' + sid)?.value) || 0;
+            var int_ = parseInt(document.getElementById('int-' + sid)?.value) || 0;
+            var teo = parseInt(document.getElementById('teo-' + sid)?.value) || 0;
+            var zad = parseInt(document.getElementById('zad-' + sid)?.textContent) || 0;
+
+            var ukupno = p1 + p2 + zav + int_ + teo + zad;
+            if (ukupno > 100) ukupno = 100;
+
+            var ukEl = document.getElementById('ukupno-' + sid);
+            ukEl.textContent = ukupno;
+
+            var o = ukupno < 55 ? 5 : ukupno < 65 ? 6 : ukupno < 75 ? 7 : ukupno < 85 ? 8 : ukupno < 95 ? 9 : 10;
+            var autoEl = document.getElementById('auto-' + sid);
+            autoEl.textContent = o;
+            if (ukupno < 55) autoEl.classList.add('ocjena-pao');
+            else autoEl.classList.remove('ocjena-pao');
+
+            // Automatski postavi finalnu ocjenu
+            document.getElementById('fin-' + sid).value = o;
         }
     </script>
 }

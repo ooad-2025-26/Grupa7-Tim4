@@ -188,7 +188,7 @@
                         <td>
                             @if (predaja.FajlBytes != null || !string.IsNullOrEmpty(predaja.Fajl))
                             {
-                                <a asp-action="PreuzmiPdf" asp-controller="Student"
+                                <a asp-action="PreuzmiPdf" asp-controller="Profesor"
                                    asp-route-id="@predaja.Id"
                                    target="_blank" class="btn-pdf">
                                     📄 Pregledaj PDF

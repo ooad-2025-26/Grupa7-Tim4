@@ -2,83 +2,330 @@
 @{
     ViewData["Title"] = Model.Predmet.Naziv;
     Layout = "~/Views/Student/_LayoutStudent.cshtml";
-    var imaOcjenu = Model.Bodovi.HasValue;
-    var ocjena = imaOcjenu ? ZamETF.Helpers.OcjenaHelper.BodoviUOcjenu(Model.Bodovi.Value) : 0;
-    var pao = imaOcjenu && Model.Bodovi.Value < 55;
+    var imaOcjenu = Model.FinalnaOcjena.HasValue;
+    var pao = imaOcjenu && Model.FinalnaOcjena.Value < 6;
+    var ukupno = Model.UkupnoBodova;
+    var autoOcjena = ukupno < 55 ? 5 : ukupno < 65 ? 6 : ukupno < 75 ? 7 : ukupno < 85 ? 8 : ukupno < 95 ? 9 : 10;
+    var bodovaDosljedece = imaOcjenu && !pao
+        ? (Model.FinalnaOcjena.Value < 10
+            ? (Model.FinalnaOcjena.Value == 6 ? 65 - ukupno :
+               Model.FinalnaOcjena.Value == 7 ? 75 - ukupno :
+               Model.FinalnaOcjena.Value == 8 ? 85 - ukupno :
+               Model.FinalnaOcjena.Value == 9 ? 95 - ukupno : 0)
+            : 0)
+        : (ukupno < 55 ? 0 : autoOcjena < 10 ?
+            (autoOcjena == 5 ? 55 - ukupno :
+             autoOcjena == 6 ? 65 - ukupno :
+             autoOcjena == 7 ? 75 - ukupno :
+             autoOcjena == 8 ? 85 - ukupno :
+             autoOcjena == 9 ? 95 - ukupno : 0) : 0);
 }
 
-<div class="zametf-wrap zametf-wrap-wide">
+@section Styles {
+    <style>
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            min-height: calc(100vh - 120px);
+        }
 
-    <div class="zametf-grid">
+        .card-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
 
-        <!-- LIJEVO: info + ocjena -->
-        <div class="zametf-col">
-            <div class="zametf-card">
-                <h2 class="zametf-naslov">@Model.Predmet.Naziv</h2>
-                <div class="zametf-stavka-info" style="text-align:center; margin-bottom:16px;">
-                    Šifra: @Model.Predmet.SifraPredmeta &middot; Semestar: @Model.Predmet.Semestar
-                </div>
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin-bottom: 14px;
+                text-align: center;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
+            }
 
-                <div class="zametf-stavka" style="text-align:center;">
-                    <div class="zametf-stavka-naslov" style="justify-content:center;">Finalna ocjena</div>
-                    @if (imaOcjenu)
-                    {
-                        <div style="font-size:2.4rem; font-weight:800; color:@(pao ? "#c0392b" : "#1b1f6b"); margin:6px 0;">@ocjena</div>
-                        <div class="zametf-stavka-info">
-                            Bodovi: <strong>@Model.Bodovi / 100</strong>
-                            @if (pao)
-                            {
-                                <text><br /><span style="color:#c0392b; font-weight:600;">Nije položeno</span></text>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="zametf-prazno">Ocjena još nije unesena.</p>
-                    }
-                </div>
-            </div>
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            color: #1a1a6e;
+            font-size: 0.85rem;
+        }
+
+            .info-row .label {
+                opacity: 0.65;
+            }
+
+            .info-row .value {
+                font-weight: 700;
+            }
+
+        .ocjena-velika {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 10px 0;
+            color: #1a1a6e;
+        }
+
+        .ocjena-pao {
+            color: #dc2626;
+        }
+
+        .ocjena-ok {
+            color: #16a34a;
+        }
+
+        .bodovi-bar-wrap {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 10px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .bodovi-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #1a5f7a, #27ae60);
+            transition: width 0.3s;
+        }
+
+        .hint-box {
+            background: rgba(26,26,110,0.07);
+            border-left: 3px solid #1a5f7a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            margin-top: 10px;
+        }
+
+        .stavka {
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a5f7a;
+        }
+
+        .stavka-naslov {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stavka-info {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            opacity: 0.75;
+        }
+
+        .badge-ok {
+            background: #27ae60;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .badge-info {
+            background: #1a5f7a;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .btn-otvori {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 7px 18px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+            .btn-otvori:hover {
+                background: #0a3f5a;
+                color: white;
+            }
+
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+    </style>
+}
+
+<div class="content-wrapper">
+    <!-- LIJEVO: bodovi i ocjena -->
+    <div class="card-panel">
+        <h5>@Model.Predmet.Naziv</h5>
+        <div style="text-align:center; font-size:0.8rem; color:#1a1a6e; opacity:0.6; margin-bottom:14px;">
+            @Model.Predmet.SifraPredmeta &middot; @Model.Predmet.Semestar. semestar
         </div>
 
-        <!-- DESNO: zadaće -->
-        <div class="zametf-col">
-            <div class="zametf-card">
-                <h2 class="zametf-naslov">Zadaće</h2>
-
-                @if (!Model.Zadace.Any())
-                {
-                    <p class="zametf-prazno">Nema zadaća za ovaj predmet.</p>
-                }
-                else
-                {
-                    @foreach (var z in Model.Zadace)
-                    {
-                        var mojaPredaja = z.Predaje?.FirstOrDefault(p => p.StudentID == Model.MojeId);
-                        var ocijenjeno = mojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
-                        var predano = mojaPredaja != null;
-                        <div class="zametf-stavka">
-                            <div class="zametf-stavka-naslov">
-                                @z.NazivID
-                                @if (ocijenjeno)
-                                {
-                                    <span class="badge-status badge-ok">@mojaPredaja.Bodovi/100</span>
-                                }
-                                else if (predano)
-                                {
-                                    <span class="badge-status badge-info">Predano</span>
-                                }
-                            </div>
-                            <div class="zametf-stavka-info">
-                                Rok: @z.Rok.ToString("dd.MM.yyyy. u HH:mm")
-                            </div>
-                            <div style="margin-top:8px;">
-                                <a asp-controller="Student" asp-action="DetaljiZadace" asp-route-id="@z.Id" class="btn-zametf">Otvori</a>
-                            </div>
-                        </div>
-                    }
-                }
+        <!-- Finalna ocjena -->
+        @if (imaOcjenu)
+        {
+            <div class="ocjena-velika @(pao ? "ocjena-pao" : "ocjena-ok")">
+                @Model.FinalnaOcjena
             </div>
+            <div style="text-align:center; font-size:0.82rem; color:#1a1a6e; opacity:0.65; margin-bottom:14px;">
+                @(pao ? "Nije položeno" : "Položeno")
+            </div>
+        }
+        else
+        {
+            <div style="text-align:center; color:#1a1a6e; opacity:0.5; font-size:0.88rem; margin-bottom:14px;">
+                Ocjena još nije unesena
+            </div>
+        }
+
+        <!-- Bodovi bar -->
+        <div style="color:#1a1a6e; font-size:0.8rem; opacity:0.65; margin-bottom:4px;">
+            Ukupno bodova: <strong>@ukupno / 100</strong>
+        </div>
+        <div class="bodovi-bar-wrap">
+            <div class="bodovi-bar" style="width:@(Math.Min(ukupno, 100))%"></div>
         </div>
 
+        <!-- Detalji bodova -->
+        @if (Model.BodoviParcijalni1.HasValue || Model.BodoviParcijalni2.HasValue ||
+                Model.BodoviZavrsni.HasValue || Model.BodoviIntegralni.HasValue ||
+                Model.BodoviTeorija.HasValue)
+        {
+            <div style="margin-top:12px; margin-bottom:8px; color:#1a1a6e; font-size:0.8rem; font-weight:700; opacity:0.6;">
+                BODOVI IZ ISPITA
+            </div>
+
+            @if (Model.BodoviParcijalni1.HasValue)
+            {
+                <div class="info-row">
+                    <span class="label">Parcijalni 1</span>
+                    <span class="value">@Model.BodoviParcijalni1</span>
+                </div>
+            }
+            @if (Model.BodoviParcijalni2.HasValue)
+            {
+                <div class="info-row">
+                    <span class="label">Parcijalni 2</span>
+                    <span class="value">@Model.BodoviParcijalni2</span>
+                </div>
+            }
+            @if (Model.BodoviZavrsni.HasValue)
+            {
+                <div class="info-row">
+                    <span class="label">Završni</span>
+                    <span class="value">@Model.BodoviZavrsni</span>
+                </div>
+            }
+            @if (Model.BodoviIntegralni.HasValue)
+            {
+                <div class="info-row">
+                    <span class="label">Integralni</span>
+                    <span class="value">@Model.BodoviIntegralni</span>
+                </div>
+            }
+            @if (Model.BodoviTeorija.HasValue)
+            {
+                <div class="info-row">
+                    <span class="label">Teorija</span>
+                    <span class="value">@Model.BodoviTeorija</span>
+                </div>
+            }
+        }
+
+        @if (Model.Bodovi.HasValue)
+        {
+            <div class="info-row" style="margin-top:4px;">
+                <span class="label">Bodovi iz zadaća</span>
+                <span class="value">@Model.Bodovi</span>
+            </div>
+        }
+
+        <div class="info-row" style="border-left: 3px solid #1a5f7a; margin-top:4px;">
+            <span class="label"><strong>Ukupno</strong></span>
+            <span class="value"><strong>@ukupno / 100</strong></span>
+        </div>
+
+        @if (!imaOcjenu && ukupno > 0)
+        {
+            <div class="info-row">
+                <span class="label">Automatska ocjena</span>
+                <span class="value @(autoOcjena < 6 ? "ocjena-pao" : "")">@autoOcjena</span>
+            </div>
+        }
+
+        @if (bodovaDosljedece > 0)
+        {
+            <div class="hint-box">
+                Trebate još <strong>@bodovaDosljedece bodova</strong> za ocjenu
+                <strong>@((imaOcjenu ? Model.FinalnaOcjena.Value : autoOcjena) + 1)</strong>.
+            </div>
+        }
+        else if (ukupno >= 95)
+        {
+            <div class="hint-box">Imate maksimalnu ocjenu!</div>
+        }
+    </div>
+
+    <!-- DESNO: zadaće -->
+    <div class="card-panel">
+        <h5>Zadaće</h5>
+        @if (!Model.Zadace.Any())
+        {
+            <span class="empty-text">Nema zadaća za ovaj predmet.</span>
+        }
+        else
+        {
+            foreach (var z in Model.Zadace)
+            {
+                var mojaPredaja = z.Predaje?.FirstOrDefault(p => p.StudentID == Model.MojeId);
+                var ocijenjeno = mojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
+                var predano = mojaPredaja != null;
+                <div class="stavka">
+                    <div class="stavka-naslov">
+                        @z.NazivID
+                        @if (ocijenjeno)
+                        {
+                            <span class="badge-ok">@mojaPredaja.Bodovi/100</span>
+                        }
+                        else if (predano)
+                        {
+                            <span class="badge-info">Predano</span>
+                        }
+                    </div>
+                    <div class="stavka-info">
+                        Rok: @z.Rok.ToString("dd.MM.yyyy. u HH:mm")
+                    </div>
+                    <a asp-controller="Student" asp-action="DetaljiZadace"
+                       asp-route-id="@z.Id" class="btn-otvori">Otvori</a>
+                </div>
+            }
+        }
     </div>
 </div>

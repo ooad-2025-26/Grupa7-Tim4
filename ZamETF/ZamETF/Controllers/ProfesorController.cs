@@ -30,7 +30,6 @@ namespace ZamETF.Controllers
             var predmet = profesor?.Predmeti.FirstOrDefault(p => p.Id == predmetId);
             if (predmet == null) return NotFound();
 
-            // Učitaj studente kroz UpisaNaPredmet
             var studenti = await _context.UpisaNaPredmet
                 .Include(u => u.Student)
                 .Where(u => u.PredmetId == predmetId)
@@ -41,24 +40,157 @@ namespace ZamETF.Controllers
                 .Where(b => b.PredmetId == predmetId)
                 .ToListAsync();
 
+            var bodovanjaIspit = await _context.BodovanjaIspit
+                .Where(b => b.PredmetId == predmetId)
+                .ToListAsync();
+
+            var ocjene = await _context.Ocjene
+                .Where(o => o.PredmetId == predmetId)
+                .ToListAsync();
+
             var model = new UnosOcjenaVM
             {
                 Predmet = predmet,
-                Studenti = studenti
-                    .OrderBy(s => s.Prezime)
-                    .Select(s => new StudentBodVM
-                    {
-                        StudentId = s.Id,
-                        ImePrezime = s.Ime + " " + s.Prezime,
-                        Indeks = s.Indeks,
-                        Bodovi = bodovanja.FirstOrDefault(b => b.StudentId == s.Id)?.Bodovi
-                    }).ToList()
+                Studenti = studenti.OrderBy(s => s.Prezime).Select(s => new StudentBodVM
+                {
+                    StudentId = s.Id,
+                    ImePrezime = s.Ime + " " + s.Prezime,
+                    Indeks = s.Indeks,
+                    Bodovi = bodovanja.FirstOrDefault(b => b.StudentId == s.Id)?.Bodovi,
+                    BodoviParcijalni1 = bodovanjaIspit.FirstOrDefault(b => b.StudentId == s.Id && b.Tip == TipIspita.Parcijalni1)?.Bodovi,
+                    BodoviParcijalni2 = bodovanjaIspit.FirstOrDefault(b => b.StudentId == s.Id && b.Tip == TipIspita.Parcijalni2)?.Bodovi,
+                    BodoviZavrsni = bodovanjaIspit.FirstOrDefault(b => b.StudentId == s.Id && b.Tip == TipIspita.Zavrsni)?.Bodovi,
+                    BodoviIntegralni = bodovanjaIspit.FirstOrDefault(b => b.StudentId == s.Id && b.Tip == TipIspita.Integralni)?.Bodovi,
+                    BodoviTeorija = bodovanjaIspit.FirstOrDefault(b => b.StudentId == s.Id && b.Tip == TipIspita.Teorija)?.Bodovi,
+                    FinalnaOcjena = ocjene.FirstOrDefault(o => o.StudentId == s.Id)?.Vrijednost
+                }).ToList()
             };
 
             ViewBag.Predmeti = profesor.Predmeti.ToList();
             return View(model);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SacuvajBodovanjeIspit(int predmetId,
+    List<int> studentId,
+    List<string> bodoviParcijalni1,
+    List<string> bodoviParcijalni2,
+    List<string> bodoviZavrsni,
+    List<string> bodoviIntegralni,
+    List<string> bodoviTeorija,
+    List<string> finalnaOcjena)
+        {
+            var predmet = await _context.Predmeti.FindAsync(predmetId);
+            if (predmet == null) return NotFound();
 
+            var postojecaBodovanja = await _context.BodovanjaIspit
+                .Where(b => b.PredmetId == predmetId)
+                .ToListAsync();
+
+            var postojeceOcjene = await _context.Ocjene
+                .Where(o => o.PredmetId == predmetId)
+                .ToListAsync();
+
+            for (int i = 0; i < studentId.Count; i++)
+            {
+                var sid = studentId[i];
+                var student = await _context.Studenti.FindAsync(sid);
+                if (student == null) continue;
+
+                // Spremi bodove za svaki tip ispita
+                await SpremiIspitBodove(predmetId, sid, student, predmet,
+                    postojecaBodovanja, TipIspita.Parcijalni1,
+                    i < bodoviParcijalni1.Count ? bodoviParcijalni1[i] : null);
+
+                await SpremiIspitBodove(predmetId, sid, student, predmet,
+                    postojecaBodovanja, TipIspita.Parcijalni2,
+                    i < bodoviParcijalni2.Count ? bodoviParcijalni2[i] : null);
+
+                await SpremiIspitBodove(predmetId, sid, student, predmet,
+                    postojecaBodovanja, TipIspita.Zavrsni,
+                    i < bodoviZavrsni.Count ? bodoviZavrsni[i] : null);
+
+                await SpremiIspitBodove(predmetId, sid, student, predmet,
+                    postojecaBodovanja, TipIspita.Integralni,
+                    i < bodoviIntegralni.Count ? bodoviIntegralni[i] : null);
+
+                await SpremiIspitBodove(predmetId, sid, student, predmet,
+                    postojecaBodovanja, TipIspita.Teorija,
+                    i < bodoviTeorija.Count ? bodoviTeorija[i] : null);
+
+                // Spremi finalnu ocjenu
+                var ocjenaRaw = i < finalnaOcjena.Count ? finalnaOcjena[i] : null;
+                if (!string.IsNullOrWhiteSpace(ocjenaRaw) && int.TryParse(ocjenaRaw, out int ocjenaVrijednost))
+                {
+                    ocjenaVrijednost = Math.Clamp(ocjenaVrijednost, 5, 10);
+                    var postojecaOcjena = postojeceOcjene.FirstOrDefault(o => o.StudentId == sid);
+                    if (postojecaOcjena != null)
+                    {
+                        postojecaOcjena.Vrijednost = ocjenaVrijednost;
+                        postojecaOcjena.JeFinalna = true;
+                        postojecaOcjena.DatumUnosa = DateTime.Now;
+                    }
+                    else
+                    {
+                        _context.Ocjene.Add(new Ocjena
+                        {
+                            StudentId = sid,
+                            Student = student,
+                            PredmetId = predmetId,
+                            Predmet = predmet,
+                            Vrijednost = ocjenaVrijednost,
+                            JeFinalna = true,
+                            DatumUnosa = DateTime.Now
+                        });
+                    }
+
+                    // Pošalji obavijest studentu
+                    var korisnik = await _userManager.GetUserAsync(User);
+                    _context.Obavijesti.Add(new Obavijest
+                    {
+                        Naslov = $"[Obavijest] Unesena ocjena — {predmet.Naziv}",
+                        Poruka = $"Vaša finalna ocjena iz predmeta {predmet.Naziv} je {ocjenaVrijednost}.",
+                        PošiljalacId = korisnik.Id,
+                        PrimalacId = sid,
+                        DatumSlanja = DateTime.Now
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = "Bodovi i ocjene su uspješno sačuvani.";
+            return RedirectToAction(nameof(UnosOcjena), new { predmetId });
+        }
+
+        private async Task SpremiIspitBodove(int predmetId, int studentId, Student student,
+            Predmet predmet, List<BodovanjeIspit> postojeca, TipIspita tip, string raw)
+        {
+            if (string.IsNullOrWhiteSpace(raw)) return;
+            if (!int.TryParse(raw, out int bodovi)) return;
+            bodovi = Math.Clamp(bodovi, 0, 100);
+
+            var zapis = postojeca.FirstOrDefault(b => b.StudentId == studentId && b.Tip == tip);
+            if (zapis != null)
+            {
+                zapis.Bodovi = bodovi;
+                zapis.DatumUnosa = DateTime.Now;
+            }
+            else
+            {
+                var novi = new BodovanjeIspit
+                {
+                    StudentId = studentId,
+                    Student = student,
+                    PredmetId = predmetId,
+                    Predmet = predmet,
+                    Tip = tip,
+                    Bodovi = bodovi,
+                    DatumUnosa = DateTime.Now
+                };
+                _context.BodovanjaIspit.Add(novi);
+                postojeca.Add(novi);
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SacuvajBodovanje(int predmetId, List<int> studentId, List<string> bodovi)
@@ -149,7 +281,16 @@ namespace ZamETF.Controllers
 
             return View();
         }
+        public async Task<IActionResult> PreuzmiPdf(int id)
+        {
+            var predaja = await _context.PredajeZadace.FindAsync(id);
+            if (predaja == null) return NotFound();
 
+            if (predaja.FajlBytes != null)
+                return File(predaja.FajlBytes, "application/pdf", predaja.FajlIme ?? "zadaca.pdf");
+
+            return NotFound();
+        }
         public async Task<IActionResult> DetaljiPredmeta(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -356,6 +497,11 @@ namespace ZamETF.Controllers
 
         public async Task<IActionResult> OcjenjivanjeZadace(int id)
         {
+            var korisnik = await _userManager.GetUserAsync(User);
+            var profesor = await _context.Profesori
+                .Include(p => p.Predmeti)
+                .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
+
             var zadaca = await _context.Zadace
                 .Include(z => z.Predmet)
                 .Include(z => z.Predaje)
@@ -365,6 +511,8 @@ namespace ZamETF.Controllers
             if (zadaca == null) return NotFound();
 
             ViewBag.AktivniPredmetId = zadaca.Predmet?.Id;
+            ViewBag.Predmeti = profesor?.Predmeti.ToList() ?? new List<Predmet>();
+
             return View(zadaca);
         }
 

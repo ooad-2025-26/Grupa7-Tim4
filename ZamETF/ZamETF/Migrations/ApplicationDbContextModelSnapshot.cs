@@ -215,6 +215,38 @@ namespace ZamETF.Migrations
                     b.ToTable("Bodovanja");
                 });
 
+            modelBuilder.Entity("ZamETF.Models.BodovanjeIspit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Bodovi")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DatumUnosa")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PredmetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Tip")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PredmetId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("BodovanjaIspit");
+                });
+
             modelBuilder.Entity("ZamETF.Models.Ispit", b =>
                 {
                     b.Property<int>("Id")
@@ -378,6 +410,12 @@ namespace ZamETF.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DatumUnosa")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("JeFinalna")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PredmetId")
                         .HasColumnType("int");
@@ -795,6 +833,25 @@ namespace ZamETF.Migrations
                 {
                     b.HasOne("ZamETF.Models.Predmet", "Predmet")
                         .WithMany("Bodovanja")
+                        .HasForeignKey("PredmetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ZamETF.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Predmet");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("ZamETF.Models.BodovanjeIspit", b =>
+                {
+                    b.HasOne("ZamETF.Models.Predmet", "Predmet")
+                        .WithMany()
                         .HasForeignKey("PredmetId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

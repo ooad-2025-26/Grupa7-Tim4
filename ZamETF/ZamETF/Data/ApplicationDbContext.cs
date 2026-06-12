@@ -32,31 +32,43 @@ namespace ZamETF.Data
             modelBuilder.Entity<Predmet>()
                 .HasOne(p => p.Profesor)
                 .WithMany(pr => pr.Predmeti)
+                .HasForeignKey(p => p.ProfesorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PrijavaIspit>()
                 .HasOne(pi => pi.Student)
                 .WithMany(s => s.PrijaveIspita)
+                .HasForeignKey(pi => pi.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PrijavaIspit>()
                 .HasOne(pi => pi.Ispit)
                 .WithMany(i => i.Prijave)
+                .HasForeignKey(pi => pi.IspitId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Ispit>()
+                .HasOne(i => i.Predmet)
+                .WithMany()
+                .HasForeignKey(i => i.PredmetId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Zadaca>()
                 .HasOne(z => z.Predmet)
                 .WithMany(p => p.Zadace)
+                .HasForeignKey(z => z.PredmetID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PredajaZadace>()
                 .HasOne(pz => pz.Student)
                 .WithMany(s => s.PredajeZadace)
+                .HasForeignKey(pz => pz.StudentID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PredajaZadace>()
                 .HasOne(pz => pz.Zadaca)
                 .WithMany(z => z.Predaje)
+                .HasForeignKey(pz => pz.ZadacaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ZahtjevZaDokument>()
@@ -77,21 +89,37 @@ namespace ZamETF.Data
             modelBuilder.Entity<Ocjena>()
                 .HasOne(o => o.Student)
                 .WithMany()
+                .HasForeignKey(o => o.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Ocjena>()
                 .HasOne(o => o.Predmet)
                 .WithMany(p => p.Ocjene)
+                .HasForeignKey(o => o.PredmetId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Bodovanje>()
                 .HasOne(b => b.Student)
                 .WithMany()
+                .HasForeignKey(b => b.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Bodovanje>()
                 .HasOne(b => b.Predmet)
                 .WithMany(p => p.Bodovanja)
+                .HasForeignKey(b => b.PredmetId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BodovanjeIspit>()
+                .HasOne(b => b.Student)
+                .WithMany()
+                .HasForeignKey(b => b.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BodovanjeIspit>()
+                .HasOne(b => b.Predmet)
+                .WithMany()
+                .HasForeignKey(b => b.PredmetId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Prisustvo>()
@@ -113,11 +141,12 @@ namespace ZamETF.Data
                 .HasOne(u => u.Predmet)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Obavijest>()
-    .HasOne(o => o.Posiljалac)
-    .WithMany()
-    .HasForeignKey(o => o.PošiljalacId)
-    .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(o => o.Posiljалac)
+                .WithMany()
+                .HasForeignKey(o => o.PošiljalacId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Obavijest>()
                 .HasOne(o => o.Primalac)
@@ -128,51 +157,6 @@ namespace ZamETF.Data
             modelBuilder.Entity<Obavijest>()
                 .HasOne(o => o.Zahtjev)
                 .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Predmet>()
-    .HasOne(p => p.Profesor).WithMany(pr => pr.Predmeti)
-    .HasForeignKey(p => p.ProfesorId)
-    .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PrijavaIspit>()
-                .HasOne(pi => pi.Student).WithMany(s => s.PrijaveIspita)
-                .HasForeignKey(pi => pi.StudentId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PrijavaIspit>()
-                .HasOne(pi => pi.Ispit).WithMany(i => i.Prijave)
-                .HasForeignKey(pi => pi.IspitId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Ispit>()
-                .HasOne(i => i.Predmet).WithMany()
-                .HasForeignKey(i => i.PredmetId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Zadaca>()
-            .HasOne(z => z.Predmet).WithMany(p => p.Zadace)
-            .HasForeignKey(z => z.PredmetID)
-            .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PredajaZadace>()
-                .HasOne(pz => pz.Student).WithMany(s => s.PredajeZadace)
-                .HasForeignKey(pz => pz.StudentID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PredajaZadace>()
-                .HasOne(pz => pz.Zadaca).WithMany(z => z.Predaje)
-                .HasForeignKey(pz => pz.ZadacaId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Bodovanje>()
-                .HasOne(b => b.Student).WithMany()
-                .HasForeignKey(b => b.StudentId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Bodovanje>()
-                .HasOne(b => b.Predmet).WithMany(p => p.Bodovanja)
-                .HasForeignKey(b => b.PredmetId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
@@ -189,6 +173,7 @@ namespace ZamETF.Data
         public DbSet<AdminZahtjev> AdminZahtjevi { get; set; }
         public DbSet<Ocjena> Ocjene { get; set; }
         public DbSet<Bodovanje> Bodovanja { get; set; }
+        public DbSet<BodovanjeIspit> BodovanjaIspit { get; set; }
         public DbSet<Prisustvo> Prisustva { get; set; }
         public DbSet<UpisNaPredmet> UpisaNaPredmet { get; set; }
         public DbSet<Obavijest> Obavijesti { get; set; }
