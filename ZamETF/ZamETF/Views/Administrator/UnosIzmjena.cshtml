@@ -105,6 +105,24 @@
                 background: #0a3f5a;
             }
 
+        .btn-brisi-korisnik {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            float: left;
+            margin-top: 15px;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
+
+            .btn-brisi-korisnik:hover {
+                background: #c0392b;
+            }
+
         .select-student {
             width: 100%;
             border: none;
@@ -122,6 +140,14 @@
             border-radius: 10px;
             margin-bottom: 10px;
             font-size: 0.85rem;
+        }
+
+        .forma-akcije-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            overflow: hidden;
         }
     </style>
 }
@@ -241,7 +267,20 @@
                 <input type="number" name="semestar" id="fSemestar" />
             </div>
 
-            <button type="submit" class="btn-akcija">Spasi promjene</button>
+            <div class="forma-akcije-row">
+                <button type="button" class="btn-brisi-korisnik" id="btnBrisiKorisnik"
+                        onclick="brisiKorisnika()" disabled>
+                    Obriši korisnika
+                </button>
+                <button type="submit" class="btn-akcija">Spasi promjene</button>
+            </div>
+        </form>
+
+        <!-- Skrivena forma za brisanje -->
+        <form method="post" asp-action="ObrisiKorisnika" asp-controller="Administrator"
+              id="formaBrisanje" style="display:none;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" id="brisiId" />
         </form>
     </div>
 
@@ -295,7 +334,10 @@
     <script>
         function popuniFormu(select) {
             var opt = select.options[select.selectedIndex];
-            document.getElementById('hiddenId').value = select.value;
+            var id = select.value;
+
+            document.getElementById('hiddenId').value = id;
+            document.getElementById('brisiId').value = id;
             document.getElementById('fIme').value = opt.dataset.ime || '';
             document.getElementById('fPrezime').value = opt.dataset.prezime || '';
             document.getElementById('fUsername').value = opt.dataset.username || '';
@@ -312,6 +354,17 @@
             document.getElementById('fTipStudija').value = opt.dataset.tipstudija || '';
             document.getElementById('fStatus').value = opt.dataset.status || '';
             document.getElementById('fSemestar').value = opt.dataset.semestar || '';
+
+            // Aktiviraj dugme za brisanje samo kad je korisnik odabran
+            document.getElementById('btnBrisiKorisnik').disabled = !id;
+        }
+
+        function brisiKorisnika() {
+            var ime = document.getElementById('fIme').value;
+            var prezime = document.getElementById('fPrezime').value;
+            if (confirm('Sigurno želiš obrisati korisnika ' + ime + ' ' + prezime + '? Ova akcija je nepovratna!')) {
+                document.getElementById('formaBrisanje').submit();
+            }
         }
     </script>
 }

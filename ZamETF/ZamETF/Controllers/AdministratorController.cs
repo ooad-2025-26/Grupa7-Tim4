@@ -207,6 +207,45 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(UnosIzmjena));
         }
 
+        // POST: Administrator/ObrisiKorisnika
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ObrisiKorisnika(int id)
+        {
+            var korisnik = await _userManager.FindByIdAsync(id.ToString());
+            if (korisnik == null)
+            {
+                TempData["Greska"] = "Korisnik nije pronađen.";
+                return RedirectToAction(nameof(UnosIzmjena));
+            }
+
+            var student = await _context.Studenti.FindAsync(id);
+            if (student != null)
+            {
+                var upisi = await _context.UpisaNaPredmet.Where(u => u.StudentId == id).ToListAsync();
+                _context.UpisaNaPredmet.RemoveRange(upisi);
+
+                var ocjene = await _context.Ocjene.Where(o => o.Student.Id == id).ToListAsync();
+                _context.Ocjene.RemoveRange(ocjene);
+
+                var prisustva = await _context.Prisustva.Where(p => p.Student.Id == id).ToListAsync();
+                _context.Prisustva.RemoveRange(prisustva);
+
+                var zahtjevi = await _context.ZahtjeviDokumenata.Where(z => z.Student.Id == id).ToListAsync();
+                _context.ZahtjeviDokumenata.RemoveRange(zahtjevi);
+
+                await _context.SaveChangesAsync();
+            }
+
+            var result = await _userManager.DeleteAsync(korisnik);
+            if (result.Succeeded)
+                TempData["Uspjeh"] = "Korisnik je uspješno obrisan.";
+            else
+                TempData["Greska"] = "Greška pri brisanju: " + string.Join(", ", result.Errors.Select(e => e.Description));
+
+            return RedirectToAction(nameof(UnosIzmjena));
+        }
+
         // POST: Administrator/KreirajKorisnika
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -555,27 +594,45 @@ namespace ZamETF.Controllers
                 .SetFontSize(16).SetBold());
             doc.Add(new iText.Layout.Element.Paragraph($"Indeks: {student.Indeks}").SetFontSize(12));
             doc.Add(new iText.Layout.Element.Paragraph($"Godina studija: {student.GodinaStudija}").SetFontSize(12));
+            doc.Add(new iText.Layout.Element.Paragraph($"Datum generisanja: {DateTime.Now:dd.MM.yyyy HH:mm}").SetFontSize(12));
             doc.Add(new iText.Layout.Element.Paragraph(" "));
 
-            doc.Add(new iText.Layout.Element.Paragraph("OCJENE").SetFontSize(14).SetBold());
+            // OCJENE PO SEMESTRIMA
+            doc.Add(new iText.Layout.Element.Paragraph("OCJENE PO SEMESTRIMA").SetFontSize(14).SetBold());
 
             if (ocjene.Any())
             {
-                var tabela = new iText.Layout.Element.Table(3).UseAllAvailableWidth();
-                tabela.AddHeaderCell("Predmet");
-                tabela.AddHeaderCell("Ocjena");
-                tabela.AddHeaderCell("Datum");
+                var ocjenePoPredmetu = ocjene
+                    .Where(o => o.Predmet != null)
+                    .GroupBy(o => o.Predmet.Semestar)
+                    .OrderBy(g => g.Key);
 
-                foreach (var o in ocjene)
+                foreach (var semestarGrupa in ocjenePoPredmetu)
                 {
-                    tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
-                    tabela.AddCell(o.Vrijednost.ToString());
-                    tabela.AddCell("-");
+                    doc.Add(new iText.Layout.Element.Paragraph($"{semestarGrupa.Key}. semestar")
+                        .SetFontSize(12).SetBold());
+
+                    var tabela = new iText.Layout.Element.Table(2).UseAllAvailableWidth();
+                    tabela.AddHeaderCell("Predmet");
+                    tabela.AddHeaderCell("Ocjena");
+
+                    foreach (var o in semestarGrupa)
+                    {
+                        tabela.AddCell(o.Predmet?.Naziv ?? "N/A");
+                        tabela.AddCell(o.Vrijednost.ToString());
+                    }
+
+                    doc.Add(tabela);
+
+                    var prosjekSemestar = semestarGrupa.Average(o => o.Vrijednost);
+                    doc.Add(new iText.Layout.Element.Paragraph($"Prosjek za {semestarGrupa.Key}. semestar: {prosjekSemestar:F2}")
+                        .SetFontSize(11).SetItalic());
+                    doc.Add(new iText.Layout.Element.Paragraph(" "));
                 }
 
-                doc.Add(tabela);
-                var prosjek = ocjene.Average(o => o.Vrijednost);
-                doc.Add(new iText.Layout.Element.Paragraph($"Prosječna ocjena: {prosjek:F2}").SetFontSize(12).SetBold());
+                var ukupniProsjek = ocjene.Average(o => o.Vrijednost);
+                doc.Add(new iText.Layout.Element.Paragraph($"UKUPNI PROSJEK OCJENA: {ukupniProsjek:F2}")
+                    .SetFontSize(13).SetBold());
             }
             else
             {
@@ -583,29 +640,51 @@ namespace ZamETF.Controllers
             }
 
             doc.Add(new iText.Layout.Element.Paragraph(" "));
-            doc.Add(new iText.Layout.Element.Paragraph("PRISUSTVO").SetFontSize(14).SetBold());
+
+            // PRISUSTVO
+            doc.Add(new iText.Layout.Element.Paragraph("PRISUSTVO NA NASTAVI").SetFontSize(14).SetBold());
 
             if (prisustva.Any())
             {
-                var ukupno = prisustva.Count;
-                var prisutno = prisustva.Count(p => p.Prisutan);
-                var posto = (double)prisutno / ukupno * 100;
-
-                var tabela2 = new iText.Layout.Element.Table(2).UseAllAvailableWidth();
+                var tabela2 = new iText.Layout.Element.Table(3).UseAllAvailableWidth();
                 tabela2.AddHeaderCell("Predmet");
+                tabela2.AddHeaderCell("Semestar");
                 tabela2.AddHeaderCell("Prisustvo");
 
-                var grupaPoPredmetu = prisustva.GroupBy(p => p.Predmet?.Naziv ?? "N/A");
+                var grupaPoPredmetu = prisustva
+                    .GroupBy(p => p.Predmet?.Naziv ?? "N/A")
+                    .OrderBy(g => prisustva.FirstOrDefault(p => p.Predmet?.Naziv == g.Key)?.Predmet?.Semestar ?? 0);
+
+                double ukupnoPosto = 0;
+                int brojPredmeta = 0;
+
                 foreach (var grupa in grupaPoPredmetu)
                 {
                     var ukupnoGrupa = grupa.Count();
                     var prisutnoGrupa = grupa.Count(p => p.Prisutan);
+                    var postoGrupa = ukupnoGrupa > 0 ? (double)prisutnoGrupa / ukupnoGrupa * 100 : 0;
+                    var semestarPredmeta = prisustva.FirstOrDefault(p => p.Predmet?.Naziv == grupa.Key)?.Predmet?.Semestar;
+
                     tabela2.AddCell(grupa.Key);
-                    tabela2.AddCell($"{prisutnoGrupa}/{ukupnoGrupa} ({(double)prisutnoGrupa / ukupnoGrupa * 100:F0}%)");
+                    tabela2.AddCell(semestarPredmeta.HasValue ? $"{semestarPredmeta}. sem." : "-");
+                    tabela2.AddCell($"{prisutnoGrupa}/{ukupnoGrupa} ({postoGrupa:F0}%)");
+
+                    ukupnoPosto += postoGrupa;
+                    brojPredmeta++;
                 }
 
                 doc.Add(tabela2);
-                doc.Add(new iText.Layout.Element.Paragraph($"Ukupno prisustvo: {prisutno}/{ukupno} ({posto:F0}%)").SetFontSize(12).SetBold());
+
+                var ukupno = prisustva.Count;
+                var prisutno = prisustva.Count(p => p.Prisutan);
+                var ukupniPostotak = ukupno > 0 ? (double)prisutno / ukupno * 100 : 0;
+                var prosjekPoPoredmetima = brojPredmeta > 0 ? ukupnoPosto / brojPredmeta : 0;
+
+                doc.Add(new iText.Layout.Element.Paragraph(" "));
+                doc.Add(new iText.Layout.Element.Paragraph($"Ukupno prisustvo: {prisutno}/{ukupno} ({ukupniPostotak:F0}%)")
+                    .SetFontSize(12).SetBold());
+                doc.Add(new iText.Layout.Element.Paragraph($"Prosječno prisustvo po predmetima: {prosjekPoPoredmetima:F1}%")
+                    .SetFontSize(12).SetBold());
             }
             else
             {
@@ -1026,6 +1105,12 @@ namespace ZamETF.Controllers
 
             var upisi = await _context.UpisaNaPredmet.Where(u => u.PredmetId == predmetId).ToListAsync();
             _context.UpisaNaPredmet.RemoveRange(upisi);
+
+            var ocjene = await _context.Ocjene.Where(o => o.Predmet.Id == predmetId).ToListAsync();
+            _context.Ocjene.RemoveRange(ocjene);
+
+            var prisustva = await _context.Prisustva.Where(p => p.Predmet.Id == predmetId).ToListAsync();
+            _context.Prisustva.RemoveRange(prisustva);
 
             _context.Predmeti.Remove(predmet);
             await _context.SaveChangesAsync();
