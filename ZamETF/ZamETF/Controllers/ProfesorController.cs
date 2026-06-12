@@ -105,13 +105,21 @@ namespace ZamETF.Controllers
             var korisnik = await _userManager.GetUserAsync(User);
             var profesor = await _context.Profesori
                 .Include(p => p.Predmeti)
-                    .ThenInclude(pr => pr.Studenti)
-                .Include(p => p.Predmeti)
                     .ThenInclude(pr => pr.Zadace)
                         .ThenInclude(z => z.Predaje)
                 .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
 
             if (profesor == null) return NotFound();
+
+            // Učitaj studente za svaki predmet kroz UpisaNaPredmet
+            foreach (var predmet in profesor.Predmeti)
+            {
+                predmet.Studenti = await _context.UpisaNaPredmet
+                    .Include(u => u.Student)
+                    .Where(u => u.PredmetId == predmet.Id)
+                    .Select(u => u.Student)
+                    .ToListAsync();
+            }
 
             var obavijesti = await _context.Obavijesti
                 .Where(o => o.PrimalacId == profesor.Id)
@@ -146,25 +154,33 @@ namespace ZamETF.Controllers
 
             return View();
         }
-
         // Azurirani DetaljiPredmeta koji ucitava i ispite
         public async Task<IActionResult> DetaljiPredmeta(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
             var profesor = await _context.Profesori
                 .Include(p => p.Predmeti)
-                    .ThenInclude(pr => pr.Studenti)
-                .Include(p => p.Predmeti)
-                    .ThenInclude(pr => pr.Zadace)
-                        .ThenInclude(z => z.Predaje)
-                .Include(p => p.Predmeti)
-                    .ThenInclude(pr => pr.Ocjene)
-                .Include(p => p.Predmeti)
-                    .ThenInclude(pr => pr.Prisustva)
                 .FirstOrDefaultAsync(p => p.Id == korisnik.Id);
 
             var predmet = profesor?.Predmeti.FirstOrDefault(p => p.Id == id);
             if (predmet == null) return NotFound();
+
+            // Učitaj sve zavisne podatke direktno
+            var predmetSaDetalima = await _context.Predmeti
+                .Include(p => p.Zadace)
+                    .ThenInclude(z => z.Predaje)
+                .Include(p => p.Ocjene)
+                .Include(p => p.Prisustva)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            // Učitaj studente kroz UpisaNaPredmet
+            var studenti = await _context.UpisaNaPredmet
+                .Include(u => u.Student)
+                .Where(u => u.PredmetId == id)
+                .Select(u => u.Student)
+                .ToListAsync();
+
+            predmetSaDetalima.Studenti = studenti;
 
             var ispiti = await _context.Ispiti
                 .Include(i => i.Prijave)
@@ -176,7 +192,7 @@ namespace ZamETF.Controllers
             ViewBag.Ispiti = ispiti;
             ViewBag.Predmeti = profesor.Predmeti.ToList();
 
-            return View(predmet);
+            return View(predmetSaDetalima);
         }
 
         // GET: Profesor/KreiranjeZadace (azurirani – prima opcionalni predmetId)

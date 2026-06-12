@@ -97,10 +97,13 @@ namespace ZamETF.Controllers
             var sada = DateTime.Now;
 
             // Predmeti na koje je student upisan
-            var upisaniPredmetIds = await _context.UpisaNaPredmet
+            var predmetiStudenta = await _context.UpisaNaPredmet
+                .Include(u => u.Predmet)
                 .Where(u => u.StudentId == student.Id)
-                .Select(u => u.PredmetId)
+                .Select(u => u.Predmet)
                 .ToListAsync();
+
+            var upisaniPredmetIds = predmetiStudenta.Select(p => p.Id).ToList();
 
             var mojePrijave = await _context.PrijaveIspita
                 .Include(p => p.Ispit).ThenInclude(i => i.Predmet)
@@ -120,6 +123,8 @@ namespace ZamETF.Controllers
                          && upisaniPredmetIds.Contains(i.PredmetId))
                 .OrderBy(i => i.Datum)
                 .ToListAsync();
+
+            ViewBag.Predmeti = predmetiStudenta;
 
             var studentModel = new PrijavaIspitaVM
             {

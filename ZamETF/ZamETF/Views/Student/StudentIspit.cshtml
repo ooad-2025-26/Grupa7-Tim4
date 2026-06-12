@@ -2,91 +2,355 @@
 @{
     ViewData["Title"] = "Prijava ispita";
     Layout = "~/Views/Student/_LayoutStudent.cshtml";
+    var predmeti = ViewBag.Predmeti as List<ZamETF.Models.Predmet>;
 }
 
-<div class="zametf-page">
-    <div class="zametf-wrap zametf-wrap-wide">
-
-        @if (TempData["Poruka"] != null)
-        {
-            <div class="zametf-alert zametf-alert-ok">@TempData["Poruka"]</div>
-        }
-        @if (TempData["Greska"] != null)
-        {
-            <div class="zametf-alert zametf-alert-greska">@TempData["Greska"]</div>
+@section Styles {
+    <style>
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            min-height: calc(100vh - 120px);
         }
 
-        <div class="zametf-grid">
+        .card-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
 
-            <!-- LIJEVO: dostupni ispiti -->
-            <div class="zametf-col">
-                <div class="zametf-card">
-                    <h2 class="zametf-naslov">Dostupni ispiti</h2>
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 15px;
+                font-size: 1rem;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
+            }
 
-                    @if (!Model.Dostupni.Any())
-                    {
-                        <p class="zametf-prazno">Trenutno nema otvorenih prijava za ispit.</p>
-                    }
-                    else
-                    {
-                        @foreach (var ispit in Model.Dostupni)
+        .stavka {
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a5f7a;
+        }
+
+        .stavka-naslov {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .stavka-info {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            opacity: 0.75;
+            line-height: 1.6;
+        }
+
+        .predmet-stavka {
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a5f7a;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .predmet-stavka:hover {
+                background: rgba(255,255,255,0.85);
+            }
+
+            .predmet-stavka.aktivan {
+                background: rgba(255,255,255,0.9);
+                border-left-color: #0a3f5a;
+            }
+
+        .predmet-naziv {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .predmet-info {
+            color: #1a1a6e;
+            font-size: 0.8rem;
+            opacity: 0.65;
+        }
+
+        .badge-otvoren {
+            background: #27ae60;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .badge-prijavljen {
+            background: #1a5f7a;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .badge-odjavljen {
+            background: #aaa;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .btn-prijavi {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 7px 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+            .btn-prijavi:hover {
+                background: #0a3f5a;
+            }
+
+        .btn-odjavi {
+            background: transparent;
+            color: #1a1a6e;
+            border: 1.5px solid #1a1a6e;
+            border-radius: 20px;
+            padding: 7px 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+            .btn-odjavi:hover {
+                background: rgba(26,26,110,0.08);
+            }
+
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        .ispit-sekcija {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+        }
+
+            .ispit-sekcija.aktivan {
+                display: flex;
+            }
+
+        .placeholder-box {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: #1a1a6e;
+            opacity: 0.5;
+            font-size: 0.88rem;
+            margin: auto 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+}
+
+@if (TempData["Poruka"] != null)
+{
+    <div style="background:#d4edda; color:#155724; border-radius:10px; padding:10px 15px; margin-bottom:15px; font-size:0.88rem;">
+        @TempData["Poruka"]
+    </div>
+}
+@if (TempData["Greska"] != null)
+{
+    <div style="background:#f8d7da; color:#721c24; border-radius:10px; padding:10px 15px; margin-bottom:15px; font-size:0.88rem;">
+        @TempData["Greska"]
+    </div>
+}
+
+<div class="content-wrapper">
+    <!-- LIJEVO: predmeti -->
+    <div class="card-panel">
+        <h5>Moji predmeti</h5>
+        @if (predmeti == null || !predmeti.Any())
+        {
+            <span class="empty-text">Nema upisanih predmeta.</span>
+        }
+        else
+        {
+            foreach (var p in predmeti)
+            {
+                var ispitZaPredmet = Model.Dostupni.FirstOrDefault(i => i.PredmetId == p.Id);
+                var prijavaZaPredmet = Model.MojePrijave
+                .Where(pr => pr.Ispit?.PredmetId == p.Id)
+                .OrderByDescending(pr => pr.DatumPrijave)
+                .FirstOrDefault();
+                var prijavljen = prijavaZaPredmet?.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit;
+
+                <div class="predmet-stavka" onclick="otvoriIspit(@p.Id)">
+                    <div class="predmet-naziv">
+                        @p.Naziv
+                        @if (ispitZaPredmet != null && !prijavljen)
                         {
-                            <div class="zametf-stavka">
-                                <div class="zametf-stavka-naslov">
-                                    @ispit.Predmet?.Naziv
-                                    <span class="badge-novo">OTVOREN ROK</span>
-                                </div>
-                                <div class="zametf-stavka-info">
-                                    Datum ispita: @ispit.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
-                                    Prijava do: @ispit.RokZaPrijavu.ToString("dd.MM.yyyy. u HH:mm")
-                                </div>
-                                <form asp-action="Prijavi" method="post" style="margin-top:12px;">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="id" value="@ispit.Id" />
-                                    <button type="submit" class="btn-zametf">Prijavi ispit</button>
-                                </form>
-                            </div>
+                            <span class="badge-otvoren" style="margin-left:6px;">OTVOREN ROK</span>
                         }
-                    }
-                </div>
-            </div>
-
-            <!-- DESNO: moje prijave -->
-            <div class="zametf-col">
-                <div class="zametf-card">
-                    <h2 class="zametf-naslov">Moje prijave</h2>
-
-                    @if (!Model.MojePrijave.Any())
-                    {
-                        <p class="zametf-prazno">Niste prijavili nijedan ispit.</p>
-                    }
-                    else
-                    {
-                        @foreach (var p in Model.MojePrijave)
+                        else if (prijavljen)
                         {
-                            var aktivna = p.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit;
-                            var mozeOdjava = aktivna && p.Ispit != null && DateTime.Now <= p.Ispit.RokZaPrijavu;
-                            <div class="zametf-stavka">
-                                <div class="zametf-stavka-naslov">@p.Ispit?.Predmet?.Naziv</div>
-                                <div class="zametf-stavka-info">
-                                    Datum ispita: @p.Ispit?.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
-                                    Datum prijave: @p.DatumPrijave.ToString("dd.MM.yyyy. u HH:mm")<br />
-                                    Status: <strong>@(aktivna ? "Prijavljen" : "Odjavljen")</strong>
-                                </div>
-                                @if (mozeOdjava)
-                                {
-                                    <form asp-action="Odjavi" method="post" style="margin-top:12px;">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="id" value="@p.Id" />
-                                        <button type="submit" class="btn-zametf-sekundarni">Odjavi se</button>
-                                    </form>
-                                }
-                            </div>
+                            <span class="badge-prijavljen" style="margin-left:6px;">Prijavljen</span>
                         }
-                    }
+                    </div>
+                    <div class="predmet-info">@p.SifraPredmeta &middot; @p.Semestar. semestar</div>
                 </div>
-            </div>
+            }
+        }
+    </div>
 
+    <!-- DESNO: ispiti za odabrani predmet -->
+    <div class="card-panel">
+        <h5>Ispiti</h5>
+
+        <div class="placeholder-box" id="placeholder">
+            Odaberite predmet s lijeve strane.
         </div>
+
+        @if (predmeti != null)
+        {
+            foreach (var p in predmeti)
+            {
+                var ispitZaPredmet = Model.Dostupni.FirstOrDefault(i => i.PredmetId == p.Id);
+                var prijaveZaPredmet = Model.MojePrijave
+                .Where(pr => pr.Ispit?.PredmetId == p.Id)
+                .OrderByDescending(pr => pr.DatumPrijave)
+                .ToList();
+                var aktivnaPrijava = prijaveZaPredmet.FirstOrDefault(pr => pr.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit);
+
+                <div class="ispit-sekcija" id="ispit-@p.Id">
+                    <div class="stavka" style="margin-bottom:14px;">
+                        <div class="stavka-naslov">@p.Naziv</div>
+                        <div class="stavka-info">@p.SifraPredmeta &middot; @p.Semestar. semestar</div>
+                    </div>
+
+                    @if (ispitZaPredmet != null && aktivnaPrijava == null)
+                    {
+                        <div class="stavka" style="border-left-color:#27ae60;">
+                            <div class="stavka-naslov">
+                                Dostupan ispit
+                                <span class="badge-otvoren">OTVOREN ROK</span>
+                            </div>
+                            <div class="stavka-info">
+                                Datum ispita: @ispitZaPredmet.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                Prijava do: @ispitZaPredmet.RokZaPrijavu.ToString("dd.MM.yyyy. u HH:mm")
+                            </div>
+                            <form asp-action="Prijavi" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@ispitZaPredmet.Id" />
+                                <button type="submit" class="btn-prijavi">Prijavi ispit</button>
+                            </form>
+                        </div>
+                    }
+                    else if (aktivnaPrijava != null)
+                    {
+                        <div class="stavka" style="border-left-color:#1a5f7a;">
+                            <div class="stavka-naslov">
+                                Prijavljen ispit
+                                <span class="badge-prijavljen">Prijavljen</span>
+                            </div>
+                            <div class="stavka-info">
+                                Datum ispita: @aktivnaPrijava.Ispit?.Datum.ToString("dd.MM.yyyy. u HH:mm")<br />
+                                Datum prijave: @aktivnaPrijava.DatumPrijave.ToString("dd.MM.yyyy. u HH:mm")
+                            </div>
+                            @if (aktivnaPrijava.Ispit != null && DateTime.Now <= aktivnaPrijava.Ispit.RokZaPrijavu)
+                            {
+                                <form asp-action="Odjavi" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@aktivnaPrijava.Id" />
+                                    <button type="submit" class="btn-odjavi">Odjavi se</button>
+                                </form>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="empty-text">Nema otvorenih ispita za ovaj predmet.</span>
+                    }
+
+                    @if (prijaveZaPredmet.Any())
+                    {
+                        <div style="margin-top:16px; color:#1a1a6e; font-size:0.82rem; font-weight:700; margin-bottom:8px;">
+                            Historija prijava
+                        </div>
+                        foreach (var pr in prijaveZaPredmet)
+                        {
+                            var akt = pr.Status == ZamETF.Models.StatusPrijaveIspit.PrijavljenIspit;
+                            <div class="stavka" style="border-left-color:@(akt ? "#1a5f7a" : "#aaa"); opacity:@(akt ? "1" : "0.7")">
+                                <div class="stavka-naslov">
+                                    @pr.Ispit?.Datum.ToString("dd.MM.yyyy.")
+                                    @if (akt)
+                                    {
+                                        <span class="badge-prijavljen">Prijavljen</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-odjavljen">Odjavljen</span>
+                                    }
+                                </div>
+                                <div class="stavka-info">
+                                    Datum prijave: @pr.DatumPrijave.ToString("dd.MM.yyyy. u HH:mm")
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function otvoriIspit(predmetId) {
+            document.querySelectorAll('.predmet-stavka').forEach(function(s) {
+                s.classList.remove('aktivan');
+            });
+            document.querySelectorAll('.ispit-sekcija').forEach(function(s) {
+                s.classList.remove('aktivan');
+            });
+
+            event.currentTarget.classList.add('aktivan');
+            document.getElementById('placeholder').style.display = 'none';
+            var sekcija = document.getElementById('ispit-' + predmetId);
+            if (sekcija) sekcija.classList.add('aktivan');
+        }
+    </script>
+}

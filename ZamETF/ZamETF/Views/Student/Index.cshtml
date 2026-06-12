@@ -267,13 +267,13 @@
         /* AKTUELNO */
         .aktuelno-item {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(26,26,110,0.1);
-            color: #1a1a6e;
-            font-size: 0.85rem;
-            gap: 10px;
+            flex-direction: column;
+            gap: 3px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.5);
+            border-left: 4px solid #1a5f7a;
         }
 
             .aktuelno-item:last-child {
@@ -412,10 +412,10 @@
                 {
                     foreach (var a in aktuelno)
                     {
-                        <div class="aktuelno-item">
-                            <span>@a.Naslov</span>
-                            <a href="#" class="btn-pogledaj">Pogledaj!</a>
-                        </div>
+                      <div class="aktuelno-item">
+                          <span style="font-size:0.85rem; color:#1a1a6e;">@a.Naslov</span>
+                          <span style="font-size:0.75rem; color:#1a1a6e; opacity:0.65;">@a.Poruka</span>
+                      </div>
                     }
                 }
                 else

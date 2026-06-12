@@ -957,3 +957,6 @@ C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\itext.bounc
 C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\SendGrid.dll
 C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\StarkbankEcdsa.dll
 C:\Users\HF\Desktop\ooad1\Grupa7-Tim4\ZamETF\ZamETF\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\itext.bouncy-castle-adapter.dll
+C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\SendGrid.dll
+C:\Users\nedzi\Grupa7-Tim4\ZamETF\ZamETF\bin\Debug\net8.0\StarkbankEcdsa.dll

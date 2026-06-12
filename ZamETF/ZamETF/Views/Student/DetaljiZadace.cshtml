@@ -7,87 +7,245 @@
     var istekao = !Model.Zadaca.ProvjeriRok();
 }
 
-<div class="zametf-wrap zametf-wrap-wide">
+@section Styles {
+    <style>
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            min-height: calc(100vh - 120px);
+        }
 
-    <div style="margin-bottom:14px;">
-        <a asp-action="SlanjeZadaca" class="btn-zametf-sekundarni">&larr; Nazad na zadaće</a>
-    </div>
+        .card-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
 
-    <div class="zametf-grid">
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin-bottom: 14px;
+                text-align: center;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
+            }
 
-        <!-- LIJEVO: detalji + predaja -->
-        <div class="zametf-col">
-            <div class="zametf-card">
-                <h2 class="zametf-naslov">@Model.Zadaca.NazivID</h2>
+        .btn-nazad {
+            background: rgba(26,26,110,0.12);
+            color: #1a1a6e;
+            border: 1.5px solid rgba(26,26,110,0.3);
+            border-radius: 20px;
+            padding: 8px 22px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-bottom: 14px;
+            transition: all 0.2s;
+        }
 
-                <div class="zametf-stavka-info" style="margin-bottom:18px;">
-                    Predmet: @Model.Zadaca.Predmet?.Naziv<br />
-                    Rok: @Model.Zadaca.Rok.ToString("dd.MM.yyyy. u HH:mm")
-                    @if (!string.IsNullOrWhiteSpace(Model.Zadaca.Opis))
+            .btn-nazad:hover {
+                background: rgba(26,26,110,0.22);
+                color: #1a1a6e;
+            }
+
+        .info-box {
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .forma-polje {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+            .forma-polje label {
+                color: #1a1a6e;
+                font-size: 0.82rem;
+                font-weight: 600;
+            }
+
+            .forma-polje input,
+            .forma-polje textarea {
+                border: 1.5px solid rgba(26,26,110,0.25);
+                border-radius: 8px;
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                color: #1a1a6e;
+                background: white;
+                outline: none;
+                width: 100%;
+            }
+
+                .forma-polje input:focus,
+                .forma-polje textarea:focus {
+                    border-color: #1a1a6e;
+                }
+
+        .btn-predaj {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 9px 28px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 6px;
+            transition: background 0.2s;
+        }
+
+            .btn-predaj:hover {
+                background: #0a3f5a;
+            }
+
+        .predaja-box {
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+            padding: 14px;
+            border-left: 4px solid #27ae60;
+            margin-bottom: 14px;
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .btn-preuzmi {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 22px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+            .btn-preuzmi:hover {
+                background: #0a3f5a;
+                color: white;
+            }
+
+        .rok-istekao {
+            background: rgba(231,76,60,0.1);
+            border-left: 4px solid #e74c3c;
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #c0392b;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        .hint-text {
+            color: #1a1a6e;
+            opacity: 0.55;
+            font-size: 0.78rem;
+            font-style: italic;
+            margin-top: 4px;
+        }
+    </style>
+}
+
+<div class="content-wrapper">
+    <!-- LIJEVO: detalji + predaja -->
+    <div class="card-panel">
+        <a asp-action="SlanjeZadaca" asp-controller="Student" class="btn-nazad">
+            &larr; Nazad na zadaće
+        </a>
+
+        <h5>@Model.Zadaca.NazivID</h5>
+
+        <div class="info-box">
+            Predmet: <strong>@Model.Zadaca.Predmet?.Naziv</strong><br />
+            Rok: <strong>@Model.Zadaca.Rok.ToString("dd.MM.yyyy. u HH:mm")</strong>
+            @if (!string.IsNullOrWhiteSpace(Model.Zadaca.Opis))
+            {
+                <text><br /><br />@Model.Zadaca.Opis</text>
+            }
+        </div>
+
+        @if (istekao && !predano)
+        {
+            <div class="rok-istekao">Rok za predaju je istekao.</div>
+        }
+        else
+        {
+            <form asp-action="PredajZadacu" asp-controller="Student"
+                  method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="zadacaId" value="@Model.Zadaca.Id" />
+                <div class="forma-polje">
+                    <label>PDF fajl @(predano ? "(ostavi prazno da zadržiš trenutni)" : "")</label>
+                    <input type="file" name="fajl" accept="application/pdf,.pdf"
+                           @(predano ? "" : "required") />
+                    @if (predano)
                     {
-                        <text><br /><br />@Model.Zadaca.Opis</text>
+                        <span class="hint-text">Ako ne odabereš novi fajl, zadržat će se prethodno predani.</span>
                     }
                 </div>
+                <div class="forma-polje">
+                    <label>Komentar (opcionalno)</label>
+                    <textarea name="komentar" rows="3">@Model.MojaPredaja?.Komentar</textarea>
+                </div>
+                <button type="submit" class="btn-predaj">
+                    @(predano ? "Ponovo predaj" : "Predaj zadaću")
+                </button>
+            </form>
+        }
+    </div>
 
-                @if (istekao && !predano)
+    <!-- DESNO: status predaje -->
+    <div class="card-panel">
+        <h5>Moja predaja</h5>
+        @if (!predano)
+        {
+            <span class="empty-text">Još niste predali ovu zadaću.</span>
+        }
+        else
+        {
+            <div class="predaja-box">
+                Predano: <strong>@Model.MojaPredaja.DatumPredaje.ToString("dd.MM.yyyy. u HH:mm")</strong><br />
+                Status: <strong>@(ocijenjeno ? "Ocijenjeno" : "Čeka pregled")</strong>
+                @if (ocijenjeno)
                 {
-                    <p class="zametf-prazno">Rok za predaju je istekao.</p>
+                    <text><br />Bodovi: <strong>@Model.MojaPredaja.Bodovi / 100</strong></text>
                 }
-                else
+                @if (!string.IsNullOrWhiteSpace(Model.MojaPredaja.Komentar))
                 {
-                    <form asp-action="PredajZadacu" method="post" enctype="multipart/form-data">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="zadacaId" value="@Model.Zadaca.Id" />
-
-                        <div class="zametf-polje">
-                            <label>PDF fajl</label>
-                            <input type="file" name="fajl" accept="application/pdf,.pdf" class="zametf-input" required />
-                        </div>
-
-                        <div class="zametf-polje">
-                            <label>Komentar (opcionalno)</label>
-                            <textarea name="komentar" rows="3" class="zametf-input">@Model.MojaPredaja?.Komentar</textarea>
-                        </div>
-
-                        <div style="text-align:center; margin-top:18px;">
-                            <button type="submit" class="btn-zametf">@(predano ? "Ponovo predaj" : "Predaj zadaću")</button>
-                        </div>
-                    </form>
-                }
-            </div>
-        </div>
-
-        <!-- DESNO: status moje predaje -->
-        <div class="zametf-col">
-            <div class="zametf-card">
-                <h2 class="zametf-naslov">Moja predaja</h2>
-
-                @if (!predano)
-                {
-                    <p class="zametf-prazno">Još niste predali ovu zadaću.</p>
-                }
-                else
-                {
-                    <div class="zametf-stavka">
-                        <div class="zametf-stavka-info">
-                            Predano: @Model.MojaPredaja.DatumPredaje.ToString("dd.MM.yyyy. u HH:mm")<br />
-                            Status: <strong>@(ocijenjeno ? "Ocijenjeno" : "Čeka pregled")</strong>
-                            @if (ocijenjeno)
-                            {
-                                <text><br />Bodovi: <strong>@Model.MojaPredaja.Bodovi / 100</strong></text>
-                            }
-                            @if (!string.IsNullOrWhiteSpace(Model.MojaPredaja.Komentar))
-                            {
-                                <text><br />Vaš komentar: @Model.MojaPredaja.Komentar</text>
-                            }
-                        </div>
-                        <div style="margin-top:12px;">
-                            <a href="@Model.MojaPredaja.Fajl" target="_blank" class="btn-zametf-sekundarni">Pregledaj predani PDF</a>
-                        </div>
-                    </div>
+                    <text><br />Vaš komentar: @Model.MojaPredaja.Komentar</text>
                 }
             </div>
-        </div>
 
+            @if (!string.IsNullOrEmpty(Model.MojaPredaja.Fajl))
+            {
+                <a href="@Model.MojaPredaja.Fajl" target="_blank" class="btn-preuzmi">
+                    Pregledaj predani PDF
+                </a>
+            }
+        }
     </div>
 </div>

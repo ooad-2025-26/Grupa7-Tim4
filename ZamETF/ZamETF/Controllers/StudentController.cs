@@ -7,16 +7,13 @@ using ZamETF.Data;
 using ZamETF.Models;
 using Microsoft.AspNetCore.Authorization;
 
-
 namespace ZamETF.Controllers
 {
     [Authorize(Roles = "Student")]
-
     public class StudentController : Controller
     {
         private readonly UserManager<Korisnik> _userManager;
         private readonly ApplicationDbContext _context;
-
         private readonly IWebHostEnvironment _env;
 
         public StudentController(UserManager<Korisnik> userManager, ApplicationDbContext context, IWebHostEnvironment env)
@@ -25,6 +22,7 @@ namespace ZamETF.Controllers
             _context = context;
             _env = env;
         }
+
         public async Task<IActionResult> SlanjeZadaca()
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -57,11 +55,10 @@ namespace ZamETF.Controllers
                 }).ToList()
             };
 
-            ViewBag.Predmeti = predmeti;   // za sidebar u _LayoutStudent
+            ViewBag.Predmeti = predmeti;
             return View(model);
         }
 
-        // GET: Student/DetaljiZadace/5  — detalji jedne zadaće + forma za predaju
         public async Task<IActionResult> DetaljiZadace(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -89,7 +86,6 @@ namespace ZamETF.Controllers
             });
         }
 
-        // POST: Student/PredajZadacu  — upload PDF-a
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PredajZadacu(int zadacaId, IFormFile fajl, string komentar)
@@ -108,13 +104,30 @@ namespace ZamETF.Controllers
                 return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
             }
 
-            // --- validacija fajla ---
+            // Dohvati postojeću predaju
+            var predaja = await _context.PredajeZadace
+                .FirstOrDefaultAsync(p => p.ZadacaId == zadacaId && p.StudentID == student.Id);
+
+            // Ako nema novog fajla
             if (fajl == null || fajl.Length == 0)
             {
-                TempData["Greska"] = "Niste odabrali fajl.";
-                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                if (predaja != null)
+                {
+                    // Samo ažuriraj komentar, zadrži stari fajl
+                    predaja.Komentar = komentar;
+                    predaja.DatumPredaje = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                    TempData["Uspjeh"] = "Komentar je ažuriran.";
+                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                }
+                else
+                {
+                    TempData["Greska"] = "Niste odabrali fajl.";
+                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                }
             }
 
+            // Validacija fajla
             var ext = Path.GetExtension(fajl.FileName).ToLowerInvariant();
             if (ext != ".pdf")
             {
@@ -122,13 +135,13 @@ namespace ZamETF.Controllers
                 return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
             }
 
-            if (fajl.Length > 10 * 1024 * 1024)   // 10 MB limit
+            if (fajl.Length > 10 * 1024 * 1024)
             {
                 TempData["Greska"] = "Fajl je prevelik (maksimalno 10 MB).";
                 return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
             }
 
-            // --- snimi fajl u wwwroot/uploads/zadace ---
+            // Snimi novi fajl
             var uploadsDir = Path.Combine(_env.WebRootPath, "uploads", "zadace");
             Directory.CreateDirectory(uploadsDir);
 
@@ -140,13 +153,9 @@ namespace ZamETF.Controllers
             }
             var relPath = $"/uploads/zadace/{fileName}";
 
-            // --- postojeća predaja? (ažuriraj umjesto duplikata) ---
-            var predaja = await _context.PredajeZadace
-                .FirstOrDefaultAsync(p => p.ZadacaId == zadacaId && p.StudentID == student.Id);
-
             if (predaja != null)
             {
-                // obriši stari fajl
+                // Obriši stari fajl
                 if (!string.IsNullOrEmpty(predaja.Fajl))
                 {
                     var stari = Path.Combine(_env.WebRootPath,
@@ -158,7 +167,7 @@ namespace ZamETF.Controllers
                 predaja.Komentar = komentar;
                 predaja.DatumPredaje = DateTime.Now;
                 predaja.Status = StatusZadace.Predana;
-                predaja.Bodovi = null;   // vraća se na ocjenjivanje
+                predaja.Bodovi = null;
             }
             else
             {
@@ -177,12 +186,12 @@ namespace ZamETF.Controllers
             TempData["Uspjeh"] = "Zadaća je uspješno predana.";
             return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
         }
+
         public async Task<IActionResult> Index()
         {
             var korisnik = await _userManager.GetUserAsync(User);
             if (korisnik == null) return RedirectToAction("Login", "Account");
 
-            // Predmeti studenta — samo upisani
             var predmeti = await _context.UpisaNaPredmet
                 .Include(u => u.Predmet)
                 .Where(u => u.StudentId == korisnik.Id)
@@ -191,13 +200,11 @@ namespace ZamETF.Controllers
 
             var predmetIds = predmeti.Select(p => p.Id).ToList();
 
-            // Obavijesti za studenta
             var obavijesti = await _context.Obavijesti
                 .Where(o => o.PrimalacId == korisnik.Id)
                 .OrderByDescending(o => o.DatumSlanja)
                 .ToListAsync();
 
-            // Aktuelno — samo za predmete na koje je student upisan
             var aktuelnoIspiti = await _context.Ispiti
                 .Include(i => i.Predmet)
                 .Where(i => i.RokZaPrijavu >= DateTime.Now && predmetIds.Contains(i.PredmetId))
@@ -234,7 +241,7 @@ namespace ZamETF.Controllers
 
             return View();
         }
-        // GET: Student/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -243,13 +250,8 @@ namespace ZamETF.Controllers
             return View(student);
         }
 
-        // GET: Student/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
-        // POST: Student/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Indeks,GodinaStudija,Ime,Prezime,UserName,Email,Uloga")] Student student, string Lozinka)
@@ -266,7 +268,6 @@ namespace ZamETF.Controllers
             return View(student);
         }
 
-        // GET: Student/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -275,7 +276,6 @@ namespace ZamETF.Controllers
             return View(student);
         }
 
-        // POST: Student/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Indeks,GodinaStudija,Ime,Prezime,UserName,Email,Uloga")] Student student)
@@ -297,7 +297,6 @@ namespace ZamETF.Controllers
             return View(student);
         }
 
-        // GET: Student/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -306,7 +305,6 @@ namespace ZamETF.Controllers
             return View(student);
         }
 
-        // POST: Student/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -316,7 +314,7 @@ namespace ZamETF.Controllers
                 await _userManager.DeleteAsync(student);
             return RedirectToAction(nameof(Index));
         }
-        // GET: Student/ZahtjevZaDokument
+
         public async Task<IActionResult> ZahtjevZaDokument()
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -328,13 +326,11 @@ namespace ZamETF.Controllers
             return View();
         }
 
-        // GET: Student/DetaljiPredmeta/5
         public async Task<IActionResult> DetaljiPredmeta(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
             if (korisnik == null) return RedirectToAction("Login", "Account");
 
-            // student mora biti upisan na predmet
             var upis = await _context.UpisaNaPredmet
                 .Include(u => u.Predmet)
                 .FirstOrDefaultAsync(u => u.StudentId == korisnik.Id && u.Predmet.Id == id);
@@ -351,7 +347,6 @@ namespace ZamETF.Controllers
                 .OrderBy(z => z.Rok)
                 .ToListAsync();
 
-            // za sidebar
             var predmeti = await _context.UpisaNaPredmet
                 .Include(u => u.Predmet)
                 .Where(u => u.StudentId == korisnik.Id)
@@ -368,17 +363,14 @@ namespace ZamETF.Controllers
             });
         }
 
-        // POST: Student/PošaljiZahtjev
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PošaljiZahtjev(string tipDokumenta, string napomena)
         {
-            // Pronađi trenutno ulogovanog studenta
             var korisnik = await _userManager.GetUserAsync(User);
             var student = await _context.Studenti.FindAsync(korisnik.Id);
             if (student == null) return NotFound();
 
-            // Pronađi studentsku službu
             var studentskaSluzba = await _context.StudentskeSluzbe.FirstOrDefaultAsync();
             if (studentskaSluzba == null)
             {
@@ -386,7 +378,6 @@ namespace ZamETF.Controllers
                 return RedirectToAction(nameof(ZahtjevZaDokument));
             }
 
-            // Kreiraj zahtjev
             var zahtjev = new ZahtjevZaDokument
             {
                 Student = student,
@@ -397,7 +388,6 @@ namespace ZamETF.Controllers
             _context.ZahtjeviDokumenata.Add(zahtjev);
             await _context.SaveChangesAsync();
 
-            // Pošalji obavijest studentskoj službi
             var obavijest = new Obavijest
             {
                 Naslov = $"Zahtjev za dokument: {tipDokumenta}",
@@ -413,7 +403,7 @@ namespace ZamETF.Controllers
             TempData["Uspjeh"] = "Zahtjev je uspješno poslan studentskoj službi!";
             return RedirectToAction(nameof(ZahtjevZaDokument));
         }
-        // GET: Student/DetaljiObavijesti/5
+
         public async Task<IActionResult> DetaljiObavijesti(int id)
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -425,24 +415,17 @@ namespace ZamETF.Controllers
 
             if (obavijest == null) return NotFound();
 
-            // Oznaci kao procitanu
             if (!obavijest.Procitana)
             {
                 obavijest.Procitana = true;
                 await _context.SaveChangesAsync();
             }
 
-            // Pronadi ime posiljаoca
             var posiljалac = await _context.Users.FindAsync(obavijest.PošiljalacId);
             string posiljалacIme = "Sistem";
-            if (posiljалac != null)
-            {
-                var korisnikPosiljалac = posiljалac as Korisnik;
-                if (korisnikPosiljалac != null)
-                    posiljалacIme = korisnikPosiljалac.Ime + " " + korisnikPosiljалac.Prezime;
-            }
+            if (posiljалac is Korisnik k)
+                posiljалacIme = k.Ime + " " + k.Prezime;
 
-            // Provjeri da li je masovno poslano – ako isti naslov ima vise primatelja
             var naslov = obavijest.Naslov ?? "";
             int brojSaIstimNaslovom = await _context.Obavijesti
                 .CountAsync(o => o.Naslov == naslov && o.DatumSlanja == obavijest.DatumSlanja);
@@ -454,7 +437,7 @@ namespace ZamETF.Controllers
 
             return View();
         }
-        // POST: Student/PosaljiZahtjev (bez sumera)
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PosaljiZahtjev(string tipDokumenta, string jezik, string svrha, string napomena)
@@ -481,7 +464,7 @@ namespace ZamETF.Controllers
                 Datum = DateTime.Now,
                 Status = false
             };
-          
+
             var obavijest = new Obavijest
             {
                 Naslov = "Zahtjev za dokument: " + tipPun,
@@ -490,11 +473,10 @@ namespace ZamETF.Controllers
                          " (Jezik: " + jezik + "). " + napomena,
                 PošiljalacId = student.Id,
                 PrimalacId = studentskaSluzba.Id,
-                Zahtjev = zahtjev, // <-- assign the object reference, not the int id
+                Zahtjev = zahtjev,
                 DatumSlanja = DateTime.Now
             };
 
-            // Add both entities so EF can manage the FK relationship and generate the Id
             _context.ZahtjeviDokumenata.Add(zahtjev);
             _context.Obavijesti.Add(obavijest);
             await _context.SaveChangesAsync();

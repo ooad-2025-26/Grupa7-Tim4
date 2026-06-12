@@ -4,53 +4,212 @@
     Layout = "~/Views/Student/_LayoutStudent.cshtml";
 }
 
-<div class="zametf-wrap">
-    <div class="zametf-card">
-        <h2 class="zametf-naslov">Zadaće</h2>
+@section Styles {
+    <style>
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            min-height: calc(100vh - 120px);
+        }
 
-        @if (!Model.Stavke.Any())
+        .card-panel {
+            flex: 1;
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 15px;
+                font-size: 1rem;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(26,26,110,0.1);
+            }
+
+        .stavka {
+            background: rgba(255,255,255,0.55);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a5f7a;
+            text-decoration: none;
+            display: block;
+            transition: background 0.2s;
+        }
+
+            .stavka:hover {
+                background: rgba(255,255,255,0.85);
+            }
+
+        .stavka-naslov {
+            color: #1a1a6e;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .stavka-predmet {
+            color: #1a5f7a;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .stavka-info {
+            color: #1a1a6e;
+            font-size: 0.82rem;
+            opacity: 0.75;
+            line-height: 1.6;
+        }
+
+        .badge-ok {
+            background: #27ae60;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .badge-info {
+            background: #1a5f7a;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .badge-greska {
+            background: #e74c3c;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .badge-novo {
+            background: #e67e22;
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 2px 8px;
+        }
+
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        .hint-box {
+            background: rgba(255,255,255,0.4);
+            border-radius: 10px;
+            padding: 20px;
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.88rem;
+            text-align: center;
+            margin: auto 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+}
+
+<div class="content-wrapper">
+    <!-- LIJEVO: nepredane zadaće -->
+    <div class="card-panel">
+        <h5>Otvorene zadaće</h5>
+        @{
+            var nepredane = Model.Stavke
+            .Where(s => s.MojaPredaja == null && s.Zadaca.ProvjeriRok())
+            .OrderBy(s => s.Zadaca.Rok)
+            .ToList();
+        }
+        @if (!nepredane.Any())
         {
-            <p class="zametf-prazno">Trenutno nema zadaća za vaše predmete.</p>
+            <span class="empty-text">Nema otvorenih zadaća.</span>
         }
         else
         {
-            @foreach (var s in Model.Stavke)
+            foreach (var s in nepredane)
+            {
+                <a asp-action="DetaljiZadace" asp-route-id="@s.Zadaca.Id" class="stavka">
+                    <div class="stavka-naslov">
+                        @s.Zadaca.NazivID
+                        <span class="stavka-predmet">@s.Zadaca.Predmet?.Naziv</span>
+                        <span class="badge-novo">OTVORENO</span>
+                    </div>
+                    <div class="stavka-info">
+                        Rok: @s.Zadaca.Rok.ToString("dd.MM.yyyy. u HH:mm")
+                    </div>
+                </a>
+            }
+        }
+    </div>
+
+    <!-- DESNO: sve ostale zadaće -->
+    <div class="card-panel">
+        <h5>Sve zadaće</h5>
+        @{
+            var ostale = Model.Stavke
+            .OrderByDescending(s => s.MojaPredaja == null && s.Zadaca.ProvjeriRok())
+            .ThenBy(s => s.Zadaca.Rok)
+            .ToList();
+        }
+        @if (!ostale.Any())
+        {
+            <span class="empty-text">Trenutno nema zadaća.</span>
+        }
+        else
+        {
+            foreach (var s in ostale)
             {
                 var predano = s.MojaPredaja != null;
                 var ocijenjeno = s.MojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
                 var istekao = !s.Zadaca.ProvjeriRok();
-                <div class="zametf-stavka">
-                    <div class="zametf-stavka-naslov">
+                <a asp-action="DetaljiZadace" asp-route-id="@s.Zadaca.Id"
+                   class="stavka"
+                   style="border-left-color: @(ocijenjeno ? "#27ae60" : istekao && !predano ? "#e74c3c" : predano ? "#1a5f7a" : "#e67e22")">
+                    <div class="stavka-naslov">
                         @s.Zadaca.NazivID
-                        <span class="zametf-sifra">@s.Zadaca.Predmet?.Naziv</span>
+                        <span class="stavka-predmet">@s.Zadaca.Predmet?.Naziv</span>
                         @if (ocijenjeno)
                         {
-                            <span class="badge-status badge-ok">Ocijenjeno</span>
+                            <span class="badge-ok">Ocijenjeno @s.MojaPredaja.Bodovi/100</span>
                         }
                         else if (predano)
                         {
-                            <span class="badge-status badge-info">Predano</span>
+                            <span class="badge-info">Predano</span>
                         }
                         else if (istekao)
                         {
-                            <span class="badge-status badge-greska">Rok istekao</span>
+                            <span class="badge-greska">Rok istekao</span>
                         }
                         else
                         {
                             <span class="badge-novo">OTVORENO</span>
                         }
                     </div>
-                    <div class="zametf-stavka-info">
+                    <div class="stavka-info">
                         Rok: @s.Zadaca.Rok.ToString("dd.MM.yyyy. u HH:mm")
-                        @if (ocijenjeno)
-                        {
-                            <text><br />Bodovi: <strong>@s.MojaPredaja.Bodovi / 100</strong></text>
-                        }
                     </div>
-                    <div style="margin-top:10px;">
-                        <a asp-action="DetaljiZadace" asp-route-id="@s.Zadaca.Id" class="btn-zametf">Otvori</a>
-                    </div>
-                </div>
+                </a>
             }
         }
     </div>
