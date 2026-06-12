@@ -63,7 +63,7 @@
             margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             box-shadow: 0 2px 6px rgba(0,0,0,0.06);
             border-left: 4px solid #e74c3c;
             gap: 10px;
@@ -83,15 +83,6 @@
             .zahtjev-info .detalji {
                 font-size: 0.78rem;
                 opacity: 0.6;
-            }
-
-            .zahtjev-info .poruka {
-                font-size: 0.78rem;
-                opacity: 0.7;
-                margin-top: 4px;
-                white-space: pre-line;
-                max-height: 80px;
-                overflow-y: auto;
             }
 
         .zahtjev-actions {
@@ -179,130 +170,117 @@
 
 @if (TempData["Uspjeh"] != null)
 {
-    <div class="alert alert-success">@TempData["Uspjeh"]</div>
+<div class="alert alert-success">@TempData["Uspjeh"]</div>
 }
 @if (TempData["Greska"] != null)
 {
-    <div class="alert alert-danger">@TempData["Greska"]</div>
+<div class="alert alert-danger">@TempData["Greska"]</div>
 }
 
 @if ((zahtjeviPodaci == null || !zahtjeviPodaci.Any()) &&
      (zahtjeviStatistika == null || !zahtjeviStatistika.Any()))
 {
-    <p class="empty-text" style="text-align:center; padding:30px 0;">
-        Nema novih zahtjeva.
-    </p>
+<p class="empty-text" style="text-align:center; padding:30px 0;">Nema novih zahtjeva.</p>
 }
 
-<!-- ZAHTJEVI ZA PODATKE -->
 @if (zahtjeviPodaci != null && zahtjeviPodaci.Any())
 {
-    <div class="sekcija">
-        <div class="sekcija-header" onclick="toggleSekcija('podaci', this)">
-            <h6>
-                Zahtjevi za unos/izmjenu podataka
-                <span class="badge-count">@zahtjeviPodaci.Count</span>
-            </h6>
-            <span class="toggle-icon" id="ikona-podaci">&#8743;</span>
-        </div>
-        <div class="sekcija-body" id="tijelo-podaci">
-            @foreach (var o in zahtjeviPodaci.OrderByDescending(x => x.DatumSlanja))
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('podaci', this)">
+        <h6>
+            Zahtjevi za unos/izmjenu podataka
+            <span class="badge-count">@zahtjeviPodaci.Count</span>
+        </h6>
+        <span class="toggle-icon" id="ikona-podaci">&#8743;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-podaci">
+        @foreach (var o in zahtjeviPodaci.OrderByDescending(x => x.DatumSlanja))
             {
                 var jeBrisanje = o.Naslov?.Contains("brisanje") == true || o.Naslov?.Contains("Brisanje") == true;
                 var jeIzmjena = o.Naslov?.Contains("Izmjena") == true;
-
-                <div class="zahtjev-card">
-                    <div class="zahtjev-info">
-                        <div class="naslov">@o.Naslov</div>
-                        <div class="detalji">
-                            Od: @(o.Posiljалac?.Ime + " " + o.Posiljалac?.Prezime)
-                            &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
-                        </div>
-                        @if (!string.IsNullOrEmpty(o.Poruka))
+        <div class="zahtjev-card">
+            <div class="zahtjev-info">
+                <div class="naslov">@o.Naslov</div>
+                <div class="detalji">
+                    Od: @(o.Posiljалac?.Ime + " " + o.Posiljалac?.Prezime)
+                    &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
+                </div>
+            </div>
+            <div class="zahtjev-actions">
+                @if (jeBrisanje)
                         {
-                            <div class="poruka">@o.Poruka</div>
-                        }
-                    </div>
-                    <div class="zahtjev-actions">
-                        @if (jeBrisanje)
-                        {
-                            <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
-                               asp-route-obavijestId="@o.Id"
-                               class="btn-akcija btn-brisi" style="text-decoration:none;">
-                                Pogledaj (brisanje)
-                            </a>
+                <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                   asp-route-obavijestId="@o.Id"
+                   class="btn-akcija btn-brisi" style="text-decoration:none;">
+                    Pogledaj (brisanje)
+                </a>
                         }
                         else if (jeIzmjena)
                         {
-                            <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
-                               asp-route-obavijestId="@o.Id"
-                               class="btn-akcija btn-izmjena" style="text-decoration:none;">
-                                Pogledaj i primijeni
-                            </a>
+                <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                   asp-route-obavijestId="@o.Id"
+                   class="btn-akcija btn-izmjena" style="text-decoration:none;">
+                    Pogledaj i primijeni
+                </a>
                         }
                         else
                         {
-                            <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
-                               asp-route-obavijestId="@o.Id"
-                               class="btn-akcija btn-pogledaj" style="text-decoration:none;">
-                                Pogledaj
-                            </a>
+                <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                   asp-route-obavijestId="@o.Id"
+                   class="btn-akcija btn-pogledaj" style="text-decoration:none;">
+                    Pogledaj
+                </a>
                         }
-                   <form method="post" asp-action="OznaciObradenim"
-                              asp-controller="Administrator" style="display:inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="obavijestId" value="@o.Id" />
-                            <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
-                        </form>
-                    </div>
-                </div>
-            }
+                <form method="post" asp-action="OznaciObradenim"
+                      asp-controller="Administrator" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="obavijestId" value="@o.Id" />
+                    <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
+                </form>
+            </div>
         </div>
+            }
     </div>
+</div>
 }
 
-<!-- ZAHTJEVI ZA STATISTIKU -->
 @if (zahtjeviStatistika != null && zahtjeviStatistika.Any())
 {
-    <div class="sekcija">
-        <div class="sekcija-header" onclick="toggleSekcija('statistika', this)">
-            <h6>
-                Zahtjevi za statistiku
-                <span class="badge-count">@zahtjeviStatistika.Count</span>
-            </h6>
-            <span class="toggle-icon" id="ikona-statistika">&#8743;</span>
-        </div>
-        <div class="sekcija-body" id="tijelo-statistika">
-            @foreach (var o in zahtjeviStatistika.OrderByDescending(x => x.DatumSlanja))
-            {
-                <div class="zahtjev-card">
-                    <div class="zahtjev-info">
-                        <div class="naslov">@o.Naslov</div>
-                        <div class="detalji">
-                            Od: @(o.Posiljалac?.Ime + " " + o.Posiljалac?.Prezime)
-                            &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
-                        </div>
-                        @if (!string.IsNullOrEmpty(o.Poruka))
-                        {
-                            <div class="poruka">@o.Poruka</div>
-                        }
-                    </div>
-                    <div class="zahtjev-actions">
-                        <a asp-controller="Administrator" asp-action="Statistika"
-                           class="btn-akcija btn-stat" style="text-decoration:none;">
-                            Generiši statistiku
-                        </a>
-                        <form method="post" asp-action="OznaciObradenim"
-                              asp-controller="Administrator" style="display:inline">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="obavijestId" value="@o.Id" />
-                            <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
-                        </form>
-                    </div>
-                </div>
-            }
-        </div>
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('statistika', this)">
+        <h6>
+            Zahtjevi za statistiku
+            <span class="badge-count">@zahtjeviStatistika.Count</span>
+        </h6>
+        <span class="toggle-icon" id="ikona-statistika">&#8743;</span>
     </div>
+    <div class="sekcija-body" id="tijelo-statistika">
+        @foreach (var o in zahtjeviStatistika.OrderByDescending(x => x.DatumSlanja))
+            {
+        <div class="zahtjev-card">
+            <div class="zahtjev-info">
+                <div class="naslov">@o.Naslov</div>
+                <div class="detalji">
+                    Od: @(o.Posiljалac?.Ime + " " + o.Posiljалac?.Prezime)
+                    &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
+                </div>
+            </div>
+            <div class="zahtjev-actions">
+                <a asp-controller="Administrator" asp-action="Statistika"
+                   class="btn-akcija btn-stat" style="text-decoration:none;">
+                    Generiši statistiku
+                </a>
+                <form method="post" asp-action="OznaciObradenim"
+                      asp-controller="Administrator" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="obavijestId" value="@o.Id" />
+                    <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
+                </form>
+            </div>
+        </div>
+            }
+    </div>
+</div>
 }
 
 @section Scripts {

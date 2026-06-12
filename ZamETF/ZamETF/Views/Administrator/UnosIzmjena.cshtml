@@ -5,209 +5,211 @@
 }
 
 @section Styles {
-<style>
-    .content-area {
-        background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-        border-radius: 15px;
-        padding: 25px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+    <style>
+        .content-area {
+            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-    .content-area h4 {
-        color: #1a1a6e;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 5px;
-        font-size: 1.3rem;
-    }
+            .content-area h4 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 5px;
+                font-size: 1.3rem;
+            }
 
-    .panels-wrapper {
-        display: flex;
-        gap: 20px;
-        width: 100%;
-    }
+        .panels-wrapper {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
 
-    .card-panel {
-        flex: 1;
-        background: white;
-        border-radius: 12px;
-        padding: 25px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-        border-top: 4px solid #1a5f7a;
-    }
+        .card-panel {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            border-top: 4px solid #1a5f7a;
+        }
 
-    .card-panel h5 {
-        color: #1a1a6e;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 1.1rem;
-    }
+            .card-panel h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.1rem;
+            }
 
-    .prefilled-banner {
-        background: #e8f4fd;
-        border-left: 4px solid #1a5f7a;
-        border-radius: 8px;
-        padding: 10px 14px;
-        margin-bottom: 16px;
-        color: #1a1a6e;
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
+        .prefilled-banner {
+            background: #e8f4fd;
+            border-left: 4px solid #1a5f7a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            color: #1a1a6e;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
 
-    .form-row {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        gap: 10px;
-    }
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
 
-    .form-row label {
-        color: #1a1a6e;
-        font-size: 0.85rem;
-        width: 140px;
-        min-width: 140px;
-        font-weight: 600;
-    }
+            .form-row label {
+                color: #1a1a6e;
+                font-size: 0.85rem;
+                width: 140px;
+                min-width: 140px;
+                font-weight: 600;
+            }
 
-    .form-row input,
-    .form-row select {
-        flex: 1;
-        border: none;
-        border-bottom: 1.5px solid rgba(26,26,110,0.25);
-        background: transparent;
-        padding: 4px 6px;
-        font-size: 0.85rem;
-        color: #1a1a6e;
-        outline: none;
-    }
+            .form-row input,
+            .form-row select {
+                flex: 1;
+                border: none;
+                border-bottom: 1.5px solid rgba(26,26,110,0.25);
+                background: transparent;
+                padding: 4px 6px;
+                font-size: 0.85rem;
+                color: #1a1a6e;
+                outline: none;
+            }
 
-    .form-row input:focus,
-    .form-row select:focus {
-        border-bottom: 2px solid #1a1a6e;
-    }
+                .form-row input:focus,
+                .form-row select:focus {
+                    border-bottom: 2px solid #1a1a6e;
+                }
 
-    .form-hint {
-        font-size: 0.75rem;
-        color: #888;
-        margin-left: 150px;
-        margin-top: -6px;
-        margin-bottom: 8px;
-        font-style: italic;
-    }
+        .form-hint {
+            font-size: 0.75rem;
+            color: #888;
+            margin-left: 150px;
+            margin-top: -6px;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
 
-    .btn-akcija {
-        background: #1a5f7a;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 8px 30px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        float: right;
-        margin-top: 15px;
-        transition: background 0.3s;
-        font-weight: 600;
-    }
+        .btn-akcija {
+            background: #1a5f7a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            float: right;
+            margin-top: 15px;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
 
-    .btn-akcija:hover { background: #0a3f5a; }
+            .btn-akcija:hover {
+                background: #0a3f5a;
+            }
 
-    .btn-brisi-korisnik {
-        background: #e74c3c;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 8px 20px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        float: left;
-        margin-top: 15px;
-        transition: background 0.3s;
-        font-weight: 600;
-    }
+        .btn-brisi-korisnik {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            float: left;
+            margin-top: 15px;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
 
-    .btn-brisi-korisnik:hover { background: #c0392b; }
+            .btn-brisi-korisnik:hover {
+                background: #c0392b;
+            }
 
-    .select-student {
-        width: 100%;
-        border: none;
-        border-bottom: 1.5px solid #1a1a6e;
-        background: transparent;
-        padding: 6px;
-        color: #1a1a6e;
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-        outline: none;
-        font-weight: 600;
-    }
+        .select-student {
+            width: 100%;
+            border: none;
+            border-bottom: 1.5px solid #1a1a6e;
+            background: transparent;
+            padding: 6px;
+            color: #1a1a6e;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            outline: none;
+            font-weight: 600;
+        }
 
-    .alert-success, .alert-danger {
-        border-radius: 10px;
-        margin-bottom: 10px;
-        font-size: 0.85rem;
-    }
+        .alert-success, .alert-danger {
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }
 
-    .forma-akcije-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-        overflow: hidden;
-    }
-</style>
+        .forma-akcije-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+    </style>
 }
 
 <h4>Unos i izmjena podataka</h4>
 
 <div class="panels-wrapper">
-    <!-- IZMJENA PODATAKA -->
     <div class="card-panel">
         <h5>Izmjena podataka</h5>
 
         @if (TempData["Uspjeh"] != null)
         {
-            <div class="alert alert-success">@TempData["Uspjeh"]</div>
+        <div class="alert alert-success">@TempData["Uspjeh"]</div>
         }
         @if (TempData["Greska"] != null)
         {
-            <div class="alert alert-danger">@TempData["Greska"]</div>
+        <div class="alert alert-danger">@TempData["Greska"]</div>
         }
 
         @if (ViewBag.PrefilledIme != null)
         {
-            <div class="prefilled-banner">
-                ℹ️ Polja su automatski popunjena iz zahtjeva. Provjerite podatke i sačuvajte.
-            </div>
+        <div class="prefilled-banner">
+            Polja su automatski popunjena iz zahtjeva. Provjerite podatke i sacuvajte.
+        </div>
         }
 
-        <!-- Odabir studenta -->
         <select class="select-student" id="selectStudent" onchange="popuniFormu(this)">
             <option value="">-- Odaberi korisnika --</option>
             @if (studenti != null)
             {
                 foreach (var s in studenti)
                 {
-                    <option value="@s.Id"
-                            data-ime="@s.Ime"
-                            data-prezime="@s.Prezime"
-                            data-username="@s.UserName"
-                            data-email="@s.Email"
-                            data-indeks="@s.Indeks"
-                            data-godina="@s.GodinaStudija"
-                            data-jmbg="@s.JMBG"
-                            data-datum="@(s.DatumRodjenja != default ? s.DatumRodjenja.ToString("yyyy-MM-dd") : "")"
-                            data-imeoca="@s.ImeOca"
-                            data-imemajke="@s.ImeMajke"
-                            data-mjesto="@s.MjestoPrebivalisca"
-                            data-odsjek="@s.Odsjek"
-                            data-ciklus="@s.Ciklus"
-                            data-tipstudija="@s.TipStudija"
-                            data-status="@s.StatusStudenta"
-                            data-semestar="@s.Semestar">
-                        @s.Ime @s.Prezime (@s.Indeks)
-                    </option>
+            <option value="@s.Id"
+                    data-ime="@s.Ime"
+                    data-prezime="@s.Prezime"
+                    data-username="@s.UserName"
+                    data-email="@s.Email"
+                    data-indeks="@s.Indeks"
+                    data-godina="@s.GodinaStudija"
+                    data-jmbg="@s.JMBG"
+                    data-datum="@(s.DatumRodjenja != default ? s.DatumRodjenja.ToString("yyyy-MM-dd") : "")"
+                    data-imeoca="@s.ImeOca"
+                    data-imemajke="@s.ImeMajke"
+                    data-mjesto="@s.MjestoPrebivalisca"
+                    data-odsjek="@s.Odsjek"
+                    data-ciklus="@s.Ciklus"
+                    data-tipstudija="@s.TipStudija"
+                    data-status="@s.StatusStudenta"
+                    data-semestar="@s.Semestar">
+                @s.Ime @s.Prezime (@s.Indeks)
+            </option>
                 }
             }
         </select>
@@ -216,81 +218,32 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="id" id="hiddenId" />
 
-            <div class="form-row">
-                <label>Ime</label>
-                <input type="text" name="ime" id="fIme" />
-            </div>
-            <div class="form-row">
-                <label>Prezime</label>
-                <input type="text" name="prezime" id="fPrezime" />
-            </div>
-            <div class="form-row">
-                <label>JMBG</label>
-                <input type="text" name="jmbg" id="fJmbg" />
-            </div>
-            <div class="form-row">
-                <label>Datum rođenja</label>
-                <input type="date" name="datumRodjenja" id="fDatum" />
-            </div>
-            <div class="form-row">
-                <label>Ime i prezime oca</label>
-                <input type="text" name="imeOca" id="fImeOca" />
-            </div>
-            <div class="form-row">
-                <label>Ime i prezime majke</label>
-                <input type="text" name="imeMajke" id="fImeMajke" />
-            </div>
-            <div class="form-row">
-                <label>Mjesto prebivališta</label>
-                <input type="text" name="mjesto" id="fMjesto" />
-            </div>
-            <div class="form-row">
-                <label>Korisničko ime</label>
-                <input type="text" name="username" id="fUsername" />
-            </div>
-            <div class="form-row">
-                <label>Korisnički email</label>
-                <input type="email" name="email" id="fEmail" />
-            </div>
-            <div class="form-row">
-                <label>Indeks</label>
-                <input type="text" name="indeks" id="fIndeks" />
-            </div>
-            <div class="form-row">
-                <label>Odsjek</label>
-                <input type="text" name="odsjek" id="fOdsjek" />
-            </div>
-            <div class="form-row">
-                <label>Ciklus</label>
-                <input type="text" name="ciklus" id="fCiklus" />
-            </div>
-            <div class="form-row">
-                <label>Tip studija</label>
-                <input type="text" name="tipStudija" id="fTipStudija" />
-            </div>
-            <div class="form-row">
-                <label>Status</label>
-                <input type="text" name="status" id="fStatus" />
-            </div>
-            <div class="form-row">
-                <label>Godina studija</label>
-                <input type="number" name="godinaStudija" id="fGodinaStudija" min="1" max="5" />
-            </div>
-            <div class="form-row">
-                <label>Semestar</label>
-                <input type="number" name="semestar" id="fSemestar" />
-            </div>
+            <div class="form-row"><label>Ime</label><input type="text" name="ime" id="fIme" /></div>
+            <div class="form-row"><label>Prezime</label><input type="text" name="prezime" id="fPrezime" /></div>
+            <div class="form-row"><label>JMBG</label><input type="text" name="jmbg" id="fJmbg" /></div>
+            <div class="form-row"><label>Datum rodjenja</label><input type="date" name="datumRodjenja" id="fDatum" /></div>
+            <div class="form-row"><label>Ime oca</label><input type="text" name="imeOca" id="fImeOca" /></div>
+            <div class="form-row"><label>Ime majke</label><input type="text" name="imeMajke" id="fImeMajke" /></div>
+            <div class="form-row"><label>Mjesto prebivalista</label><input type="text" name="mjesto" id="fMjesto" /></div>
+            <div class="form-row"><label>Korisnicko ime</label><input type="text" name="username" id="fUsername" /></div>
+            <div class="form-row"><label>Email</label><input type="email" name="email" id="fEmail" /></div>
+            <div class="form-row"><label>Indeks</label><input type="text" name="indeks" id="fIndeks" /></div>
+            <div class="form-row"><label>Odsjek</label><input type="text" name="odsjek" id="fOdsjek" /></div>
+            <div class="form-row"><label>Ciklus</label><input type="text" name="ciklus" id="fCiklus" /></div>
+            <div class="form-row"><label>Tip studija</label><input type="text" name="tipStudija" id="fTipStudija" /></div>
+            <div class="form-row"><label>Status</label><input type="text" name="status" id="fStatus" /></div>
+            <div class="form-row"><label>Godina studija</label><input type="number" name="godinaStudija" id="fGodinaStudija" min="1" max="5" /></div>
+            <div class="form-row"><label>Semestar</label><input type="number" name="semestar" id="fSemestar" /></div>
 
             <div class="forma-akcije-row">
                 <button type="button" class="btn-brisi-korisnik" id="btnBrisiKorisnik"
                         onclick="brisiKorisnika()" disabled>
-                    Obriši korisnika
+                    Obrisi korisnika
                 </button>
                 <button type="submit" class="btn-akcija">Spasi promjene</button>
             </div>
         </form>
 
-        <!-- Skrivena forma za brisanje -->
         <form method="post" asp-action="ObrisiKorisnika" asp-controller="Administrator"
               id="formaBrisanje" style="display:none;">
             @Html.AntiForgeryToken()
@@ -298,133 +251,124 @@
         </form>
     </div>
 
-    <!-- KREIRANJE NOVOG KORISNIKA -->
     <div class="card-panel" style="border-top-color: #8e44ad;">
         <h5>Kreiranje novog korisnika</h5>
 
         <form method="post" asp-action="KreirajKorisnika" asp-controller="Administrator">
             @Html.AntiForgeryToken()
 
-            <div class="form-row">
-                <label>Ime</label>
-                <input type="text" name="ime" required />
-            </div>
-            <div class="form-row">
-                <label>Prezime</label>
-                <input type="text" name="prezime" required />
-            </div>
-            <div class="form-row">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="Ostavi prazno za automatski" />
-            </div>
-            <p class="form-hint">Ako se ne unese, email će biti automatski generisan (ime.prezime@etf.unsa.ba)</p>
-            <div class="form-row">
-                <label>Lozinka</label>
-                <input type="password" name="lozinka" required />
-            </div>
-            <div class="form-row">
-                <label>Indeks (studenti)</label>
-                <input type="text" name="indeks" />
-            </div>
-            <div class="form-row">
-                <label>Godina studija</label>
-                <input type="number" name="godinaStudija" />
-            </div>
+            <div class="form-row"><label>Ime</label><input type="text" name="ime" required /></div>
+            <div class="form-row"><label>Prezime</label><input type="text" name="prezime" required /></div>
+            <div class="form-row"><label>Email</label><input type="email" name="email" placeholder="Ostavi prazno za automatski" /></div>
+            <p class="form-hint">Ako se ne unese, email ce biti automatski generisan (ime.prezime@etf.unsa.ba)</p>
+            <div class="form-row"><label>Lozinka</label><input type="password" name="lozinka" required /></div>
+            <div class="form-row"><label>Indeks (studenti)</label><input type="text" name="indeks" /></div>
+            <div class="form-row"><label>Godina studija</label><input type="number" name="godinaStudija" /></div>
             <div class="form-row">
                 <label>Privilegije</label>
                 <select name="privilegije">
                     <option value="Student">Student</option>
                     <option value="Profesor">Profesor</option>
                     <option value="Administrator">Administrator</option>
-                    <option value="StudentskaSluzba">Studentska služba</option>
+                    <option value="StudentskaSluzba">Studentska sluzba</option>
                 </select>
             </div>
             <button type="submit" class="btn-akcija" style="background-color: #8e44ad;">Kreiraj</button>
         </form>
     </div>
 </div>
+
 @section Scripts {
     <script>
-        function popuniFormu(select) {
-            var opt = select.options[select.selectedIndex];
-            var id = select.value;
+    function ocistiEncoding(str) {
+        if (!str) return '';
+        return str
+            .replace(/č/g, 'c').replace(/Č/g, 'C')
+            .replace(/ć/g, 'c').replace(/Ć/g, 'C')
+            .replace(/š/g, 's').replace(/Š/g, 'S')
+            .replace(/ž/g, 'z').replace(/Ž/g, 'Z')
+            .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+    }
 
-            document.getElementById('hiddenId').value = id;
-            document.getElementById('brisiId').value = id;
-            document.getElementById('fIme').value = opt.dataset.ime || '';
-            document.getElementById('fPrezime').value = opt.dataset.prezime || '';
-            document.getElementById('fUsername').value = opt.dataset.username || '';
-            document.getElementById('fEmail').value = opt.dataset.email || '';
-            document.getElementById('fIndeks').value = opt.dataset.indeks || '';
-            document.getElementById('fGodinaStudija').value = opt.dataset.godina || '';
-            document.getElementById('fJmbg').value = opt.dataset.jmbg || '';
-            document.getElementById('fDatum').value = opt.dataset.datum || '';
-            document.getElementById('fImeOca').value = opt.dataset.imeoca || '';
-            document.getElementById('fImeMajke').value = opt.dataset.imemajke || '';
-            document.getElementById('fMjesto').value = opt.dataset.mjesto || '';
-            document.getElementById('fOdsjek').value = opt.dataset.odsjek || '';
-            document.getElementById('fCiklus').value = opt.dataset.ciklus || '';
-            document.getElementById('fTipStudija').value = opt.dataset.tipstudija || '';
-            document.getElementById('fStatus').value = opt.dataset.status || '';
-            document.getElementById('fSemestar').value = opt.dataset.semestar || '';
+    function popuniFormu(select) {
+        var opt = select.options[select.selectedIndex];
+        var id = select.value;
 
-            document.getElementById('btnBrisiKorisnik').disabled = !id;
+        document.getElementById('hiddenId').value = id;
+        document.getElementById('brisiId').value = id;
+        document.getElementById('fIme').value = opt.dataset.ime || '';
+        document.getElementById('fPrezime').value = opt.dataset.prezime || '';
+        document.getElementById('fUsername').value = opt.dataset.username || '';
+        document.getElementById('fEmail').value = opt.dataset.email || '';
+        document.getElementById('fIndeks').value = opt.dataset.indeks || '';
+        document.getElementById('fGodinaStudija').value = opt.dataset.godina || '';
+        document.getElementById('fJmbg').value = opt.dataset.jmbg || '';
+        document.getElementById('fDatum').value = opt.dataset.datum || '';
+        document.getElementById('fImeOca').value = opt.dataset.imeoca || '';
+        document.getElementById('fImeMajke').value = opt.dataset.imemajke || '';
+        document.getElementById('fMjesto').value = opt.dataset.mjesto || '';
+        document.getElementById('fOdsjek').value = opt.dataset.odsjek || '';
+        document.getElementById('fCiklus').value = opt.dataset.ciklus || '';
+        document.getElementById('fTipStudija').value = opt.dataset.tipstudija || '';
+        document.getElementById('fStatus').value = opt.dataset.status || '';
+        document.getElementById('fSemestar').value = opt.dataset.semestar || '';
+
+        document.getElementById('btnBrisiKorisnik').disabled = !id;
+    }
+
+    function brisiKorisnika() {
+        var ime = document.getElementById('fIme').value;
+        var prezime = document.getElementById('fPrezime').value;
+        if (confirm('Sigurno zelis obrisati korisnika ' + ime + ' ' + prezime + '? Ova akcija je nepovratna!')) {
+            document.getElementById('formaBrisanje').submit();
         }
+    }
 
-        function brisiKorisnika() {
-            var ime = document.getElementById('fIme').value;
-            var prezime = document.getElementById('fPrezime').value;
-            if (confirm('Sigurno želiš obrisati korisnika ' + ime + ' ' + prezime + '? Ova akcija je nepovratna!')) {
-                document.getElementById('formaBrisanje').submit();
-            }
-        }
+    var prefilledIme = '@(ViewBag.PrefilledIme ?? "")';
+    var prefilledPrezime = '@(ViewBag.PrefilledPrezime ?? "")';
+    var prefilledIndeks = '@(ViewBag.PrefilledIndeks ?? "")';
+    var prefilledEmail = '@(ViewBag.PrefilledEmail ?? "")';
+    var prefilledGodina = '@(ViewBag.PrefilledGodina ?? "")';
+    var prefilledSemestar = '@(ViewBag.PrefilledSemestar ?? "")';
+    var prefilledJmbg = '@(ViewBag.PrefilledJmbg ?? "")';
+    var prefilledDatum = '@(ViewBag.PrefilledDatum ?? "")';
+    var prefilledImeOca = '@(ViewBag.PrefilledImeOca ?? "")';
+    var prefilledImeMajke = '@(ViewBag.PrefilledImeMajke ?? "")';
+    var prefilledMjesto = '@(ViewBag.PrefilledMjesto ?? "")';
+    var prefilledOdsjek = '@(ViewBag.PrefilledOdsjek ?? "")';
+    var prefilledCiklus = '@(ViewBag.PrefilledCiklus ?? "")';
+    var prefilledTipStudija = '@(ViewBag.PrefilledTipStudija ?? "")';
+    var prefilledStatus = '@(ViewBag.PrefilledStatus ?? "")';
 
-        var prefilledIme = '@(ViewBag.PrefilledIme ?? "")';
-        var prefilledPrezime = '@(ViewBag.PrefilledPrezime ?? "")';
-        var prefilledIndeks = '@(ViewBag.PrefilledIndeks ?? "")';
-        var prefilledEmail = '@(ViewBag.PrefilledEmail ?? "")';
-        var prefilledGodina = '@(ViewBag.PrefilledGodina ?? "")';
-        var prefilledSemestar = '@(ViewBag.PrefilledSemestar ?? "")';
-        var prefilledJmbg = '@(ViewBag.PrefilledJmbg ?? "")';
-        var prefilledDatum = '@(ViewBag.PrefilledDatum ?? "")';
-        var prefilledImeOca = '@(ViewBag.PrefilledImeOca ?? "")';
-        var prefilledImeMajke = '@(ViewBag.PrefilledImeMajke ?? "")';
-        var prefilledMjesto = '@(ViewBag.PrefilledMjesto ?? "")';
-        var prefilledOdsjek = '@(ViewBag.PrefilledOdsjek ?? "")';
-        var prefilledCiklus = '@(ViewBag.PrefilledCiklus ?? "")';
-        var prefilledTipStudija = '@(ViewBag.PrefilledTipStudija ?? "")';
-        var prefilledStatus = '@(ViewBag.PrefilledStatus ?? "")';
+    window.addEventListener('load', function () {
+        if (!prefilledIme && !prefilledIndeks) return;
 
-        window.addEventListener('load', function () {
-            if (!prefilledIme && !prefilledIndeks) return;
-
-            var select = document.getElementById('selectStudent');
-            if (select && prefilledIndeks) {
-                for (var i = 0; i < select.options.length; i++) {
-                    if (select.options[i].dataset.indeks === prefilledIndeks.trim()) {
-                        select.selectedIndex = i;
-                        popuniFormu(select);
-                        break;
-                    }
+        var select = document.getElementById('selectStudent');
+        if (select && prefilledIndeks) {
+            for (var i = 0; i < select.options.length; i++) {
+                if (select.options[i].dataset.indeks === prefilledIndeks.trim()) {
+                    select.selectedIndex = i;
+                    popuniFormu(select);
+                    break;
                 }
             }
+        }
 
-            if (prefilledIme) document.getElementById('fIme').value = prefilledIme;
-            if (prefilledPrezime) document.getElementById('fPrezime').value = prefilledPrezime;
-            if (prefilledIndeks) document.getElementById('fIndeks').value = prefilledIndeks;
-            if (prefilledEmail) document.getElementById('fEmail').value = prefilledEmail;
-            if (prefilledGodina) document.getElementById('fGodinaStudija').value = prefilledGodina;
-            if (prefilledSemestar) document.getElementById('fSemestar').value = prefilledSemestar;
-            if (prefilledJmbg) document.getElementById('fJmbg').value = prefilledJmbg;
-            if (prefilledDatum) document.getElementById('fDatum').value = prefilledDatum;
-            if (prefilledImeOca) document.getElementById('fImeOca').value = prefilledImeOca;
-            if (prefilledImeMajke) document.getElementById('fImeMajke').value = prefilledImeMajke;
-            if (prefilledMjesto) document.getElementById('fMjesto').value = prefilledMjesto;
-            if (prefilledOdsjek) document.getElementById('fOdsjek').value = prefilledOdsjek;
-            if (prefilledCiklus) document.getElementById('fCiklus').value = prefilledCiklus;
-            if (prefilledTipStudija) document.getElementById('fTipStudija').value = prefilledTipStudija;
-            if (prefilledStatus) document.getElementById('fStatus').value = prefilledStatus;
-        });
+        if (prefilledIme) document.getElementById('fIme').value = ocistiEncoding(prefilledIme);
+        if (prefilledPrezime) document.getElementById('fPrezime').value = ocistiEncoding(prefilledPrezime);
+        if (prefilledIndeks) document.getElementById('fIndeks').value = ocistiEncoding(prefilledIndeks);
+        if (prefilledEmail) document.getElementById('fEmail').value = ocistiEncoding(prefilledEmail);
+        if (prefilledGodina) document.getElementById('fGodinaStudija').value = ocistiEncoding(prefilledGodina);
+        if (prefilledSemestar) document.getElementById('fSemestar').value = ocistiEncoding(prefilledSemestar);
+        if (prefilledJmbg) document.getElementById('fJmbg').value = ocistiEncoding(prefilledJmbg);
+        if (prefilledDatum) document.getElementById('fDatum').value = ocistiEncoding(prefilledDatum);
+        if (prefilledImeOca) document.getElementById('fImeOca').value = ocistiEncoding(prefilledImeOca);
+        if (prefilledImeMajke) document.getElementById('fImeMajke').value = ocistiEncoding(prefilledImeMajke);
+        if (prefilledMjesto) document.getElementById('fMjesto').value = ocistiEncoding(prefilledMjesto);
+        if (prefilledOdsjek) document.getElementById('fOdsjek').value = ocistiEncoding(prefilledOdsjek);
+        if (prefilledCiklus) document.getElementById('fCiklus').value = ocistiEncoding(prefilledCiklus);
+        if (prefilledTipStudija) document.getElementById('fTipStudija').value = ocistiEncoding(prefilledTipStudija);
+        if (prefilledStatus) document.getElementById('fStatus').value = ocistiEncoding(prefilledStatus);
+    });
     </script>
-}
 }

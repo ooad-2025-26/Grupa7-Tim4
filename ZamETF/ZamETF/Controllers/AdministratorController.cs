@@ -1357,25 +1357,28 @@ namespace ZamETF.Controllers
             var studenti = await _context.Studenti.ToListAsync();
             ViewBag.Studenti = studenti;
 
-            // Parsiraj poruku i proslijedi podatke u ViewBag
             var poruka = obavijest.Poruka ?? "";
             var linije = poruka.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-            ViewBag.PrefilledIme = linije.FirstOrDefault(l => l.StartsWith("Ime:"))?.Replace("Ime:", "").Trim();
-            ViewBag.PrefilledPrezime = linije.FirstOrDefault(l => l.StartsWith("Prezime:"))?.Replace("Prezime:", "").Trim();
-            ViewBag.PrefilledIndeks = linije.FirstOrDefault(l => l.StartsWith("Indeks:"))?.Replace("Indeks:", "").Trim();
-            ViewBag.PrefilledEmail = linije.FirstOrDefault(l => l.StartsWith("Email:"))?.Replace("Email:", "").Trim();
-            ViewBag.PrefilledGodina = linije.FirstOrDefault(l => l.StartsWith("Godina studija:"))?.Replace("Godina studija:", "").Trim();
-            ViewBag.PrefilledSemestar = linije.FirstOrDefault(l => l.StartsWith("Semestar:"))?.Replace("Semestar:", "").Trim();
-            ViewBag.PrefilledJmbg = linije.FirstOrDefault(l => l.StartsWith("JMBG:"))?.Replace("JMBG:", "").Trim();
-            ViewBag.PrefilledDatum = linije.FirstOrDefault(l => l.StartsWith("Datum rodjenja:"))?.Replace("Datum rodjenja:", "").Trim();
-            ViewBag.PrefilledImeOca = linije.FirstOrDefault(l => l.StartsWith("Ime oca:"))?.Replace("Ime oca:", "").Trim();
-            ViewBag.PrefilledImeMajke = linije.FirstOrDefault(l => l.StartsWith("Ime majke:"))?.Replace("Ime majke:", "").Trim();
-            ViewBag.PrefilledMjesto = linije.FirstOrDefault(l => l.StartsWith("Mjesto:"))?.Replace("Mjesto:", "").Trim();
-            ViewBag.PrefilledOdsjek = linije.FirstOrDefault(l => l.StartsWith("Odsjek:"))?.Replace("Odsjek:", "").Trim();
-            ViewBag.PrefilledCiklus = linije.FirstOrDefault(l => l.StartsWith("Ciklus:"))?.Replace("Ciklus:", "").Trim();
-            ViewBag.PrefilledTipStudija = linije.FirstOrDefault(l => l.StartsWith("Tip studija:"))?.Replace("Tip studija:", "").Trim();
-            ViewBag.PrefilledStatus = linije.FirstOrDefault(l => l.StartsWith("Status:"))?.Replace("Status:", "").Trim();
+            string Parsiraj(string prefix) =>
+                linije.FirstOrDefault(l => l.StartsWith(prefix))
+                      ?.Replace(prefix, "").Trim() ?? "";
+
+            ViewBag.PrefilledIme = Parsiraj("Ime:");
+            ViewBag.PrefilledPrezime = Parsiraj("Prezime:");
+            ViewBag.PrefilledIndeks = Parsiraj("Indeks:");
+            ViewBag.PrefilledEmail = Parsiraj("Email:");
+            ViewBag.PrefilledGodina = Parsiraj("Godina studija:");
+            ViewBag.PrefilledSemestar = Parsiraj("Semestar:");
+            ViewBag.PrefilledJmbg = Parsiraj("JMBG:");
+            ViewBag.PrefilledDatum = Parsiraj("Datum rodjenja:");
+            ViewBag.PrefilledImeOca = Parsiraj("Ime oca:");
+            ViewBag.PrefilledImeMajke = Parsiraj("Ime majke:");
+            ViewBag.PrefilledMjesto = Parsiraj("Mjesto:");
+            ViewBag.PrefilledOdsjek = Parsiraj("Odsjek:");
+            ViewBag.PrefilledCiklus = Parsiraj("Ciklus:");
+            ViewBag.PrefilledTipStudija = Parsiraj("Tip studija:");
+            ViewBag.PrefilledStatus = Parsiraj("Status:");
             ViewBag.ObavijestId = obavijestId;
 
             return View("UnosIzmjena");
