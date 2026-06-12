@@ -186,9 +186,11 @@
                         <td>@(i++)</td>
                         <td>@predaja.Student?.Ime @predaja.Student?.Prezime</td>
                         <td>
-                            @if (!string.IsNullOrEmpty(predaja.Fajl))
+                            @if (predaja.FajlBytes != null || !string.IsNullOrEmpty(predaja.Fajl))
                             {
-                                <a href="@predaja.Fajl" target="_blank" class="btn-pdf">
+                                <a asp-action="PreuzmiPdf" asp-controller="Student"
+                                   asp-route-id="@predaja.Id"
+                                   target="_blank" class="btn-pdf">
                                     📄 Pregledaj PDF
                                 </a>
                             }

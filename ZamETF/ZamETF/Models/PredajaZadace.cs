@@ -1,42 +1,30 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-
 namespace ZamETF.Models
 {
     public class PredajaZadace
     {
         public int Id { get; set; }
-
         public int ZadacaId { get; set; }
         public Zadaca Zadaca { get; set; }
-
         [Required]
         public Student Student { get; set; }
         public int StudentID { get; set; }
-
         public DateTime DatumPredaje { get; set; } = DateTime.Now;
-
-        [Required]
-        [StringLength(260)]
-        public string Fajl { get; set; }
-
+        public string Fajl { get; set; } // zadržavamo za stare zapise
+        public byte[] FajlBytes { get; set; } // novi — PDF u bazi
+        public string FajlIme { get; set; } // originalno ime fajla
         [StringLength(2000)]
         public string Komentar { get; set; }
-
         [Range(0, 100)]
         public int? Bodovi { get; set; }
-
         public StatusZadace Status { get; set; } = StatusZadace.Predana;
-
         public string GetFajl() => Fajl;
         public void SetFajl(string fajl) => Fajl = fajl;
-
         public int? GetBodovi() => Bodovi;
         public void SetBodovi(int? bodovi) => Bodovi = bodovi;
-
         public StatusZadace GetStatus() => Status;
         public void SetStatus(StatusZadace status) => Status = status;
-
         public void DodajKomentar(string komentar) => Komentar = komentar;
     }
 }

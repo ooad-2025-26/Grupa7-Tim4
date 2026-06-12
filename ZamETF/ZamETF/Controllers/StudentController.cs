@@ -90,103 +90,111 @@ namespace ZamETF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PredajZadacu(int zadacaId, IFormFile fajl, string komentar)
         {
-            komentar = komentar ?? "";
-            var korisnik = await _userManager.GetUserAsync(User);
-            var student = await _context.Studenti.FindAsync(korisnik.Id);
-            if (student == null) return NotFound();
-
-            var zadaca = await _context.Zadace.FirstOrDefaultAsync(z => z.Id == zadacaId);
-            if (zadaca == null) return NotFound();
-
-            if (!zadaca.ProvjeriRok())
+            try
             {
-                TempData["Greska"] = "Rok za predaju je istekao.";
-                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
-            }
+                komentar = komentar ?? "";
+                var korisnik = await _userManager.GetUserAsync(User);
+                var student = await _context.Studenti.FindAsync(korisnik.Id);
+                if (student == null) return NotFound();
 
-            // Dohvati postojeću predaju
-            var predaja = await _context.PredajeZadace
-                .FirstOrDefaultAsync(p => p.ZadacaId == zadacaId && p.StudentID == student.Id);
+                var zadaca = await _context.Zadace.FirstOrDefaultAsync(z => z.Id == zadacaId);
+                if (zadaca == null) return NotFound();
 
-            // Ako nema novog fajla
-            if (fajl == null || fajl.Length == 0)
-            {
+                if (!zadaca.ProvjeriRok())
+                {
+                    TempData["Greska"] = "Rok za predaju je istekao.";
+                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                }
+
+                var predaja = await _context.PredajeZadace
+                    .FirstOrDefaultAsync(p => p.ZadacaId == zadacaId && p.StudentID == student.Id);
+
+                // Ako nema novog fajla
+                if (fajl == null || fajl.Length == 0)
+                {
+                    if (predaja != null)
+                    {
+                        predaja.Komentar = komentar;
+                        predaja.DatumPredaje = DateTime.Now;
+                        await _context.SaveChangesAsync();
+                        TempData["Uspjeh"] = "Komentar je ažuriran.";
+                        return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                    }
+                    else
+                    {
+                        TempData["Greska"] = "Niste odabrali fajl.";
+                        return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                    }
+                }
+
+                // Validacija
+                var ext = Path.GetExtension(fajl.FileName).ToLowerInvariant();
+                if (ext != ".pdf")
+                {
+                    TempData["Greska"] = "Dozvoljeni su samo PDF fajlovi.";
+                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                }
+
+                if (fajl.Length > 10 * 1024 * 1024)
+                {
+                    TempData["Greska"] = "Fajl je prevelik (maksimalno 10 MB).";
+                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                }
+
+                // Čitaj fajl u byte[]
+                byte[] fajlBytes;
+                using (var ms = new MemoryStream())
+                {
+                    await fajl.CopyToAsync(ms);
+                    fajlBytes = ms.ToArray();
+                }
+
                 if (predaja != null)
                 {
-                    // Samo ažuriraj komentar, zadrži stari fajl
+                    predaja.FajlBytes = fajlBytes;
+                    predaja.FajlIme = fajl.FileName;
                     predaja.Komentar = komentar;
                     predaja.DatumPredaje = DateTime.Now;
-                    await _context.SaveChangesAsync();
-                    TempData["Uspjeh"] = "Komentar je ažuriran.";
-                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
+                    predaja.Status = StatusZadace.Predana;
+                    predaja.Bodovi = null;
                 }
                 else
                 {
-                    TempData["Greska"] = "Niste odabrali fajl.";
-                    return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
-                }
-            }
-
-            // Validacija fajla
-            var ext = Path.GetExtension(fajl.FileName).ToLowerInvariant();
-            if (ext != ".pdf")
-            {
-                TempData["Greska"] = "Dozvoljeni su samo PDF fajlovi.";
-                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
-            }
-
-            if (fajl.Length > 10 * 1024 * 1024)
-            {
-                TempData["Greska"] = "Fajl je prevelik (maksimalno 10 MB).";
-                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
-            }
-
-            // Snimi novi fajl
-            var uploadsDir = Path.Combine(_env.WebRootPath, "uploads", "zadace");
-            Directory.CreateDirectory(uploadsDir);
-
-            var fileName = $"z{zadacaId}_s{student.Id}_{Guid.NewGuid():N}.pdf";
-            var fullPath = Path.Combine(uploadsDir, fileName);
-            using (var stream = new FileStream(fullPath, FileMode.Create))
-            {
-                await fajl.CopyToAsync(stream);
-            }
-            var relPath = $"/uploads/zadace/{fileName}";
-
-            if (predaja != null)
-            {
-                // Obriši stari fajl
-                if (!string.IsNullOrEmpty(predaja.Fajl))
-                {
-                    var stari = Path.Combine(_env.WebRootPath,
-                        predaja.Fajl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-                    if (System.IO.File.Exists(stari)) System.IO.File.Delete(stari);
+                    _context.PredajeZadace.Add(new PredajaZadace
+                    {
+                        ZadacaId = zadacaId,
+                        StudentID = student.Id,
+                        FajlBytes = fajlBytes,
+                        FajlIme = fajl.FileName,
+                        Fajl = "",
+                        Komentar = komentar,
+                        DatumPredaje = DateTime.Now,
+                        Status = StatusZadace.Predana
+                    });
                 }
 
-                predaja.Fajl = relPath;
-                predaja.Komentar = komentar;
-                predaja.DatumPredaje = DateTime.Now;
-                predaja.Status = StatusZadace.Predana;
-                predaja.Bodovi = null;
+                await _context.SaveChangesAsync();
+                TempData["Uspjeh"] = "Zadaća je uspješno predana.";
+                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
             }
-            else
+            catch (Exception ex)
             {
-                _context.PredajeZadace.Add(new PredajaZadace
-                {
-                    ZadacaId = zadacaId,
-                    StudentID = student.Id,
-                    Fajl = relPath,
-                    Komentar = komentar,
-                    DatumPredaje = DateTime.Now,
-                    Status = StatusZadace.Predana
-                });
+                TempData["Greska"] = "Greška pri predaji: " + ex.Message;
+                return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
             }
-
-            await _context.SaveChangesAsync();
-            TempData["Uspjeh"] = "Zadaća je uspješno predana.";
-            return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
         }
+        public async Task<IActionResult> PreuzmiPdf(int id)
+        {
+            var predaja = await _context.PredajeZadace.FindAsync(id);
+            if (predaja == null || (predaja.FajlBytes == null && string.IsNullOrEmpty(predaja.Fajl)))
+                return NotFound();
 
+            if (predaja.FajlBytes != null)
+                return File(predaja.FajlBytes, "application/pdf", predaja.FajlIme ?? "zadaca.pdf");
+
+            // Fallback za stare zapise sa putanjom
+            return NotFound();
+        }
         public async Task<IActionResult> Index()
         {
             var korisnik = await _userManager.GetUserAsync(User);

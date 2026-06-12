@@ -5,6 +5,7 @@
     var predano = Model.MojaPredaja != null;
     var ocijenjeno = Model.MojaPredaja?.Status == ZamETF.Models.StatusZadace.Pregledana;
     var istekao = !Model.Zadaca.ProvjeriRok();
+    var imaFajl = Model.MojaPredaja?.FajlBytes != null || !string.IsNullOrEmpty(Model.MojaPredaja?.Fajl);
 }
 
 @section Styles {
@@ -240,9 +241,11 @@
                 }
             </div>
 
-            @if (!string.IsNullOrEmpty(Model.MojaPredaja.Fajl))
+            @if (imaFajl)
             {
-                <a href="@Model.MojaPredaja.Fajl" target="_blank" class="btn-preuzmi">
+                <a asp-action="PreuzmiPdf" asp-controller="Student"
+                   asp-route-id="@Model.MojaPredaja.Id"
+                   target="_blank" class="btn-preuzmi">
                     Pregledaj predani PDF
                 </a>
             }

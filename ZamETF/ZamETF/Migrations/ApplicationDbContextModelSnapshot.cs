@@ -413,8 +413,15 @@ namespace ZamETF.Migrations
 
                     b.Property<string>("Fajl")
                         .IsRequired()
-                        .HasMaxLength(260)
-                        .HasColumnType("nvarchar(260)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("FajlBytes")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("FajlIme")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Komentar")
                         .IsRequired()
