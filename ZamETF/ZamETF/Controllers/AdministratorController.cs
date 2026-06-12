@@ -1101,13 +1101,9 @@ namespace ZamETF.Controllers
             var predmet = await _context.Predmeti.FindAsync(predmetId);
             if (predmet == null) return NotFound();
 
-            // Nulliraj PredmetId na svim korisnicima koji ga referenciraju
-            var korisnici = await _context.Users
-                .Where(u => EF.Property<int?>(u, "PredmetId") == predmetId)
-                .ToListAsync();
-            foreach (var k in korisnici)
-                _context.Entry(k).Property("PredmetId").CurrentValue = null;
-            await _context.SaveChangesAsync();
+            // Nulliraj PredmetId direktno u bazi raw SQL-om
+            await _context.Database.ExecuteSqlRawAsync(
+                "UPDATE AspNetUsers SET PredmetId = NULL WHERE PredmetId = {0}", predmetId);
 
             // Ukloni upise
             var upisi = await _context.UpisaNaPredmet.Where(u => u.PredmetId == predmetId).ToListAsync();

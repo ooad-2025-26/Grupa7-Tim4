@@ -96,6 +96,12 @@ namespace ZamETF.Controllers
 
             var sada = DateTime.Now;
 
+            // Predmeti na koje je student upisan
+            var upisaniPredmetIds = await _context.UpisaNaPredmet
+                .Where(u => u.StudentId == student.Id)
+                .Select(u => u.PredmetId)
+                .ToListAsync();
+
             var mojePrijave = await _context.PrijaveIspita
                 .Include(p => p.Ispit).ThenInclude(i => i.Predmet)
                 .Where(p => p.StudentId == student.Id)
@@ -109,7 +115,9 @@ namespace ZamETF.Controllers
 
             var dostupni = await _context.Ispiti
                 .Include(i => i.Predmet)
-                .Where(i => i.RokZaPrijavu >= sada && !prijavljeniIds.Contains(i.Id))
+                .Where(i => i.RokZaPrijavu >= sada
+                         && !prijavljeniIds.Contains(i.Id)
+                         && upisaniPredmetIds.Contains(i.PredmetId))
                 .OrderBy(i => i.Datum)
                 .ToListAsync();
 
@@ -119,7 +127,6 @@ namespace ZamETF.Controllers
                 MojePrijave = mojePrijave
             };
 
-            // Student view moved to Views/Student
             return View("~/Views/Student/StudentIspit.cshtml", studentModel);
         }
 
