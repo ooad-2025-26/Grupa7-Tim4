@@ -5,151 +5,158 @@
 }
 
 @section Styles {
-    <style>
-        .content-area {
-            background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
-            border-radius: 15px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+<style>
+    .content-area {
+        background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
+        border-radius: 15px;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-            .content-area h4 {
-                color: #1a1a6e;
-                font-weight: 700;
-                text-align: center;
-                margin-bottom: 5px;
-                font-size: 1.3rem;
-            }
+    .content-area h4 {
+        color: #1a1a6e;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 5px;
+        font-size: 1.3rem;
+    }
 
-        .panels-wrapper {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-        }
+    .panels-wrapper {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+    }
 
-        .card-panel {
-            flex: 1;
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-            border-top: 4px solid #1a5f7a;
-        }
+    .card-panel {
+        flex: 1;
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        border-top: 4px solid #1a5f7a;
+    }
 
-            .card-panel h5 {
-                color: #1a1a6e;
-                font-weight: 700;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 1.1rem;
-            }
+    .card-panel h5 {
+        color: #1a1a6e;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+    }
 
-        .form-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            gap: 10px;
-        }
+    .prefilled-banner {
+        background: #e8f4fd;
+        border-left: 4px solid #1a5f7a;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 16px;
+        color: #1a1a6e;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
 
-            .form-row label {
-                color: #1a1a6e;
-                font-size: 0.85rem;
-                width: 140px;
-                min-width: 140px;
-                font-weight: 600;
-            }
+    .form-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 10px;
+    }
 
-            .form-row input,
-            .form-row select {
-                flex: 1;
-                border: none;
-                border-bottom: 1.5px solid rgba(26,26,110,0.25);
-                background: transparent;
-                padding: 4px 6px;
-                font-size: 0.85rem;
-                color: #1a1a6e;
-                outline: none;
-            }
+    .form-row label {
+        color: #1a1a6e;
+        font-size: 0.85rem;
+        width: 140px;
+        min-width: 140px;
+        font-weight: 600;
+    }
 
-                .form-row input:focus,
-                .form-row select:focus {
-                    border-bottom: 2px solid #1a1a6e;
-                }
+    .form-row input,
+    .form-row select {
+        flex: 1;
+        border: none;
+        border-bottom: 1.5px solid rgba(26,26,110,0.25);
+        background: transparent;
+        padding: 4px 6px;
+        font-size: 0.85rem;
+        color: #1a1a6e;
+        outline: none;
+    }
 
-        .form-hint {
-            font-size: 0.75rem;
-            color: #888;
-            margin-left: 150px;
-            margin-top: -6px;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
+    .form-row input:focus,
+    .form-row select:focus {
+        border-bottom: 2px solid #1a1a6e;
+    }
 
-        .btn-akcija {
-            background: #1a5f7a;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 30px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            float: right;
-            margin-top: 15px;
-            transition: background 0.3s;
-            font-weight: 600;
-        }
+    .form-hint {
+        font-size: 0.75rem;
+        color: #888;
+        margin-left: 150px;
+        margin-top: -6px;
+        margin-bottom: 8px;
+        font-style: italic;
+    }
 
-            .btn-akcija:hover {
-                background: #0a3f5a;
-            }
+    .btn-akcija {
+        background: #1a5f7a;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 30px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        float: right;
+        margin-top: 15px;
+        transition: background 0.3s;
+        font-weight: 600;
+    }
 
-        .btn-brisi-korisnik {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            float: left;
-            margin-top: 15px;
-            transition: background 0.3s;
-            font-weight: 600;
-        }
+    .btn-akcija:hover { background: #0a3f5a; }
 
-            .btn-brisi-korisnik:hover {
-                background: #c0392b;
-            }
+    .btn-brisi-korisnik {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        float: left;
+        margin-top: 15px;
+        transition: background 0.3s;
+        font-weight: 600;
+    }
 
-        .select-student {
-            width: 100%;
-            border: none;
-            border-bottom: 1.5px solid #1a1a6e;
-            background: transparent;
-            padding: 6px;
-            color: #1a1a6e;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            outline: none;
-            font-weight: 600;
-        }
+    .btn-brisi-korisnik:hover { background: #c0392b; }
 
-        .alert-success, .alert-danger {
-            border-radius: 10px;
-            margin-bottom: 10px;
-            font-size: 0.85rem;
-        }
+    .select-student {
+        width: 100%;
+        border: none;
+        border-bottom: 1.5px solid #1a1a6e;
+        background: transparent;
+        padding: 6px;
+        color: #1a1a6e;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        outline: none;
+        font-weight: 600;
+    }
 
-        .forma-akcije-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-    </style>
+    .alert-success, .alert-danger {
+        border-radius: 10px;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+    }
+
+    .forma-akcije-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        overflow: hidden;
+    }
+</style>
 }
 
 <h4>Unos i izmjena podataka</h4>
@@ -161,11 +168,18 @@
 
         @if (TempData["Uspjeh"] != null)
         {
-        <div class="alert alert-success">@TempData["Uspjeh"]</div>
+            <div class="alert alert-success">@TempData["Uspjeh"]</div>
         }
         @if (TempData["Greska"] != null)
         {
-        <div class="alert alert-danger">@TempData["Greska"]</div>
+            <div class="alert alert-danger">@TempData["Greska"]</div>
+        }
+
+        @if (ViewBag.PrefilledIme != null)
+        {
+            <div class="prefilled-banner">
+                ℹ️ Polja su automatski popunjena iz zahtjeva. Provjerite podatke i sačuvajte.
+            </div>
         }
 
         <!-- Odabir studenta -->
@@ -175,25 +189,25 @@
             {
                 foreach (var s in studenti)
                 {
-            <option value="@s.Id"
-                    data-ime="@s.Ime"
-                    data-prezime="@s.Prezime"
-                    data-username="@s.UserName"
-                    data-email="@s.Email"
-                    data-indeks="@s.Indeks"
-                    data-godina="@s.GodinaStudija"
-                    data-jmbg="@s.JMBG"
-                    data-datum="@(s.DatumRodjenja != default ? s.DatumRodjenja.ToString("yyyy-MM-dd") : "")"
-                    data-imeoca="@s.ImeOca"
-                    data-imemajke="@s.ImeMajke"
-                    data-mjesto="@s.MjestoPrebivalisca"
-                    data-odsjek="@s.Odsjek"
-                    data-ciklus="@s.Ciklus"
-                    data-tipstudija="@s.TipStudija"
-                    data-status="@s.StatusStudenta"
-                    data-semestar="@s.Semestar">
-                @s.Ime @s.Prezime
-            </option>
+                    <option value="@s.Id"
+                            data-ime="@s.Ime"
+                            data-prezime="@s.Prezime"
+                            data-username="@s.UserName"
+                            data-email="@s.Email"
+                            data-indeks="@s.Indeks"
+                            data-godina="@s.GodinaStudija"
+                            data-jmbg="@s.JMBG"
+                            data-datum="@(s.DatumRodjenja != default ? s.DatumRodjenja.ToString("yyyy-MM-dd") : "")"
+                            data-imeoca="@s.ImeOca"
+                            data-imemajke="@s.ImeMajke"
+                            data-mjesto="@s.MjestoPrebivalisca"
+                            data-odsjek="@s.Odsjek"
+                            data-ciklus="@s.Ciklus"
+                            data-tipstudija="@s.TipStudija"
+                            data-status="@s.StatusStudenta"
+                            data-semestar="@s.Semestar">
+                        @s.Ime @s.Prezime (@s.Indeks)
+                    </option>
                 }
             }
         </select>
@@ -329,7 +343,6 @@
         </form>
     </div>
 </div>
-
 @section Scripts {
     <script>
         function popuniFormu(select) {
@@ -355,7 +368,6 @@
             document.getElementById('fStatus').value = opt.dataset.status || '';
             document.getElementById('fSemestar').value = opt.dataset.semestar || '';
 
-            // Aktiviraj dugme za brisanje samo kad je korisnik odabran
             document.getElementById('btnBrisiKorisnik').disabled = !id;
         }
 
@@ -366,5 +378,53 @@
                 document.getElementById('formaBrisanje').submit();
             }
         }
+
+        var prefilledIme = '@(ViewBag.PrefilledIme ?? "")';
+        var prefilledPrezime = '@(ViewBag.PrefilledPrezime ?? "")';
+        var prefilledIndeks = '@(ViewBag.PrefilledIndeks ?? "")';
+        var prefilledEmail = '@(ViewBag.PrefilledEmail ?? "")';
+        var prefilledGodina = '@(ViewBag.PrefilledGodina ?? "")';
+        var prefilledSemestar = '@(ViewBag.PrefilledSemestar ?? "")';
+        var prefilledJmbg = '@(ViewBag.PrefilledJmbg ?? "")';
+        var prefilledDatum = '@(ViewBag.PrefilledDatum ?? "")';
+        var prefilledImeOca = '@(ViewBag.PrefilledImeOca ?? "")';
+        var prefilledImeMajke = '@(ViewBag.PrefilledImeMajke ?? "")';
+        var prefilledMjesto = '@(ViewBag.PrefilledMjesto ?? "")';
+        var prefilledOdsjek = '@(ViewBag.PrefilledOdsjek ?? "")';
+        var prefilledCiklus = '@(ViewBag.PrefilledCiklus ?? "")';
+        var prefilledTipStudija = '@(ViewBag.PrefilledTipStudija ?? "")';
+        var prefilledStatus = '@(ViewBag.PrefilledStatus ?? "")';
+
+        window.addEventListener('load', function () {
+            if (!prefilledIme && !prefilledIndeks) return;
+
+            var select = document.getElementById('selectStudent');
+            if (select && prefilledIndeks) {
+                for (var i = 0; i < select.options.length; i++) {
+                    if (select.options[i].dataset.indeks === prefilledIndeks.trim()) {
+                        select.selectedIndex = i;
+                        popuniFormu(select);
+                        break;
+                    }
+                }
+            }
+
+            if (prefilledIme) document.getElementById('fIme').value = prefilledIme;
+            if (prefilledPrezime) document.getElementById('fPrezime').value = prefilledPrezime;
+            if (prefilledIndeks) document.getElementById('fIndeks').value = prefilledIndeks;
+            if (prefilledEmail) document.getElementById('fEmail').value = prefilledEmail;
+            if (prefilledGodina) document.getElementById('fGodinaStudija').value = prefilledGodina;
+            if (prefilledSemestar) document.getElementById('fSemestar').value = prefilledSemestar;
+            if (prefilledJmbg) document.getElementById('fJmbg').value = prefilledJmbg;
+            if (prefilledDatum) document.getElementById('fDatum').value = prefilledDatum;
+            if (prefilledImeOca) document.getElementById('fImeOca').value = prefilledImeOca;
+            if (prefilledImeMajke) document.getElementById('fImeMajke').value = prefilledImeMajke;
+            if (prefilledMjesto) document.getElementById('fMjesto').value = prefilledMjesto;
+            if (prefilledOdsjek) document.getElementById('fOdsjek').value = prefilledOdsjek;
+            if (prefilledCiklus) document.getElementById('fCiklus').value = prefilledCiklus;
+            if (prefilledTipStudija) document.getElementById('fTipStudija').value = prefilledTipStudija;
+            if (prefilledStatus) document.getElementById('fStatus').value = prefilledStatus;
+        });
     </script>
+}
 }

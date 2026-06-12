@@ -2,37 +2,180 @@
     ViewData["Title"] = "Admin Panel";
     Layout = "_LayoutAdmin";
     var obavijesti = ViewBag.Obavijesti as List<ZamETF.Models.Obavijest>;
+    var zahtjeviPodaci = obavijesti?.Where(o => !o.Procitana &&
+        (o.Naslov.Contains("Zahtjev za Upis") || o.Naslov.Contains("Zahtjev za Izmjena") ||
+         o.Naslov.Contains("podataka") || o.Naslov.Contains("brisanje") || o.Naslov.Contains("Brisanje"))).ToList();
+    var zahtjeviStatistika = obavijesti?.Where(o => !o.Procitana &&
+        (o.Naslov.Contains("statistiku") || o.Naslov.Contains("Statistika") ||
+         o.Naslov.Contains("Zahtjev profesora") || o.Naslov.Contains("Prepis") ||
+         o.Naslov.Contains("Zahtjev:"))).ToList();
 }
 
 @section Styles {
     <style>
-        /* Define content-area styling to match the unified admin dashboard panel design */
         .content-area {
             background: linear-gradient(180deg, #b8f0e0 0%, #a0c8f0 100%);
             border-radius: 15px;
             padding: 25px;
         }
-        .content-area h5 { color: #1a1a6e; font-weight: 700; margin-bottom: 20px; text-align: center; }
-        .zahtjev-card { background: white; border-radius: 12px; padding: 14px 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-left: 4px solid #e74c3c; }
-        .zahtjev-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.13); }
-        .zahtjev-info { flex: 1; color: #1a1a6e; font-size: 0.9rem; }
-        .zahtjev-info .naslov { font-weight: 700; font-size: 0.92rem; }
-        .zahtjev-info .detalji { font-size: 0.8rem; opacity: 0.65; margin-top: 3px; }
-        .zahtjev-actions { display: flex; gap: 8px; flex-shrink: 0; }
-        .btn-statistika { background: #1a5f7a; color: white; border: none; border-radius: 15px; padding: 6px 14px; font-size: 0.8rem; cursor: pointer; text-decoration: none; display: inline-block; }
-        .btn-statistika:hover { background: #0a3f5a; color: white; }
-        .btn-obradi { background: #27ae60; color: white; border: none; border-radius: 15px; padding: 6px 14px; font-size: 0.8rem; cursor: pointer; }
-        .btn-obradi:hover { background: #1e8449; }
-        .alert { border-radius: 10px; margin-bottom: 15px; font-size: 0.9rem; }
-        .empty-text { color: #1a1a6e; opacity: 0.6; font-size: 0.9rem; text-align: center; margin-top: 20px; }
-        .stats-row { display: flex; gap: 12px; margin-bottom: 20px; justify-content: center; }
-        .stat-box { background: white; border-radius: 12px; padding: 12px 20px; text-align: center; min-width: 110px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-        .stat-box .broj { font-size: 1.6rem; font-weight: 700; color: #1a1a6e; }
-        .stat-box .label { font-size: 0.78rem; color: #555; }
+
+        .sekcija {
+            background: rgba(255,255,255,0.35);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .sekcija-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(26,26,110,0.1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+            .sekcija-header h6 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 0.95rem;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+        .toggle-icon {
+            color: #1a1a6e;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .sekcija-body {
+            padding: 16px 20px;
+        }
+
+        .zahtjev-card {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border-left: 4px solid #e74c3c;
+            gap: 10px;
+        }
+
+        .zahtjev-info {
+            flex: 1;
+            color: #1a1a6e;
+            font-size: 0.88rem;
+        }
+
+            .zahtjev-info .naslov {
+                font-weight: 700;
+                margin-bottom: 3px;
+            }
+
+            .zahtjev-info .detalji {
+                font-size: 0.78rem;
+                opacity: 0.6;
+            }
+
+            .zahtjev-info .poruka {
+                font-size: 0.78rem;
+                opacity: 0.7;
+                margin-top: 4px;
+                white-space: pre-line;
+                max-height: 80px;
+                overflow-y: auto;
+            }
+
+        .zahtjev-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-akcija {
+            border: none;
+            border-radius: 13px;
+            padding: 5px 12px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-stat {
+            background: #1a5f7a;
+        }
+
+            .btn-stat:hover {
+                background: #0a3f5a;
+                color: white;
+            }
+
+        .btn-obradi {
+            background: #27ae60;
+        }
+
+            .btn-obradi:hover {
+                background: #1e8449;
+            }
+
+        .btn-izmjena {
+            background: #8e44ad;
+        }
+
+            .btn-izmjena:hover {
+                background: #6c3483;
+            }
+
+        .btn-pogledaj {
+            background: #1a5f7a;
+        }
+
+            .btn-pogledaj:hover {
+                background: #0a3f5a;
+                color: white;
+            }
+
+        .btn-brisi {
+            background: #e74c3c;
+        }
+
+            .btn-brisi:hover {
+                background: #c0392b;
+            }
+
+        .badge-count {
+            background: #e74c3c;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .empty-text {
+            color: #1a1a6e;
+            opacity: 0.6;
+            font-size: 0.88rem;
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
     </style>
 }
-
-<h5>Novi zahtjevi</h5>
 
 @if (TempData["Uspjeh"] != null)
 {
@@ -43,39 +186,137 @@
     <div class="alert alert-danger">@TempData["Greska"]</div>
 }
 
-@if (obavijesti != null && obavijesti.Any())
+@if ((zahtjeviPodaci == null || !zahtjeviPodaci.Any()) &&
+     (zahtjeviStatistika == null || !zahtjeviStatistika.Any()))
 {
-    <div class="stats-row">
-        <div class="stat-box">
-            <div class="broj">@obavijesti.Count</div>
-            <div class="label">Novih zahtjeva</div>
+    <p class="empty-text" style="text-align:center; padding:30px 0;">
+        Nema novih zahtjeva.
+    </p>
+}
+
+<!-- ZAHTJEVI ZA PODATKE -->
+@if (zahtjeviPodaci != null && zahtjeviPodaci.Any())
+{
+    <div class="sekcija">
+        <div class="sekcija-header" onclick="toggleSekcija('podaci', this)">
+            <h6>
+                Zahtjevi za unos/izmjenu podataka
+                <span class="badge-count">@zahtjeviPodaci.Count</span>
+            </h6>
+            <span class="toggle-icon" id="ikona-podaci">&#8743;</span>
+        </div>
+        <div class="sekcija-body" id="tijelo-podaci">
+            @foreach (var o in zahtjeviPodaci.OrderByDescending(x => x.DatumSlanja))
+            {
+                var jeBrisanje = o.Naslov?.Contains("brisanje") == true || o.Naslov?.Contains("Brisanje") == true;
+                var jeIzmjena = o.Naslov?.Contains("Izmjena") == true;
+
+                <div class="zahtjev-card">
+                    <div class="zahtjev-info">
+                        <div class="naslov">@o.Naslov</div>
+                        <div class="detalji">
+                            Od: @(o.Posiljалac?.Ime + " " + o.Posiljалac?.Prezime)
+                            &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
+                        </div>
+                        @if (!string.IsNullOrEmpty(o.Poruka))
+                        {
+                            <div class="poruka">@o.Poruka</div>
+                        }
+                    </div>
+                    <div class="zahtjev-actions">
+                        @if (jeBrisanje)
+                        {
+                            <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                               asp-route-obavijestId="@o.Id"
+                               class="btn-akcija btn-brisi" style="text-decoration:none;">
+                                Pogledaj (brisanje)
+                            </a>
+                        }
+                        else if (jeIzmjena)
+                        {
+                            <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                               asp-route-obavijestId="@o.Id"
+                               class="btn-akcija btn-izmjena" style="text-decoration:none;">
+                                Pogledaj i primijeni
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                               asp-route-obavijestId="@o.Id"
+                               class="btn-akcija btn-pogledaj" style="text-decoration:none;">
+                                Pogledaj
+                            </a>
+                        }
+                   <form method="post" asp-action="OznaciObradenim"
+                              asp-controller="Administrator" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="obavijestId" value="@o.Id" />
+                            <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
+                        </form>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-
-    foreach (var o in obavijesti)
-    {
-        <div class="zahtjev-card">
-            <div class="zahtjev-info">
-                <div class="naslov">@o.Naslov</div>
-                <div class="detalji">
-                    Od: @(o.Posiljалac != null ? o.Posiljалac.Ime + " " + o.Posiljалac.Prezime : "N/A")
-                    &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
-                </div>
-            </div>
-            <div class="zahtjev-actions">
-                <a asp-controller="Administrator" asp-action="Statistika" class="btn-statistika">
-                    Generisi statistiku
-                </a>
-                <form method="post" asp-action="OznaciObradenim" asp-controller="Administrator" style="display:inline">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="obavijestId" value="@o.Id" />
-                    <button type="submit" class="btn-obradi">Oznaci obradjenim</button>
-                </form>
-            </div>
-        </div>
-    }
 }
-else
+
+<!-- ZAHTJEVI ZA STATISTIKU -->
+@if (zahtjeviStatistika != null && zahtjeviStatistika.Any())
 {
-    <p class="empty-text">Nema novih zahtjeva.</p>
+    <div class="sekcija">
+        <div class="sekcija-header" onclick="toggleSekcija('statistika', this)">
+            <h6>
+                Zahtjevi za statistiku
+                <span class="badge-count">@zahtjeviStatistika.Count</span>
+            </h6>
+            <span class="toggle-icon" id="ikona-statistika">&#8743;</span>
+        </div>
+        <div class="sekcija-body" id="tijelo-statistika">
+            @foreach (var o in zahtjeviStatistika.OrderByDescending(x => x.DatumSlanja))
+            {
+                <div class="zahtjev-card">
+                    <div class="zahtjev-info">
+                        <div class="naslov">@o.Naslov</div>
+                        <div class="detalji">
+                            Od: @(o.Posiljалac?.Ime + " " + o.Posiljалac?.Prezime)
+                            &nbsp;&middot;&nbsp; @o.DatumSlanja.ToString("dd.MM.yyyy HH:mm")
+                        </div>
+                        @if (!string.IsNullOrEmpty(o.Poruka))
+                        {
+                            <div class="poruka">@o.Poruka</div>
+                        }
+                    </div>
+                    <div class="zahtjev-actions">
+                        <a asp-controller="Administrator" asp-action="Statistika"
+                           class="btn-akcija btn-stat" style="text-decoration:none;">
+                            Generiši statistiku
+                        </a>
+                        <form method="post" asp-action="OznaciObradenim"
+                              asp-controller="Administrator" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="obavijestId" value="@o.Id" />
+                            <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function toggleSekcija(naziv, header) {
+            var tijelo = document.getElementById('tijelo-' + naziv);
+            var ikona = document.getElementById('ikona-' + naziv);
+            if (tijelo.style.display === 'none') {
+                tijelo.style.display = 'block';
+                ikona.innerHTML = '&#8743;';
+            } else {
+                tijelo.style.display = 'none';
+                ikona.innerHTML = '&#8744;';
+            }
+        }
+    </script>
 }

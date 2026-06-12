@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\views\\administrator\\svizahtjevi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\administrator\\svizahtjevi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\views\\administrator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\administrator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\views\\administrator\\unosizmjena.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:views\\administrator\\unosizmjena.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\administratorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\administratorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|c:\\users\\nedzi\\grupa7-tim4\\zametf\\zametf\\controllers\\studentskasluzbacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{874787D2-3C53-427A-B64D-0FDFD81E14F3}|ZamETF.csproj|solutionrelative:controllers\\studentskasluzbacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -102,7 +118,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,7 +126,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UnosIzmjena.cshtml",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\UnosIzmjena.cshtml",
+              "RelativeDocumentMoniker": "Views\\Administrator\\UnosIzmjena.cshtml",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\UnosIzmjena.cshtml",
+              "RelativeToolTip": "Views\\Administrator\\UnosIzmjena.cshtml",
+              "ViewState": "AgIAAKMBAAAAAAAAAAAowKwBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-12T12:36:57.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Administrator\\Index.cshtml",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\Index.cshtml",
+              "RelativeToolTip": "Views\\Administrator\\Index.cshtml",
+              "ViewState": "AgIAAO0AAAAAAAAAAAAowPoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-12T12:33:12.786Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SviZahtjevi.cshtml",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\SviZahtjevi.cshtml",
+              "RelativeDocumentMoniker": "Views\\Administrator\\SviZahtjevi.cshtml",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Administrator\\SviZahtjevi.cshtml",
+              "RelativeToolTip": "Views\\Administrator\\SviZahtjevi.cshtml",
+              "ViewState": "AgIAAMABAAAAAAAAAAAowNgBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-12T12:29:07.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdministratorController.cs",
+              "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AdministratorController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdministratorController.cs",
+              "ToolTip": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\AdministratorController.cs",
+              "RelativeToolTip": "Controllers\\AdministratorController.cs",
+              "ViewState": "AgIAAM8EAAAAAAAAAAAowOcEAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-12T12:36:22.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\Index.cshtml",
@@ -123,7 +191,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "StudentskaSluzbaController.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentskaSluzbaController.cs",
               "RelativeDocumentMoniker": "Controllers\\StudentskaSluzbaController.cs",
@@ -136,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "ZahtjevPodaci.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\ZahtjevPodaci.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\ZahtjevPodaci.cshtml",
@@ -149,7 +217,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "20260612113204_DodajMaxBodoviNaZadacu.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Migrations\\20260612113204_DodajMaxBodoviNaZadacu.cs",
               "RelativeDocumentMoniker": "Migrations\\20260612113204_DodajMaxBodoviNaZadacu.cs",
@@ -162,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "DetaljiPredmeta.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\DetaljiPredmeta.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\DetaljiPredmeta.cshtml",
@@ -175,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "PredmetViewModels.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PredmetViewModels.cs",
               "RelativeDocumentMoniker": "Models\\PredmetViewModels.cs",
@@ -188,7 +256,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "DetaljiPredmeta.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\DetaljiPredmeta.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\DetaljiPredmeta.cshtml",
@@ -201,7 +269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "StudentController.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\StudentController.cs",
               "RelativeDocumentMoniker": "Controllers\\StudentController.cs",
@@ -214,7 +282,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "UnosOcjena.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\UnosOcjena.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\UnosOcjena.cshtml",
@@ -227,7 +295,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "BodovanjeIspit.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\BodovanjeIspit.cs",
               "RelativeDocumentMoniker": "Models\\BodovanjeIspit.cs",
@@ -240,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "Zadaca.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Zadaca.cs",
               "RelativeDocumentMoniker": "Models\\Zadaca.cs",
@@ -253,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "ZadacaViewModels.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\ZadacaViewModels.cs",
               "RelativeDocumentMoniker": "Models\\ZadacaViewModels.cs",
@@ -266,7 +334,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "PrijavaIspit.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\PrijavaIspit.cs",
               "RelativeDocumentMoniker": "Models\\PrijavaIspit.cs",
@@ -279,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "Ocjena.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Models\\Ocjena.cs",
               "RelativeDocumentMoniker": "Models\\Ocjena.cs",
@@ -292,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "OcjenjivanjeZadace.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\OcjenjivanjeZadace.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\OcjenjivanjeZadace.cshtml",
@@ -305,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "KreiranjeIspita.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Profesor\\KreiranjeIspita.cshtml",
               "RelativeDocumentMoniker": "Views\\Profesor\\KreiranjeIspita.cshtml",
@@ -318,7 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "IspitController.cs",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Controllers\\IspitController.cs",
               "RelativeDocumentMoniker": "Controllers\\IspitController.cs",
@@ -331,7 +399,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "StudentIspit.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\StudentIspit.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\StudentIspit.cshtml",
@@ -344,7 +412,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "SlanjeZadaca.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\Student\\SlanjeZadaca.cshtml",
               "RelativeDocumentMoniker": "Views\\Student\\SlanjeZadaca.cshtml",
@@ -357,7 +425,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\Details.cshtml",
@@ -370,7 +438,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 24,
               "Title": "ZahtjevStatistika.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\ZahtjevStatistika.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\ZahtjevStatistika.cshtml",
@@ -383,7 +451,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "SviZahtjevi.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\SviZahtjevi.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\SviZahtjevi.cshtml",
@@ -395,7 +463,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 26,
               "Title": "GeneriranjeIzvjestaja.cshtml",
               "DocumentMoniker": "C:\\Users\\nedzi\\Grupa7-Tim4\\ZamETF\\ZamETF\\Views\\StudentskaSluzba\\GeneriranjeIzvjestaja.cshtml",
               "RelativeDocumentMoniker": "Views\\StudentskaSluzba\\GeneriranjeIzvjestaja.cshtml",

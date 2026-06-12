@@ -24,12 +24,12 @@
             user-select: none;
         }
 
-        .sekcija-header h5 {
-            color: #1a1a6e;
-            font-weight: 700;
-            font-size: 1rem;
-            margin: 0;
-        }
+            .sekcija-header h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin: 0;
+            }
 
         .toggle-icon {
             color: #1a1a6e;
@@ -56,24 +56,24 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.06);
         }
 
-        .stat-box .broj {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1a1a6e;
-        }
+            .stat-box .broj {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #1a1a6e;
+            }
 
-        .stat-box .label {
-            font-size: 0.75rem;
-            color: #555;
-        }
+            .stat-box .label {
+                font-size: 0.75rem;
+                color: #555;
+            }
 
-        .stat-box.novi .broj {
-            color: #e74c3c;
-        }
+            .stat-box.novi .broj {
+                color: #e74c3c;
+            }
 
-        .stat-box.ok .broj {
-            color: #27ae60;
-        }
+            .stat-box.ok .broj {
+                color: #27ae60;
+            }
 
         .filter-row {
             display: flex;
@@ -94,10 +94,10 @@
             font-weight: 600;
         }
 
-        .filter-btn.active, .filter-btn:hover {
-            background: #1a1a6e;
-            color: white;
-        }
+            .filter-btn.active, .filter-btn:hover {
+                background: #1a1a6e;
+                color: white;
+            }
 
         .search-input {
             border: 2px solid #1a1a6e;
@@ -116,15 +116,15 @@
             margin-bottom: 9px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             box-shadow: 0 2px 6px rgba(0,0,0,0.07);
             border-left: 4px solid #e74c3c;
         }
 
-        .zahtjev-card.obraden {
-            border-left-color: #27ae60;
-            opacity: 0.82;
-        }
+            .zahtjev-card.obraden {
+                border-left-color: #27ae60;
+                opacity: 0.82;
+            }
 
         .zahtjev-info {
             flex: 1;
@@ -132,15 +132,15 @@
             font-size: 0.88rem;
         }
 
-        .zahtjev-info .naslov {
-            font-weight: 700;
-        }
+            .zahtjev-info .naslov {
+                font-weight: 700;
+            }
 
-        .zahtjev-info .detalji {
-            font-size: 0.78rem;
-            opacity: 0.6;
-            margin-top: 2px;
-        }
+            .zahtjev-info .detalji {
+                font-size: 0.78rem;
+                opacity: 0.6;
+                margin-top: 2px;
+            }
 
         .badge-status {
             border-radius: 8px;
@@ -164,6 +164,8 @@
             display: flex;
             gap: 7px;
             flex-shrink: 0;
+            flex-wrap: wrap;
+            margin-left: 10px;
         }
 
         .btn-akcija {
@@ -173,31 +175,51 @@
             font-size: 0.78rem;
             cursor: pointer;
             color: white;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-stat {
             background: #1a5f7a;
         }
 
-        .btn-stat:hover {
-            background: #0a3f5a;
-        }
+            .btn-stat:hover {
+                background: #0a3f5a;
+                color: white;
+            }
 
         .btn-obradi {
             background: #27ae60;
         }
 
-        .btn-obradi:hover {
-            background: #1e8449;
-        }
+            .btn-obradi:hover {
+                background: #1e8449;
+            }
 
         .btn-izmjena {
             background: #8e44ad;
         }
 
-        .btn-izmjena:hover {
-            background: #6c3483;
+            .btn-izmjena:hover {
+                background: #6c3483;
+            }
+
+        .btn-pogledaj {
+            background: #1a5f7a;
         }
+
+            .btn-pogledaj:hover {
+                background: #0a3f5a;
+                color: white;
+            }
+
+        .btn-brisi {
+            background: #e74c3c;
+        }
+
+            .btn-brisi:hover {
+                background: #c0392b;
+            }
 
         .empty-text {
             color: #1a1a6e;
@@ -209,6 +231,18 @@
             border-radius: 10px;
             margin-bottom: 10px;
             font-size: 0.9rem;
+        }
+
+        .poruka-box {
+            background: rgba(26,26,110,0.05);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 6px;
+            font-size: 0.78rem;
+            color: #1a1a6e;
+            white-space: pre-line;
+            max-height: 120px;
+            overflow-y: auto;
         }
     </style>
 }
@@ -229,7 +263,7 @@
             Zahtjevi za unos/izmjenu podataka
             @if (zahtjeviPodaci != null && zahtjeviPodaci.Any(z => !z.Procitana))
             {
-                <span class="badge-novi">@zahtjeviPodaci.Count(z => !z.Procitana)</span>
+                <span class="badge-nov" style="margin-left:8px;">@zahtjeviPodaci.Count(z => !z.Procitana)</span>
             }
         </h5>
         <span class="toggle-icon" id="ikona-podaci">&#8743;</span>
@@ -243,21 +277,24 @@
 
             <div class="stats-row">
                 <div class="stat-box"><div class="broj">@ukupnoP</div><div class="label">Ukupno</div></div>
-                <div class="stat-box novi"><div class="broj">@noviP</div><div class="label">Na cekanju</div></div>
-                <div class="stat-box ok"><div class="broj">@obradP</div><div class="label">Obradjeno</div></div>
+                <div class="stat-box novi"><div class="broj">@noviP</div><div class="label">Na čekanju</div></div>
+                <div class="stat-box ok"><div class="broj">@obradP</div><div class="label">Obrađeno</div></div>
             </div>
 
             <div class="filter-row">
                 <button class="filter-btn active" onclick="filtriraj('podaci', 'svi', this)">Svi</button>
-                <button class="filter-btn" onclick="filtriraj('podaci', 'novi', this)">Na cekanju</button>
-                <button class="filter-btn" onclick="filtriraj('podaci', 'obradjeni', this)">Obradjeni</button>
-                <input type="text" class="search-input" placeholder="Pretrazi..."
+                <button class="filter-btn" onclick="filtriraj('podaci', 'novi', this)">Na čekanju</button>
+                <button class="filter-btn" onclick="filtriraj('podaci', 'obradjeni', this)">Obrađeni</button>
+                <input type="text" class="search-input" placeholder="Pretraži..."
                        oninput="pretrazi('podaci', this.value)" />
             </div>
 
             <div id="lista-podaci">
                 @foreach (var z in zahtjeviPodaci.OrderBy(z2 => z2.Procitana).ThenByDescending(z2 => z2.DatumSlanja))
                 {
+                    var jeBrisanje = z.Naslov?.Contains("brisanje") == true || z.Naslov?.Contains("Brisanje") == true;
+                    var jeIzmjena = z.Naslov?.Contains("Izmjena") == true;
+
                     <div class="zahtjev-card @(z.Procitana ? "obraden" : "")"
                          data-grupa="podaci"
                          data-status="@(z.Procitana ? "obradjeni" : "novi")"
@@ -265,7 +302,7 @@
                         <div class="zahtjev-info">
                             <span class="naslov">@z.Naslov</span>
                             <span class="badge-status @(z.Procitana ? "badge-ok" : "badge-nov")">
-                                @(z.Procitana ? "Obradjeno" : "Na cekanju")
+                                @(z.Procitana ? "Obrađeno" : "Na čekanju")
                             </span>
                             <div class="detalji">
                                 Od: @(z.Posiljалac?.Ime + " " + z.Posiljалac?.Prezime)
@@ -273,23 +310,41 @@
                             </div>
                             @if (!string.IsNullOrEmpty(z.Poruka))
                             {
-                                <div class="detalji" style="margin-top:4px; white-space:pre-line;">@z.Poruka</div>
+                                <div class="poruka-box">@z.Poruka</div>
                             }
                         </div>
                         @if (!z.Procitana)
                         {
                             <div class="zahtjev-actions">
-                                <form method="post" asp-action="IzmijeniIzZahtjeva"
-                                      asp-controller="Administrator" style="display:inline">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="obavijestId" value="@z.Id" />
-                                    <button type="submit" class="btn-akcija btn-izmjena">Primijeni izmjenu</button>
-                                </form>
+                                @if (jeBrisanje)
+                                {
+                                    <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                                       asp-route-obavijestId="@z.Id"
+                                       class="btn-akcija btn-brisi" style="text-decoration:none;">
+                                        Pogledaj (brisanje)
+                                    </a>
+                                }
+                                else if (jeIzmjena)
+                                {
+                                    <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                                       asp-route-obavijestId="@z.Id"
+                                       class="btn-akcija btn-izmjena" style="text-decoration:none;">
+                                        Pogledaj i primijeni
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Administrator" asp-action="UnosIzmjenaIzZahtjeva"
+                                       asp-route-obavijestId="@z.Id"
+                                       class="btn-akcija btn-pogledaj" style="text-decoration:none;">
+                                        Pogledaj
+                                    </a>
+                                }
                                 <form method="post" asp-action="OznaciObradenim"
                                       asp-controller="Administrator" style="display:inline">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="obavijestId" value="@z.Id" />
-                                    <button type="submit" class="btn-akcija btn-obradi">Oznaci obradjenim</button>
+                                    <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
                                 </form>
                             </div>
                         }
@@ -311,7 +366,7 @@
             Zahtjevi za statistiku
             @if (zahtjeviStatistika != null && zahtjeviStatistika.Any(z => !z.Procitana))
             {
-                <span class="badge-novi">@zahtjeviStatistika.Count(z => !z.Procitana)</span>
+                <span class="badge-nov" style="margin-left:8px;">@zahtjeviStatistika.Count(z => !z.Procitana)</span>
             }
         </h5>
         <span class="toggle-icon" id="ikona-statistika">&#8743;</span>
@@ -325,15 +380,15 @@
 
             <div class="stats-row">
                 <div class="stat-box"><div class="broj">@ukupnoS</div><div class="label">Ukupno</div></div>
-                <div class="stat-box novi"><div class="broj">@noviS</div><div class="label">Na cekanju</div></div>
-                <div class="stat-box ok"><div class="broj">@obradS</div><div class="label">Obradjeno</div></div>
+                <div class="stat-box novi"><div class="broj">@noviS</div><div class="label">Na čekanju</div></div>
+                <div class="stat-box ok"><div class="broj">@obradS</div><div class="label">Obrađeno</div></div>
             </div>
 
             <div class="filter-row">
                 <button class="filter-btn active" onclick="filtriraj('statistika', 'svi', this)">Svi</button>
-                <button class="filter-btn" onclick="filtriraj('statistika', 'novi', this)">Na cekanju</button>
-                <button class="filter-btn" onclick="filtriraj('statistika', 'obradjeni', this)">Obradjeni</button>
-                <input type="text" class="search-input" placeholder="Pretrazi..."
+                <button class="filter-btn" onclick="filtriraj('statistika', 'novi', this)">Na čekanju</button>
+                <button class="filter-btn" onclick="filtriraj('statistika', 'obradjeni', this)">Obrađeni</button>
+                <input type="text" class="search-input" placeholder="Pretraži..."
                        oninput="pretrazi('statistika', this.value)" />
             </div>
 
@@ -347,7 +402,7 @@
                         <div class="zahtjev-info">
                             <span class="naslov">@z.Naslov</span>
                             <span class="badge-status @(z.Procitana ? "badge-ok" : "badge-nov")">
-                                @(z.Procitana ? "Obradjeno" : "Na cekanju")
+                                @(z.Procitana ? "Obrađeno" : "Na čekanju")
                             </span>
                             <div class="detalji">
                                 Od: @(z.Posiljалac?.Ime + " " + z.Posiljалac?.Prezime)
@@ -355,21 +410,21 @@
                             </div>
                             @if (!string.IsNullOrEmpty(z.Poruka))
                             {
-                                <div class="detalji" style="margin-top:4px;">@z.Poruka</div>
+                                <div class="poruka-box">@z.Poruka</div>
                             }
                         </div>
                         @if (!z.Procitana)
                         {
                             <div class="zahtjev-actions">
                                 <a asp-controller="Administrator" asp-action="Statistika"
-                                   class="btn-akcija btn-stat" style="text-decoration:none; display:inline-block; padding:5px 13px;">
-                                    Pogledaj
+                                   class="btn-akcija btn-stat" style="text-decoration:none;">
+                                    Generiši statistiku
                                 </a>
                                 <form method="post" asp-action="OznaciObradenim"
                                       asp-controller="Administrator" style="display:inline">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="obavijestId" value="@z.Id" />
-                                    <button type="submit" class="btn-akcija btn-obradi">Oznaci obradjenim</button>
+                                    <button type="submit" class="btn-akcija btn-obradi">Označi obrađenim</button>
                                 </form>
                             </div>
                         }
@@ -402,7 +457,6 @@
             var row = btn.closest('.filter-row');
             row.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
             btn.classList.add('active');
-
             document.querySelectorAll('[data-grupa="' + grupa + '"]').forEach(function(k) {
                 if (tip === 'svi') k.style.display = 'flex';
                 else k.style.display = k.dataset.status === tip ? 'flex' : 'none';
