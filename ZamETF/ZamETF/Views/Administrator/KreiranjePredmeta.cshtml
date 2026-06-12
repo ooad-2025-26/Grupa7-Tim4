@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["Title"] = "Kreiranje predmeta";
     Layout = "_LayoutAdmin";
     var profesori = ViewBag.Profesori as List<ZamETF.Models.Profesor>;
@@ -24,12 +24,12 @@
             user-select: none;
         }
 
-        .sekcija-header h5 {
-            color: #1a1a6e;
-            font-weight: 700;
-            font-size: 1rem;
-            margin: 0;
-        }
+            .sekcija-header h5 {
+                color: #1a1a6e;
+                font-weight: 700;
+                font-size: 1rem;
+                margin: 0;
+            }
 
         .toggle-icon {
             color: #1a1a6e;
@@ -60,15 +60,15 @@
             gap: 5px;
         }
 
-        .forma-group label {
-            color: #1a1a6e;
-            font-size: 0.82rem;
-            font-weight: 600;
-        }
+            .forma-group label {
+                color: #1a1a6e;
+                font-size: 0.82rem;
+                font-weight: 600;
+            }
 
-        .forma-group label span {
-            color: #e74c3c;
-        }
+                .forma-group label span {
+                    color: #e74c3c;
+                }
 
         .form-input {
             border: 1.5px solid rgba(26,26,110,0.25);
@@ -81,9 +81,9 @@
             width: 100%;
         }
 
-        .form-input:focus {
-            border-color: #1a1a6e;
-        }
+            .form-input:focus {
+                border-color: #1a1a6e;
+            }
 
         .profesor-grid {
             display: grid;
@@ -104,32 +104,32 @@
             transition: all 0.2s;
         }
 
-        .profesor-item:hover {
-            border-color: #1a1a6e;
-        }
+            .profesor-item:hover {
+                border-color: #1a1a6e;
+            }
 
-        .profesor-item.selected {
-            background: #1a1a6e;
-            border-color: #1a1a6e;
-        }
+            .profesor-item.selected {
+                background: #1a1a6e;
+                border-color: #1a1a6e;
+            }
 
-        .profesor-item.selected span {
-            color: white;
-        }
+                .profesor-item.selected span {
+                    color: white;
+                }
 
-        .profesor-item input {
-            accent-color: #1a1a6e;
-            width: 14px;
-            height: 14px;
-            pointer-events: none;
-        }
+            .profesor-item input {
+                accent-color: #1a1a6e;
+                width: 14px;
+                height: 14px;
+                pointer-events: none;
+            }
 
-        .profesor-item span {
-            color: #1a1a6e;
-            font-size: 0.83rem;
-            font-weight: 500;
-            pointer-events: none;
-        }
+            .profesor-item span {
+                color: #1a1a6e;
+                font-size: 0.83rem;
+                font-weight: 500;
+                pointer-events: none;
+            }
 
         .forma-akcije {
             display: flex;
@@ -148,17 +148,25 @@
             font-weight: 600;
             cursor: pointer;
         }
-        <form method="post" asp-action="SinhronizujUpise" asp-controller="Administrator" style="margin-top:16px;">
-    @Html.AntiForgeryToken()
-    <button type="submit" class="btn-kreiraj" style="background:#8e44ad;"
-            onclick="return confirm('Sinhronizovati sve upise na osnovu semestra studenata?')">
-        Sinhronizuj upise
-    </button>
-</form>
 
-        .btn-kreiraj:hover {
-            background: #0a3f5a;
+            .btn-kreiraj:hover {
+                background: #0a3f5a;
+            }
+
+        .btn-sinhroniziraj {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
         }
+
+            .btn-sinhroniziraj:hover {
+                background: #6c3483;
+            }
 
         .btn-ponisti {
             background: transparent;
@@ -171,9 +179,9 @@
             cursor: pointer;
         }
 
-        .btn-ponisti:hover {
-            background: rgba(26,26,110,0.08);
-        }
+            .btn-ponisti:hover {
+                background: rgba(26,26,110,0.08);
+            }
 
         .info-box {
             background: rgba(26,26,110,0.07);
@@ -190,30 +198,30 @@
             border-collapse: collapse;
         }
 
-        .tabela th {
-            color: #1a1a6e;
-            font-size: 0.82rem;
-            font-weight: 700;
-            padding: 9px 14px;
-            border-bottom: 2px solid rgba(26,26,110,0.15);
-            text-align: left;
-        }
+            .tabela th {
+                color: #1a1a6e;
+                font-size: 0.82rem;
+                font-weight: 700;
+                padding: 9px 14px;
+                border-bottom: 2px solid rgba(26,26,110,0.15);
+                text-align: left;
+            }
 
-        .tabela td {
-            color: #1a1a6e;
-            font-size: 0.85rem;
-            padding: 11px 14px;
-            border-bottom: 1px solid rgba(26,26,110,0.08);
-            vertical-align: middle;
-        }
+            .tabela td {
+                color: #1a1a6e;
+                font-size: 0.85rem;
+                padding: 11px 14px;
+                border-bottom: 1px solid rgba(26,26,110,0.08);
+                vertical-align: middle;
+            }
 
-        .tabela tr:last-child td {
-            border-bottom: none;
-        }
+            .tabela tr:last-child td {
+                border-bottom: none;
+            }
 
-        .tabela tr:hover td {
-            background: rgba(255,255,255,0.3);
-        }
+            .tabela tr:hover td {
+                background: rgba(255,255,255,0.3);
+            }
 
         .tabela-wrap {
             background: rgba(255,255,255,0.3);
@@ -231,9 +239,9 @@
             cursor: pointer;
         }
 
-        .btn-brisi:hover {
-            background: #c0392b;
-        }
+            .btn-brisi:hover {
+                background: #c0392b;
+            }
 
         .alert {
             border-radius: 10px;
@@ -260,11 +268,11 @@
 
 @if (TempData["Uspjeh"] != null)
 {
-    <div class="alert alert-success">@TempData["Uspjeh"]</div>
+<div class="alert alert-success">@TempData["Uspjeh"]</div>
 }
 @if (TempData["Greska"] != null)
 {
-    <div class="alert alert-danger">@TempData["Greska"]</div>
+<div class="alert alert-danger">@TempData["Greska"]</div>
 }
 
 <!-- KREIRANJE -->
@@ -275,7 +283,7 @@
     </div>
     <div class="sekcija-body" id="tijelo-forma">
         <div class="info-box">
-            Novi predmet ce automatski biti dodijeljen svim studentima upisanim na odabrani semestar.
+            Novi predmet će automatski biti dodijeljen svim studentima upisanim na odabrani semestar.
             Odaberite profesora koji predaje predmet.
         </div>
 
@@ -289,7 +297,7 @@
                     <input type="text" name="naziv" class="form-input" placeholder="Npr. Programiranje 1" required />
                 </div>
                 <div class="forma-group">
-                    <label>Sifra predmeta <span>*</span></label>
+                    <label>Šifra predmeta <span>*</span></label>
                     <input type="text" name="sifraPredmeta" class="form-input" placeholder="Npr. CS101" required />
                 </div>
                 <div class="forma-group">
@@ -308,7 +316,7 @@
             </div>
 
             <div class="semestar-info" id="semestarInfo">
-                Predmet ce biti dodijeljen svim studentima na 1. semestru (1. godina studija).
+                Predmet će biti dodijeljen svim studentima na 1. semestru (1. godina studija).
             </div>
 
             <div style="margin-top: 18px; margin-bottom: 8px;">
@@ -320,19 +328,43 @@
                     {
                         foreach (var p in profesori)
                         {
-                            <div class="profesor-item" id="prof@(p.Id)"
-                                 onclick="odaberiProfesora(@p.Id, this)">
-                                <input type="radio" name="profesorRadio" value="@p.Id" />
-                                <span>@p.Ime @p.Prezime</span>
-                            </div>
+                    <div class="profesor-item" id="prof@(p.Id)"
+                         onclick="odaberiProfesora(@p.Id, this)">
+                        <input type="radio" name="profesorRadio" value="@p.Id" />
+                        <span>@p.Ime @p.Prezime</span>
+                    </div>
                         }
                     }
                 </div>
             </div>
 
             <div class="forma-akcije">
-                <button type="button" class="btn-ponisti" onclick="document.getElementById('formaPredmet').reset(); ocistiProfesore();">Ponisti</button>
+                <button type="button" class="btn-ponisti"
+                        onclick="document.getElementById('formaPredmet').reset(); ocistiProfesore();">
+                    Poništi
+                </button>
                 <button type="submit" class="btn-kreiraj">Kreiraj predmet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- SINHRONIZACIJA -->
+<div class="sekcija">
+    <div class="sekcija-header" onclick="toggleSekcija('sinhr', this)">
+        <h5>Sinhronizacija upisa</h5>
+        <span class="toggle-icon" id="ikona-sinhr">&#8744;</span>
+    </div>
+    <div class="sekcija-body" id="tijelo-sinhr" style="display:none;">
+        <div class="info-box">
+            Ova akcija će automatski upisati sve studente na predmete koji odgovaraju njihovom semestru.
+            Korisno kada se studentu promijeni semestar ili kada se kreira novi predmet.
+        </div>
+        <form method="post" asp-action="SinhronizujUpise" asp-controller="Administrator"
+              onsubmit="return confirm('Sinhronizovati sve upise na osnovu semestra studenata?')">
+            @Html.AntiForgeryToken()
+            <div class="forma-akcije">
+                <button type="submit" class="btn-sinhroniziraj">Sinhronizuj upise</button>
             </div>
         </form>
     </div>
@@ -341,51 +373,51 @@
 <!-- POSTOJECI PREDMETI -->
 <div class="sekcija">
     <div class="sekcija-header" onclick="toggleSekcija('lista', this)">
-        <h5>Postojeci predmeti (@(predmeti?.Count ?? 0))</h5>
+        <h5>Postojeći predmeti (@(predmeti?.Count ?? 0))</h5>
         <span class="toggle-icon" id="ikona-lista">&#8743;</span>
     </div>
     <div class="sekcija-body" id="tijelo-lista">
         @if (predmeti != null && predmeti.Any())
         {
-            <div class="tabela-wrap">
-                <table class="tabela">
-                    <thead>
-                        <tr>
-                            <th>Naziv</th>
-                            <th>Sifra</th>
-                            <th>Semestar</th>
-                            <th>Profesor</th>
-                            <th>Studenti</th>
-                            <th>Akcija</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var p in predmeti.OrderBy(p2 => p2.Semestar))
+        <div class="tabela-wrap">
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Naziv</th>
+                        <th>Šifra</th>
+                        <th>Semestar</th>
+                        <th>Profesor</th>
+                        <th>Studenti</th>
+                        <th>Akcija</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in predmeti.OrderBy(p2 => p2.Semestar))
                         {
-                            <tr>
-                                <td><strong>@p.Naziv</strong></td>
-                                <td>@p.SifraPredmeta</td>
-                                <td>@p.Semestar. sem.</td>
-                                <td>@(p.Profesor?.Ime + " " + p.Profesor?.Prezime)</td>
-                                <td>@(p.Studenti?.Count ?? 0)</td>
-                                <td>
-                                    <form method="post" asp-action="ObrisiPredmet"
-                                          asp-controller="Administrator" style="display:inline"
-                                          onsubmit="return confirm('Sigurno zelis obrisati predmet?')">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="predmetId" value="@p.Id" />
-                                        <button type="submit" class="btn-brisi">Obrisi</button>
-                                    </form>
-                                </td>
-                            </tr>
+                    <tr>
+                        <td><strong>@p.Naziv</strong></td>
+                        <td>@p.SifraPredmeta</td>
+                        <td>@p.Semestar. sem.</td>
+                        <td>@(p.Profesor?.Ime + " " + p.Profesor?.Prezime)</td>
+                        <td>@(p.Studenti?.Count ?? 0)</td>
+                        <td>
+                            <form method="post" asp-action="ObrisiPredmet"
+                                  asp-controller="Administrator" style="display:inline"
+                                  onsubmit="return confirm('Sigurno želiš obrisati predmet?')">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="predmetId" value="@p.Id" />
+                                <button type="submit" class="btn-brisi">Obriši</button>
+                            </form>
+                        </td>
+                    </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
+        </div>
         }
         else
         {
-            <p class="empty-text">Nema kreiranih predmeta.</p>
+        <p class="empty-text">Nema kreiranih predmeta.</p>
         }
     </div>
 </div>
@@ -402,11 +434,11 @@
         function azurirajInfo() {
             var sem = document.getElementById('semestarSelect').value;
             document.getElementById('semestarInfo').textContent =
-                'Predmet ce biti dodijeljen svim studentima na ' + (semestarGodine[sem] || sem + '. semestru') + '.';
+                'Predmet će biti dodijeljen svim studentima na ' + (semestarGodine[sem] || sem + '. semestru') + '.';
         }
 
         function odaberiProfesora(id, el) {
-            document.querySelectorAll('.profesor-item').forEach(function(p) {
+            document.querySelectorAll('.profesor-item').forEach(function (p) {
                 p.classList.remove('selected');
                 p.querySelector('input').checked = false;
             });
@@ -416,7 +448,7 @@
         }
 
         function ocistiProfesore() {
-            document.querySelectorAll('.profesor-item').forEach(function(p) {
+            document.querySelectorAll('.profesor-item').forEach(function (p) {
                 p.classList.remove('selected');
                 p.querySelector('input').checked = false;
             });
