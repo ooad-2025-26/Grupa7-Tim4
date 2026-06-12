@@ -324,15 +324,21 @@
             <div class="sidebar-section-title" style="font-weight:400; margin-bottom:8px;">Trenutni semestar</div>
             @if (predmeti != null && predmeti.Any())
             {
-                foreach (var p in predmeti)
-                {
-                    <a href="#" class="sidebar-predmet">@p.Naziv</a>
-                }
+                <div class="predmet-grid">
+                    @foreach (var p in predmeti)
+                    {
+                        <a asp-controller="Student"
+                           asp-action="DetaljiPredmeta"
+                           asp-route-id="@p.Id"
+                           class="sidebar-predmet">@p.Naziv</a>
+                    }
+                </div>
             }
             else
             {
                 <span class="empty-text">Nema predmeta.</span>
             }
+            
             <div class="sidebar-divider"></div>
             <a asp-controller="Student" asp-action="Index" class="sidebar-link active">Prikazi arhivirane predmete</a>
             <a asp-controller="Student" asp-action="SlanjeZadaca" class="sidebar-link">Slanje zadaca</a>
