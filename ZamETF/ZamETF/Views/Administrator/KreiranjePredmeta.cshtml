@@ -148,6 +148,13 @@
             font-weight: 600;
             cursor: pointer;
         }
+        <form method="post" asp-action="SinhronizujUpise" asp-controller="Administrator" style="margin-top:16px;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn-kreiraj" style="background:#8e44ad;"
+            onclick="return confirm('Sinhronizovati sve upise na osnovu semestra studenata?')">
+        Sinhronizuj upise
+    </button>
+</form>
 
         .btn-kreiraj:hover {
             background: #0a3f5a;

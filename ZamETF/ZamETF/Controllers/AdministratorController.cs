@@ -1131,6 +1131,45 @@ namespace ZamETF.Controllers
             ViewBag.Predmeti = predmeti;
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SinhronizujUpise()
+        {
+            var sviPredmeti = await _context.Predmeti.ToListAsync();
+            var sviStudenti = await _context.Studenti.ToListAsync();
+            var sviUpisi = await _context.UpisaNaPredmet.ToListAsync();
+
+            int dodano = 0;
+
+            foreach (var student in sviStudenti)
+            {
+                var predmetiZaSemestar = sviPredmeti
+                    .Where(p => p.Semestar == student.Semestar)
+                    .ToList();
+
+                foreach (var predmet in predmetiZaSemestar)
+                {
+                    var vecPostoji = sviUpisi.Any(u => u.StudentId == student.Id && u.PredmetId == predmet.Id);
+                    if (!vecPostoji)
+                    {
+                        _context.UpisaNaPredmet.Add(new UpisNaPredmet
+                        {
+                            StudentId = student.Id,
+                            Student = student,
+                            PredmetId = predmet.Id,
+                            Predmet = predmet,
+                            GodinaStudija = student.GodinaStudija,
+                            DatumUpisa = DateTime.Now
+                        });
+                        dodano++;
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Uspjeh"] = $"Sinhronizacija završena! Dodano {dodano} novih upisa.";
+            return RedirectToAction(nameof(KreiranjePredmeta));
+        }
 
         // POST: Administrator/KreirajPredmet
         [HttpPost]
