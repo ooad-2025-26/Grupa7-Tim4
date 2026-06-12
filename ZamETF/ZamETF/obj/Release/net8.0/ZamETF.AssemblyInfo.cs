@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ZamETF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c741c0ae6d3d0c6c1526f724c38ac0d6d92d797c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44f86cdcd277a95721e2acef297d9e014055f5c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZamETF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZamETF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

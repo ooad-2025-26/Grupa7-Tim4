@@ -132,21 +132,19 @@ namespace ZamETF.Controllers
             return View();
         }
 
-        // POST: Administrator/IzmijeniKorisnika
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IzmijeniKorisnika(
-            int id,
-            string ime, string prezime,
-            string username, string email,
-            string indeks, string odsjek,
-            string jmbg, DateTime? datumRodjenja,
-            string imeOca, string imeMajke,
-            string mjesto, string ciklus,
-            string tipStudija, string status,
-            int godinaStudija, int semestar)
+     int id,
+     string ime, string prezime,
+     string username, string email,
+     string indeks, string odsjek,
+     string jmbg, DateTime? datumRodjenja,
+     string imeOca, string imeMajke,
+     string mjesto, string ciklus,
+     string tipStudija, string status,
+     int godinaStudija, int semestar)
         {
-            // --- Validacija imena i prezimena ---
             ime = ime?.Trim();
             prezime = prezime?.Trim();
 
@@ -166,6 +164,7 @@ namespace ZamETF.Controllers
                 TempData["Greska"] = "Prezime mora imati najmanje 2 slova i ne smije sadržavati brojeve.";
                 return RedirectToAction(nameof(UnosIzmjena));
             }
+
             var student = await _context.Studenti.FindAsync(id);
             if (student == null)
             {
@@ -173,10 +172,11 @@ namespace ZamETF.Controllers
                 return RedirectToAction(nameof(UnosIzmjena));
             }
 
+            var stariSemestar = student.Semestar;
+
             student.Ime = ime;
             student.Prezime = prezime;
 
-            // Username — koristi SetUserNameAsync da Identity ažurira i NormalizedUserName
             if (!string.IsNullOrWhiteSpace(username) && username != student.UserName)
             {
                 var setUsernameResult = await _userManager.SetUserNameAsync(student, username);
@@ -188,7 +188,6 @@ namespace ZamETF.Controllers
                 }
             }
 
-            // Email — koristi SetEmailAsync da Identity ažurira i NormalizedEmail
             if (!string.IsNullOrWhiteSpace(email) && email != student.Email)
             {
                 var setEmailResult = await _userManager.SetEmailAsync(student, email);
@@ -216,10 +215,50 @@ namespace ZamETF.Controllers
             if (datumRodjenja.HasValue)
                 student.DatumRodjenja = datumRodjenja.Value;
 
+            // Ažuriraj upise ako se semestar promijenio
+            if (stariSemestar != semestar)
+            {
+                // Ukloni stare upise za predmete starog semestra
+                var stariUpisi = await _context.UpisaNaPredmet
+                    .Include(u => u.Predmet)
+                    .Where(u => u.StudentId == id && u.Predmet.Semestar == stariSemestar)
+                    .ToListAsync();
+                _context.UpisaNaPredmet.RemoveRange(stariUpisi);
+
+                // Dodaj upise za predmete novog semestra
+                var noviPredmeti = await _context.Predmeti
+                    .Where(p => p.Semestar == semestar)
+                    .ToListAsync();
+
+                var vecUpisani = await _context.UpisaNaPredmet
+                    .Where(u => u.StudentId == id)
+                    .Select(u => u.PredmetId)
+                    .ToListAsync();
+
+                foreach (var predmet in noviPredmeti)
+                {
+                    if (!vecUpisani.Contains(predmet.Id))
+                    {
+                        _context.UpisaNaPredmet.Add(new UpisNaPredmet
+                        {
+                            StudentId = id,
+                            Student = student,
+                            PredmetId = predmet.Id,
+                            Predmet = predmet,
+                            GodinaStudija = godinaStudija,
+                            DatumUpisa = DateTime.Now
+                        });
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
             var result = await _userManager.UpdateAsync(student);
 
             if (result.Succeeded)
-                TempData["Uspjeh"] = $"Podaci za {student.Ime} {student.Prezime} su uspješno izmijenjeni!";
+                TempData["Uspjeh"] = $"Podaci za {student.Ime} {student.Prezime} su uspješno izmijenjeni!" +
+                    (stariSemestar != semestar ? $" Upisi ažurirani sa semestra {stariSemestar} na {semestar}." : "");
             else
                 TempData["Greska"] = "Greška pri snimanju: " +
                     string.Join(", ", result.Errors.Select(e => e.Description));
@@ -1070,15 +1109,23 @@ namespace ZamETF.Controllers
             return RedirectToAction(nameof(Statistika));
         }
 
-        // GET: Administrator/KreiranjePredmeta
         public async Task<IActionResult> KreiranjePredmeta()
         {
             var profesori = await _context.Profesori.ToListAsync();
             var predmeti = await _context.Predmeti
                 .Include(p => p.Profesor)
-                .Include(p => p.Studenti)
                 .OrderBy(p => p.Semestar)
                 .ToListAsync();
+
+            // Ažuriraj broj studenata kroz UpisaNaPredmet
+            foreach (var predmet in predmeti)
+            {
+                predmet.Studenti = await _context.UpisaNaPredmet
+                    .Include(u => u.Student)
+                    .Where(u => u.PredmetId == predmet.Id)
+                    .Select(u => u.Student)
+                    .ToListAsync();
+            }
 
             ViewBag.Profesori = profesori;
             ViewBag.Predmeti = predmeti;
