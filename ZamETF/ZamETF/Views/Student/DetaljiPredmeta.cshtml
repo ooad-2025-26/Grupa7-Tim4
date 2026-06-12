@@ -14,8 +14,7 @@
                Model.FinalnaOcjena.Value == 9 ? 95 - ukupno : 0)
             : 0)
         : (ukupno < 55 ? 0 : autoOcjena < 10 ?
-            (autoOcjena == 5 ? 55 - ukupno :
-             autoOcjena == 6 ? 65 - ukupno :
+            (autoOcjena == 6 ? 65 - ukupno :
              autoOcjena == 7 ? 75 - ukupno :
              autoOcjena == 8 ? 85 - ukupno :
              autoOcjena == 9 ? 95 - ukupno : 0) : 0);
@@ -74,7 +73,6 @@
             font-weight: 800;
             text-align: center;
             margin: 10px 0;
-            color: #1a1a6e;
         }
 
         .ocjena-pao {
@@ -177,6 +175,17 @@
             opacity: 0.6;
             font-size: 0.85rem;
         }
+
+        .sekcija-label {
+            margin-top: 12px;
+            margin-bottom: 8px;
+            color: #1a1a6e;
+            font-size: 0.8rem;
+            font-weight: 700;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
     </style>
 }
 
@@ -188,7 +197,6 @@
             @Model.Predmet.SifraPredmeta &middot; @Model.Predmet.Semestar. semestar
         </div>
 
-        <!-- Finalna ocjena -->
         @if (imaOcjenu)
         {
             <div class="ocjena-velika @(pao ? "ocjena-pao" : "ocjena-ok")">
@@ -205,7 +213,6 @@
             </div>
         }
 
-        <!-- Bodovi bar -->
         <div style="color:#1a1a6e; font-size:0.8rem; opacity:0.65; margin-bottom:4px;">
             Ukupno bodova: <strong>@ukupno / 100</strong>
         </div>
@@ -213,27 +220,16 @@
             <div class="bodovi-bar" style="width:@(Math.Min(ukupno, 100))%"></div>
         </div>
 
-        <!-- Detalji bodova -->
-        @if (Model.BodoviParcijalni1.HasValue || Model.BodoviParcijalni2.HasValue ||
-                Model.BodoviZavrsni.HasValue || Model.BodoviIntegralni.HasValue ||
-                Model.BodoviTeorija.HasValue)
+        @if (Model.BodoviParcijalni.HasValue || Model.BodoviZavrsni.HasValue ||
+                Model.BodoviIntegralni.HasValue || Model.BodoviTeorija.HasValue)
         {
-            <div style="margin-top:12px; margin-bottom:8px; color:#1a1a6e; font-size:0.8rem; font-weight:700; opacity:0.6;">
-                BODOVI IZ ISPITA
-            </div>
+            <div class="sekcija-label">Bodovi iz ispita</div>
 
-            @if (Model.BodoviParcijalni1.HasValue)
+            @if (Model.BodoviParcijalni.HasValue)
             {
                 <div class="info-row">
-                    <span class="label">Parcijalni 1</span>
-                    <span class="value">@Model.BodoviParcijalni1</span>
-                </div>
-            }
-            @if (Model.BodoviParcijalni2.HasValue)
-            {
-                <div class="info-row">
-                    <span class="label">Parcijalni 2</span>
-                    <span class="value">@Model.BodoviParcijalni2</span>
+                    <span class="label">Parcijalni</span>
+                    <span class="value">@Model.BodoviParcijalni</span>
                 </div>
             }
             @if (Model.BodoviZavrsni.HasValue)
@@ -259,11 +255,11 @@
             }
         }
 
-        @if (Model.Bodovi.HasValue)
+        @if (Model.BodoviZadace > 0)
         {
             <div class="info-row" style="margin-top:4px;">
                 <span class="label">Bodovi iz zadaća</span>
-                <span class="value">@Model.Bodovi</span>
+                <span class="value">@Model.BodoviZadace</span>
             </div>
         }
 
@@ -312,7 +308,7 @@
                         @z.NazivID
                         @if (ocijenjeno)
                         {
-                            <span class="badge-ok">@mojaPredaja.Bodovi/100</span>
+                            <span class="badge-ok">@mojaPredaja.Bodovi / @z.MaxBodovi</span>
                         }
                         else if (predano)
                         {

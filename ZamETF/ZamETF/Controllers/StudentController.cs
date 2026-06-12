@@ -109,7 +109,6 @@ namespace ZamETF.Controllers
                 var predaja = await _context.PredajeZadace
                     .FirstOrDefaultAsync(p => p.ZadacaId == zadacaId && p.StudentID == student.Id);
 
-                // Ako nema novog fajla
                 if (fajl == null || fajl.Length == 0)
                 {
                     if (predaja != null)
@@ -127,7 +126,6 @@ namespace ZamETF.Controllers
                     }
                 }
 
-                // Validacija
                 var ext = Path.GetExtension(fajl.FileName).ToLowerInvariant();
                 if (ext != ".pdf")
                 {
@@ -141,7 +139,6 @@ namespace ZamETF.Controllers
                     return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
                 }
 
-                // Čitaj fajl u byte[]
                 byte[] fajlBytes;
                 using (var ms = new MemoryStream())
                 {
@@ -183,6 +180,7 @@ namespace ZamETF.Controllers
                 return RedirectToAction(nameof(DetaljiZadace), new { id = zadacaId });
             }
         }
+
         public async Task<IActionResult> PreuzmiPdf(int id)
         {
             var predaja = await _context.PredajeZadace.FindAsync(id);
@@ -192,9 +190,9 @@ namespace ZamETF.Controllers
             if (predaja.FajlBytes != null)
                 return File(predaja.FajlBytes, "application/pdf", predaja.FajlIme ?? "zadaca.pdf");
 
-            // Fallback za stare zapise sa putanjom
             return NotFound();
         }
+
         public async Task<IActionResult> Index()
         {
             var korisnik = await _userManager.GetUserAsync(User);
@@ -346,8 +344,11 @@ namespace ZamETF.Controllers
 
             var predmet = upis.Predmet;
 
-            var bodovanje = await _context.Bodovanja
-                .FirstOrDefaultAsync(b => b.PredmetId == id && b.StudentId == korisnik.Id);
+            // Bodovi iz zadaća = suma ocijenjenih predaja
+            var predajeZadaca = await _context.PredajeZadace
+                .Include(p => p.Zadaca)
+                .Where(p => p.Zadaca.PredmetID == id && p.Bodovi.HasValue && p.StudentID == korisnik.Id)
+                .ToListAsync();
 
             var bodovanjaIspit = await _context.BodovanjaIspit
                 .Where(b => b.PredmetId == id && b.StudentId == korisnik.Id)
@@ -372,9 +373,8 @@ namespace ZamETF.Controllers
             return View(new ZamETF.ViewModels.StudentPredmetVM
             {
                 Predmet = predmet,
-                Bodovi = bodovanje?.Bodovi,
-                BodoviParcijalni1 = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Parcijalni1)?.Bodovi,
-                BodoviParcijalni2 = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Parcijalni2)?.Bodovi,
+                BodoviZadace = predajeZadaca.Sum(p => p.Bodovi ?? 0),
+                BodoviParcijalni = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Parcijalni)?.Bodovi,
                 BodoviZavrsni = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Zavrsni)?.Bodovi,
                 BodoviIntegralni = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Integralni)?.Bodovi,
                 BodoviTeorija = bodovanjaIspit.FirstOrDefault(b => b.Tip == TipIspita.Teorija)?.Bodovi,

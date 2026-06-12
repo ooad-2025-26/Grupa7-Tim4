@@ -125,8 +125,8 @@
     }
 
     .ocjena-pao {
-        background: rgba(220,38,38,0.1);
-        color: #dc2626;
+        background: rgba(220,38,38,0.1) !important;
+        color: #dc2626 !important;
     }
 
     .btn-sacuvaj {
@@ -138,10 +138,24 @@
         font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
-        margin-top: 16px;
     }
 
         .btn-sacuvaj:hover {
+            opacity: 0.88;
+        }
+
+    .btn-sacuvaj-ocjena {
+        background: linear-gradient(90deg, #16a34a, #22c55e);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 30px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-sacuvaj-ocjena:hover {
             opacity: 0.88;
         }
 
@@ -161,6 +175,16 @@
         margin-bottom: 15px;
         font-size: 0.88rem;
     }
+
+    .finalna-badge {
+        display: inline-block;
+        background: rgba(22,163,74,0.15);
+        color: #16a34a;
+        border-radius: 8px;
+        padding: 3px 10px;
+        font-weight: 700;
+        font-size: 0.88rem;
+    }
 </style>
 
 @if (TempData["Uspjeh"] != null)
@@ -168,21 +192,24 @@
     <div class="alert-ok">✓ @TempData["Uspjeh"]</div>
 }
 
-<div class="panel">
-    <div class="panel-header">
-        <span>Unos bodova i ocjena — @Model.Predmet.Naziv</span>
-        <a asp-controller="Profesor" asp-action="DetaljiPredmeta"
-           asp-route-id="@Model.Predmet.Id" class="back-link">
-            &larr; Nazad na predmet
-        </a>
-    </div>
-
-    @if (!Model.Studenti.Any())
-    {
+@if (!Model.Studenti.Any())
+{
+    <div class="panel">
         <p style="color:rgba(15,21,53,0.4); font-size:0.88rem;">Nema upisanih studenata.</p>
-    }
-    else
-    {
+    </div>
+}
+else
+{
+    <!-- FORMA 1: Bodovi iz ispita -->
+    <div class="panel">
+        <div class="panel-header">
+            <span>Bodovi iz ispita — @Model.Predmet.Naziv</span>
+            <a asp-controller="Profesor" asp-action="DetaljiPredmeta"
+               asp-route-id="@Model.Predmet.Id" class="back-link">
+                &larr; Nazad na predmet
+            </a>
+        </div>
+
         <form asp-action="SacuvajBodovanjeIspit" asp-controller="Profesor" method="post">
             @Html.AntiForgeryToken()
             <input type="hidden" name="predmetId" value="@Model.Predmet.Id" />
@@ -190,20 +217,15 @@
             <table class="tabela">
                 <thead>
                     <tr>
-                        <th class="left" rowspan="2">Student</th>
-                        <th class="left" rowspan="2">Indeks</th>
-                        <th colspan="2" class="sekcija-title">Parcijalni</th>
-                        <th rowspan="2" class="sekcija-title">Završni</th>
-                        <th rowspan="2" class="sekcija-title">Integralni</th>
-                        <th rowspan="2" class="sekcija-title">Teorija</th>
-                        <th rowspan="2" class="sekcija-title">Zadaće</th>
-                        <th rowspan="2" class="sekcija-title">Ukupno</th>
-                        <th rowspan="2" class="sekcija-title">Auto ocjena</th>
-                        <th rowspan="2" class="sekcija-title">Finalna ocjena</th>
-                    </tr>
-                    <tr>
-                        <th class="sekcija-title">P1</th>
-                        <th class="sekcija-title">P2</th>
+                        <th class="left">Student</th>
+                        <th class="left">Indeks</th>
+                        <th class="sekcija-title">Parcijalni</th>
+                        <th class="sekcija-title">Završni</th>
+                        <th class="sekcija-title">Integralni</th>
+                        <th class="sekcija-title">Teorija</th>
+                        <th class="sekcija-title">Zadaće</th>
+                        <th class="sekcija-title">Ukupno</th>
+                        <th class="sekcija-title">Auto ocjena</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -216,15 +238,9 @@
                             <td class="left">@s.Indeks</td>
                             <td>
                                 <input type="hidden" name="studentId" value="@s.StudentId" />
-                                <input type="number" name="bodoviParcijalni1" min="0" max="100"
-                                       value="@(s.BodoviParcijalni1?.ToString() ?? "")"
-                                       class="input-bod" id="p1-@s.StudentId"
-                                       oninput="izracunaj(@s.StudentId)" />
-                            </td>
-                            <td>
-                                <input type="number" name="bodoviParcijalni2" min="0" max="100"
-                                       value="@(s.BodoviParcijalni2?.ToString() ?? "")"
-                                       class="input-bod" id="p2-@s.StudentId"
+                                <input type="number" name="bodoviParcijalni" min="0" max="100"
+                                       value="@(s.BodoviParcijalni?.ToString() ?? "")"
+                                       class="input-bod" id="par-@s.StudentId"
                                        oninput="izracunaj(@s.StudentId)" />
                             </td>
                             <td>
@@ -247,7 +263,7 @@
                             </td>
                             <td>
                                 <span class="ukupno-badge" id="zad-@s.StudentId">
-                                    @(s.Bodovi ?? 0)
+                                    @s.BodoviZadace
                                 </span>
                             </td>
                             <td>
@@ -261,10 +277,72 @@
                                     @autoOcjena
                                 </span>
                             </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div style="text-align:right; margin-top:16px;">
+                <button type="submit" class="btn-sacuvaj">Sačuvaj bodove iz ispita</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- FORMA 2: Finalne ocjene -->
+    <div class="panel">
+        <div class="panel-header">
+            <span>Finalne ocjene — @Model.Predmet.Naziv</span>
+        </div>
+        <p style="font-size:0.82rem; color:rgba(15,21,53,0.55); margin-bottom:14px;">
+            Ocjena se automatski računa iz ukupnih bodova. Možete je ručno promijeniti prije snimanja.
+        </p>
+
+        <form asp-action="SacuvajFinalneOcjene" asp-controller="Profesor" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="predmetId" value="@Model.Predmet.Id" />
+
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th class="left">Student</th>
+                        <th class="left">Indeks</th>
+                        <th class="sekcija-title">Ukupno bodova</th>
+                        <th class="sekcija-title">Auto ocjena</th>
+                        <th class="sekcija-title">Finalna ocjena</th>
+                        <th class="sekcija-title">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model.Studenti)
+                    {
+                        var ukupno = s.UkupnoBodova;
+                        var autoOcjena = ukupno < 55 ? 5 : ukupno < 65 ? 6 : ukupno < 75 ? 7 : ukupno < 85 ? 8 : ukupno < 95 ? 9 : 10;
+                        <tr>
+                            <td class="left"><strong>@s.ImePrezime</strong></td>
+                            <td class="left">@s.Indeks</td>
                             <td>
+                                <span class="ukupno-badge">@ukupno</span>
+                            </td>
+                            <td>
+                                <span class="ocjena-auto @(autoOcjena < 6 ? "ocjena-pao" : "")">
+                                    @autoOcjena
+                                </span>
+                            </td>
+                            <td>
+                                <input type="hidden" name="studentId" value="@s.StudentId" />
                                 <input type="number" name="finalnaOcjena" min="5" max="10"
                                        value="@(s.FinalnaOcjena?.ToString() ?? autoOcjena.ToString())"
-                                       class="input-ocjena" id="fin-@s.StudentId" />
+                                       class="input-ocjena" />
+                            </td>
+                            <td>
+                                @if (s.FinalnaOcjena.HasValue)
+                                {
+                                    <span class="finalna-badge">✓ Unesena</span>
+                                }
+                                else
+                                {
+                                    <span style="color:rgba(15,21,53,0.35); font-size:0.8rem;">Nije unesena</span>
+                                }
                             </td>
                         </tr>
                     }
@@ -272,36 +350,30 @@
             </table>
 
             <div style="text-align:right; margin-top:16px;">
-                <button type="submit" class="btn-sacuvaj">Sačuvaj sve</button>
+                <button type="submit" class="btn-sacuvaj-ocjena">Sačuvaj finalne ocjene</button>
             </div>
         </form>
-    }
-</div>
+    </div>
+}
 
 @section Scripts {
     <script>
         function izracunaj(sid) {
-            var p1 = parseInt(document.getElementById('p1-' + sid)?.value) || 0;
-            var p2 = parseInt(document.getElementById('p2-' + sid)?.value) || 0;
+            var par = parseInt(document.getElementById('par-' + sid)?.value) || 0;
             var zav = parseInt(document.getElementById('zav-' + sid)?.value) || 0;
             var int_ = parseInt(document.getElementById('int-' + sid)?.value) || 0;
             var teo = parseInt(document.getElementById('teo-' + sid)?.value) || 0;
             var zad = parseInt(document.getElementById('zad-' + sid)?.textContent) || 0;
 
-            var ukupno = p1 + p2 + zav + int_ + teo + zad;
-            if (ukupno > 100) ukupno = 100;
+            var ukupno = Math.min(par + zav + int_ + teo + zad, 100);
 
-            var ukEl = document.getElementById('ukupno-' + sid);
-            ukEl.textContent = ukupno;
+            document.getElementById('ukupno-' + sid).textContent = ukupno;
 
             var o = ukupno < 55 ? 5 : ukupno < 65 ? 6 : ukupno < 75 ? 7 : ukupno < 85 ? 8 : ukupno < 95 ? 9 : 10;
             var autoEl = document.getElementById('auto-' + sid);
             autoEl.textContent = o;
             if (ukupno < 55) autoEl.classList.add('ocjena-pao');
             else autoEl.classList.remove('ocjena-pao');
-
-            // Automatski postavi finalnu ocjenu
-            document.getElementById('fin-' + sid).value = o;
         }
     </script>
 }

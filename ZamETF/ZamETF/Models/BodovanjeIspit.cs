@@ -3,8 +3,7 @@ namespace ZamETF.Models
 {
     public enum TipIspita
     {
-        Parcijalni1,
-        Parcijalni2,
+        Parcijalni,
         Zavrsni,
         Integralni,
         Teorija

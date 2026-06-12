@@ -610,6 +610,9 @@ namespace ZamETF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("MaxBodovi")
+                        .HasColumnType("int");
+
                     b.Property<string>("NazivID")
                         .IsRequired()
                         .HasMaxLength(50)

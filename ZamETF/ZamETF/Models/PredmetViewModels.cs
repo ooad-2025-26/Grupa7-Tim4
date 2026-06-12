@@ -7,24 +7,23 @@ namespace ZamETF.ViewModels
         public int StudentId { get; set; }
         public string ImePrezime { get; set; }
         public string Indeks { get; set; }
-        public int? Bodovi { get; set; } // bodovi iz zadaća (Bodovanje tabela)
+
+        // Bodovi iz zadaća — suma predanih bodova
+        public int BodoviZadace { get; set; }
 
         // Bodovi iz ispita
-        public int? BodoviParcijalni1 { get; set; }
-        public int? BodoviParcijalni2 { get; set; }
+        public int? BodoviParcijalni { get; set; }
         public int? BodoviZavrsni { get; set; }
         public int? BodoviIntegralni { get; set; }
         public int? BodoviTeorija { get; set; }
 
-        // Izračunato
         public int UkupnoBodovaIspit =>
-            (BodoviParcijalni1 ?? 0) + (BodoviParcijalni2 ?? 0) +
-            (BodoviZavrsni ?? 0) + (BodoviIntegralni ?? 0) +
-            (BodoviTeorija ?? 0);
+            (BodoviParcijalni ?? 0) + (BodoviZavrsni ?? 0) +
+            (BodoviIntegralni ?? 0) + (BodoviTeorija ?? 0);
 
-        public int UkupnoBodova => (Bodovi ?? 0) + UkupnoBodovaIspit;
+        public int UkupnoBodova => Math.Min(BodoviZadace + UkupnoBodovaIspit, 100);
 
-        public int? FinalnaOcjena { get; set; } // iz Ocjena tabele
+        public int? FinalnaOcjena { get; set; }
     }
 
     public class UnosOcjenaVM
@@ -36,23 +35,20 @@ namespace ZamETF.ViewModels
     public class StudentPredmetVM
     {
         public Predmet Predmet { get; set; }
-        public int? Bodovi { get; set; }
+        public int BodoviZadace { get; set; }
         public List<Zadaca> Zadace { get; set; } = new List<Zadaca>();
         public int MojeId { get; set; }
 
-        // Bodovi iz ispita
-        public int? BodoviParcijalni1 { get; set; }
-        public int? BodoviParcijalni2 { get; set; }
+        public int? BodoviParcijalni { get; set; }
         public int? BodoviZavrsni { get; set; }
         public int? BodoviIntegralni { get; set; }
         public int? BodoviTeorija { get; set; }
 
         public int UkupnoBodovaIspit =>
-            (BodoviParcijalni1 ?? 0) + (BodoviParcijalni2 ?? 0) +
-            (BodoviZavrsni ?? 0) + (BodoviIntegralni ?? 0) +
-            (BodoviTeorija ?? 0);
+            (BodoviParcijalni ?? 0) + (BodoviZavrsni ?? 0) +
+            (BodoviIntegralni ?? 0) + (BodoviTeorija ?? 0);
 
-        public int UkupnoBodova => (Bodovi ?? 0) + UkupnoBodovaIspit;
+        public int UkupnoBodova => Math.Min(BodoviZadace + UkupnoBodovaIspit, 100);
 
         public int? FinalnaOcjena { get; set; }
     }
