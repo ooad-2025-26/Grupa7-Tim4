@@ -252,6 +252,26 @@ namespace ZamETF.Controllers
         public async Task<IActionResult> KreirajKorisnika(string ime, string prezime,
             string email, string indeks, int godinaStudija, string privilegije, string lozinka)
         {
+            // --- Validacija imena i prezimena ---
+            ime = ime?.Trim();
+            prezime = prezime?.Trim();
+
+            bool ValidnoIme(string vrijednost) =>
+                !string.IsNullOrWhiteSpace(vrijednost) &&
+                vrijednost.Length >= 2 &&
+                vrijednost.All(c => char.IsLetter(c) || c == '-' || c == ' ' || c == '\'');
+
+            if (!ValidnoIme(ime))
+            {
+                TempData["Greska"] = "Ime mora imati najmanje 2 slova i ne smije sadržavati brojeve.";
+                return RedirectToAction(nameof(UnosIzmjena));
+            }
+
+            if (!ValidnoIme(prezime))
+            {
+                TempData["Greska"] = "Prezime mora imati najmanje 2 slova i ne smije sadržavati brojeve.";
+                return RedirectToAction(nameof(UnosIzmjena));
+            }
             // Ako admin nije unio email, automatski ga generiši
             var finalEmail = string.IsNullOrWhiteSpace(email)
                 ? await GenerirajEmail(ime, prezime)
